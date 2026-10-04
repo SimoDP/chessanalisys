@@ -6,7 +6,7 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "call_01a107cc4d9773e78c0e8b0a",
+     "id": "call_01a108301cae7529b6a64a98",
      "name": "submit_analysis",
      "input": {
       "schema_version": "1",
@@ -16,7 +16,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Tocca al Nero, e la posizione è equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta e il {{pct:root.win}} di vittorie. Il Nero ha appena mosso il cavallo in f6 e il pedone in d6: siamo in una Najdorf, {{opening:name}} ({{opening:eco}}).",
+          "text": "Tocca al Nero, e la posizione è quasi pari: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta. Il tuo vantaggio è soprattutto di sviluppo: hai due pezzi minori attivi contro tre pezzi neri ancora a casa. Non c'è nulla di forzato: le prime mosse del Nero stanno tutte entro pochi centesimi.",
           "source": "engine",
           "assertions": [
            {
@@ -28,23 +28,196 @@
          },
          {
           "type": "p",
-          "text": "Non c'è nulla di forzato: il tuo vantaggio è quasi solo il tratto in più di sviluppo, e il Nero ha tre pezzi ancora a casa. Il piano è semplice: completare lo sviluppo, proteggere il pedone in e4 e scegliere con calma dove arroccare. Maia-2 stima per te un punteggio atteso di poco sopra la metà, quindi non devi rischiare.",
+          "text": "Se il Nero ti lasciasse muovere, la valutazione salirebbe a {{ev:N2}} con {{m:Bc4@N2}}: il tratto vale più di ogni altra cosa. Il tuo compito è completare lo sviluppo e scegliere un sistema, non cercare una mossa brillante.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "N2",
+            "band": "slight_plus"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S02",
+        "blocks": [
+         {
+          "type": "table",
+          "ref": "T4",
+          "text_cells": {
+           "piece_activity": {
+            "nota": {
+             "text": "Il Nero ha tre pezzi minori ancora chiusi; tu solo la torre di donna",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "undeveloped_pieces",
+               "side": "b",
+               "squares": [
+                "b8",
+                "c8",
+                "f8"
+               ]
+              },
+              {
+               "kind": "feature",
+               "key": "inactive_piece",
+               "side": "w",
+               "squares": [
+                "a1"
+               ]
+              }
+             ]
+            }
+           },
+           "space_center": {
+            "nota": {
+             "text": "Controllo centrale a tuo favore, {{sc:space_center.T}}",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "space_center",
+               "advice": "no_worry"
+              }
+             ]
+            }
+           },
+           "initiative_tempo": {
+            "nota": {
+             "text": "Il tratto è del Nero, ma non ha colpi pronti",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "initiative_tempo",
+               "advice": "no_worry"
+              }
+             ]
+            }
+           },
+           "king_safety": {
+            "nota": {
+             "text": "Entrambi i re possono ancora arroccare da tutti e due i lati",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "can_castle_short",
+               "side": "w"
+              },
+              {
+               "kind": "feature",
+               "key": "can_castle_long",
+               "side": "w"
+              },
+              {
+               "kind": "feature",
+               "key": "can_castle_short",
+               "side": "b"
+              }
+             ]
+            }
+           },
+           "threats_dynamics": {
+            "nota": {
+             "text": "Nessuna linea filtrata tocca il tuo re",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "threats_dynamics",
+               "advice": "no_worry"
+              }
+             ]
+            }
+           },
+           "pawn_structure": {
+            "nota": {
+             "text": "Due isole di pedoni per parte, struttura simmetrica",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "pawn_island_count",
+               "side": "w"
+              },
+              {
+               "kind": "feature",
+               "key": "pawn_island_count",
+               "side": "b"
+              }
+             ]
+            }
+           },
+           "practical_complexity": {
+            "nota": {
+             "text": "Molte mosse giocabili per il Nero, nessuna unica",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "practical_complexity",
+               "advice": "monitor"
+              }
+             ]
+            }
+           },
+           "material": {
+            "nota": {
+             "text": "Materiale pari",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "material_balance",
+               "side": null
+              }
+             ]
+            }
+           },
+           "transition_plans": {
+            "nota": {
+             "text": "Nessuna transizione rilevante in apertura",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "transition_plans",
+               "advice": "no_worry"
+              }
+             ]
+            }
+           }
+          }
+         },
+         {
+          "type": "p",
+          "text": "Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché il Nero ha molte mosse sensate. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): tre pezzi minori neri sono ancora chiusi, tu hai solo la torre di donna inattiva.",
           "source": "mixed",
           "assertions": [
            {
-            "kind": "feature",
-            "key": "development_lead",
-            "side": "w",
-            "squares": []
+            "kind": "category_advice",
+            "id": "piece_activity",
+            "advice": "no_worry"
            },
            {
             "kind": "feature",
-            "key": "undeveloped_pieces",
+            "key": "inactive_piece",
+            "side": "w",
+            "squares": [
+             "h1"
+            ]
+           },
+           {
+            "kind": "feature",
+            "key": "inactive_piece",
             "side": "b",
             "squares": [
-             "b8",
-             "c8",
-             "f8"
+             "b8"
             ]
            }
           ]
@@ -55,57 +228,38 @@
         "id": "S04",
         "blocks": [
          {
+          "type": "ul",
+          "items": [
+           {
+            "text": "**Arrocco corto.** È il piano naturale se tieni l'alfiere in e3 e giochi pedone in f3: il re sta al sicuro, la torre arriva in e1 o d1 e l'alfiere di re resta a guardia di e4. È il sistema più solido e il più facile da giocare.",
+            "source": "theory"
+           },
+           {
+            "text": "**Arrocco lungo.** Se giochi donna in d2 e pedone in f3, puoi arroccare lungo e lanciare i pedoni dell'ala di re: {{plan:w:g4,g5@N3}}. Il Nero di solito arrocca corto e contrattacca con {{plan:b:b5,b4@N3}}: è una corsa tra i due attacchi.",
+            "source": "theory"
+           },
+           {
+            "text": "**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il re in g1, la donna nera in b6 può attaccare il cavallo d4 e il pedone b2: se il cavallo si sposta, l'alfiere resta scoperto. Per questo la spinta in f3 con l'arrocco corto va preparata con calma.",
+            "source": "theory"
+           }
+          ]
+         },
+         {
           "type": "p",
-          "text": "Puoi ancora arroccare da entrambi i lati, e anche il Nero può farlo: la scelta dipende dal sistema che adotti, non da vincoli della posizione.",
+          "text": "Oggi entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato dipende solo dal sistema che scegli, non da vincoli della posizione.",
           "source": "feature",
           "assertions": [
            {
             "kind": "feature",
-            "key": "can_castle_short",
-            "side": "w",
-            "squares": [
-             "e1"
-            ]
-           },
-           {
-            "kind": "feature",
             "key": "can_castle_long",
-            "side": "w",
-            "squares": [
-             "e1"
-            ]
+            "side": "b"
            },
            {
             "kind": "feature",
             "key": "can_castle_short",
-            "side": "b",
-            "squares": [
-             "e8"
-            ]
+            "side": "w"
            }
           ]
-         },
-         {
-          "type": "ul",
-          "items": [
-           {
-            "text": "**Arrocco corto.** È la scelta più solida: alfiere in e2, pedone in f3 a sostenere e4, donna in d2 e torri al centro. Il re sta al sicuro e giochi per il centro e per la colonna d.",
-            "source": "theory"
-           },
-           {
-            "text": "**Arrocco lungo.** Tipico dell'attacco inglese: alfiere in e3, donna in d2, poi {{plan:w:g4,g5@N3}} contro il re nero. Il Nero di solito arrocca corto e contrattacca con {{plan:b:b5,b4@N3}}: è una corsa tra i due attacchi.",
-            "source": "theory"
-           },
-           {
-            "text": "**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il re in g1, la donna nera in b6 può attaccare il cavallo in d4 e il pedone b2: se il cavallo si sposta, l'alfiere resta scoperto. Per questo l'arrocco corto con l'alfiere in e3 richiede la mossa di pedone in f3 prima.",
-            "source": "theory"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "In pratica: se scegli l'arrocco corto, sviluppa prima l'alfiere in e2; se scegli quello lungo, metti l'alfiere in e3 e la donna in d2 e prepara la spinta del pedone g. Non mescolare i due sistemi.",
-          "source": "mixed"
          }
         ]
        },
@@ -126,11 +280,11 @@
              "source": "theory"
             },
             {
-             "text": "Va protetto: dal cavallo c3, dal pedone in f3, dall'alfiere o dalla donna in d3",
+             "text": "Va protetto: dal cavallo c3, dal pedone in f3 o dall'alfiere",
              "source": "theory"
             },
             {
-             "text": "La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico o inchiodato",
+             "text": "La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico",
              "source": "theory"
             }
            ],
@@ -144,8 +298,8 @@
              "source": "theory"
             },
             {
-             "text": "Non spingerlo in f5: sembra attivo ma è un errore grave",
-             "source": "theory"
+             "text": "Non spingerlo in f5: {{m:Nf5@N3}} perde {{loss:Nf5@N3}}",
+             "source": "engine"
             }
            ],
            [
@@ -154,26 +308,26 @@
              "source": "theory"
             },
             {
-             "text": "Difende e4 e controlla d5; dopo la spinta in e5 il sogno è il salto in **d5**",
+             "text": "Difende e4 e sogna il salto in **d5** dopo la spinta in e5",
              "source": "theory"
             },
             {
-             "text": "La spinta del pedone b lo scaccia e toglie protezione a e4",
+             "text": "La spinta del pedone b lo scaccia da c3",
              "source": "theory"
             }
            ],
            [
             {
-             "text": "Alfiere c1",
+             "text": "Alfiere e3",
              "source": "theory"
             },
             {
-             "text": "**e3** (flessibile) o **g5** (pressione sul cavallo f6)",
+             "text": "Pressione sul cavallo f6 e controllo di d4",
              "source": "theory"
             },
             {
-             "text": "Non lasciarlo senza difesa sulla diagonale {{diag:a7-g1}}",
-             "source": "theory"
+             "text": "Se il cavallo nero salta in g4, deve spostarsi: {{m:Bg5@N4}} o {{m:Bc1@N4}}",
+             "source": "engine"
             }
            ],
            [
@@ -182,11 +336,11 @@
              "source": "theory"
             },
             {
-             "text": "**e2** (solido) o **c4** (attivo, punta al re nero)",
+             "text": "**e2** (solido), **c4** (attivo) o **d3** (flessibile)",
              "source": "theory"
             },
             {
-             "text": "In c4 invita la spinta del pedone b e la presa del cavallo in g4",
+             "text": "In c4 invita la spinta del pedone b; in d3 resta passivo",
              "source": "theory"
             }
            ],
@@ -200,7 +354,7 @@
              "source": "theory"
             },
             {
-             "text": "La donna nera in b6 attacca b2 e il cavallo d4",
+             "text": "La donna nera in b6 può attaccare b2 e il cavallo d4",
              "source": "theory"
             }
            ],
@@ -210,11 +364,11 @@
              "source": "theory"
             },
             {
-             "text": "Arrocco corto: in f1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g",
+             "text": "Arrocco corto: in e1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g",
              "source": "theory"
             },
             {
-             "text": "Non lasciare la torre a1 senza un piano",
+             "text": "Non lasciare la torre di donna senza un piano",
              "source": "theory"
             }
            ],
@@ -224,7 +378,7 @@
              "source": "theory"
             },
             {
-             "text": "Pedone in f3 a sostegno di e4; {{plan:w:g4,g5@N3}} nell'attacco inglese",
+             "text": "Pedone in f3 a sostegno di e4; {{plan:w:g4,g5@N3}} nell'attacco sull'ala di re",
              "source": "theory"
             },
             {
@@ -236,7 +390,7 @@
          },
          {
           "type": "p",
-          "text": "Oggi hai solo l'alfiere in f1 ancora a casa, mentre il Nero ne ha tre pezzi minori non sviluppati: il tuo sviluppo è in vantaggio di due tempi. Il controllo del centro è tuo, cinque case contro tre.",
+          "text": "Oggi hai solo l'alfiere di re ancora a casa, mentre il Nero ne ha tre minori chiusi: il tuo sviluppo è in vantaggio di due tempi. La colonna d è aperta davanti al tuo re, quindi arroccare presto è la priorità.",
           "source": "feature",
           "assertions": [
            {
@@ -249,19 +403,16 @@
            },
            {
             "kind": "feature",
-            "key": "undeveloped_pieces",
-            "side": "b",
-            "squares": [
-             "b8",
-             "c8",
-             "f8"
-            ]
+            "key": "development_lead",
+            "side": "w"
            },
            {
             "kind": "feature",
-            "key": "central_control",
-            "side": null,
-            "squares": []
+            "key": "open_file_to_king",
+            "side": "w",
+            "squares": [
+             "e1"
+            ]
            }
           ]
          }
@@ -271,56 +422,87 @@
         "id": "S06",
         "blocks": [
          {
-          "type": "p",
-          "text": "Il Nero ha tre risposte principali, e Maia-2 le distribuisce così: {{mv:R1}} con il {{pct:R1.p_opp}}, {{mv:R2}} con il {{pct:R2.p_opp}}, {{mv:R3}} con il {{pct:R3.p_opp}}. Le probabilità umane sono poco affidabili a questo livello, quindi prendile come indicazione di frequenza, non come giudizio.",
-          "source": "maia",
-          "assertions": [
-           {
-            "kind": "maia_band",
-            "ref": "R1",
-            "band": "very_frequent"
-           }
-          ]
-         },
-         {
           "type": "ul",
           "items": [
            {
-            "text": "{{mv:R1}} occupa il centro e attacca il cavallo in d4: è la mossa più naturale. Lascia però **d5 come buco** e il pedone in d6 arretrato, e il Nero non ha ancora sviluppato nulla.",
+            "text": "{{m:e5@N3}} è la risposta più naturale: occupa il centro e caccia il cavallo d4. Il motore la valuta {{ev:N3}}, quasi pari. Lascia però **d5 come buco** e il pedone d6 arretrato.",
+            "source": "engine"
+           },
+           {
+            "text": "{{m:Ng4@N4}} è la prima scelta del motore ({{ev:N4}}): il cavallo attacca l'alfiere e3 e ti costringe a decidere subito dove metterlo.",
+            "source": "engine"
+           },
+           {
+            "text": "{{m:e6@N5}} porta alla struttura **Scheveningen**: più elastica, prepara {{plan:b:b5,Bb7,Be7,Qc7@N10}} e talvolta la spinta in d5. Il motore la valuta {{ev:N5}}, la più alta per te tra le tre.",
+            "source": "engine"
+           },
+           {
+            "text": "La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il piano tipico del Nero in tutti i sistemi.",
             "source": "theory"
            },
            {
-            "text": "{{mv:R2}} attacca subito l'alfiere in e3 e ti fa perdere un tempo: il cavallo in g4 è fastidioso ma resta esposto alla spinta in h3.",
-            "source": "theory"
+            "text": "La donna nera in b6 è un'idea concreta: attacca b2 e il cavallo d4, e nella linea del motore {{pv:PV1:6}} il Nero sviluppa alfiere e cavallo prima di decidere dove mettere il re.",
+            "source": "engine"
            },
            {
-            "text": "{{mv:R3}} porta alla struttura Scheveningen: più elastica, prepara {{plan:b:b5,Bb7,Be7,Qc7@N10}} e talvolta la spinta in d5.",
-            "source": "theory"
-           },
-           {
-            "text": "La spinta {{plan:b:b5,b4@N3}} sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il piano tipico del Nero in tutti i sistemi.",
-            "source": "theory"
-           },
-           {
-            "text": "Il fianchetto del re nero è tipico del Dragone, non della Najdorf: qui è una mossa di sviluppo lenta che ti lascia il centro.",
+            "text": "Il fianchetto del re nero non è il piano principale qui: è tipico del **Dragon**, e in questa posizione resta una mossa minore.",
             "source": "theory"
            }
           ]
          },
          {
-          "type": "p",
-          "text": "Se il Nero gioca {{mv:R1}}, la tua ritirata è obbligata: {{m:Nb3@N3}} tiene la posizione ({{ev:Nb3@N3}}), mentre {{m:Nf3@N3}} costa già {{loss:Nf3@N3}} e {{m:Nde2@N3}} peggiora ancora ({{loss:Nde2@N3}}). La mossa d'attacco {{m:Nf5@N3}} sembra la più forte ma perde {{loss:Nf5@N3}}: è una trappola naturale.",
-          "source": "engine"
+          "type": "text_table",
+          "columns": [
+           "Pezzo nero",
+           "Dove va di solito"
+          ],
+          "rows": [
+           [
+            {
+             "text": "Alfiere c8",
+             "source": "theory"
+            },
+            {
+             "text": "**e6** contro il centro, oppure **b7** nella struttura Scheveningen",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Cavallo b8",
+             "source": "theory"
+            },
+            {
+             "text": "**d7** a sostegno della spinta del pedone b, oppure **c6** contro il centro",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Alfiere f8",
+             "source": "theory"
+            },
+            {
+             "text": "**e7**, poi arrocco corto",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Donna",
+             "source": "theory"
+            },
+            {
+             "text": "**c7** sulla colonna c, oppure **b6** contro b2 e d4",
+             "source": "theory"
+            }
+           ]
+          ]
          },
          {
           "type": "p",
-          "text": "Se il Nero gioca {{mv:R2}}, l'alfiere deve spostarsi: {{m:Bg5@N4}} e {{m:Bc1@N4}} si equivalgono ({{ev:Bg5@N4}} e {{ev:Bc1@N4}}), mentre {{m:Qe2@N4}} perde {{loss:Qe2@N4}}. Se il Nero gioca {{mv:R3}}, hai più scelta: {{m:a3@N5}} e {{m:f3@N5}} sono quasi equivalenti ({{loss:f3@N5}}).",
-          "source": "engine"
-         },
-         {
-          "type": "p",
-          "text": "La linea principale del motore dopo {{mv:R1}} è {{pv:PV1:8}}: il Nero sviluppa l'alfiere in e6 e il cavallo in d7 prima di decidere dove mettere il re. Dopo {{mv:R2}} la linea è {{pv:PV2:8}}, con il Nero che spinge i pedoni sull'ala di re per guadagnare spazio.",
-          "source": "engine"
+          "text": "Secondo Maia-2 il Nero sceglie {{m:e5@N3}} in oltre due casi su tre ({{pct:e5@N3}}), mentre {{m:Ng4@N4}} e {{m:e6@N5}} restano alternative minori. Le probabilità umane sono poco affidabili qui, quindi conta soprattutto il motore: le tre risposte sono quasi equivalenti.",
+          "source": "maia"
          }
         ]
        },
@@ -333,7 +515,7 @@
           "text_cells": {
            "R1": {
             "prepare": {
-             "text": "Ritira subito il cavallo: {{mv:R1.u1}} ({{ev:R1.u1}}); {{mv:R1.u2}} costa già {{loss:R1.u2}} e {{mv:R1.u3}} peggiora ancora",
+             "text": "Ritira subito il cavallo: {{mv:R1.u1}} ({{ev:R1.u1}}); {{mv:R1.u2}} costa già {{loss:R1.u2}}",
              "source": "engine"
             }
            },
@@ -353,18 +535,40 @@
          },
          {
           "type": "p",
-          "text": "Secondo Maia-2 il Nero risponde quasi sempre {{mv:R1}} ({{pct:R1.p_opp}}); {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) sono le alternative principali. Le probabilità umane sono poco affidabili qui, quindi usale solo per capire cosa aspettarti.",
+          "text": "Secondo Maia-2 il Nero risponde quasi sempre {{mv:R1}} ({{pct:R1.p_opp}}); {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) sono le alternative principali.",
           "source": "maia"
          },
          {
           "type": "p",
-          "text": "Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere in e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1.u1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro.",
+          "text": "Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1.u1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro. Nella linea principale del motore, {{pv:PV1:6}}, il Nero sviluppa alfiere e cavallo prima di decidere dove mettere il re.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}: le due buone si equivalgono, mentre una mossa di donna come {{m:Qd2@N4}}, scelta dal {{pct:Qd2@N4}} dei giocatori del tuo livello, perde {{loss:Qd2@N4}}. Ricorda che dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra {{mv:R3.u1:bare}} e {{mv:R3.u2:bare}}: si equivalgono.",
+          "text": "Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}: le due buone si equivalgono, mentre una mossa di donna come {{m:Qd2@N4}}, scelta da pochi giocatori del tuo livello, perde {{loss:Qd2@N4}}. Dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra {{mv:R3.u1:bare}} e {{mv:R3.u2:bare}}: si equivalgono.",
           "source": "mixed"
+         }
+        ]
+       },
+       {
+        "id": "S09",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Nessuna linea del motore entra nel referto a questo livello: in tutto l'albero analizzato non c'è una minaccia nascosta, né per te né per il Nero, e nessuna perdita decisiva è fuori portata. Se il Nero ti lasciasse muovere, otterresti soltanto {{ev:N2}} con {{m:Bc4@N2}}: non ha colpi pronti.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "N2",
+            "band": "slight_plus"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Anche la mossa peggiore tra quelle spiegate, {{m:Nf5@N3}}, perde {{loss:Nf5@N3}}: è un errore di principio, non una trappola nascosta. I pericoli di questa posizione sono di piano, non tattici.",
+          "source": "engine"
          }
         ]
        },
@@ -375,11 +579,11 @@
           "type": "ol",
           "items": [
            {
-            "text": "**Aspetta la mossa del Nero** e riconosci subito quale dei tre sistemi ha scelto: spinta in e5, salto in g4 o struttura Scheveningen.",
+            "text": "**Scegli il sistema** (arrocco corto con alfiere in e2, oppure arrocco lungo con donna in d2) e quindi il lato dell'arrocco.",
             "source": "theory"
            },
            {
-            "text": "**Proteggi e4** prima di ogni mossa non forzata: è il pedone che tiene insieme il tuo centro.",
+            "text": "**Proteggi e4** prima di ogni mossa non forzata.",
             "source": "theory"
            },
            {
@@ -387,16 +591,16 @@
             "source": "theory"
            },
            {
-            "text": "Se il Nero gioca {{mv:R1}}, ritira il cavallo in b3 ({{ev:Nb3@N3}}) e punta alla casa d5.",
+            "text": "Se il Nero gioca {{m:e5@N3}}, ritira il cavallo in b3 ({{ev:Nb3@N3}}) e punta alla casa d5.",
             "source": "engine"
            },
            {
-            "text": "Se il cavallo nero salta in g4, confronta le ritirate dell'alfiere prima di muovere: due si equivalgono, una perde.",
-            "source": "theory"
+            "text": "Se il cavallo nero salta in g4, confronta le ritirate dell'alfiere prima di muovere: {{m:Bg5@N4}} e {{m:Bc1@N4}} si equivalgono.",
+            "source": "engine"
            },
            {
-            "text": "**Non perdere tempi**: il tuo vantaggio è lo sviluppo, non il materiale.",
-            "source": "theory"
+            "text": "Non perdere tempi: con il Nero al tratto la posizione sarebbe {{ev:N2}}, il tuo vantaggio è lo sviluppo.",
+            "source": "engine"
            }
           ]
          }
@@ -404,31 +608,30 @@
        }
       ],
       "notes": [
-       "Il pacchetto non contiene candidate (C1, C2, ...) perché tocca all'avversario: le sezioni S03, S07 e S08 sono state adattate di conseguenza, come previsto dal section_plan.",
-       "Maia-2 ha confidence 'low' e p_up_elo/p_up_bucket nulli: le probabilità umane sono state usate solo come indicazione di frequenza, non come giudizio di qualità.",
-       "recommendation è null: non esiste una mossa consigliata unica, quindi l'analisi si concentra sulle risposte del Nero e sulle mosse del Bianco nei nodi successivi.",
-       "Il token {{pct:root.win}} e {{pct:root.draw}} sono stati usati in S01; il token {{pct:root.loss}} non è stato usato perché ridondante con gli altri due."
+       "Il pacchetto non contiene candidate (candidates vuoto) né recommendation: la posizione è in modalità avversario, quindi le sezioni S03 e S08 sono omesse e non c'è una mossa consigliata da citare.",
+       "maia.confidence è low e p_up_elo/p_up_bucket sono null: le probabilità di Maia-2 sono state usate solo come indicazione qualitativa, senza costruire ragionamenti su piccole differenze.",
+       "Le categorie hanno tutte advice no_worry tranne practical_complexity (monitor); i punteggi T sono riportati come dati, senza ricalcoli."
       ]
      }
     }
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 16477,
-    "completion_tokens": 3803,
-    "total_tokens": 20280,
-    "cost": 0.008151948,
+    "prompt_tokens": 18516,
+    "completion_tokens": 4594,
+    "total_tokens": 23110,
+    "cost": 0.00956232,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 4608,
+     "cached_tokens": 5120,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.008151948,
-     "upstream_inference_prompt_cost": 0.003588348,
-     "upstream_inference_completions_cost": 0.0045636
+     "upstream_inference_cost": 0.00956232,
+     "upstream_inference_prompt_cost": 0.00404952,
+     "upstream_inference_completions_cost": 0.0055128
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -437,9 +640,9 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791132191-pQvHsl1UISOlMB6ipFnW",
+    "id": "gen-1791138733-tKR0QmMZIvO54Rcv3qBp",
     "object": "chat.completion",
-    "created": 1791132191,
+    "created": 1791138733,
     "model": "deepseek/deepseek-v4.1-flash",
     "provider": "Together",
     "system_fingerprint": "default",
@@ -459,10 +662,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "call_01a107cc4d9773e78c0e8b0a",
+         "id": "call_01a108301cae7529b6a64a98",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Tocca al Nero, e la posizione è equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta e il {{pct:root.win}} di vittorie. Il Nero ha appena mosso il cavallo in f6 e il pedone in d6: siamo in una Najdorf, {{opening:name}} ({{opening:eco}}).\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Non c'è nulla di forzato: il tuo vantaggio è quasi solo il tratto in più di sviluppo, e il Nero ha tre pezzi ancora a casa. Il piano è semplice: completare lo sviluppo, proteggere il pedone in e4 e scegliere con calma dove arroccare. Maia-2 stima per te un punteggio atteso di poco sopra la metà, quindi non devi rischiare.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"development_lead\",\"side\":\"w\",\"squares\":[]},{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]}]}]},{\"id\":\"S04\",\"blocks\":[{\"type\":\"p\",\"text\":\"Puoi ancora arroccare da entrambi i lati, e anche il Nero può farlo: la scelta dipende dal sistema che adotti, non da vincoli della posizione.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\",\"squares\":[\"e1\"]},{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"w\",\"squares\":[\"e1\"]},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"b\",\"squares\":[\"e8\"]}]},{\"type\":\"ul\",\"items\":[{\"text\":\"**Arrocco corto.** È la scelta più solida: alfiere in e2, pedone in f3 a sostenere e4, donna in d2 e torri al centro. Il re sta al sicuro e giochi per il centro e per la colonna d.\",\"source\":\"theory\"},{\"text\":\"**Arrocco lungo.** Tipico dell'attacco inglese: alfiere in e3, donna in d2, poi {{plan:w:g4,g5@N3}} contro il re nero. Il Nero di solito arrocca corto e contrattacca con {{plan:b:b5,b4@N3}}: è una corsa tra i due attacchi.\",\"source\":\"theory\"},{\"text\":\"**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il re in g1, la donna nera in b6 può attaccare il cavallo in d4 e il pedone b2: se il cavallo si sposta, l'alfiere resta scoperto. Per questo l'arrocco corto con l'alfiere in e3 richiede la mossa di pedone in f3 prima.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"In pratica: se scegli l'arrocco corto, sviluppa prima l'alfiere in e2; se scegli quello lungo, metti l'alfiere in e3 e la donna in d2 e prepara la spinta del pedone g. Non mescolare i due sistemi.\",\"source\":\"mixed\"}]},{\"id\":\"S05\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Pezzo\",\"Obiettivo tipico\",\"Attenzione\"],\"rows\":[[{\"text\":\"Pedone e4\",\"source\":\"theory\"},{\"text\":\"Va protetto: dal cavallo c3, dal pedone in f3, dall'alfiere o dalla donna in d3\",\"source\":\"theory\"},{\"text\":\"La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico o inchiodato\",\"source\":\"theory\"}],[{\"text\":\"Cavallo d4\",\"source\":\"theory\"},{\"text\":\"Domina il centro; dopo la spinta in e5 si ritira in **b3**\",\"source\":\"theory\"},{\"text\":\"Non spingerlo in f5: sembra attivo ma è un errore grave\",\"source\":\"theory\"}],[{\"text\":\"Cavallo c3\",\"source\":\"theory\"},{\"text\":\"Difende e4 e controlla d5; dopo la spinta in e5 il sogno è il salto in **d5**\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone b lo scaccia e toglie protezione a e4\",\"source\":\"theory\"}],[{\"text\":\"Alfiere c1\",\"source\":\"theory\"},{\"text\":\"**e3** (flessibile) o **g5** (pressione sul cavallo f6)\",\"source\":\"theory\"},{\"text\":\"Non lasciarlo senza difesa sulla diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f1\",\"source\":\"theory\"},{\"text\":\"**e2** (solido) o **c4** (attivo, punta al re nero)\",\"source\":\"theory\"},{\"text\":\"In c4 invita la spinta del pedone b e la presa del cavallo in g4\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**d2** con l'arrocco lungo, **e2** con l'arrocco corto\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 attacca b2 e il cavallo d4\",\"source\":\"theory\"}],[{\"text\":\"Torri\",\"source\":\"theory\"},{\"text\":\"Arrocco corto: in f1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Non lasciare la torre a1 senza un piano\",\"source\":\"theory\"}],[{\"text\":\"Pedoni f, g e h\",\"source\":\"theory\"},{\"text\":\"Pedone in f3 a sostegno di e4; {{plan:w:g4,g5@N3}} nell'attacco inglese\",\"source\":\"theory\"},{\"text\":\"La spinta in f3 indebolisce la diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Oggi hai solo l'alfiere in f1 ancora a casa, mentre il Nero ne ha tre pezzi minori non sviluppati: il tuo sviluppo è in vantaggio di due tempi. Il controllo del centro è tuo, cinque case contro tre.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"w\",\"squares\":[\"f1\"]},{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]},{\"kind\":\"feature\",\"key\":\"central_control\",\"side\":null,\"squares\":[]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero ha tre risposte principali, e Maia-2 le distribuisce così: {{mv:R1}} con il {{pct:R1.p_opp}}, {{mv:R2}} con il {{pct:R2.p_opp}}, {{mv:R3}} con il {{pct:R3.p_opp}}. Le probabilità umane sono poco affidabili a questo livello, quindi prendile come indicazione di frequenza, non come giudizio.\",\"source\":\"maia\",\"assertions\":[{\"kind\":\"maia_band\",\"ref\":\"R1\",\"band\":\"very_frequent\"}]},{\"type\":\"ul\",\"items\":[{\"text\":\"{{mv:R1}} occupa il centro e attacca il cavallo in d4: è la mossa più naturale. Lascia però **d5 come buco** e il pedone in d6 arretrato, e il Nero non ha ancora sviluppato nulla.\",\"source\":\"theory\"},{\"text\":\"{{mv:R2}} attacca subito l'alfiere in e3 e ti fa perdere un tempo: il cavallo in g4 è fastidioso ma resta esposto alla spinta in h3.\",\"source\":\"theory\"},{\"text\":\"{{mv:R3}} porta alla struttura Scheveningen: più elastica, prepara {{plan:b:b5,Bb7,Be7,Qc7@N10}} e talvolta la spinta in d5.\",\"source\":\"theory\"},{\"text\":\"La spinta {{plan:b:b5,b4@N3}} sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il piano tipico del Nero in tutti i sistemi.\",\"source\":\"theory\"},{\"text\":\"Il fianchetto del re nero è tipico del Dragone, non della Najdorf: qui è una mossa di sviluppo lenta che ti lascia il centro.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Se il Nero gioca {{mv:R1}}, la tua ritirata è obbligata: {{m:Nb3@N3}} tiene la posizione ({{ev:Nb3@N3}}), mentre {{m:Nf3@N3}} costa già {{loss:Nf3@N3}} e {{m:Nde2@N3}} peggiora ancora ({{loss:Nde2@N3}}). La mossa d'attacco {{m:Nf5@N3}} sembra la più forte ma perde {{loss:Nf5@N3}}: è una trappola naturale.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Se il Nero gioca {{mv:R2}}, l'alfiere deve spostarsi: {{m:Bg5@N4}} e {{m:Bc1@N4}} si equivalgono ({{ev:Bg5@N4}} e {{ev:Bc1@N4}}), mentre {{m:Qe2@N4}} perde {{loss:Qe2@N4}}. Se il Nero gioca {{mv:R3}}, hai più scelta: {{m:a3@N5}} e {{m:f3@N5}} sono quasi equivalenti ({{loss:f3@N5}}).\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La linea principale del motore dopo {{mv:R1}} è {{pv:PV1:8}}: il Nero sviluppa l'alfiere in e6 e il cavallo in d7 prima di decidere dove mettere il re. Dopo {{mv:R2}} la linea è {{pv:PV2:8}}, con il Nero che spinge i pedoni sull'ala di re per guadagnare spazio.\",\"source\":\"engine\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"R1\":{\"prepare\":{\"text\":\"Ritira subito il cavallo: {{mv:R1.u1}} ({{ev:R1.u1}}); {{mv:R1.u2}} costa già {{loss:R1.u2}} e {{mv:R1.u3}} peggiora ancora\",\"source\":\"engine\"}},\"R2\":{\"prepare\":{\"text\":\"L'alfiere deve spostarsi: {{mv:R2.u1}} ({{ev:R2.u1}}) o {{mv:R2.u2}}; {{mv:R2.u3}} perde {{loss:R2.u3}}\",\"source\":\"engine\"}},\"R3\":{\"prepare\":{\"text\":\"Struttura Scheveningen: {{mv:R3.u1}} e {{mv:R3.u2}} si equivalgono ({{loss:R3.u2}})\",\"source\":\"engine\"}}}},{\"type\":\"p\",\"text\":\"Secondo Maia-2 il Nero risponde quasi sempre {{mv:R1}} ({{pct:R1.p_opp}}); {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) sono le alternative principali. Le probabilità umane sono poco affidabili qui, quindi usale solo per capire cosa aspettarti.\",\"source\":\"maia\"},{\"type\":\"p\",\"text\":\"Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere in e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1.u1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}: le due buone si equivalgono, mentre una mossa di donna come {{m:Qd2@N4}}, scelta dal {{pct:Qd2@N4}} dei giocatori del tuo livello, perde {{loss:Qd2@N4}}. Ricorda che dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra {{mv:R3.u1:bare}} e {{mv:R3.u2:bare}}: si equivalgono.\",\"source\":\"mixed\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Aspetta la mossa del Nero** e riconosci subito quale dei tre sistemi ha scelto: spinta in e5, salto in g4 o struttura Scheveningen.\",\"source\":\"theory\"},{\"text\":\"**Proteggi e4** prima di ogni mossa non forzata: è il pedone che tiene insieme il tuo centro.\",\"source\":\"theory\"},{\"text\":\"**Controlla la donna nera in b6 e la presa in e4**: sono le due tattiche che il Nero cerca più spesso.\",\"source\":\"theory\"},{\"text\":\"Se il Nero gioca {{mv:R1}}, ritira il cavallo in b3 ({{ev:Nb3@N3}}) e punta alla casa d5.\",\"source\":\"engine\"},{\"text\":\"Se il cavallo nero salta in g4, confronta le ritirate dell'alfiere prima di muovere: due si equivalgono, una perde.\",\"source\":\"theory\"},{\"text\":\"**Non perdere tempi**: il tuo vantaggio è lo sviluppo, non il materiale.\",\"source\":\"theory\"}]}]}],\"notes\":[\"Il pacchetto non contiene candidate (C1, C2, ...) perché tocca all'avversario: le sezioni S03, S07 e S08 sono state adattate di conseguenza, come previsto dal section_plan.\",\"Maia-2 ha confidence 'low' e p_up_elo/p_up_bucket nulli: le probabilità umane sono state usate solo come indicazione di frequenza, non come giudizio di qualità.\",\"recommendation è null: non esiste una mossa consigliata unica, quindi l'analisi si concentra sulle risposte del Nero e sulle mosse del Bianco nei nodi successivi.\",\"Il token {{pct:root.win}} e {{pct:root.draw}} sono stati usati in S01; il token {{pct:root.loss}} non è stato usato perché ridondante con gli altri due.\"]}"
+          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Tocca al Nero, e la posizione è quasi pari: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta. Il tuo vantaggio è soprattutto di sviluppo: hai due pezzi minori attivi contro tre pezzi neri ancora a casa. Non c'è nulla di forzato: le prime mosse del Nero stanno tutte entro pochi centesimi.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Se il Nero ti lasciasse muovere, la valutazione salirebbe a {{ev:N2}} con {{m:Bc4@N2}}: il tratto vale più di ogni altra cosa. Il tuo compito è completare lo sviluppo e scegliere un sistema, non cercare una mossa brillante.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"slight_plus\"}]}]},{\"id\":\"S02\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T4\",\"text_cells\":{\"piece_activity\":{\"nota\":{\"text\":\"Il Nero ha tre pezzi minori ancora chiusi; tu solo la torre di donna\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]},{\"kind\":\"feature\",\"key\":\"inactive_piece\",\"side\":\"w\",\"squares\":[\"a1\"]}]}},\"space_center\":{\"nota\":{\"text\":\"Controllo centrale a tuo favore, {{sc:space_center.T}}\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"space_center\",\"advice\":\"no_worry\"}]}},\"initiative_tempo\":{\"nota\":{\"text\":\"Il tratto è del Nero, ma non ha colpi pronti\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"initiative_tempo\",\"advice\":\"no_worry\"}]}},\"king_safety\":{\"nota\":{\"text\":\"Entrambi i re possono ancora arroccare da tutti e due i lati\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"b\"}]}},\"threats_dynamics\":{\"nota\":{\"text\":\"Nessuna linea filtrata tocca il tuo re\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"threats_dynamics\",\"advice\":\"no_worry\"}]}},\"pawn_structure\":{\"nota\":{\"text\":\"Due isole di pedoni per parte, struttura simmetrica\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"b\"}]}},\"practical_complexity\":{\"nota\":{\"text\":\"Molte mosse giocabili per il Nero, nessuna unica\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"}]}},\"material\":{\"nota\":{\"text\":\"Materiale pari\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"material_balance\",\"side\":null}]}},\"transition_plans\":{\"nota\":{\"text\":\"Nessuna transizione rilevante in apertura\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"transition_plans\",\"advice\":\"no_worry\"}]}}}},{\"type\":\"p\",\"text\":\"Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché il Nero ha molte mosse sensate. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): tre pezzi minori neri sono ancora chiusi, tu hai solo la torre di donna inattiva.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"},{\"kind\":\"feature\",\"key\":\"inactive_piece\",\"side\":\"w\",\"squares\":[\"h1\"]},{\"kind\":\"feature\",\"key\":\"inactive_piece\",\"side\":\"b\",\"squares\":[\"b8\"]}]}]},{\"id\":\"S04\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"**Arrocco corto.** È il piano naturale se tieni l'alfiere in e3 e giochi pedone in f3: il re sta al sicuro, la torre arriva in e1 o d1 e l'alfiere di re resta a guardia di e4. È il sistema più solido e il più facile da giocare.\",\"source\":\"theory\"},{\"text\":\"**Arrocco lungo.** Se giochi donna in d2 e pedone in f3, puoi arroccare lungo e lanciare i pedoni dell'ala di re: {{plan:w:g4,g5@N3}}. Il Nero di solito arrocca corto e contrattacca con {{plan:b:b5,b4@N3}}: è una corsa tra i due attacchi.\",\"source\":\"theory\"},{\"text\":\"**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il re in g1, la donna nera in b6 può attaccare il cavallo d4 e il pedone b2: se il cavallo si sposta, l'alfiere resta scoperto. Per questo la spinta in f3 con l'arrocco corto va preparata con calma.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Oggi entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato dipende solo dal sistema che scegli, non da vincoli della posizione.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"b\"},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\"}]}]},{\"id\":\"S05\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Pezzo\",\"Obiettivo tipico\",\"Attenzione\"],\"rows\":[[{\"text\":\"Pedone e4\",\"source\":\"theory\"},{\"text\":\"Va protetto: dal cavallo c3, dal pedone in f3 o dall'alfiere\",\"source\":\"theory\"},{\"text\":\"La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico\",\"source\":\"theory\"}],[{\"text\":\"Cavallo d4\",\"source\":\"theory\"},{\"text\":\"Domina il centro; dopo la spinta in e5 si ritira in **b3**\",\"source\":\"theory\"},{\"text\":\"Non spingerlo in f5: {{m:Nf5@N3}} perde {{loss:Nf5@N3}}\",\"source\":\"engine\"}],[{\"text\":\"Cavallo c3\",\"source\":\"theory\"},{\"text\":\"Difende e4 e sogna il salto in **d5** dopo la spinta in e5\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone b lo scaccia da c3\",\"source\":\"theory\"}],[{\"text\":\"Alfiere e3\",\"source\":\"theory\"},{\"text\":\"Pressione sul cavallo f6 e controllo di d4\",\"source\":\"theory\"},{\"text\":\"Se il cavallo nero salta in g4, deve spostarsi: {{m:Bg5@N4}} o {{m:Bc1@N4}}\",\"source\":\"engine\"}],[{\"text\":\"Alfiere f1\",\"source\":\"theory\"},{\"text\":\"**e2** (solido), **c4** (attivo) o **d3** (flessibile)\",\"source\":\"theory\"},{\"text\":\"In c4 invita la spinta del pedone b; in d3 resta passivo\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**d2** con l'arrocco lungo, **e2** con l'arrocco corto\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 può attaccare b2 e il cavallo d4\",\"source\":\"theory\"}],[{\"text\":\"Torri\",\"source\":\"theory\"},{\"text\":\"Arrocco corto: in e1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Non lasciare la torre di donna senza un piano\",\"source\":\"theory\"}],[{\"text\":\"Pedoni f, g e h\",\"source\":\"theory\"},{\"text\":\"Pedone in f3 a sostegno di e4; {{plan:w:g4,g5@N3}} nell'attacco sull'ala di re\",\"source\":\"theory\"},{\"text\":\"La spinta in f3 indebolisce la diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Oggi hai solo l'alfiere di re ancora a casa, mentre il Nero ne ha tre minori chiusi: il tuo sviluppo è in vantaggio di due tempi. La colonna d è aperta davanti al tuo re, quindi arroccare presto è la priorità.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"w\",\"squares\":[\"f1\"]},{\"kind\":\"feature\",\"key\":\"development_lead\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"open_file_to_king\",\"side\":\"w\",\"squares\":[\"e1\"]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"{{m:e5@N3}} è la risposta più naturale: occupa il centro e caccia il cavallo d4. Il motore la valuta {{ev:N3}}, quasi pari. Lascia però **d5 come buco** e il pedone d6 arretrato.\",\"source\":\"engine\"},{\"text\":\"{{m:Ng4@N4}} è la prima scelta del motore ({{ev:N4}}): il cavallo attacca l'alfiere e3 e ti costringe a decidere subito dove metterlo.\",\"source\":\"engine\"},{\"text\":\"{{m:e6@N5}} porta alla struttura **Scheveningen**: più elastica, prepara {{plan:b:b5,Bb7,Be7,Qc7@N10}} e talvolta la spinta in d5. Il motore la valuta {{ev:N5}}, la più alta per te tra le tre.\",\"source\":\"engine\"},{\"text\":\"La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il piano tipico del Nero in tutti i sistemi.\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 è un'idea concreta: attacca b2 e il cavallo d4, e nella linea del motore {{pv:PV1:6}} il Nero sviluppa alfiere e cavallo prima di decidere dove mettere il re.\",\"source\":\"engine\"},{\"text\":\"Il fianchetto del re nero non è il piano principale qui: è tipico del **Dragon**, e in questa posizione resta una mossa minore.\",\"source\":\"theory\"}]},{\"type\":\"text_table\",\"columns\":[\"Pezzo nero\",\"Dove va di solito\"],\"rows\":[[{\"text\":\"Alfiere c8\",\"source\":\"theory\"},{\"text\":\"**e6** contro il centro, oppure **b7** nella struttura Scheveningen\",\"source\":\"theory\"}],[{\"text\":\"Cavallo b8\",\"source\":\"theory\"},{\"text\":\"**d7** a sostegno della spinta del pedone b, oppure **c6** contro il centro\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f8\",\"source\":\"theory\"},{\"text\":\"**e7**, poi arrocco corto\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**c7** sulla colonna c, oppure **b6** contro b2 e d4\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Secondo Maia-2 il Nero sceglie {{m:e5@N3}} in oltre due casi su tre ({{pct:e5@N3}}), mentre {{m:Ng4@N4}} e {{m:e6@N5}} restano alternative minori. Le probabilità umane sono poco affidabili qui, quindi conta soprattutto il motore: le tre risposte sono quasi equivalenti.\",\"source\":\"maia\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"R1\":{\"prepare\":{\"text\":\"Ritira subito il cavallo: {{mv:R1.u1}} ({{ev:R1.u1}}); {{mv:R1.u2}} costa già {{loss:R1.u2}}\",\"source\":\"engine\"}},\"R2\":{\"prepare\":{\"text\":\"L'alfiere deve spostarsi: {{mv:R2.u1}} ({{ev:R2.u1}}) o {{mv:R2.u2}}; {{mv:R2.u3}} perde {{loss:R2.u3}}\",\"source\":\"engine\"}},\"R3\":{\"prepare\":{\"text\":\"Struttura Scheveningen: {{mv:R3.u1}} e {{mv:R3.u2}} si equivalgono ({{loss:R3.u2}})\",\"source\":\"engine\"}}}},{\"type\":\"p\",\"text\":\"Secondo Maia-2 il Nero risponde quasi sempre {{mv:R1}} ({{pct:R1.p_opp}}); {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) sono le alternative principali.\",\"source\":\"maia\"},{\"type\":\"p\",\"text\":\"Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1.u1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro. Nella linea principale del motore, {{pv:PV1:6}}, il Nero sviluppa alfiere e cavallo prima di decidere dove mettere il re.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}: le due buone si equivalgono, mentre una mossa di donna come {{m:Qd2@N4}}, scelta da pochi giocatori del tuo livello, perde {{loss:Qd2@N4}}. Dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra {{mv:R3.u1:bare}} e {{mv:R3.u2:bare}}: si equivalgono.\",\"source\":\"mixed\"}]},{\"id\":\"S09\",\"blocks\":[{\"type\":\"p\",\"text\":\"Nessuna linea del motore entra nel referto a questo livello: in tutto l'albero analizzato non c'è una minaccia nascosta, né per te né per il Nero, e nessuna perdita decisiva è fuori portata. Se il Nero ti lasciasse muovere, otterresti soltanto {{ev:N2}} con {{m:Bc4@N2}}: non ha colpi pronti.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Anche la mossa peggiore tra quelle spiegate, {{m:Nf5@N3}}, perde {{loss:Nf5@N3}}: è un errore di principio, non una trappola nascosta. I pericoli di questa posizione sono di piano, non tattici.\",\"source\":\"engine\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Scegli il sistema** (arrocco corto con alfiere in e2, oppure arrocco lungo con donna in d2) e quindi il lato dell'arrocco.\",\"source\":\"theory\"},{\"text\":\"**Proteggi e4** prima di ogni mossa non forzata.\",\"source\":\"theory\"},{\"text\":\"**Controlla la donna nera in b6 e la presa in e4**: sono le due tattiche che il Nero cerca più spesso.\",\"source\":\"theory\"},{\"text\":\"Se il Nero gioca {{m:e5@N3}}, ritira il cavallo in b3 ({{ev:Nb3@N3}}) e punta alla casa d5.\",\"source\":\"engine\"},{\"text\":\"Se il cavallo nero salta in g4, confronta le ritirate dell'alfiere prima di muovere: {{m:Bg5@N4}} e {{m:Bc1@N4}} si equivalgono.\",\"source\":\"engine\"},{\"text\":\"Non perdere tempi: con il Nero al tratto la posizione sarebbe {{ev:N2}}, il tuo vantaggio è lo sviluppo.\",\"source\":\"engine\"}]}]}],\"notes\":[\"Il pacchetto non contiene candidate (candidates vuoto) né recommendation: la posizione è in modalità avversario, quindi le sezioni S03 e S08 sono omesse e non c'è una mossa consigliata da citare.\",\"maia.confidence è low e p_up_elo/p_up_bucket sono null: le probabilità di Maia-2 sono state usate solo come indicazione qualitativa, senza costruire ragionamenti su piccole differenze.\",\"Le categorie hanno tutte advice no_worry tranne practical_complexity (monitor); i punteggi T sono riportati come dati, senza ricalcoli.\"]}"
          }
         }
        ]
@@ -470,21 +673,21 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 16477,
-     "completion_tokens": 3803,
-     "total_tokens": 20280,
-     "cost": 0.008151948,
+     "prompt_tokens": 18516,
+     "completion_tokens": 4594,
+     "total_tokens": 23110,
+     "cost": 0.00956232,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 4608,
+      "cached_tokens": 5120,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.008151948,
-      "upstream_inference_prompt_cost": 0.003588348,
-      "upstream_inference_completions_cost": 0.0045636
+      "upstream_inference_cost": 0.00956232,
+      "upstream_inference_prompt_cost": 0.00404952,
+      "upstream_inference_completions_cost": 0.0055128
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,
@@ -499,7 +702,7 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "call_01a107cc7b7a76cdb51c7317",
+     "id": "call_01a10830573e7661b1b62a5f",
      "name": "submit_analysis",
      "input": {
       "schema_version": "1",
@@ -509,7 +712,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Tocca al Nero, e la posizione è equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta e il {{pct:root.win}} di vittorie. Il Nero ha appena mosso il cavallo in f6 e il pedone in d6: siamo in una Najdorf, {{opening:name}} ({{opening:eco}}).",
+          "text": "Tocca al Nero, e la posizione è quasi pari: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta. Il tuo vantaggio è soprattutto di sviluppo: hai due pezzi minori attivi contro tre pezzi neri ancora a casa. Non c'è nulla di forzato: le prime mosse del Nero stanno tutte entro pochi centesimi.",
           "source": "engine",
           "assertions": [
            {
@@ -521,23 +724,196 @@
          },
          {
           "type": "p",
-          "text": "Non c'è nulla di forzato: il tuo vantaggio è quasi solo il tratto in più di sviluppo, e il Nero ha tre pezzi ancora a casa. Il piano è semplice: completare lo sviluppo, proteggere il pedone in e4 e scegliere con calma dove arroccare. Maia-2 stima per te un punteggio atteso di poco sopra la metà, quindi non devi rischiare.",
+          "text": "Se il Nero ti lasciasse muovere, la valutazione salirebbe a {{ev:N2}} con {{m:Bc4@N2}}: il tratto vale più di ogni altra cosa. Il tuo compito è completare lo sviluppo e scegliere un sistema, non cercare una mossa brillante.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "N2",
+            "band": "small_plus"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S02",
+        "blocks": [
+         {
+          "type": "table",
+          "ref": "T4",
+          "text_cells": {
+           "piece_activity": {
+            "nota": {
+             "text": "Il Nero ha tre pezzi minori ancora chiusi; tu solo la torre di donna",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "undeveloped_pieces",
+               "side": "b",
+               "squares": [
+                "b8",
+                "c8",
+                "f8"
+               ]
+              },
+              {
+               "kind": "feature",
+               "key": "inactive_piece",
+               "side": "w",
+               "squares": [
+                "a1"
+               ]
+              }
+             ]
+            }
+           },
+           "space_center": {
+            "nota": {
+             "text": "Controllo centrale a tuo favore",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "space_center",
+               "advice": "no_worry"
+              }
+             ]
+            }
+           },
+           "initiative_tempo": {
+            "nota": {
+             "text": "Il tratto è del Nero, ma non ha colpi pronti",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "initiative_tempo",
+               "advice": "no_worry"
+              }
+             ]
+            }
+           },
+           "king_safety": {
+            "nota": {
+             "text": "Entrambi i re possono ancora arroccare da tutti e due i lati",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "can_castle_short",
+               "side": "w"
+              },
+              {
+               "kind": "feature",
+               "key": "can_castle_long",
+               "side": "w"
+              },
+              {
+               "kind": "feature",
+               "key": "can_castle_short",
+               "side": "b"
+              }
+             ]
+            }
+           },
+           "threats_dynamics": {
+            "nota": {
+             "text": "Nessuna linea filtrata tocca il tuo re",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "threats_dynamics",
+               "advice": "no_worry"
+              }
+             ]
+            }
+           },
+           "pawn_structure": {
+            "nota": {
+             "text": "Due isole di pedoni per parte, struttura simmetrica",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "pawn_island_count",
+               "side": "w"
+              },
+              {
+               "kind": "feature",
+               "key": "pawn_island_count",
+               "side": "b"
+              }
+             ]
+            }
+           },
+           "practical_complexity": {
+            "nota": {
+             "text": "Molte mosse giocabili per il Nero, nessuna unica",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "practical_complexity",
+               "advice": "monitor"
+              }
+             ]
+            }
+           },
+           "material": {
+            "nota": {
+             "text": "Materiale pari",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "material_balance",
+               "side": null
+              }
+             ]
+            }
+           },
+           "transition_plans": {
+            "nota": {
+             "text": "Nessuna transizione rilevante in apertura",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "transition_plans",
+               "advice": "no_worry"
+              }
+             ]
+            }
+           }
+          }
+         },
+         {
+          "type": "p",
+          "text": "Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché il Nero ha molte mosse sensate. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): tre pezzi minori neri sono ancora chiusi, tu hai solo la torre di donna inattiva.",
           "source": "mixed",
           "assertions": [
            {
-            "kind": "feature",
-            "key": "development_lead",
-            "side": "w",
-            "squares": []
+            "kind": "category_advice",
+            "id": "piece_activity",
+            "advice": "no_worry"
            },
            {
             "kind": "feature",
-            "key": "undeveloped_pieces",
+            "key": "inactive_piece",
+            "side": "w",
+            "squares": [
+             "h1"
+            ]
+           },
+           {
+            "kind": "feature",
+            "key": "inactive_piece",
             "side": "b",
             "squares": [
-             "b8",
-             "c8",
-             "f8"
+             "b8"
             ]
            }
           ]
@@ -548,57 +924,38 @@
         "id": "S04",
         "blocks": [
          {
+          "type": "ul",
+          "items": [
+           {
+            "text": "**Arrocco corto.** È il piano naturale se tieni l'alfiere in e3 e giochi pedone in f3: il re sta al sicuro, la torre arriva in e1 o d1 e l'alfiere di re resta a guardia di e4. È il sistema più solido e il più facile da giocare.",
+            "source": "theory"
+           },
+           {
+            "text": "**Arrocco lungo.** Se giochi donna in d2 e pedone in f3, puoi arroccare lungo e lanciare i pedoni dell'ala di re: {{plan:w:g4,g5@N3}}. Il Nero di solito arrocca corto e contrattacca con {{plan:b:b5,b4@N3}}: è una corsa tra i due attacchi.",
+            "source": "theory"
+           },
+           {
+            "text": "**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il re in g1, la donna nera in b6 può attaccare il cavallo d4 e il pedone b2: se il cavallo si sposta, l'alfiere resta scoperto. Per questo la spinta in f3 con l'arrocco corto va preparata con calma.",
+            "source": "theory"
+           }
+          ]
+         },
+         {
           "type": "p",
-          "text": "Puoi ancora arroccare da entrambi i lati, e anche il Nero può farlo: la scelta dipende dal sistema che adotti, non da vincoli della posizione.",
+          "text": "Oggi entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato dipende solo dal sistema che scegli, non da vincoli della posizione.",
           "source": "feature",
           "assertions": [
            {
             "kind": "feature",
-            "key": "can_castle_short",
-            "side": "w",
-            "squares": [
-             "e1"
-            ]
-           },
-           {
-            "kind": "feature",
             "key": "can_castle_long",
-            "side": "w",
-            "squares": [
-             "e1"
-            ]
+            "side": "b"
            },
            {
             "kind": "feature",
             "key": "can_castle_short",
-            "side": "b",
-            "squares": [
-             "e8"
-            ]
+            "side": "w"
            }
           ]
-         },
-         {
-          "type": "ul",
-          "items": [
-           {
-            "text": "**Arrocco corto.** È la scelta più solida: alfiere in e2, pedone in f3 a sostenere e4, donna in d2 e torri al centro. Il re sta al sicuro e giochi per il centro e per la colonna d.",
-            "source": "theory"
-           },
-           {
-            "text": "**Arrocco lungo.** Tipico dell'attacco inglese: alfiere in e3, donna in d2, poi {{plan:w:g4,g5@N3}} contro il re nero. Il Nero di solito arrocca corto e contrattacca con {{plan:b:b5,b4@N3}}: è una corsa tra i due attacchi.",
-            "source": "theory"
-           },
-           {
-            "text": "**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il re in g1, la donna nera in b6 può attaccare il cavallo in d4 e il pedone b2: se il cavallo si sposta, l'alfiere resta scoperto. Per questo l'arrocco corto con l'alfiere in e3 richiede la mossa di pedone in f3 prima.",
-            "source": "theory"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "In pratica: se scegli l'arrocco corto, sviluppa prima l'alfiere in e2; se scegli quello lungo, metti l'alfiere in e3 e la donna in d2 e prepara la spinta del pedone g. Non mescolare i due sistemi.",
-          "source": "theory"
          }
         ]
        },
@@ -619,11 +976,11 @@
              "source": "theory"
             },
             {
-             "text": "Va protetto: dal cavallo c3, dal pedone in f3, dall'alfiere o dalla donna in d3",
+             "text": "Va protetto: dal cavallo c3, dal pedone in f3 o dall'alfiere",
              "source": "theory"
             },
             {
-             "text": "La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico o inchiodato",
+             "text": "La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico",
              "source": "theory"
             }
            ],
@@ -637,8 +994,8 @@
              "source": "theory"
             },
             {
-             "text": "Non spingerlo in f5: sembra attivo ma è un errore grave",
-             "source": "theory"
+             "text": "Non spingerlo in f5: {{m:Nf5@N3}} perde {{loss:Nf5@N3}}",
+             "source": "engine"
             }
            ],
            [
@@ -647,26 +1004,26 @@
              "source": "theory"
             },
             {
-             "text": "Difende e4 e controlla d5; dopo la spinta in e5 il sogno è il salto in **d5**",
+             "text": "Difende e4 e sogna il salto in **d5** dopo la spinta in e5",
              "source": "theory"
             },
             {
-             "text": "La spinta del pedone b lo scaccia e toglie protezione a e4",
+             "text": "La spinta del pedone b lo scaccia da c3",
              "source": "theory"
             }
            ],
            [
             {
-             "text": "Alfiere c1",
+             "text": "Alfiere e3",
              "source": "theory"
             },
             {
-             "text": "**e3** (flessibile) o **g5** (pressione sul cavallo f6)",
+             "text": "Pressione sul cavallo f6 e controllo di d4",
              "source": "theory"
             },
             {
-             "text": "Non lasciarlo senza difesa sulla diagonale {{diag:a7-g1}}",
-             "source": "theory"
+             "text": "Se il cavallo nero salta in g4, deve spostarsi: {{m:Bg5@N4}} o {{m:Bc1@N4}}",
+             "source": "mixed"
             }
            ],
            [
@@ -675,11 +1032,11 @@
              "source": "theory"
             },
             {
-             "text": "**e2** (solido) o **c4** (attivo, punta al re nero)",
+             "text": "**e2** (solido), **c4** (attivo) o **d3** (flessibile)",
              "source": "theory"
             },
             {
-             "text": "In c4 invita la spinta del pedone b e la presa del cavallo in g4",
+             "text": "In c4 invita la spinta del pedone b; in d3 resta passivo",
              "source": "theory"
             }
            ],
@@ -693,7 +1050,7 @@
              "source": "theory"
             },
             {
-             "text": "La donna nera in b6 attacca b2 e il cavallo d4",
+             "text": "La donna nera in b6 può attaccare b2 e il cavallo d4",
              "source": "theory"
             }
            ],
@@ -703,11 +1060,11 @@
              "source": "theory"
             },
             {
-             "text": "Arrocco corto: in f1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g",
+             "text": "Arrocco corto: in e1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g",
              "source": "theory"
             },
             {
-             "text": "Non lasciare la torre a1 senza un piano",
+             "text": "Non lasciare la torre di donna senza un piano",
              "source": "theory"
             }
            ],
@@ -717,7 +1074,7 @@
              "source": "theory"
             },
             {
-             "text": "Pedone in f3 a sostegno di e4; {{plan:w:g4,g5@N3}} nell'attacco inglese",
+             "text": "Pedone in f3 a sostegno di e4; {{plan:w:g4,g5@N3}} nell'attacco sull'ala di re",
              "source": "theory"
             },
             {
@@ -729,7 +1086,7 @@
          },
          {
           "type": "p",
-          "text": "Oggi hai solo l'alfiere in f1 ancora a casa, mentre il Nero ne ha tre pezzi minori non sviluppati: il tuo sviluppo è in vantaggio di due tempi. Il controllo del centro è tuo, cinque case contro tre.",
+          "text": "Oggi hai solo l'alfiere di re ancora a casa, mentre il Nero ne ha tre minori chiusi: il tuo sviluppo è in vantaggio di due tempi. La colonna d è aperta davanti al tuo re, quindi arroccare presto è la priorità.",
           "source": "feature",
           "assertions": [
            {
@@ -742,19 +1099,16 @@
            },
            {
             "kind": "feature",
-            "key": "undeveloped_pieces",
-            "side": "b",
-            "squares": [
-             "b8",
-             "c8",
-             "f8"
-            ]
+            "key": "development_lead",
+            "side": "w"
            },
            {
             "kind": "feature",
-            "key": "central_control",
-            "side": null,
-            "squares": []
+            "key": "open_file_to_king",
+            "side": "w",
+            "squares": [
+             "e1"
+            ]
            }
           ]
          }
@@ -764,61 +1118,87 @@
         "id": "S06",
         "blocks": [
          {
-          "type": "p",
-          "text": "Il Nero ha tre risposte principali, e Maia-2 le distribuisce così: {{mv:R1}} con il {{pct:R1.p_opp}}, {{mv:R2}} con il {{pct:R2.p_opp}}, {{mv:R3}} con il {{pct:R3.p_opp}}. Le probabilità umane sono poco affidabili a questo livello, quindi prendile come indicazione di frequenza, non come giudizio.",
-          "source": "maia",
-          "assertions": [
-           {
-            "kind": "maia_band",
-            "ref": "R1",
-            "band": "very_frequent"
-           }
-          ]
-         },
-         {
           "type": "ul",
           "items": [
            {
-            "text": "{{mv:R1}} occupa il centro e attacca il cavallo in d4: è la mossa più naturale. Lascia però **d5 come buco** e il pedone in d6 arretrato, e il Nero non ha ancora sviluppato nulla.",
+            "text": "{{mv:R1}} è la risposta più naturale: occupa il centro e caccia il cavallo d4. Il motore la valuta {{ev:R1}}, quasi pari. Lascia però **d5 come buco** e il pedone d6 arretrato.",
+            "source": "engine"
+           },
+           {
+            "text": "{{mv:R2}} è la prima scelta del motore ({{ev:R2}}): il cavallo attacca l'alfiere e3 e ti costringe a decidere subito dove metterlo.",
+            "source": "engine"
+           },
+           {
+            "text": "{{mv:R3}} è la più tranquilla per te: il motore la valuta {{ev:R3}}, la più alta tra le tre, perché il Nero rinuncia a contrastare subito il centro.",
+            "source": "engine"
+           },
+           {
+            "text": "La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il piano tipico del Nero in tutti i sistemi.",
             "source": "theory"
            },
            {
-            "text": "{{mv:R2}} attacca subito l'alfiere in e3 e ti fa perdere un tempo: il cavallo in g4 è fastidioso ma resta esposto alla spinta in h3.",
-            "source": "theory"
+            "text": "La donna nera in b6 è un'idea concreta: attacca b2 e il cavallo d4, e nella linea del motore {{pv:PV1:6}} il Nero sviluppa alfiere e cavallo prima di decidere dove mettere il re.",
+            "source": "engine"
            },
            {
-            "text": "{{mv:R3}} prepara lo sviluppo armonioso del Nero: alfiere in e7, arrocco corto e poi la spinta del pedone b, con la donna in c7 o in b6.",
-            "source": "theory"
-           },
-           {
-            "text": "La spinta {{plan:b:b5,b4@N3}} sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il piano tipico del Nero in tutti i sistemi.",
-            "source": "theory"
-           },
-           {
-            "text": "Il fianchetto del re nero è tipico del Dragone, non della Najdorf: qui è una mossa di sviluppo lenta che ti lascia il centro.",
+            "text": "Il fianchetto del re nero non è il piano principale qui: resta una mossa minore, tipica di altre strutture.",
             "source": "theory"
            }
           ]
          },
          {
-          "type": "p",
-          "text": "Se il Nero gioca {{mv:R1}}, la tua ritirata è obbligata: {{m:Nb3@N3}} tiene la posizione ({{ev:Nb3@N3}}), mentre {{m:Nf3@N3}} costa già {{loss:Nf3@N3}} e {{m:Nde2@N3}} peggiora ancora ({{loss:Nde2@N3}}). La mossa d'attacco {{m:Nf5@N3}} sembra la più forte ma perde {{loss:Nf5@N3}}: è una trappola naturale.",
-          "source": "engine"
+          "type": "text_table",
+          "columns": [
+           "Pezzo nero",
+           "Dove va di solito"
+          ],
+          "rows": [
+           [
+            {
+             "text": "Alfiere c8",
+             "source": "theory"
+            },
+            {
+             "text": "**e6** contro il centro, oppure **b7** dopo la spinta in e6",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Cavallo b8",
+             "source": "theory"
+            },
+            {
+             "text": "**d7** a sostegno della spinta del pedone b, oppure **c6** contro il centro",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Alfiere f8",
+             "source": "theory"
+            },
+            {
+             "text": "**e7**, poi arrocco corto",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Donna",
+             "source": "theory"
+            },
+            {
+             "text": "**c7** sulla colonna c, oppure **b6** contro b2 e d4",
+             "source": "theory"
+            }
+           ]
+          ]
          },
          {
           "type": "p",
-          "text": "Se il Nero gioca {{mv:R2}}, l'alfiere deve spostarsi: {{m:Bg5@N4}} e {{m:Bc1@N4}} si equivalgono ({{ev:Bg5@N4}} e {{ev:Bc1@N4}}), mentre {{m:Qe2@N4}} perde {{loss:Qe2@N4}}. Se il Nero gioca {{mv:R3}}, hai più scelta: {{m:a3@N5}} e {{m:f3@N5}} sono quasi equivalenti ({{loss:f3@N5}}).",
-          "source": "engine"
-         },
-         {
-          "type": "p",
-          "text": "La linea principale del motore dopo {{mv:R1}} è {{pv:PV1:8}}: il Nero sviluppa l'alfiere in e6 e il cavallo in d7 prima di decidere dove mettere il re. Dopo {{mv:R2}} la linea è {{pv:PV2:8}}, con il Nero che spinge i pedoni sull'ala di re per guadagnare spazio.",
-          "source": "engine"
-         },
-         {
-          "type": "p",
-          "text": "Il Nero può anche giocare {{m:Nc6@N1}} o {{m:Qc7@N1}}, che il motore valuta poco peggio delle tre risposte principali: sono mosse di sviluppo ragionevoli, non errori. Contro di esse il tuo piano non cambia: sviluppo, arrocco e pressione sul centro.",
-          "source": "engine"
+          "text": "Secondo Maia-2 il Nero sceglie {{mv:R1}} in oltre due casi su tre ({{pct:R1.p_opp}}), mentre {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) restano alternative minori. Le probabilità umane sono poco affidabili qui, quindi conta soprattutto il motore: le tre risposte sono quasi equivalenti.",
+          "source": "maia"
          }
         ]
        },
@@ -831,7 +1211,7 @@
           "text_cells": {
            "R1": {
             "prepare": {
-             "text": "Ritira subito il cavallo: {{mv:R1.u1}} ({{ev:R1.u1}}); {{mv:R1.u2}} costa già {{loss:R1.u2}} e {{mv:R1.u3}} peggiora ancora",
+             "text": "Ritira subito il cavallo: {{mv:R1.u1}} ({{ev:R1.u1}}); {{mv:R1.u2}} costa già {{loss:R1.u2}}",
              "source": "engine"
             }
            },
@@ -843,7 +1223,7 @@
            },
            "R3": {
             "prepare": {
-             "text": "Sviluppo elastico del Nero: {{mv:R3.u1}} e {{mv:R3.u2}} si equivalgono ({{loss:R3.u2}})",
+             "text": "Struttura elastica: {{mv:R3.u1}} e {{mv:R3.u2}} si equivalgono ({{loss:R3.u2}})",
              "source": "engine"
             }
            }
@@ -851,18 +1231,40 @@
          },
          {
           "type": "p",
-          "text": "Secondo Maia-2 il Nero risponde quasi sempre {{mv:R1}} ({{pct:R1.p_opp}}); {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) sono le alternative principali. Le probabilità umane sono poco affidabili qui, quindi usale solo per capire cosa aspettarti.",
+          "text": "Secondo Maia-2 il Nero risponde quasi sempre {{mv:R1}} ({{pct:R1.p_opp}}); {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) sono le alternative principali.",
           "source": "maia"
          },
          {
           "type": "p",
-          "text": "Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere in e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1.u1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro.",
+          "text": "Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1.u1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro. Nella linea principale del motore, {{pv:PV1:6}}, il Nero sviluppa alfiere e cavallo prima di decidere dove mettere il re.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}: le due buone si equivalgono, mentre una mossa di donna come {{m:Qd2@N4}}, scelta dal {{pct:Qd2@N4}} dei giocatori del tuo livello, perde {{loss:Qd2@N4}}. Ricorda che dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra {{mv:R3.u1:bare}} e {{mv:R3.u2:bare}}: si equivalgono.",
+          "text": "Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}: le due buone si equivalgono, mentre una mossa di donna come {{m:Qd2@N4}}, scelta da pochi giocatori del tuo livello, perde {{loss:Qd2@N4}}. Dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra {{mv:R3.u1:bare}} e {{mv:R3.u2:bare}}: si equivalgono.",
           "source": "mixed"
+         }
+        ]
+       },
+       {
+        "id": "S09",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Nessuna linea del motore entra nel referto a questo livello: in tutto l'albero analizzato non c'è una minaccia nascosta, né per te né per il Nero, e nessuna perdita decisiva è fuori portata. Se il Nero ti lasciasse muovere, otterresti soltanto {{ev:N2}} con {{m:Bc4@N2}}: non ha colpi pronti.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "N2",
+            "band": "small_plus"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Anche la mossa peggiore tra quelle spiegate, {{m:Nf5@N3}}, perde {{loss:Nf5@N3}}: è un errore di principio, non una trappola nascosta. I pericoli di questa posizione sono di piano, non tattici.",
+          "source": "engine"
          }
         ]
        },
@@ -873,11 +1275,11 @@
           "type": "ol",
           "items": [
            {
-            "text": "**Aspetta la mossa del Nero** e riconosci subito quale dei tre sistemi ha scelto: spinta in e5, salto in g4 o sviluppo elastico con il pedone in e6.",
+            "text": "**Scegli il sistema** (arrocco corto con alfiere in e2, oppure arrocco lungo con donna in d2) e quindi il lato dell'arrocco.",
             "source": "theory"
            },
            {
-            "text": "**Proteggi e4** prima di ogni mossa non forzata: è il pedone che tiene insieme il tuo centro.",
+            "text": "**Proteggi e4** prima di ogni mossa non forzata.",
             "source": "theory"
            },
            {
@@ -885,16 +1287,16 @@
             "source": "theory"
            },
            {
-            "text": "Se il Nero gioca {{mv:R1}}, ritira il cavallo in b3 ({{ev:Nb3@N3}}) e punta alla casa d5.",
+            "text": "Se il Nero gioca {{mv:R1}}, ritira il cavallo in b3 ({{ev:R1.u1}}) e punta alla casa d5.",
             "source": "engine"
            },
            {
-            "text": "Se il cavallo nero salta in g4, confronta le ritirate dell'alfiere prima di muovere: due si equivalgono, una perde.",
-            "source": "theory"
+            "text": "Se il cavallo nero salta in g4, confronta le ritirate dell'alfiere prima di muovere: {{mv:R2.u1}} e {{mv:R2.u2}} si equivalgono.",
+            "source": "mixed"
            },
            {
-            "text": "**Non perdere tempi**: il tuo vantaggio è lo sviluppo, non il materiale.",
-            "source": "theory"
+            "text": "Non perdere tempi: con il Nero al tratto la posizione sarebbe {{ev:N2}}, il tuo vantaggio è lo sviluppo.",
+            "source": "engine"
            }
           ]
          }
@@ -902,31 +1304,30 @@
        }
       ],
       "notes": [
-       "Il pacchetto non contiene candidate perché tocca all'avversario: le sezioni sulle candidate sono state adattate di conseguenza, come previsto dal piano delle sezioni.",
-       "Maia-2 ha confidenza bassa e i campi sul punteggio atteso del giocatore sono vuoti: le probabilità umane sono state usate solo come indicazione di frequenza, non come giudizio di qualità.",
-       "La raccomandazione è vuota: non esiste una mossa consigliata unica, quindi l'analisi si concentra sulle risposte del Nero e sulle mosse del Bianco nei nodi successivi.",
-       "In S01 sono state usate le probabilità di vittoria e patta secondo il motore; la probabilità di sconfitta non è stata ripetuta perché ridondante con le altre due."
+       "Il pacchetto non contiene candidate né recommendation: la posizione è in modalità avversario, quindi le sezioni S03 e S08 sono omesse e non c'è una mossa consigliata da citare.",
+       "maia.confidence è low e p_up_elo/p_up_bucket sono null: le probabilità di Maia-2 sono state usate solo come indicazione qualitativa.",
+       "Le categorie hanno tutte advice no_worry tranne practical_complexity (monitor); i punteggi T sono riportati come dati, senza ricalcoli."
       ]
      }
     }
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 21428,
-    "completion_tokens": 3896,
-    "total_tokens": 25324,
-    "cost": 0.005157744,
+    "prompt_tokens": 24602,
+    "completion_tokens": 4527,
+    "total_tokens": 29129,
+    "cost": 0.00603924,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 20224,
+     "cached_tokens": 23040,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.005157744,
-     "upstream_inference_prompt_cost": 0.000482544,
-     "upstream_inference_completions_cost": 0.0046752
+     "upstream_inference_cost": 0.00603924,
+     "upstream_inference_prompt_cost": 0.00060684,
+     "upstream_inference_completions_cost": 0.0054324
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -935,9 +1336,9 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791132203-ZfKbHju9wqe0Vt94va1M",
+    "id": "gen-1791138749-geoHnZe6qYfuIvcL9Y9q",
     "object": "chat.completion",
-    "created": 1791132203,
+    "created": 1791138749,
     "model": "deepseek/deepseek-v4.1-flash",
     "provider": "Together",
     "system_fingerprint": "default",
@@ -957,10 +1358,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "call_01a107cc7b7a76cdb51c7317",
+         "id": "call_01a10830573e7661b1b62a5f",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Tocca al Nero, e la posizione è equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta e il {{pct:root.win}} di vittorie. Il Nero ha appena mosso il cavallo in f6 e il pedone in d6: siamo in una Najdorf, {{opening:name}} ({{opening:eco}}).\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Non c'è nulla di forzato: il tuo vantaggio è quasi solo il tratto in più di sviluppo, e il Nero ha tre pezzi ancora a casa. Il piano è semplice: completare lo sviluppo, proteggere il pedone in e4 e scegliere con calma dove arroccare. Maia-2 stima per te un punteggio atteso di poco sopra la metà, quindi non devi rischiare.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"development_lead\",\"side\":\"w\",\"squares\":[]},{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]}]}]},{\"id\":\"S04\",\"blocks\":[{\"type\":\"p\",\"text\":\"Puoi ancora arroccare da entrambi i lati, e anche il Nero può farlo: la scelta dipende dal sistema che adotti, non da vincoli della posizione.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\",\"squares\":[\"e1\"]},{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"w\",\"squares\":[\"e1\"]},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"b\",\"squares\":[\"e8\"]}]},{\"type\":\"ul\",\"items\":[{\"text\":\"**Arrocco corto.** È la scelta più solida: alfiere in e2, pedone in f3 a sostenere e4, donna in d2 e torri al centro. Il re sta al sicuro e giochi per il centro e per la colonna d.\",\"source\":\"theory\"},{\"text\":\"**Arrocco lungo.** Tipico dell'attacco inglese: alfiere in e3, donna in d2, poi {{plan:w:g4,g5@N3}} contro il re nero. Il Nero di solito arrocca corto e contrattacca con {{plan:b:b5,b4@N3}}: è una corsa tra i due attacchi.\",\"source\":\"theory\"},{\"text\":\"**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il re in g1, la donna nera in b6 può attaccare il cavallo in d4 e il pedone b2: se il cavallo si sposta, l'alfiere resta scoperto. Per questo l'arrocco corto con l'alfiere in e3 richiede la mossa di pedone in f3 prima.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"In pratica: se scegli l'arrocco corto, sviluppa prima l'alfiere in e2; se scegli quello lungo, metti l'alfiere in e3 e la donna in d2 e prepara la spinta del pedone g. Non mescolare i due sistemi.\",\"source\":\"theory\"}]},{\"id\":\"S05\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Pezzo\",\"Obiettivo tipico\",\"Attenzione\"],\"rows\":[[{\"text\":\"Pedone e4\",\"source\":\"theory\"},{\"text\":\"Va protetto: dal cavallo c3, dal pedone in f3, dall'alfiere o dalla donna in d3\",\"source\":\"theory\"},{\"text\":\"La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico o inchiodato\",\"source\":\"theory\"}],[{\"text\":\"Cavallo d4\",\"source\":\"theory\"},{\"text\":\"Domina il centro; dopo la spinta in e5 si ritira in **b3**\",\"source\":\"theory\"},{\"text\":\"Non spingerlo in f5: sembra attivo ma è un errore grave\",\"source\":\"theory\"}],[{\"text\":\"Cavallo c3\",\"source\":\"theory\"},{\"text\":\"Difende e4 e controlla d5; dopo la spinta in e5 il sogno è il salto in **d5**\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone b lo scaccia e toglie protezione a e4\",\"source\":\"theory\"}],[{\"text\":\"Alfiere c1\",\"source\":\"theory\"},{\"text\":\"**e3** (flessibile) o **g5** (pressione sul cavallo f6)\",\"source\":\"theory\"},{\"text\":\"Non lasciarlo senza difesa sulla diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f1\",\"source\":\"theory\"},{\"text\":\"**e2** (solido) o **c4** (attivo, punta al re nero)\",\"source\":\"theory\"},{\"text\":\"In c4 invita la spinta del pedone b e la presa del cavallo in g4\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**d2** con l'arrocco lungo, **e2** con l'arrocco corto\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 attacca b2 e il cavallo d4\",\"source\":\"theory\"}],[{\"text\":\"Torri\",\"source\":\"theory\"},{\"text\":\"Arrocco corto: in f1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Non lasciare la torre a1 senza un piano\",\"source\":\"theory\"}],[{\"text\":\"Pedoni f, g e h\",\"source\":\"theory\"},{\"text\":\"Pedone in f3 a sostegno di e4; {{plan:w:g4,g5@N3}} nell'attacco inglese\",\"source\":\"theory\"},{\"text\":\"La spinta in f3 indebolisce la diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Oggi hai solo l'alfiere in f1 ancora a casa, mentre il Nero ne ha tre pezzi minori non sviluppati: il tuo sviluppo è in vantaggio di due tempi. Il controllo del centro è tuo, cinque case contro tre.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"w\",\"squares\":[\"f1\"]},{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]},{\"kind\":\"feature\",\"key\":\"central_control\",\"side\":null,\"squares\":[]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero ha tre risposte principali, e Maia-2 le distribuisce così: {{mv:R1}} con il {{pct:R1.p_opp}}, {{mv:R2}} con il {{pct:R2.p_opp}}, {{mv:R3}} con il {{pct:R3.p_opp}}. Le probabilità umane sono poco affidabili a questo livello, quindi prendile come indicazione di frequenza, non come giudizio.\",\"source\":\"maia\",\"assertions\":[{\"kind\":\"maia_band\",\"ref\":\"R1\",\"band\":\"very_frequent\"}]},{\"type\":\"ul\",\"items\":[{\"text\":\"{{mv:R1}} occupa il centro e attacca il cavallo in d4: è la mossa più naturale. Lascia però **d5 come buco** e il pedone in d6 arretrato, e il Nero non ha ancora sviluppato nulla.\",\"source\":\"theory\"},{\"text\":\"{{mv:R2}} attacca subito l'alfiere in e3 e ti fa perdere un tempo: il cavallo in g4 è fastidioso ma resta esposto alla spinta in h3.\",\"source\":\"theory\"},{\"text\":\"{{mv:R3}} prepara lo sviluppo armonioso del Nero: alfiere in e7, arrocco corto e poi la spinta del pedone b, con la donna in c7 o in b6.\",\"source\":\"theory\"},{\"text\":\"La spinta {{plan:b:b5,b4@N3}} sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il piano tipico del Nero in tutti i sistemi.\",\"source\":\"theory\"},{\"text\":\"Il fianchetto del re nero è tipico del Dragone, non della Najdorf: qui è una mossa di sviluppo lenta che ti lascia il centro.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Se il Nero gioca {{mv:R1}}, la tua ritirata è obbligata: {{m:Nb3@N3}} tiene la posizione ({{ev:Nb3@N3}}), mentre {{m:Nf3@N3}} costa già {{loss:Nf3@N3}} e {{m:Nde2@N3}} peggiora ancora ({{loss:Nde2@N3}}). La mossa d'attacco {{m:Nf5@N3}} sembra la più forte ma perde {{loss:Nf5@N3}}: è una trappola naturale.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Se il Nero gioca {{mv:R2}}, l'alfiere deve spostarsi: {{m:Bg5@N4}} e {{m:Bc1@N4}} si equivalgono ({{ev:Bg5@N4}} e {{ev:Bc1@N4}}), mentre {{m:Qe2@N4}} perde {{loss:Qe2@N4}}. Se il Nero gioca {{mv:R3}}, hai più scelta: {{m:a3@N5}} e {{m:f3@N5}} sono quasi equivalenti ({{loss:f3@N5}}).\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La linea principale del motore dopo {{mv:R1}} è {{pv:PV1:8}}: il Nero sviluppa l'alfiere in e6 e il cavallo in d7 prima di decidere dove mettere il re. Dopo {{mv:R2}} la linea è {{pv:PV2:8}}, con il Nero che spinge i pedoni sull'ala di re per guadagnare spazio.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Il Nero può anche giocare {{m:Nc6@N1}} o {{m:Qc7@N1}}, che il motore valuta poco peggio delle tre risposte principali: sono mosse di sviluppo ragionevoli, non errori. Contro di esse il tuo piano non cambia: sviluppo, arrocco e pressione sul centro.\",\"source\":\"engine\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"R1\":{\"prepare\":{\"text\":\"Ritira subito il cavallo: {{mv:R1.u1}} ({{ev:R1.u1}}); {{mv:R1.u2}} costa già {{loss:R1.u2}} e {{mv:R1.u3}} peggiora ancora\",\"source\":\"engine\"}},\"R2\":{\"prepare\":{\"text\":\"L'alfiere deve spostarsi: {{mv:R2.u1}} ({{ev:R2.u1}}) o {{mv:R2.u2}}; {{mv:R2.u3}} perde {{loss:R2.u3}}\",\"source\":\"engine\"}},\"R3\":{\"prepare\":{\"text\":\"Sviluppo elastico del Nero: {{mv:R3.u1}} e {{mv:R3.u2}} si equivalgono ({{loss:R3.u2}})\",\"source\":\"engine\"}}}},{\"type\":\"p\",\"text\":\"Secondo Maia-2 il Nero risponde quasi sempre {{mv:R1}} ({{pct:R1.p_opp}}); {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) sono le alternative principali. Le probabilità umane sono poco affidabili qui, quindi usale solo per capire cosa aspettarti.\",\"source\":\"maia\"},{\"type\":\"p\",\"text\":\"Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere in e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1.u1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}: le due buone si equivalgono, mentre una mossa di donna come {{m:Qd2@N4}}, scelta dal {{pct:Qd2@N4}} dei giocatori del tuo livello, perde {{loss:Qd2@N4}}. Ricorda che dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra {{mv:R3.u1:bare}} e {{mv:R3.u2:bare}}: si equivalgono.\",\"source\":\"mixed\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Aspetta la mossa del Nero** e riconosci subito quale dei tre sistemi ha scelto: spinta in e5, salto in g4 o sviluppo elastico con il pedone in e6.\",\"source\":\"theory\"},{\"text\":\"**Proteggi e4** prima di ogni mossa non forzata: è il pedone che tiene insieme il tuo centro.\",\"source\":\"theory\"},{\"text\":\"**Controlla la donna nera in b6 e la presa in e4**: sono le due tattiche che il Nero cerca più spesso.\",\"source\":\"theory\"},{\"text\":\"Se il Nero gioca {{mv:R1}}, ritira il cavallo in b3 ({{ev:Nb3@N3}}) e punta alla casa d5.\",\"source\":\"engine\"},{\"text\":\"Se il cavallo nero salta in g4, confronta le ritirate dell'alfiere prima di muovere: due si equivalgono, una perde.\",\"source\":\"theory\"},{\"text\":\"**Non perdere tempi**: il tuo vantaggio è lo sviluppo, non il materiale.\",\"source\":\"theory\"}]}]}],\"notes\":[\"Il pacchetto non contiene candidate perché tocca all'avversario: le sezioni sulle candidate sono state adattate di conseguenza, come previsto dal piano delle sezioni.\",\"Maia-2 ha confidenza bassa e i campi sul punteggio atteso del giocatore sono vuoti: le probabilità umane sono state usate solo come indicazione di frequenza, non come giudizio di qualità.\",\"La raccomandazione è vuota: non esiste una mossa consigliata unica, quindi l'analisi si concentra sulle risposte del Nero e sulle mosse del Bianco nei nodi successivi.\",\"In S01 sono state usate le probabilità di vittoria e patta secondo il motore; la probabilità di sconfitta non è stata ripetuta perché ridondante con le altre due.\"]}"
+          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Tocca al Nero, e la posizione è quasi pari: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta. Il tuo vantaggio è soprattutto di sviluppo: hai due pezzi minori attivi contro tre pezzi neri ancora a casa. Non c'è nulla di forzato: le prime mosse del Nero stanno tutte entro pochi centesimi.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Se il Nero ti lasciasse muovere, la valutazione salirebbe a {{ev:N2}} con {{m:Bc4@N2}}: il tratto vale più di ogni altra cosa. Il tuo compito è completare lo sviluppo e scegliere un sistema, non cercare una mossa brillante.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"small_plus\"}]}]},{\"id\":\"S02\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T4\",\"text_cells\":{\"piece_activity\":{\"nota\":{\"text\":\"Il Nero ha tre pezzi minori ancora chiusi; tu solo la torre di donna\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]},{\"kind\":\"feature\",\"key\":\"inactive_piece\",\"side\":\"w\",\"squares\":[\"a1\"]}]}},\"space_center\":{\"nota\":{\"text\":\"Controllo centrale a tuo favore\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"space_center\",\"advice\":\"no_worry\"}]}},\"initiative_tempo\":{\"nota\":{\"text\":\"Il tratto è del Nero, ma non ha colpi pronti\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"initiative_tempo\",\"advice\":\"no_worry\"}]}},\"king_safety\":{\"nota\":{\"text\":\"Entrambi i re possono ancora arroccare da tutti e due i lati\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"b\"}]}},\"threats_dynamics\":{\"nota\":{\"text\":\"Nessuna linea filtrata tocca il tuo re\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"threats_dynamics\",\"advice\":\"no_worry\"}]}},\"pawn_structure\":{\"nota\":{\"text\":\"Due isole di pedoni per parte, struttura simmetrica\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"b\"}]}},\"practical_complexity\":{\"nota\":{\"text\":\"Molte mosse giocabili per il Nero, nessuna unica\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"}]}},\"material\":{\"nota\":{\"text\":\"Materiale pari\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"material_balance\",\"side\":null}]}},\"transition_plans\":{\"nota\":{\"text\":\"Nessuna transizione rilevante in apertura\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"transition_plans\",\"advice\":\"no_worry\"}]}}}},{\"type\":\"p\",\"text\":\"Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché il Nero ha molte mosse sensate. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): tre pezzi minori neri sono ancora chiusi, tu hai solo la torre di donna inattiva.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"},{\"kind\":\"feature\",\"key\":\"inactive_piece\",\"side\":\"w\",\"squares\":[\"h1\"]},{\"kind\":\"feature\",\"key\":\"inactive_piece\",\"side\":\"b\",\"squares\":[\"b8\"]}]}]},{\"id\":\"S04\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"**Arrocco corto.** È il piano naturale se tieni l'alfiere in e3 e giochi pedone in f3: il re sta al sicuro, la torre arriva in e1 o d1 e l'alfiere di re resta a guardia di e4. È il sistema più solido e il più facile da giocare.\",\"source\":\"theory\"},{\"text\":\"**Arrocco lungo.** Se giochi donna in d2 e pedone in f3, puoi arroccare lungo e lanciare i pedoni dell'ala di re: {{plan:w:g4,g5@N3}}. Il Nero di solito arrocca corto e contrattacca con {{plan:b:b5,b4@N3}}: è una corsa tra i due attacchi.\",\"source\":\"theory\"},{\"text\":\"**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il re in g1, la donna nera in b6 può attaccare il cavallo d4 e il pedone b2: se il cavallo si sposta, l'alfiere resta scoperto. Per questo la spinta in f3 con l'arrocco corto va preparata con calma.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Oggi entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato dipende solo dal sistema che scegli, non da vincoli della posizione.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"b\"},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\"}]}]},{\"id\":\"S05\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Pezzo\",\"Obiettivo tipico\",\"Attenzione\"],\"rows\":[[{\"text\":\"Pedone e4\",\"source\":\"theory\"},{\"text\":\"Va protetto: dal cavallo c3, dal pedone in f3 o dall'alfiere\",\"source\":\"theory\"},{\"text\":\"La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico\",\"source\":\"theory\"}],[{\"text\":\"Cavallo d4\",\"source\":\"theory\"},{\"text\":\"Domina il centro; dopo la spinta in e5 si ritira in **b3**\",\"source\":\"theory\"},{\"text\":\"Non spingerlo in f5: {{m:Nf5@N3}} perde {{loss:Nf5@N3}}\",\"source\":\"engine\"}],[{\"text\":\"Cavallo c3\",\"source\":\"theory\"},{\"text\":\"Difende e4 e sogna il salto in **d5** dopo la spinta in e5\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone b lo scaccia da c3\",\"source\":\"theory\"}],[{\"text\":\"Alfiere e3\",\"source\":\"theory\"},{\"text\":\"Pressione sul cavallo f6 e controllo di d4\",\"source\":\"theory\"},{\"text\":\"Se il cavallo nero salta in g4, deve spostarsi: {{m:Bg5@N4}} o {{m:Bc1@N4}}\",\"source\":\"mixed\"}],[{\"text\":\"Alfiere f1\",\"source\":\"theory\"},{\"text\":\"**e2** (solido), **c4** (attivo) o **d3** (flessibile)\",\"source\":\"theory\"},{\"text\":\"In c4 invita la spinta del pedone b; in d3 resta passivo\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**d2** con l'arrocco lungo, **e2** con l'arrocco corto\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 può attaccare b2 e il cavallo d4\",\"source\":\"theory\"}],[{\"text\":\"Torri\",\"source\":\"theory\"},{\"text\":\"Arrocco corto: in e1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Non lasciare la torre di donna senza un piano\",\"source\":\"theory\"}],[{\"text\":\"Pedoni f, g e h\",\"source\":\"theory\"},{\"text\":\"Pedone in f3 a sostegno di e4; {{plan:w:g4,g5@N3}} nell'attacco sull'ala di re\",\"source\":\"theory\"},{\"text\":\"La spinta in f3 indebolisce la diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Oggi hai solo l'alfiere di re ancora a casa, mentre il Nero ne ha tre minori chiusi: il tuo sviluppo è in vantaggio di due tempi. La colonna d è aperta davanti al tuo re, quindi arroccare presto è la priorità.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"w\",\"squares\":[\"f1\"]},{\"kind\":\"feature\",\"key\":\"development_lead\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"open_file_to_king\",\"side\":\"w\",\"squares\":[\"e1\"]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"{{mv:R1}} è la risposta più naturale: occupa il centro e caccia il cavallo d4. Il motore la valuta {{ev:R1}}, quasi pari. Lascia però **d5 come buco** e il pedone d6 arretrato.\",\"source\":\"engine\"},{\"text\":\"{{mv:R2}} è la prima scelta del motore ({{ev:R2}}): il cavallo attacca l'alfiere e3 e ti costringe a decidere subito dove metterlo.\",\"source\":\"engine\"},{\"text\":\"{{mv:R3}} è la più tranquilla per te: il motore la valuta {{ev:R3}}, la più alta tra le tre, perché il Nero rinuncia a contrastare subito il centro.\",\"source\":\"engine\"},{\"text\":\"La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il piano tipico del Nero in tutti i sistemi.\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 è un'idea concreta: attacca b2 e il cavallo d4, e nella linea del motore {{pv:PV1:6}} il Nero sviluppa alfiere e cavallo prima di decidere dove mettere il re.\",\"source\":\"engine\"},{\"text\":\"Il fianchetto del re nero non è il piano principale qui: resta una mossa minore, tipica di altre strutture.\",\"source\":\"theory\"}]},{\"type\":\"text_table\",\"columns\":[\"Pezzo nero\",\"Dove va di solito\"],\"rows\":[[{\"text\":\"Alfiere c8\",\"source\":\"theory\"},{\"text\":\"**e6** contro il centro, oppure **b7** dopo la spinta in e6\",\"source\":\"theory\"}],[{\"text\":\"Cavallo b8\",\"source\":\"theory\"},{\"text\":\"**d7** a sostegno della spinta del pedone b, oppure **c6** contro il centro\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f8\",\"source\":\"theory\"},{\"text\":\"**e7**, poi arrocco corto\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**c7** sulla colonna c, oppure **b6** contro b2 e d4\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Secondo Maia-2 il Nero sceglie {{mv:R1}} in oltre due casi su tre ({{pct:R1.p_opp}}), mentre {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) restano alternative minori. Le probabilità umane sono poco affidabili qui, quindi conta soprattutto il motore: le tre risposte sono quasi equivalenti.\",\"source\":\"maia\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"R1\":{\"prepare\":{\"text\":\"Ritira subito il cavallo: {{mv:R1.u1}} ({{ev:R1.u1}}); {{mv:R1.u2}} costa già {{loss:R1.u2}}\",\"source\":\"engine\"}},\"R2\":{\"prepare\":{\"text\":\"L'alfiere deve spostarsi: {{mv:R2.u1}} ({{ev:R2.u1}}) o {{mv:R2.u2}}; {{mv:R2.u3}} perde {{loss:R2.u3}}\",\"source\":\"engine\"}},\"R3\":{\"prepare\":{\"text\":\"Struttura elastica: {{mv:R3.u1}} e {{mv:R3.u2}} si equivalgono ({{loss:R3.u2}})\",\"source\":\"engine\"}}}},{\"type\":\"p\",\"text\":\"Secondo Maia-2 il Nero risponde quasi sempre {{mv:R1}} ({{pct:R1.p_opp}}); {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) sono le alternative principali.\",\"source\":\"maia\"},{\"type\":\"p\",\"text\":\"Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1.u1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro. Nella linea principale del motore, {{pv:PV1:6}}, il Nero sviluppa alfiere e cavallo prima di decidere dove mettere il re.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}: le due buone si equivalgono, mentre una mossa di donna come {{m:Qd2@N4}}, scelta da pochi giocatori del tuo livello, perde {{loss:Qd2@N4}}. Dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra {{mv:R3.u1:bare}} e {{mv:R3.u2:bare}}: si equivalgono.\",\"source\":\"mixed\"}]},{\"id\":\"S09\",\"blocks\":[{\"type\":\"p\",\"text\":\"Nessuna linea del motore entra nel referto a questo livello: in tutto l'albero analizzato non c'è una minaccia nascosta, né per te né per il Nero, e nessuna perdita decisiva è fuori portata. Se il Nero ti lasciasse muovere, otterresti soltanto {{ev:N2}} con {{m:Bc4@N2}}: non ha colpi pronti.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"small_plus\"}]},{\"type\":\"p\",\"text\":\"Anche la mossa peggiore tra quelle spiegate, {{m:Nf5@N3}}, perde {{loss:Nf5@N3}}: è un errore di principio, non una trappola nascosta. I pericoli di questa posizione sono di piano, non tattici.\",\"source\":\"engine\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Scegli il sistema** (arrocco corto con alfiere in e2, oppure arrocco lungo con donna in d2) e quindi il lato dell'arrocco.\",\"source\":\"theory\"},{\"text\":\"**Proteggi e4** prima di ogni mossa non forzata.\",\"source\":\"theory\"},{\"text\":\"**Controlla la donna nera in b6 e la presa in e4**: sono le due tattiche che il Nero cerca più spesso.\",\"source\":\"theory\"},{\"text\":\"Se il Nero gioca {{mv:R1}}, ritira il cavallo in b3 ({{ev:R1.u1}}) e punta alla casa d5.\",\"source\":\"engine\"},{\"text\":\"Se il cavallo nero salta in g4, confronta le ritirate dell'alfiere prima di muovere: {{mv:R2.u1}} e {{mv:R2.u2}} si equivalgono.\",\"source\":\"mixed\"},{\"text\":\"Non perdere tempi: con il Nero al tratto la posizione sarebbe {{ev:N2}}, il tuo vantaggio è lo sviluppo.\",\"source\":\"engine\"}]}]}],\"notes\":[\"Il pacchetto non contiene candidate né recommendation: la posizione è in modalità avversario, quindi le sezioni S03 e S08 sono omesse e non c'è una mossa consigliata da citare.\",\"maia.confidence è low e p_up_elo/p_up_bucket sono null: le probabilità di Maia-2 sono state usate solo come indicazione qualitativa.\",\"Le categorie hanno tutte advice no_worry tranne practical_complexity (monitor); i punteggi T sono riportati come dati, senza ricalcoli.\"]}"
          }
         }
        ]
@@ -968,21 +1369,21 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 21428,
-     "completion_tokens": 3896,
-     "total_tokens": 25324,
-     "cost": 0.005157744,
+     "prompt_tokens": 24602,
+     "completion_tokens": 4527,
+     "total_tokens": 29129,
+     "cost": 0.00603924,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 20224,
+      "cached_tokens": 23040,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.005157744,
-      "upstream_inference_prompt_cost": 0.000482544,
-      "upstream_inference_completions_cost": 0.0046752
+      "upstream_inference_cost": 0.00603924,
+      "upstream_inference_prompt_cost": 0.00060684,
+      "upstream_inference_completions_cost": 0.0054324
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,
@@ -997,7 +1398,7 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "call_01a107cca193718dbc24c722",
+     "id": "call_01a1083085f575c4abdaef91",
      "name": "submit_analysis",
      "input": {
       "schema_version": "1",
@@ -1007,7 +1408,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Tocca al Nero, e la posizione è equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta e il {{pct:root.win}} di vittorie. Il Nero ha appena mosso il cavallo in f6 e il pedone in d6: siamo in una Najdorf, {{opening:name}} ({{opening:eco}}).",
+          "text": "Tocca al Nero, e la posizione è quasi pari: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta. Il tuo vantaggio è soprattutto di sviluppo: hai due pezzi minori attivi contro tre pezzi neri ancora a casa. Non c'è nulla di forzato: le prime mosse del Nero stanno tutte entro pochi centesimi.",
           "source": "engine",
           "assertions": [
            {
@@ -1019,23 +1420,196 @@
          },
          {
           "type": "p",
-          "text": "Non c'è nulla di forzato: il tuo vantaggio è quasi solo il tratto in più di sviluppo, e il Nero ha tre pezzi ancora a casa. Il piano è semplice: completare lo sviluppo, proteggere il pedone in e4 e scegliere con calma dove arroccare. Maia-2 stima per te un punteggio atteso di poco sopra la metà, quindi non devi rischiare.",
+          "text": "Se il Nero ti lasciasse muovere, la valutazione salirebbe a {{ev:N2}} con {{m:Bc4@N2}}: il tratto vale più di ogni altra cosa. Il tuo compito è completare lo sviluppo e scegliere un sistema, non cercare una mossa brillante.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "N2",
+            "band": "small_plus"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S02",
+        "blocks": [
+         {
+          "type": "table",
+          "ref": "T4",
+          "text_cells": {
+           "piece_activity": {
+            "nota": {
+             "text": "Il Nero ha tre pezzi minori ancora chiusi; tu solo la torre di donna",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "undeveloped_pieces",
+               "side": "b",
+               "squares": [
+                "b8",
+                "c8",
+                "f8"
+               ]
+              },
+              {
+               "kind": "feature",
+               "key": "inactive_piece",
+               "side": "w",
+               "squares": [
+                "a1"
+               ]
+              }
+             ]
+            }
+           },
+           "space_center": {
+            "nota": {
+             "text": "Controllo centrale a tuo favore",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "space_center",
+               "advice": "no_worry"
+              }
+             ]
+            }
+           },
+           "initiative_tempo": {
+            "nota": {
+             "text": "Il tratto è del Nero, ma non ha colpi pronti",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "initiative_tempo",
+               "advice": "no_worry"
+              }
+             ]
+            }
+           },
+           "king_safety": {
+            "nota": {
+             "text": "Entrambi i re possono ancora arroccare da tutti e due i lati",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "can_castle_short",
+               "side": "w"
+              },
+              {
+               "kind": "feature",
+               "key": "can_castle_long",
+               "side": "w"
+              },
+              {
+               "kind": "feature",
+               "key": "can_castle_short",
+               "side": "b"
+              }
+             ]
+            }
+           },
+           "threats_dynamics": {
+            "nota": {
+             "text": "Nessuna linea filtrata tocca il tuo re",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "threats_dynamics",
+               "advice": "no_worry"
+              }
+             ]
+            }
+           },
+           "pawn_structure": {
+            "nota": {
+             "text": "Due isole di pedoni per parte, struttura simmetrica",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "pawn_island_count",
+               "side": "w"
+              },
+              {
+               "kind": "feature",
+               "key": "pawn_island_count",
+               "side": "b"
+              }
+             ]
+            }
+           },
+           "practical_complexity": {
+            "nota": {
+             "text": "Molte mosse giocabili per il Nero, nessuna unica",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "practical_complexity",
+               "advice": "monitor"
+              }
+             ]
+            }
+           },
+           "material": {
+            "nota": {
+             "text": "Materiale pari",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "material_balance",
+               "side": null
+              }
+             ]
+            }
+           },
+           "transition_plans": {
+            "nota": {
+             "text": "Nessuna transizione rilevante in apertura",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "transition_plans",
+               "advice": "no_worry"
+              }
+             ]
+            }
+           }
+          }
+         },
+         {
+          "type": "p",
+          "text": "Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché il Nero ha molte mosse sensate. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): tre pezzi minori neri sono ancora chiusi, tu hai solo la torre di donna inattiva.",
           "source": "mixed",
           "assertions": [
            {
-            "kind": "feature",
-            "key": "development_lead",
-            "side": "w",
-            "squares": []
+            "kind": "category_advice",
+            "id": "piece_activity",
+            "advice": "no_worry"
            },
            {
             "kind": "feature",
-            "key": "undeveloped_pieces",
+            "key": "inactive_piece",
+            "side": "w",
+            "squares": [
+             "h1"
+            ]
+           },
+           {
+            "kind": "feature",
+            "key": "inactive_piece",
             "side": "b",
             "squares": [
-             "b8",
-             "c8",
-             "f8"
+             "b8"
             ]
            }
           ]
@@ -1046,57 +1620,38 @@
         "id": "S04",
         "blocks": [
          {
+          "type": "ul",
+          "items": [
+           {
+            "text": "**Arrocco corto.** È il piano naturale se tieni l'alfiere in e3 e giochi pedone in f3: il re sta al sicuro, la torre arriva in e1 o d1 e l'alfiere di re resta a guardia di e4. È il sistema più solido e il più facile da giocare.",
+            "source": "theory"
+           },
+           {
+            "text": "**Arrocco lungo.** Se giochi donna in d2 e pedone in f3, puoi arroccare lungo e lanciare i pedoni dell'ala di re: {{plan:w:g4,g5@N3}}. Il Nero di solito arrocca corto e contrattacca con {{plan:b:b5,b4@N3}}: è una corsa tra i due attacchi.",
+            "source": "theory"
+           },
+           {
+            "text": "**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il re in g1, la donna nera in b6 può attaccare il cavallo d4 e il pedone b2: se il cavallo si sposta, l'alfiere resta scoperto. Per questo la spinta in f3 con l'arrocco corto va preparata con calma.",
+            "source": "theory"
+           }
+          ]
+         },
+         {
           "type": "p",
-          "text": "Puoi ancora arroccare da entrambi i lati, e anche il Nero può farlo: la scelta dipende dal sistema che adotti, non da vincoli della posizione.",
+          "text": "Oggi entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato dipende solo dal sistema che scegli, non da vincoli della posizione.",
           "source": "feature",
           "assertions": [
            {
             "kind": "feature",
-            "key": "can_castle_short",
-            "side": "w",
-            "squares": [
-             "e1"
-            ]
-           },
-           {
-            "kind": "feature",
             "key": "can_castle_long",
-            "side": "w",
-            "squares": [
-             "e1"
-            ]
+            "side": "b"
            },
            {
             "kind": "feature",
             "key": "can_castle_short",
-            "side": "b",
-            "squares": [
-             "e8"
-            ]
+            "side": "w"
            }
           ]
-         },
-         {
-          "type": "ul",
-          "items": [
-           {
-            "text": "**Arrocco corto.** È la scelta più solida: alfiere in e2, pedone in f3 a sostenere e4, donna in d2 e torri al centro. Il re sta al sicuro e giochi per il centro e per la colonna d.",
-            "source": "theory"
-           },
-           {
-            "text": "**Arrocco lungo.** Tipico dell'attacco inglese: alfiere in e3, donna in d2, poi {{plan:w:g4,g5@N3}} contro il re nero. Il Nero di solito arrocca corto e contrattacca con {{plan:b:b5,b4@N3}}: è una corsa tra i due attacchi.",
-            "source": "theory"
-           },
-           {
-            "text": "**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il re in g1, la donna nera in b6 può attaccare il cavallo in d4 e il pedone b2: se il cavallo si sposta, l'alfiere resta scoperto. Per questo l'arrocco corto con l'alfiere in e3 richiede la mossa di pedone in f3 prima.",
-            "source": "theory"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "In pratica: se scegli l'arrocco corto, sviluppa prima l'alfiere in e2; se scegli quello lungo, metti l'alfiere in e3 e la donna in d2 e prepara la spinta del pedone g. Non mescolare i due sistemi.",
-          "source": "theory"
          }
         ]
        },
@@ -1117,11 +1672,11 @@
              "source": "theory"
             },
             {
-             "text": "Va protetto: dal cavallo c3, dal pedone in f3, dall'alfiere o dalla donna in d3",
+             "text": "Va protetto: dal cavallo c3, dal pedone in f3 o dall'alfiere",
              "source": "theory"
             },
             {
-             "text": "La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico o inchiodato",
+             "text": "La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico",
              "source": "theory"
             }
            ],
@@ -1135,8 +1690,8 @@
              "source": "theory"
             },
             {
-             "text": "Non spingerlo in f5: sembra attivo ma è un errore grave",
-             "source": "theory"
+             "text": "Non spingerlo in f5: {{m:Nf5@N3}} perde {{loss:Nf5@N3}}",
+             "source": "engine"
             }
            ],
            [
@@ -1145,26 +1700,26 @@
              "source": "theory"
             },
             {
-             "text": "Difende e4 e controlla d5; dopo la spinta in e5 il sogno è il salto in **d5**",
+             "text": "Difende e4 e sogna il salto in **d5** dopo la spinta in e5",
              "source": "theory"
             },
             {
-             "text": "La spinta del pedone b lo scaccia e toglie protezione a e4",
+             "text": "La spinta del pedone b lo scaccia da c3",
              "source": "theory"
             }
            ],
            [
             {
-             "text": "Alfiere c1",
+             "text": "Alfiere e3",
              "source": "theory"
             },
             {
-             "text": "**e3** (flessibile) o **g5** (pressione sul cavallo f6)",
+             "text": "Pressione sul cavallo f6 e controllo di d4",
              "source": "theory"
             },
             {
-             "text": "Non lasciarlo senza difesa sulla diagonale {{diag:a7-g1}}",
-             "source": "theory"
+             "text": "Se il cavallo nero salta in g4, deve spostarsi: {{m:Bg5@N4}} o {{m:Bc1@N4}}",
+             "source": "engine"
             }
            ],
            [
@@ -1173,11 +1728,11 @@
              "source": "theory"
             },
             {
-             "text": "**e2** (solido) o **c4** (attivo, punta al re nero)",
+             "text": "**e2** (solido), **c4** (attivo) o **d3** (flessibile)",
              "source": "theory"
             },
             {
-             "text": "In c4 invita la spinta del pedone b e la presa del cavallo in g4",
+             "text": "In c4 invita la spinta del pedone b; in d3 resta passivo",
              "source": "theory"
             }
            ],
@@ -1191,7 +1746,7 @@
              "source": "theory"
             },
             {
-             "text": "La donna nera in b6 attacca b2 e il cavallo d4",
+             "text": "La donna nera in b6 può attaccare b2 e il cavallo d4",
              "source": "theory"
             }
            ],
@@ -1201,11 +1756,11 @@
              "source": "theory"
             },
             {
-             "text": "Arrocco corto: in f1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g",
+             "text": "Arrocco corto: in e1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g",
              "source": "theory"
             },
             {
-             "text": "Non lasciare la torre a1 senza un piano",
+             "text": "Non lasciare la torre di donna senza un piano",
              "source": "theory"
             }
            ],
@@ -1215,7 +1770,7 @@
              "source": "theory"
             },
             {
-             "text": "Pedone in f3 a sostegno di e4; {{plan:w:g4,g5@N3}} nell'attacco inglese",
+             "text": "Pedone in f3 a sostegno di e4; {{plan:w:g4,g5@N3}} nell'attacco sull'ala di re",
              "source": "theory"
             },
             {
@@ -1227,7 +1782,7 @@
          },
          {
           "type": "p",
-          "text": "Oggi hai solo l'alfiere in f1 ancora a casa, mentre il Nero ne ha tre pezzi minori non sviluppati: il tuo sviluppo è in vantaggio di due tempi. Il controllo del centro è tuo, cinque case contro tre.",
+          "text": "Oggi hai solo l'alfiere di re ancora a casa, mentre il Nero ne ha tre minori chiusi: il tuo sviluppo è in vantaggio di due tempi. La colonna d è aperta davanti al tuo re, quindi arroccare presto è la priorità.",
           "source": "feature",
           "assertions": [
            {
@@ -1240,19 +1795,16 @@
            },
            {
             "kind": "feature",
-            "key": "undeveloped_pieces",
-            "side": "b",
-            "squares": [
-             "b8",
-             "c8",
-             "f8"
-            ]
+            "key": "development_lead",
+            "side": "w"
            },
            {
             "kind": "feature",
-            "key": "central_control",
-            "side": null,
-            "squares": []
+            "key": "open_file_to_king",
+            "side": "w",
+            "squares": [
+             "e1"
+            ]
            }
           ]
          }
@@ -1262,54 +1814,87 @@
         "id": "S06",
         "blocks": [
          {
-          "type": "p",
-          "text": "Il Nero ha tre risposte principali, e Maia-2 le distribuisce così: {{mv:R1}} con il {{pct:R1.p_opp}}, {{mv:R2}} con il {{pct:R2.p_opp}}, {{mv:R3}} con il {{pct:R3.p_opp}}. Le probabilità umane sono poco affidabili a questo livello, quindi prendile come indicazione di frequenza, non come giudizio.",
-          "source": "maia"
-         },
-         {
           "type": "ul",
           "items": [
            {
-            "text": "{{mv:R1}} occupa il centro e attacca il cavallo in d4: è la mossa più naturale. Lascia però **d5 come buco** e il pedone in d6 arretrato, e il Nero non ha ancora sviluppato nulla.",
+            "text": "{{mv:R1}} è la risposta più naturale: occupa il centro e caccia il cavallo d4. Il motore la valuta {{ev:R1}}, quasi pari. Lascia però **d5 come buco** e il pedone d6 arretrato.",
+            "source": "engine"
+           },
+           {
+            "text": "{{mv:R2}} è la prima scelta del motore ({{ev:R2}}): il cavallo attacca l'alfiere e3 e ti costringe a decidere subito dove metterlo.",
+            "source": "engine"
+           },
+           {
+            "text": "{{mv:R3}} è la più tranquilla per te: il motore la valuta {{ev:R3}}, la più alta tra le tre, perché il Nero rinuncia a contrastare subito il centro.",
+            "source": "engine"
+           },
+           {
+            "text": "La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il piano tipico del Nero in tutti i sistemi.",
             "source": "theory"
            },
            {
-            "text": "{{mv:R2}} attacca subito l'alfiere in e3 e ti fa perdere un tempo: il cavallo in g4 è fastidioso ma resta esposto alla spinta in h3.",
-            "source": "theory"
+            "text": "La donna nera in b6 è un'idea concreta: attacca b2 e il cavallo d4, e nella linea del motore {{pv:PV1:6}} il Nero sviluppa alfiere e cavallo prima di decidere dove mettere il re.",
+            "source": "engine"
            },
            {
-            "text": "{{mv:R3}} prepara lo sviluppo armonioso del Nero: alfiere in e7, arrocco corto e poi la spinta del pedone b, con la donna in c7 o in b6.",
-            "source": "theory"
-           },
-           {
-            "text": "La spinta {{plan:b:b5,b4@N3}} sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il piano tipico del Nero in tutti i sistemi.",
-            "source": "theory"
-           },
-           {
-            "text": "Il fianchetto del re nero è tipico del Dragone, non della Najdorf: qui è una mossa di sviluppo lenta che ti lascia il centro.",
+            "text": "Il fianchetto del re nero non è il piano principale qui: resta una mossa minore, tipica di altre strutture.",
             "source": "theory"
            }
           ]
          },
          {
-          "type": "p",
-          "text": "Se il Nero gioca {{mv:R1}}, la tua ritirata è obbligata: {{m:Nb3@N3}} tiene la posizione ({{ev:Nb3@N3}}), mentre {{m:Nf3@N3}} costa già {{loss:Nf3@N3}} e {{m:Nde2@N3}} peggiora ancora ({{loss:Nde2@N3}}). La mossa d'attacco {{m:Nf5@N3}} sembra la più forte ma perde {{loss:Nf5@N3}}: è una trappola naturale.",
-          "source": "engine"
+          "type": "text_table",
+          "columns": [
+           "Pezzo nero",
+           "Dove va di solito"
+          ],
+          "rows": [
+           [
+            {
+             "text": "Alfiere c8",
+             "source": "theory"
+            },
+            {
+             "text": "**e6** contro il centro, oppure **b7** dopo la spinta in e6",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Cavallo b8",
+             "source": "theory"
+            },
+            {
+             "text": "**d7** a sostegno della spinta del pedone b, oppure **c6** contro il centro",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Alfiere f8",
+             "source": "theory"
+            },
+            {
+             "text": "**e7**, poi arrocco corto",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Donna",
+             "source": "theory"
+            },
+            {
+             "text": "**c7** sulla colonna c, oppure **b6** contro b2 e d4",
+             "source": "theory"
+            }
+           ]
+          ]
          },
          {
           "type": "p",
-          "text": "Se il Nero gioca {{mv:R2}}, l'alfiere deve spostarsi: {{m:Bg5@N4}} e {{m:Bc1@N4}} si equivalgono ({{ev:Bg5@N4}} e {{ev:Bc1@N4}}), mentre {{m:Qe2@N4}} perde {{loss:Qe2@N4}}. Se il Nero gioca {{mv:R3}}, hai più scelta: {{m:a3@N5}} e {{m:f3@N5}} sono quasi equivalenti ({{loss:f3@N5}}).",
-          "source": "engine"
-         },
-         {
-          "type": "p",
-          "text": "La linea principale del motore dopo {{mv:R1}} è {{pv:PV1:8}}: il Nero sviluppa l'alfiere in e6 e il cavallo in d7 prima di decidere dove mettere il re. Dopo {{mv:R2}} la linea è {{pv:PV2:8}}, con il Nero che spinge i pedoni sull'ala di re per guadagnare spazio.",
-          "source": "engine"
-         },
-         {
-          "type": "p",
-          "text": "Il Nero può anche giocare {{m:Nc6@N1}} o {{m:Qc7@N1}}, che il motore valuta poco peggio delle tre risposte principali: sono mosse di sviluppo ragionevoli, non errori. Contro di esse il tuo piano non cambia: sviluppo, arrocco e pressione sul centro.",
-          "source": "mixed"
+          "text": "Secondo Maia-2 il Nero sceglie {{mv:R1}} in oltre due casi su tre ({{pct:R1.p_opp}}), mentre {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) restano alternative minori. Le probabilità umane sono poco affidabili qui, quindi conta soprattutto il motore: le tre risposte sono quasi equivalenti.",
+          "source": "maia"
          }
         ]
        },
@@ -1322,7 +1907,7 @@
           "text_cells": {
            "R1": {
             "prepare": {
-             "text": "Ritira subito il cavallo: {{mv:R1.u1}} ({{ev:R1.u1}}); {{mv:R1.u2}} costa già {{loss:R1.u2}} e {{mv:R1.u3}} peggiora ancora",
+             "text": "Ritira subito il cavallo: {{mv:R1.u1}} ({{ev:R1.u1}}); {{mv:R1.u2}} costa già {{loss:R1.u2}}",
              "source": "engine"
             }
            },
@@ -1334,7 +1919,7 @@
            },
            "R3": {
             "prepare": {
-             "text": "Sviluppo elastico del Nero: {{mv:R3.u1}} e {{mv:R3.u2}} si equivalgono ({{loss:R3.u2}})",
+             "text": "Struttura elastica: {{mv:R3.u1}} e {{mv:R3.u2}} si equivalgono ({{loss:R3.u2}})",
              "source": "engine"
             }
            }
@@ -1342,18 +1927,40 @@
          },
          {
           "type": "p",
-          "text": "Secondo Maia-2 il Nero risponde quasi sempre {{mv:R1}} ({{pct:R1.p_opp}}); {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) sono le alternative principali. Le probabilità umane sono poco affidabili qui, quindi usale solo per capire cosa aspettarti.",
+          "text": "Secondo Maia-2 il Nero risponde quasi sempre {{mv:R1}} ({{pct:R1.p_opp}}); {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) sono le alternative principali.",
           "source": "maia"
          },
          {
           "type": "p",
-          "text": "Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere in e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1.u1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro.",
+          "text": "Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1.u1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro. Nella linea principale del motore, {{pv:PV1:6}}, il Nero sviluppa alfiere e cavallo prima di decidere dove mettere il re.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}: le due buone si equivalgono, mentre una mossa di donna come {{m:Qd2@N4}}, scelta dal {{pct:Qd2@N4}} dei giocatori del tuo livello, perde {{loss:Qd2@N4}}. Ricorda che dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra {{mv:R3.u1:bare}} e {{mv:R3.u2:bare}}: si equivalgono.",
+          "text": "Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}: le due buone si equivalgono, mentre una mossa di donna come {{m:Qd2@N4}}, scelta da pochi giocatori del tuo livello, perde {{loss:Qd2@N4}}. Dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra {{mv:R3.u1:bare}} e {{mv:R3.u2:bare}}: si equivalgono.",
           "source": "mixed"
+         }
+        ]
+       },
+       {
+        "id": "S09",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Nessuna linea del motore entra nel referto a questo livello: in tutto l'albero analizzato non c'è una minaccia nascosta, né per te né per il Nero, e nessuna perdita decisiva è fuori portata. Se il Nero ti lasciasse muovere, otterresti soltanto {{ev:N2}} con {{m:Bc4@N2}}: non ha colpi pronti.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "N2",
+            "band": "small_plus"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Anche la mossa peggiore tra quelle spiegate, {{m:Nf5@N3}}, perde {{loss:Nf5@N3}}: è un errore di principio, non una trappola nascosta. I pericoli di questa posizione sono di piano, non tattici.",
+          "source": "engine"
          }
         ]
        },
@@ -1364,11 +1971,11 @@
           "type": "ol",
           "items": [
            {
-            "text": "**Aspetta la mossa del Nero** e riconosci subito quale dei tre sistemi ha scelto: spinta in e5, salto in g4 o sviluppo elastico con il pedone in e6.",
+            "text": "**Scegli il sistema** (arrocco corto con alfiere in e2, oppure arrocco lungo con donna in d2) e quindi il lato dell'arrocco.",
             "source": "theory"
            },
            {
-            "text": "**Proteggi e4** prima di ogni mossa non forzata: è il pedone che tiene insieme il tuo centro.",
+            "text": "**Proteggi e4** prima di ogni mossa non forzata.",
             "source": "theory"
            },
            {
@@ -1376,16 +1983,16 @@
             "source": "theory"
            },
            {
-            "text": "Se il Nero gioca {{mv:R1}}, ritira il cavallo in b3 ({{ev:Nb3@N3}}) e punta alla casa d5.",
+            "text": "Se il Nero gioca {{mv:R1}}, ritira il cavallo in b3 ({{ev:R1.u1}}) e punta alla casa d5.",
             "source": "engine"
            },
            {
-            "text": "Se il cavallo nero salta in g4, confronta le ritirate dell'alfiere prima di muovere: due si equivalgono, una perde.",
-            "source": "theory"
+            "text": "Se il cavallo nero salta in g4, confronta le ritirate dell'alfiere prima di muovere: {{mv:R2.u1}} e {{mv:R2.u2}} si equivalgono.",
+            "source": "engine"
            },
            {
-            "text": "**Non perdere tempi**: il tuo vantaggio è lo sviluppo, non il materiale.",
-            "source": "theory"
+            "text": "Non perdere tempi: con il Nero al tratto la posizione sarebbe {{ev:N2}}, il tuo vantaggio è lo sviluppo.",
+            "source": "engine"
            }
           ]
          }
@@ -1393,31 +2000,30 @@
        }
       ],
       "notes": [
-       "Il pacchetto non contiene candidate perché tocca all'avversario: le sezioni sulle candidate sono state adattate di conseguenza, come previsto dal piano delle sezioni.",
-       "Maia-2 ha confidenza bassa e i campi sul punteggio atteso del giocatore sono vuoti: le probabilità umane sono state usate solo come indicazione di frequenza, non come giudizio di qualità.",
-       "La raccomandazione è vuota: non esiste una mossa consigliata unica, quindi l'analisi si concentra sulle risposte del Nero e sulle mosse del Bianco nei nodi successivi.",
-       "In sintesi sono state usate le probabilità di vittoria e patta secondo il motore; la probabilità di sconfitta non è stata ripetuta perché ridondante con le altre due."
+       "Il pacchetto non contiene candidate né recommendation: la posizione è in modalità avversario, quindi le sezioni S03 e S08 sono omesse e non c'è una mossa consigliata da citare.",
+       "maia.confidence è low e p_up_elo/p_up_bucket sono null: le probabilità di Maia-2 sono state usate solo come indicazione qualitativa.",
+       "Le categorie hanno tutte advice no_worry tranne practical_complexity (monitor); i punteggi T sono riportati come dati, senza ricalcoli."
       ]
      }
     }
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 25627,
-    "completion_tokens": 3865,
-    "total_tokens": 29492,
-    "cost": 0.004912596,
+    "prompt_tokens": 29679,
+    "completion_tokens": 4527,
+    "total_tokens": 34206,
+    "cost": 0.005793636,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 25216,
+     "cached_tokens": 29056,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.004912596,
-     "upstream_inference_prompt_cost": 0.000274596,
-     "upstream_inference_completions_cost": 0.004638
+     "upstream_inference_cost": 0.005793636,
+     "upstream_inference_prompt_cost": 0.000361236,
+     "upstream_inference_completions_cost": 0.0054324
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -1426,9 +2032,9 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791132212-3YmWZoqwG7hw8ZgfwXHA",
+    "id": "gen-1791138760-Xe2I8PZj0u1g0nFUegC7",
     "object": "chat.completion",
-    "created": 1791132212,
+    "created": 1791138760,
     "model": "deepseek/deepseek-v4.1-flash",
     "provider": "Together",
     "system_fingerprint": "default",
@@ -1448,10 +2054,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "call_01a107cca193718dbc24c722",
+         "id": "call_01a1083085f575c4abdaef91",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Tocca al Nero, e la posizione è equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta e il {{pct:root.win}} di vittorie. Il Nero ha appena mosso il cavallo in f6 e il pedone in d6: siamo in una Najdorf, {{opening:name}} ({{opening:eco}}).\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Non c'è nulla di forzato: il tuo vantaggio è quasi solo il tratto in più di sviluppo, e il Nero ha tre pezzi ancora a casa. Il piano è semplice: completare lo sviluppo, proteggere il pedone in e4 e scegliere con calma dove arroccare. Maia-2 stima per te un punteggio atteso di poco sopra la metà, quindi non devi rischiare.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"development_lead\",\"side\":\"w\",\"squares\":[]},{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]}]}]},{\"id\":\"S04\",\"blocks\":[{\"type\":\"p\",\"text\":\"Puoi ancora arroccare da entrambi i lati, e anche il Nero può farlo: la scelta dipende dal sistema che adotti, non da vincoli della posizione.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\",\"squares\":[\"e1\"]},{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"w\",\"squares\":[\"e1\"]},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"b\",\"squares\":[\"e8\"]}]},{\"type\":\"ul\",\"items\":[{\"text\":\"**Arrocco corto.** È la scelta più solida: alfiere in e2, pedone in f3 a sostenere e4, donna in d2 e torri al centro. Il re sta al sicuro e giochi per il centro e per la colonna d.\",\"source\":\"theory\"},{\"text\":\"**Arrocco lungo.** Tipico dell'attacco inglese: alfiere in e3, donna in d2, poi {{plan:w:g4,g5@N3}} contro il re nero. Il Nero di solito arrocca corto e contrattacca con {{plan:b:b5,b4@N3}}: è una corsa tra i due attacchi.\",\"source\":\"theory\"},{\"text\":\"**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il re in g1, la donna nera in b6 può attaccare il cavallo in d4 e il pedone b2: se il cavallo si sposta, l'alfiere resta scoperto. Per questo l'arrocco corto con l'alfiere in e3 richiede la mossa di pedone in f3 prima.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"In pratica: se scegli l'arrocco corto, sviluppa prima l'alfiere in e2; se scegli quello lungo, metti l'alfiere in e3 e la donna in d2 e prepara la spinta del pedone g. Non mescolare i due sistemi.\",\"source\":\"theory\"}]},{\"id\":\"S05\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Pezzo\",\"Obiettivo tipico\",\"Attenzione\"],\"rows\":[[{\"text\":\"Pedone e4\",\"source\":\"theory\"},{\"text\":\"Va protetto: dal cavallo c3, dal pedone in f3, dall'alfiere o dalla donna in d3\",\"source\":\"theory\"},{\"text\":\"La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico o inchiodato\",\"source\":\"theory\"}],[{\"text\":\"Cavallo d4\",\"source\":\"theory\"},{\"text\":\"Domina il centro; dopo la spinta in e5 si ritira in **b3**\",\"source\":\"theory\"},{\"text\":\"Non spingerlo in f5: sembra attivo ma è un errore grave\",\"source\":\"theory\"}],[{\"text\":\"Cavallo c3\",\"source\":\"theory\"},{\"text\":\"Difende e4 e controlla d5; dopo la spinta in e5 il sogno è il salto in **d5**\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone b lo scaccia e toglie protezione a e4\",\"source\":\"theory\"}],[{\"text\":\"Alfiere c1\",\"source\":\"theory\"},{\"text\":\"**e3** (flessibile) o **g5** (pressione sul cavallo f6)\",\"source\":\"theory\"},{\"text\":\"Non lasciarlo senza difesa sulla diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f1\",\"source\":\"theory\"},{\"text\":\"**e2** (solido) o **c4** (attivo, punta al re nero)\",\"source\":\"theory\"},{\"text\":\"In c4 invita la spinta del pedone b e la presa del cavallo in g4\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**d2** con l'arrocco lungo, **e2** con l'arrocco corto\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 attacca b2 e il cavallo d4\",\"source\":\"theory\"}],[{\"text\":\"Torri\",\"source\":\"theory\"},{\"text\":\"Arrocco corto: in f1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Non lasciare la torre a1 senza un piano\",\"source\":\"theory\"}],[{\"text\":\"Pedoni f, g e h\",\"source\":\"theory\"},{\"text\":\"Pedone in f3 a sostegno di e4; {{plan:w:g4,g5@N3}} nell'attacco inglese\",\"source\":\"theory\"},{\"text\":\"La spinta in f3 indebolisce la diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Oggi hai solo l'alfiere in f1 ancora a casa, mentre il Nero ne ha tre pezzi minori non sviluppati: il tuo sviluppo è in vantaggio di due tempi. Il controllo del centro è tuo, cinque case contro tre.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"w\",\"squares\":[\"f1\"]},{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]},{\"kind\":\"feature\",\"key\":\"central_control\",\"side\":null,\"squares\":[]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero ha tre risposte principali, e Maia-2 le distribuisce così: {{mv:R1}} con il {{pct:R1.p_opp}}, {{mv:R2}} con il {{pct:R2.p_opp}}, {{mv:R3}} con il {{pct:R3.p_opp}}. Le probabilità umane sono poco affidabili a questo livello, quindi prendile come indicazione di frequenza, non come giudizio.\",\"source\":\"maia\"},{\"type\":\"ul\",\"items\":[{\"text\":\"{{mv:R1}} occupa il centro e attacca il cavallo in d4: è la mossa più naturale. Lascia però **d5 come buco** e il pedone in d6 arretrato, e il Nero non ha ancora sviluppato nulla.\",\"source\":\"theory\"},{\"text\":\"{{mv:R2}} attacca subito l'alfiere in e3 e ti fa perdere un tempo: il cavallo in g4 è fastidioso ma resta esposto alla spinta in h3.\",\"source\":\"theory\"},{\"text\":\"{{mv:R3}} prepara lo sviluppo armonioso del Nero: alfiere in e7, arrocco corto e poi la spinta del pedone b, con la donna in c7 o in b6.\",\"source\":\"theory\"},{\"text\":\"La spinta {{plan:b:b5,b4@N3}} sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il piano tipico del Nero in tutti i sistemi.\",\"source\":\"theory\"},{\"text\":\"Il fianchetto del re nero è tipico del Dragone, non della Najdorf: qui è una mossa di sviluppo lenta che ti lascia il centro.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Se il Nero gioca {{mv:R1}}, la tua ritirata è obbligata: {{m:Nb3@N3}} tiene la posizione ({{ev:Nb3@N3}}), mentre {{m:Nf3@N3}} costa già {{loss:Nf3@N3}} e {{m:Nde2@N3}} peggiora ancora ({{loss:Nde2@N3}}). La mossa d'attacco {{m:Nf5@N3}} sembra la più forte ma perde {{loss:Nf5@N3}}: è una trappola naturale.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Se il Nero gioca {{mv:R2}}, l'alfiere deve spostarsi: {{m:Bg5@N4}} e {{m:Bc1@N4}} si equivalgono ({{ev:Bg5@N4}} e {{ev:Bc1@N4}}), mentre {{m:Qe2@N4}} perde {{loss:Qe2@N4}}. Se il Nero gioca {{mv:R3}}, hai più scelta: {{m:a3@N5}} e {{m:f3@N5}} sono quasi equivalenti ({{loss:f3@N5}}).\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La linea principale del motore dopo {{mv:R1}} è {{pv:PV1:8}}: il Nero sviluppa l'alfiere in e6 e il cavallo in d7 prima di decidere dove mettere il re. Dopo {{mv:R2}} la linea è {{pv:PV2:8}}, con il Nero che spinge i pedoni sull'ala di re per guadagnare spazio.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Il Nero può anche giocare {{m:Nc6@N1}} o {{m:Qc7@N1}}, che il motore valuta poco peggio delle tre risposte principali: sono mosse di sviluppo ragionevoli, non errori. Contro di esse il tuo piano non cambia: sviluppo, arrocco e pressione sul centro.\",\"source\":\"mixed\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"R1\":{\"prepare\":{\"text\":\"Ritira subito il cavallo: {{mv:R1.u1}} ({{ev:R1.u1}}); {{mv:R1.u2}} costa già {{loss:R1.u2}} e {{mv:R1.u3}} peggiora ancora\",\"source\":\"engine\"}},\"R2\":{\"prepare\":{\"text\":\"L'alfiere deve spostarsi: {{mv:R2.u1}} ({{ev:R2.u1}}) o {{mv:R2.u2}}; {{mv:R2.u3}} perde {{loss:R2.u3}}\",\"source\":\"engine\"}},\"R3\":{\"prepare\":{\"text\":\"Sviluppo elastico del Nero: {{mv:R3.u1}} e {{mv:R3.u2}} si equivalgono ({{loss:R3.u2}})\",\"source\":\"engine\"}}}},{\"type\":\"p\",\"text\":\"Secondo Maia-2 il Nero risponde quasi sempre {{mv:R1}} ({{pct:R1.p_opp}}); {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) sono le alternative principali. Le probabilità umane sono poco affidabili qui, quindi usale solo per capire cosa aspettarti.\",\"source\":\"maia\"},{\"type\":\"p\",\"text\":\"Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere in e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1.u1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}: le due buone si equivalgono, mentre una mossa di donna come {{m:Qd2@N4}}, scelta dal {{pct:Qd2@N4}} dei giocatori del tuo livello, perde {{loss:Qd2@N4}}. Ricorda che dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra {{mv:R3.u1:bare}} e {{mv:R3.u2:bare}}: si equivalgono.\",\"source\":\"mixed\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Aspetta la mossa del Nero** e riconosci subito quale dei tre sistemi ha scelto: spinta in e5, salto in g4 o sviluppo elastico con il pedone in e6.\",\"source\":\"theory\"},{\"text\":\"**Proteggi e4** prima di ogni mossa non forzata: è il pedone che tiene insieme il tuo centro.\",\"source\":\"theory\"},{\"text\":\"**Controlla la donna nera in b6 e la presa in e4**: sono le due tattiche che il Nero cerca più spesso.\",\"source\":\"theory\"},{\"text\":\"Se il Nero gioca {{mv:R1}}, ritira il cavallo in b3 ({{ev:Nb3@N3}}) e punta alla casa d5.\",\"source\":\"engine\"},{\"text\":\"Se il cavallo nero salta in g4, confronta le ritirate dell'alfiere prima di muovere: due si equivalgono, una perde.\",\"source\":\"theory\"},{\"text\":\"**Non perdere tempi**: il tuo vantaggio è lo sviluppo, non il materiale.\",\"source\":\"theory\"}]}]}],\"notes\":[\"Il pacchetto non contiene candidate perché tocca all'avversario: le sezioni sulle candidate sono state adattate di conseguenza, come previsto dal piano delle sezioni.\",\"Maia-2 ha confidenza bassa e i campi sul punteggio atteso del giocatore sono vuoti: le probabilità umane sono state usate solo come indicazione di frequenza, non come giudizio di qualità.\",\"La raccomandazione è vuota: non esiste una mossa consigliata unica, quindi l'analisi si concentra sulle risposte del Nero e sulle mosse del Bianco nei nodi successivi.\",\"In sintesi sono state usate le probabilità di vittoria e patta secondo il motore; la probabilità di sconfitta non è stata ripetuta perché ridondante con le altre due.\"]}"
+          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Tocca al Nero, e la posizione è quasi pari: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta. Il tuo vantaggio è soprattutto di sviluppo: hai due pezzi minori attivi contro tre pezzi neri ancora a casa. Non c'è nulla di forzato: le prime mosse del Nero stanno tutte entro pochi centesimi.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Se il Nero ti lasciasse muovere, la valutazione salirebbe a {{ev:N2}} con {{m:Bc4@N2}}: il tratto vale più di ogni altra cosa. Il tuo compito è completare lo sviluppo e scegliere un sistema, non cercare una mossa brillante.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"small_plus\"}]}]},{\"id\":\"S02\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T4\",\"text_cells\":{\"piece_activity\":{\"nota\":{\"text\":\"Il Nero ha tre pezzi minori ancora chiusi; tu solo la torre di donna\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]},{\"kind\":\"feature\",\"key\":\"inactive_piece\",\"side\":\"w\",\"squares\":[\"a1\"]}]}},\"space_center\":{\"nota\":{\"text\":\"Controllo centrale a tuo favore\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"space_center\",\"advice\":\"no_worry\"}]}},\"initiative_tempo\":{\"nota\":{\"text\":\"Il tratto è del Nero, ma non ha colpi pronti\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"initiative_tempo\",\"advice\":\"no_worry\"}]}},\"king_safety\":{\"nota\":{\"text\":\"Entrambi i re possono ancora arroccare da tutti e due i lati\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"b\"}]}},\"threats_dynamics\":{\"nota\":{\"text\":\"Nessuna linea filtrata tocca il tuo re\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"threats_dynamics\",\"advice\":\"no_worry\"}]}},\"pawn_structure\":{\"nota\":{\"text\":\"Due isole di pedoni per parte, struttura simmetrica\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"b\"}]}},\"practical_complexity\":{\"nota\":{\"text\":\"Molte mosse giocabili per il Nero, nessuna unica\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"}]}},\"material\":{\"nota\":{\"text\":\"Materiale pari\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"material_balance\",\"side\":null}]}},\"transition_plans\":{\"nota\":{\"text\":\"Nessuna transizione rilevante in apertura\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"transition_plans\",\"advice\":\"no_worry\"}]}}}},{\"type\":\"p\",\"text\":\"Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché il Nero ha molte mosse sensate. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): tre pezzi minori neri sono ancora chiusi, tu hai solo la torre di donna inattiva.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"},{\"kind\":\"feature\",\"key\":\"inactive_piece\",\"side\":\"w\",\"squares\":[\"h1\"]},{\"kind\":\"feature\",\"key\":\"inactive_piece\",\"side\":\"b\",\"squares\":[\"b8\"]}]}]},{\"id\":\"S04\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"**Arrocco corto.** È il piano naturale se tieni l'alfiere in e3 e giochi pedone in f3: il re sta al sicuro, la torre arriva in e1 o d1 e l'alfiere di re resta a guardia di e4. È il sistema più solido e il più facile da giocare.\",\"source\":\"theory\"},{\"text\":\"**Arrocco lungo.** Se giochi donna in d2 e pedone in f3, puoi arroccare lungo e lanciare i pedoni dell'ala di re: {{plan:w:g4,g5@N3}}. Il Nero di solito arrocca corto e contrattacca con {{plan:b:b5,b4@N3}}: è una corsa tra i due attacchi.\",\"source\":\"theory\"},{\"text\":\"**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il re in g1, la donna nera in b6 può attaccare il cavallo d4 e il pedone b2: se il cavallo si sposta, l'alfiere resta scoperto. Per questo la spinta in f3 con l'arrocco corto va preparata con calma.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Oggi entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato dipende solo dal sistema che scegli, non da vincoli della posizione.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"b\"},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\"}]}]},{\"id\":\"S05\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Pezzo\",\"Obiettivo tipico\",\"Attenzione\"],\"rows\":[[{\"text\":\"Pedone e4\",\"source\":\"theory\"},{\"text\":\"Va protetto: dal cavallo c3, dal pedone in f3 o dall'alfiere\",\"source\":\"theory\"},{\"text\":\"La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico\",\"source\":\"theory\"}],[{\"text\":\"Cavallo d4\",\"source\":\"theory\"},{\"text\":\"Domina il centro; dopo la spinta in e5 si ritira in **b3**\",\"source\":\"theory\"},{\"text\":\"Non spingerlo in f5: {{m:Nf5@N3}} perde {{loss:Nf5@N3}}\",\"source\":\"engine\"}],[{\"text\":\"Cavallo c3\",\"source\":\"theory\"},{\"text\":\"Difende e4 e sogna il salto in **d5** dopo la spinta in e5\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone b lo scaccia da c3\",\"source\":\"theory\"}],[{\"text\":\"Alfiere e3\",\"source\":\"theory\"},{\"text\":\"Pressione sul cavallo f6 e controllo di d4\",\"source\":\"theory\"},{\"text\":\"Se il cavallo nero salta in g4, deve spostarsi: {{m:Bg5@N4}} o {{m:Bc1@N4}}\",\"source\":\"engine\"}],[{\"text\":\"Alfiere f1\",\"source\":\"theory\"},{\"text\":\"**e2** (solido), **c4** (attivo) o **d3** (flessibile)\",\"source\":\"theory\"},{\"text\":\"In c4 invita la spinta del pedone b; in d3 resta passivo\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**d2** con l'arrocco lungo, **e2** con l'arrocco corto\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 può attaccare b2 e il cavallo d4\",\"source\":\"theory\"}],[{\"text\":\"Torri\",\"source\":\"theory\"},{\"text\":\"Arrocco corto: in e1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Non lasciare la torre di donna senza un piano\",\"source\":\"theory\"}],[{\"text\":\"Pedoni f, g e h\",\"source\":\"theory\"},{\"text\":\"Pedone in f3 a sostegno di e4; {{plan:w:g4,g5@N3}} nell'attacco sull'ala di re\",\"source\":\"theory\"},{\"text\":\"La spinta in f3 indebolisce la diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Oggi hai solo l'alfiere di re ancora a casa, mentre il Nero ne ha tre minori chiusi: il tuo sviluppo è in vantaggio di due tempi. La colonna d è aperta davanti al tuo re, quindi arroccare presto è la priorità.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"w\",\"squares\":[\"f1\"]},{\"kind\":\"feature\",\"key\":\"development_lead\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"open_file_to_king\",\"side\":\"w\",\"squares\":[\"e1\"]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"{{mv:R1}} è la risposta più naturale: occupa il centro e caccia il cavallo d4. Il motore la valuta {{ev:R1}}, quasi pari. Lascia però **d5 come buco** e il pedone d6 arretrato.\",\"source\":\"engine\"},{\"text\":\"{{mv:R2}} è la prima scelta del motore ({{ev:R2}}): il cavallo attacca l'alfiere e3 e ti costringe a decidere subito dove metterlo.\",\"source\":\"engine\"},{\"text\":\"{{mv:R3}} è la più tranquilla per te: il motore la valuta {{ev:R3}}, la più alta tra le tre, perché il Nero rinuncia a contrastare subito il centro.\",\"source\":\"engine\"},{\"text\":\"La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il piano tipico del Nero in tutti i sistemi.\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 è un'idea concreta: attacca b2 e il cavallo d4, e nella linea del motore {{pv:PV1:6}} il Nero sviluppa alfiere e cavallo prima di decidere dove mettere il re.\",\"source\":\"engine\"},{\"text\":\"Il fianchetto del re nero non è il piano principale qui: resta una mossa minore, tipica di altre strutture.\",\"source\":\"theory\"}]},{\"type\":\"text_table\",\"columns\":[\"Pezzo nero\",\"Dove va di solito\"],\"rows\":[[{\"text\":\"Alfiere c8\",\"source\":\"theory\"},{\"text\":\"**e6** contro il centro, oppure **b7** dopo la spinta in e6\",\"source\":\"theory\"}],[{\"text\":\"Cavallo b8\",\"source\":\"theory\"},{\"text\":\"**d7** a sostegno della spinta del pedone b, oppure **c6** contro il centro\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f8\",\"source\":\"theory\"},{\"text\":\"**e7**, poi arrocco corto\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**c7** sulla colonna c, oppure **b6** contro b2 e d4\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Secondo Maia-2 il Nero sceglie {{mv:R1}} in oltre due casi su tre ({{pct:R1.p_opp}}), mentre {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) restano alternative minori. Le probabilità umane sono poco affidabili qui, quindi conta soprattutto il motore: le tre risposte sono quasi equivalenti.\",\"source\":\"maia\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"R1\":{\"prepare\":{\"text\":\"Ritira subito il cavallo: {{mv:R1.u1}} ({{ev:R1.u1}}); {{mv:R1.u2}} costa già {{loss:R1.u2}}\",\"source\":\"engine\"}},\"R2\":{\"prepare\":{\"text\":\"L'alfiere deve spostarsi: {{mv:R2.u1}} ({{ev:R2.u1}}) o {{mv:R2.u2}}; {{mv:R2.u3}} perde {{loss:R2.u3}}\",\"source\":\"engine\"}},\"R3\":{\"prepare\":{\"text\":\"Struttura elastica: {{mv:R3.u1}} e {{mv:R3.u2}} si equivalgono ({{loss:R3.u2}})\",\"source\":\"engine\"}}}},{\"type\":\"p\",\"text\":\"Secondo Maia-2 il Nero risponde quasi sempre {{mv:R1}} ({{pct:R1.p_opp}}); {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) sono le alternative principali.\",\"source\":\"maia\"},{\"type\":\"p\",\"text\":\"Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1.u1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro. Nella linea principale del motore, {{pv:PV1:6}}, il Nero sviluppa alfiere e cavallo prima di decidere dove mettere il re.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}: le due buone si equivalgono, mentre una mossa di donna come {{m:Qd2@N4}}, scelta da pochi giocatori del tuo livello, perde {{loss:Qd2@N4}}. Dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra {{mv:R3.u1:bare}} e {{mv:R3.u2:bare}}: si equivalgono.\",\"source\":\"mixed\"}]},{\"id\":\"S09\",\"blocks\":[{\"type\":\"p\",\"text\":\"Nessuna linea del motore entra nel referto a questo livello: in tutto l'albero analizzato non c'è una minaccia nascosta, né per te né per il Nero, e nessuna perdita decisiva è fuori portata. Se il Nero ti lasciasse muovere, otterresti soltanto {{ev:N2}} con {{m:Bc4@N2}}: non ha colpi pronti.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"small_plus\"}]},{\"type\":\"p\",\"text\":\"Anche la mossa peggiore tra quelle spiegate, {{m:Nf5@N3}}, perde {{loss:Nf5@N3}}: è un errore di principio, non una trappola nascosta. I pericoli di questa posizione sono di piano, non tattici.\",\"source\":\"engine\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Scegli il sistema** (arrocco corto con alfiere in e2, oppure arrocco lungo con donna in d2) e quindi il lato dell'arrocco.\",\"source\":\"theory\"},{\"text\":\"**Proteggi e4** prima di ogni mossa non forzata.\",\"source\":\"theory\"},{\"text\":\"**Controlla la donna nera in b6 e la presa in e4**: sono le due tattiche che il Nero cerca più spesso.\",\"source\":\"theory\"},{\"text\":\"Se il Nero gioca {{mv:R1}}, ritira il cavallo in b3 ({{ev:R1.u1}}) e punta alla casa d5.\",\"source\":\"engine\"},{\"text\":\"Se il cavallo nero salta in g4, confronta le ritirate dell'alfiere prima di muovere: {{mv:R2.u1}} e {{mv:R2.u2}} si equivalgono.\",\"source\":\"engine\"},{\"text\":\"Non perdere tempi: con il Nero al tratto la posizione sarebbe {{ev:N2}}, il tuo vantaggio è lo sviluppo.\",\"source\":\"engine\"}]}]}],\"notes\":[\"Il pacchetto non contiene candidate né recommendation: la posizione è in modalità avversario, quindi le sezioni S03 e S08 sono omesse e non c'è una mossa consigliata da citare.\",\"maia.confidence è low e p_up_elo/p_up_bucket sono null: le probabilità di Maia-2 sono state usate solo come indicazione qualitativa.\",\"Le categorie hanno tutte advice no_worry tranne practical_complexity (monitor); i punteggi T sono riportati come dati, senza ricalcoli.\"]}"
          }
         }
        ]
@@ -1459,21 +2065,21 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 25627,
-     "completion_tokens": 3865,
-     "total_tokens": 29492,
-     "cost": 0.004912596,
+     "prompt_tokens": 29679,
+     "completion_tokens": 4527,
+     "total_tokens": 34206,
+     "cost": 0.005793636,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 25216,
+      "cached_tokens": 29056,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.004912596,
-      "upstream_inference_prompt_cost": 0.000274596,
-      "upstream_inference_completions_cost": 0.004638
+      "upstream_inference_cost": 0.005793636,
+      "upstream_inference_prompt_cost": 0.000361236,
+      "upstream_inference_completions_cost": 0.0054324
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,

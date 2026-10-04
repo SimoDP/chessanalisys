@@ -399,3 +399,117 @@ mosse ci sono sempre, gli errori tipici no:
 **Decisione dell'utente:** sezioni e mosse sono un requisito (il test fallisce), gli errori tipici una misura di
 qualità (`ChecklistQualityWarning` nel riepilogo di pytest, il test non fallisce). Prompt, esempi e checklist
 restano invariati.
+
+## M3 — Category Scoring Engine
+
+§5-bis dà le formule ma lascia aperti l'insieme delle linee, il significato di `P_dif`, lo schema di
+`categories` e `filtered_lines`, il modo di citare le linee nel testo e tutte le costanti. Le costanti sono «ipotesi
+iniziali» da calibrare in M5 (§0.5, D-21): stanno in `thresholds.yaml: scoring`. Le scelte qui sotto sono
+default (§15.2); nessuna cambia una decisione del registro.
+
+### OQ-M3-1 · Quali linee e che cosa significa `1 − P_dif`
+**Problema.** «Per ogni linea ℓ» non dice quali linee. Inoltre la linea principale di Stockfish contiene già la
+miglior difesa: se `P_dif` fosse il prodotto delle mosse del difensore lungo la PV, il danno `impatto` (la perdita
+della linea) si avrebbe anche quando il difensore trova tutte le mosse.
+**Default.** La linea ℓ è la prima riga di un nodo analizzato, letta come attacco di chi muove lì (A) contro
+l'altro (D). Due tipi:
+- `threat`: le prime `null_lines` (3) righe della mossa nulla (E1). L'impatto è quanto A guadagna con il tempo in
+  più rispetto alla radice. `1 − P_dif` è la probabilità che D alla radice giochi una mossa che non para: somma
+  della policy di D sulle mosse con perdita ≥ metà dell'impatto (`parry_share`) e sulle mosse non valutate;
+- `refutation`: il nodo X (E2, E3 ℓ1–ℓ3, R) è stato raggiunto con una mossa `m` di D. L'impatto è la perdita di
+  `m`. `1 − P_dif` è la probabilità che D giochi `m` nel nodo padre, moltiplicata per la probabilità di arrivarci
+  (prodotto della policy di Maia-2 sulle mosse del percorso).
+
+`P_att` è il prodotto delle probabilità di Maia-2 delle mosse che A deve trovare nelle prime `att_plies` (6)
+semimosse: la prima mossa e le mosse forzanti (catture e scacchi). Le mosse tranquille di seguito non contano:
+con tutte le mosse la minaccia `...Qxg5` della Fried Liver (cavallo in presa) aveva `P_att` 0,01 invece di 0,57.
+Le linee con impatto < `impact_min_cp` (50) non entrano. `risk = P_att × (1 − P_dif) × impatto` in pedoni.
+
+### OQ-M3-2 · Linee principali e termine «decisione» di R
+**Problema.** Con le sole linee di rischio, R non vede di che cosa tratta la scelta. Nella Fried Liver
+`6.Nxf7 Kxf7 7.Qf3+` non ha «impatto» (è la valutazione di riferimento), e la sicurezza del re veniva con R 3.
+**Default.** Le PV delle candidate spiegate (o delle risposte, in modalità avversario) sono «linee principali».
+Ricevono i tag ma non rischio, quindi non cambiano T. In R entrano come quota delle linee principali con quel tag
+(`decision`). Pesi di R: preoccupazione 0,4 (`100 − min(T)`), |balance| 0,15, vicinanza 0,2, decisione 0,25. La
+vicinanza (`proximity`) è pesata con `min(1, risk/θ)`: una linea quasi impossibile a quel livello non rende urgente
+una categoria. R è moltiplicato per il peso della categoria nella fase (`relevance.phase`). La traccia elenca i
+`PV<n>`.
+
+### OQ-M3-3 · Tag, foglia e quiescenza
+**Default.** La foglia di una linea viene dopo `leaf_plies` (6) semimosse. Poi la linea prosegue finché la mossa
+successiva è una cattura o uno scacco (al massimo 4). Se la PV finisce prima, si gioca la cattura con SEE ≥ 1
+migliore. Una prima versione giocava catture «golose» per entrambi i lati e produceva foglie false.
+
+Regole dei tag (start = inizio della linea, foglia dopo la quiescenza):
+
+| Tag | Si assegna se |
+| --- | --- |
+| re | scacchi o matto di A, oppure più attaccanti nella zona del re di D, oppure nuovi `pawn_shield_weakened`, `open_file_to_king` o `castling_lost` di D |
+| struttura | nuove debolezze di pedone di D o nuovi passati di A |
+| spazio | spostamento del controllo del centro ≥ 3, oppure nuovo `space_advantage` di A |
+| attività | spostamento della mobilità ≥ 8, nuovi pezzi inattivi di D, oppure nuovi avamposti, colonne o settima di A |
+| iniziativa | ≥ 2 mosse forzanti di A nelle prime 6 semimosse |
+| minacce | mossa nulla, oppure un nuovo motivo tattico contro D dopo la prima mossa di A |
+| materiale | guadagno ≥ 1 di A |
+| transizioni | ingresso nel finale o nel numero di pezzi delle tablebase |
+
+Una linea senza tag va in «minacce». Ogni linea ha anche una categoria principale (`primary`), con questa
+priorità: matto → re, materiale guadagnato → materiale, mossa nulla → minacce, altrimenti il primo tag.
+
+### OQ-M3-4 · T statica, override, confidenza
+**Default.**
+- `T_stat = 100 − punti`, con punti per feature in `scoring.static` (`own` = feature del lato, `opp` =
+  dell'avversario).
+- Per spazio, attività e iniziativa conta solo l'eccesso rispetto all'avversario (`relative`): nell'apertura
+  entrambi hanno pezzi da sviluppare e la sola presenza non preoccupa.
+- `practical_complexity` è meta: entropia media della policy e quota di mosse uniche (scarto tra prima e seconda
+  riga ≥ 100 cp) nei nodi in cui muove il lato.
+- L'override (matto o perdita decisiva con `P_att ≥ 0,10`) porta T a 29, non a 30. Così rispetta «T ≤ 30» e cade
+  nella banda «critico» (< 30) di §5-bis.2. Vale solo per la categoria principale della linea: con tutti i tag,
+  una sola minaccia della Fried Liver rendeva critiche quattro categorie.
+- La confidenza è `low` se Maia-2 è saturo, se la radice è instabile o se lo è il nodo d'inizio di una linea
+  della categoria.
+
+### OQ-M3-5 · Schema di `categories` e `filtered_lines`
+**Default** (`pack/schema.py`):
+- `CategoryScore`: `id`, `T: {w, b}`, `R`, `balance` (T dell'utente − T dell'avversario), `advice` (banda della T
+  dell'utente), `confidence`, `components` e `trace` (`features` = indici in `pack.features`, `lines` = `L<n>`,
+  `pvs`, `nodes`);
+- `FilteredLine`: `id` (`L<n>`, prima le minacce, poi per nodo e rango), tipo, nodo d'inizio, `entry`,
+  attaccante e difensore, `against_user`, `plies`, `eval_end_user_cp`, `impact_cp`, `p_att`, `p_walk`, `risk`,
+  mosse dell'attaccante con le probabilità, `tags`, `primary`, `visible_at_level`, `reason`
+  (`theta` | `mate` | `decisive`).
+
+La vista ridotta per il modello manda solo la T dell'utente (O-5), senza componenti e tracce.
+
+### OQ-M3-6 · Citare le linee: `L<n>` e modifiche del prompt
+**Problema.** S09 si basa su `filtered_lines`, ma la grammatica di §9-bis.2 non ha un modo di citarle. `PV<n>`
+è riservato alla PV di `C<n>` (§3-ter.3).
+**Default.**
+- Gli `L<n>` sono ammessi dove serve una linea: `{{pv:L1:n}}` (mosse dal nodo d'inizio, V05 su
+  `max_pv_plies`), `{{ev:L1}}` (valutazione alla fine), `{{loss:L1}}` (danno per chi la subisce) e il blocco
+  `{"type": "line", "pv": "L1"}`.
+- Lo schema dello strumento accetta l'asserzione `category_advice` (§9-bis.5) con `advice` tra `no_worry`,
+  `monitor`, `attention` e `critical`.
+- Il system prompt è l'Appendice E.1 parola per parola, più sette modifiche elencate in
+  `llm/prompt.py: M3_PROMPT_CHANGES`: dati del radar, regola dei token `sc`, `category_advice`, punteggi
+  in `notes`, token, S02, S09.
+- Il test controlla sia l'Appendice sia le modifiche.
+- Nella riga di istruzioni, T4 elenca gli ID delle righe (nomi di categoria).
+
+### OQ-M3-7 · Tabella T4, S02, S09 e budget
+**Default.**
+- T4 ha al massimo 5 righe all'ancora 1500 («radar semplificato»), 9 a 1900 e 5 a 2400 («fattori decisivi»):
+  `tables.yaml: T4.rows_max`.
+- Con confidenza bassa l'intestazione T ha un asterisco e c'è la nota `score_low_confidence_table`.
+- In colonna 4 T4 non si costruisce.
+- `must_cover` di S09 contiene le linee con `visible_at_level: false`. In colonna 1 e 2 S09 è obbligatoria anche
+  senza linee: il testo lo dice con i dati.
+- `prose_words` è aggiornato come in M1b (§0.5), così le sezioni esistenti tengono il loro budget e S02 e S09
+  ricevono la loro quota: 1200_1600 da 500 a 560, 1600_2000 da 1400 a 1560, ge2400 da 610 a 690.
+
+### OQ-M3-8 · Registrazioni di Maia-2 lungo le linee
+`P_att` interroga Maia-2 su posizioni che l'esplorazione non visita. Maia-2 è locale e deterministico, quindi le
+risposte mancanti si aggiungono rigiocando le ricerche registrate, senza Stockfish:
+`CHESSANALYST_RECORD_MAIA_ONLY=1 pytest -m engines --record` (`golden/record.py: record_maia`). Le ricerche di
+Stockfish e gli ID dei pacchetti congelati non cambiano.

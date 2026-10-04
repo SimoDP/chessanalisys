@@ -6,28 +6,284 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "call_00_lm9hdkg7pe1gme1ewq6jt3j4",
+     "id": "call_01a10832214077ecb18276b9",
      "name": "submit_analysis",
-     "input": null
+     "input": {
+      "schema_version": "1",
+      "sections": [
+       {
+        "id": "S01",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Il Bianco è in vantaggio decisivo: il motore valuta la posizione {{ev:N1}} e la tabella di finale dà {{pct:root.win}} di vittoria, con patta e sconfitta a zero. Il pedone in b7 è passato e protetto dal re, e la torre bianca è già sulla colonna aperta c.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "N1",
+            "band": "winning"
+           },
+           {
+            "kind": "feature",
+            "key": "passed_pawn",
+            "side": "w",
+            "squares": [
+             "b7"
+            ]
+           },
+           {
+            "kind": "feature",
+            "key": "rook_open_file",
+            "side": "w",
+            "squares": [
+             "c1"
+            ]
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Non c'è una mossa unica: quasi tutte le mosse di torre tengono la vittoria, e la differenza tra le candidate spiegate è nulla. Il Nero ha la torre in a2, attiva e sulla colonna aperta a, ma da sola non basta contro re, torre e pedone passato.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "feature",
+            "key": "rook_open_file",
+            "side": "b",
+            "squares": [
+             "a2"
+            ]
+           },
+           {
+            "kind": "feature",
+            "key": "rook_seventh",
+            "side": "b",
+            "squares": [
+             "a2"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S06",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Il Nero ha una sola risorsa: la torre in a2, che controlla la colonna a e può dare scacco al re bianco. Le sue mosse migliori secondo il motore sono {{m:Ra3@N2}}, {{m:Kd7@N2}} e {{m:Rb2@N2}}, tutte con la stessa valutazione {{ev:N2}}: il Nero non ha un modo per fermare il pedone, cerca solo di creare fastidi.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "feature",
+            "key": "file_control",
+            "side": "b",
+            "squares": [
+             "a2"
+            ]
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Il piano difensivo tipico è portare la torre dietro il pedone passato, sulla colonna b, per attaccarlo da dietro: {{m:Rb2@N2}} è la mossa che Maia-2 sceglie più spesso in questa posizione, e anche {{m:Ra3@N2}} e {{m:Kd7@N2}} sono frequenti. Il re nero cerca di avvicinarsi al pedone passato, ma resta troppo lontano.",
+          "source": "maia",
+          "assertions": [
+           {
+            "kind": "maia_band",
+            "ref": "Rb2@N2",
+            "band": "frequent"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Dopo {{mv:C3}} il Nero deve rispondere allo scacco: le due mosse sono {{m:Ke7@N3}} e {{m:Kd7@N3}}, e Maia-2 sceglie quasi sempre la seconda. Dopo {{mv:C6}} il Nero ha {{m:Ke7@N4}} e {{m:Ke8@N4}} come risposte principali, con la prima nettamente più probabile. Dopo {{mv:C7}} il Nero può giocare {{m:Ra5@N6}}, {{m:Ra1@N6}} o {{m:Ra6@N6}}, tutte mosse di torre sulla colonna a.",
+          "source": "mixed",
+          "assertions": [
+           {
+            "kind": "maia_band",
+            "ref": "Kd7@N3",
+            "band": "very_frequent"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "La mossa di contesto del Nero è la torre in a2: da lì può dare scacco sulla colonna a o sulla diagonale, e in alcune linee arriva fino alla seconda traversa. Il suo costo è però limitato: in tutti i sistemi il Bianco mantiene la vittoria, perché il pedone in b7 è troppo avanzato e il re bianco lo scorta.",
+          "source": "theory"
+         },
+         {
+          "type": "p",
+          "text": "Attenzione a non regalare la torre: se il Bianco gioca {{mv:C14}} il Nero cattura e vince, e se gioca {{mv:C13}} la partita finisce patta. Sono le uniche due mosse che rovinano tutto; tutte le altre, anche quelle che sembrano passive, mantengono la vittoria.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "classification",
+            "ref": "C14",
+            "category": "improbable_error"
+           },
+           {
+            "kind": "classification",
+            "ref": "C13",
+            "category": "natural_trap"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S07",
+        "blocks": [
+         {
+          "type": "table",
+          "ref": "T1",
+          "text_cells": {
+           "C3": {
+            "idea": {
+             "text": "Scacco di torre in c8: spinge il re nero e prepara la manovra sulla colonna c. Il motore dà {{ev:C3}} e Maia-2 la sceglie nel {{pct:C3.p_user}} dei casi.",
+             "source": "mixed"
+            }
+           },
+           "C6": {
+            "idea": {
+             "text": "Scacco di torre in d1: allontana il re nero e libera la strada al pedone. Valutazione {{ev:C6}}, scelta dal {{pct:C6.p_user}} dei giocatori.",
+             "source": "mixed"
+            }
+           },
+           "C7": {
+            "idea": {
+             "text": "Torre in h1, mossa tranquilla che tiene tutto: {{ev:C7}}, frequenza {{pct:C7.p_user}}.",
+             "source": "mixed"
+            }
+           },
+           "C10": {
+            "idea": {
+             "text": "Torre in c7, attacca subito il pedone e limita il re nero: {{ev:C10}}, frequenza {{pct:C10.p_user}}.",
+             "source": "mixed"
+            }
+           },
+           "C11": {
+            "idea": {
+             "text": "Torre in b1, difende il pedone passato da dietro: {{ev:C11}}, frequenza {{pct:C11.p_user}}.",
+             "source": "mixed"
+            }
+           }
+          }
+         },
+         {
+          "type": "p",
+          "text": "Tutte le candidate spiegate mantengono la vittoria con la stessa valutazione {{ev:N1}}: la differenza tra loro è solo di stile. {{mv:C3}} e {{mv:C6}} sono gli scacchi, che costringono il re nero a muoversi; {{mv:C7}}, {{mv:C10}} e {{mv:C11}} sono mosse tranquille che migliorano la torre.",
+          "source": "engine"
+         },
+         {
+          "type": "p",
+          "text": "La mossa consigliata è {{mv:C3}}, ma il motore segnala che non esiste una mossa unica: puoi scegliere tra lo scacco immediato e le mosse tranquille. Se preferisci la semplicità, {{mv:C11}} difende il pedone e non richiede calcolo.",
+          "source": "engine"
+         }
+        ]
+       },
+       {
+        "id": "S10",
+        "blocks": [
+         {
+          "type": "ol",
+          "items": [
+           {
+            "text": "**Prima di tutto, controlla che la torre non sia in presa**: evita {{mv:C14}} e {{mv:C13}}, le uniche mosse che rovinano la posizione.",
+            "source": "engine"
+           },
+           {
+            "text": "**Scegli se dare scacco o migliorare la torre**: {{mv:C3}} e {{mv:C6}} spingono il re nero, le altre lo lasciano dove sta.",
+            "source": "engine"
+           },
+           {
+            "text": "**Avanza il pedone in b7 solo quando il re bianco lo protegge**: il pedone è passato, ma va scortato.",
+            "source": "theory"
+           },
+           {
+            "text": "**Porta la torre sulla colonna c o dietro il pedone**: la torre deve sostenere l'avanzata, non vagare.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non avere fretta**: il Nero non ha controgioco reale, quindi migliora la posizione prima di promuovere.",
+            "source": "theory"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S12",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Questa è una posizione di finale con tablebase: il motore sa che il Bianco vince, {{ev:N1}}, e la tabella conferma {{pct:root.win}} di vittoria. Il piano tecnico è semplice: promuovere il pedone in b7, usando re e torre per proteggerlo e per tagliare fuori il re nero.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "N1",
+            "band": "winning"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}: il Bianco dà scacco, poi riporta la torre sulla colonna c e continua a limitare il re nero. Il Nero non riesce mai a catturare il pedone, perché il re bianco lo difende e la torre controlla le case di accesso.",
+          "source": "engine"
+         },
+         {
+          "type": "p",
+          "text": "La tecnica standard in questi finali è la manovra di torre dietro il pedone passato: la torre bianca si mette sulla colonna c o sulla colonna b, il re accompagna il pedone, e il Nero è costretto a difendersi passivamente. Quando il pedone arriva in b8, promuove e la partita è decisa.",
+          "source": "theory"
+         },
+         {
+          "type": "p",
+          "text": "Attenzione a un dettaglio: se il Bianco gioca {{mv:C13}}, il Nero cattura la torre con {{m:Rxa1@N1}} e la partita è patta, perché resta solo re e pedone contro re e torre. È l'unico modo di rovinare un finale vinto.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "classification",
+            "ref": "C13",
+            "category": "natural_trap"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Il Nero proverà a dare scacco con la torre per allontanare il re bianco dal pedone, ma il re bianco può sempre tornare a proteggerlo. La torre nera da sola non può fermare un pedone passato scortato dal re: è una posizione teoricamente vinta per il Bianco.",
+          "source": "theory"
+         }
+        ]
+       }
+      ],
+      "notes": [
+       "Il pacchetto segnala maia_low_confidence_header e unstable_nodes: le probabilità di Maia-2 sono poco affidabili, quindi le ho usate solo come indicazione di frequenza, non come base del giudizio.",
+       "La valutazione del motore è saturata a +9999 (vittoria forzata), quindi tutte le candidate spiegate hanno la stessa valutazione e perdita nulla: la scelta tra loro è puramente stilistica.",
+       "Le sezioni S02, S03, S04, S05, S08, S09, S11 e S13 sono state omesse dal programma (motivo: matrix), quindi non le ho scritte."
+      ]
+     }
     }
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 38632,
-    "completion_tokens": 2465,
-    "total_tokens": 41097,
-    "cost": 0.0057328344,
+    "prompt_tokens": 40359,
+    "completion_tokens": 2670,
+    "total_tokens": 43029,
+    "cost": 0.012376404,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 8704,
+     "cached_tokens": 9984,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.0057328344,
-     "upstream_inference_prompt_cost": 0.0043425744,
-     "upstream_inference_completions_cost": 0.00139026
+     "upstream_inference_cost": 0.012376404,
+     "upstream_inference_prompt_cost": 0.009172404,
+     "upstream_inference_completions_cost": 0.003204
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -36,13 +292,13 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791134914-RMAiQzKAji1Z0SZxadHZ",
+    "id": "gen-1791138863-39dFuq57r5Fha837k5fp",
     "object": "chat.completion",
-    "created": 1791134914,
+    "created": 1791138863,
     "model": "deepseek/deepseek-v4.1-flash",
-    "provider": "AtlasCloud",
-    "system_fingerprint": null,
-    "service_tier": "default",
+    "provider": "Together",
+    "system_fingerprint": "default",
+    "service_tier": null,
     "choices": [
      {
       "index": 0,
@@ -58,10 +314,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "call_00_lm9hdkg7pe1gme1ewq6jt3j4",
+         "id": "call_01a10832214077ecb18276b9",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Bianco è nettamente avanti: il motore dà {{ev:N1}} e la tablebase conferma la vittoria. Il Nero ha solo la torre contro torre e pedone, e il pedone in b7 è passato.\",\"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"winning\"}]}, {\"type\": \"p\", \"text\": \"Non c'è una mossa unica: la raccomandazione è {{mv:C3}} ma è una scelta debole, perché molte mosse di torre vincono. Il piano è semplice: portare il re verso il pedone, spingere il pedone a promozione e usare la torre per tagliare il re nero.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Attenzione a non regalare la torre: {{mv:C14}} perde subito, mentre {{mv:C13}} è solo patta. Tutte le altre mosse di torre tengono la vittoria.\",\"source\": \"engine\"}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Nero ha una sola risorsa: la torre in a2, che attacca il pedone b7 e dà scacco al re bianco. Non ha pedoni, quindi non può creare minacce di promozione: può solo cercare di catturare il pedone o di dare scacco perpetuo.\",\"source\": \"theory\"}, {\"type\": \"p\", \"text\": \"Dopo la mossa nulla, il Nero ha {{ev:N2}} e le sue mosse migliori sono {{m:Ra3@N2}}, {{m:Kd7@N2}} e {{m:Rb2@N2}}. Tutte perdono comunque, ma sono le più tenaci.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Se giochi {{mv:C3}}, il Nero risponde {{m:Kd7@N3}} nel {{pct:Kd7@N3}} dei casi secondo Maia-2, oppure {{m:Ke7@N3}}. Dopo {{m:Ke7@N3}} il Bianco continua con {{m:Rc3@N8}} e la vittoria resta.\",\"source\": \"mixed\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"Kd7@N3\", \"band\": \"very_frequent\"}]}, {\"type\": \"p\", \"text\": \"Se giochi {{mv:C6}}, il Nero sceglie {{m:Ke7@N4}} o {{m:Ke8@N4}}; dopo {{m:Ke7@N4}} il Bianco gioca {{m:Kc7@N10}} e il pedone avanza. Dopo {{m:Ke8@N4}} il Bianco gioca {{m:Rd3@N11}}.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Se giochi {{mv:C7}}, il Nero ha quattro risposte: {{m:Ra3@N5}}, {{m:Ke7@N5}}, {{m:Kd7@N5}} e {{m:Rb2@N5}}. Contro {{m:Rb2@N5}} il Bianco gioca {{m:Ra1@N16}} e la torre nera è costretta a difendersi.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Se giochi {{mv:C10}}, il Nero risponde {{m:Ra5@N6}} o {{m:Ra1@N6}}; in entrambi i casi il Bianco porta il re verso il pedone e vince. Se giochi {{mv:C11}}, il Nero ha {{m:Ra6@N7}} e {{m:Ra3@N7}}.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"La mossa di contesto della tabella T3 è {{m:Ra3@N2}}: il Nero mette la torre al sicuro e attacca il pedone da dietro. Il suo costo è nullo in termini di valutazione, perché il Bianco vince comunque, ma è la difesa più fastidiosa.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"In generale il Nero cerca scacchi laterali con la torre per guadagnare tempo e avvicinare il re. Il Bianco deve evitare di mettere il re sulla stessa colonna o diagonale della torre nera senza protezione.\",\"source\": \"theory\"}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C3\": {\"idea\": {\"text\": \"Scacco che spinge il re nero e prepara il taglio; il motore la raccomanda ma è una scelta debole, perché molte mosse vincono\", \"source\": \"engine\"}}, \"C6\": {\"idea\": {\"text\": \"Torre in c6 controlla la sesta traversa e prepara l'avanzata del pedone; dopo {{m:Ke7@N4}} il Bianco gioca {{m:Kc7@N10}}\", \"source\": \"engine\"}}, \"C7\": {\"idea\": {\"text\": \"Torre in c7 attacca subito il pedone e limita la torre nera; dopo {{m:Rb2@N5}} il Bianco gioca {{m:Ra1@N16}}\", \"source\": \"engine\"}}, \"C10\": {\"idea\": {\"text\": \"Torre in c7 con un ordine diverso; dopo {{m:Ra5@N6}} il Bianco porta il re verso il pedone\", \"source\": \"engine\"}}, \"C11\": {\"idea\": {\"text\": \"Torre in b1 difende il pedone e prepara l'avanzata; dopo {{m:Ra6@N7}} il Bianco gioca {{m:Rd1@N7}}\", \"source\": \"engine\"}}}}, {\"type\": \"p\", \"text\": \"Tutte le candidate citate vincono: la differenza tra loro è solo di comodità. {{mv:C3}} è la più diretta, {{mv:C6}} e {{mv:C7}} sono più posizionali, {{mv:C10}} e {{mv:C11}} sono equivalenti.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}: il Bianco dà scacco, poi riporta la torre in c4 e continua a migliorare la posizione. Dopo {{mv:C6}} la linea è {{pv:PV2:8}}, molto simile.\",\"source\": \"engine\"}]}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"**Porta il re verso il pedone b7**: è la priorità assoluta, perché il pedone deve avanzare.\",\"source\": \"theory\"}, {\"text\": \"**Usa la torre per tagliare il re nero**: mettila sulla colonna o traversa che impedisce al re di avvicinarsi al pedone.\",\"source\": \"theory\"}, {\"text\": \"**Non dare scacchi inutili**: ogni scacco che non guadagna tempo allontana il re nero dal pedone, ma non lo allontana dalla vittoria.\",\"source\": \"theory\"}, {\"text\": \"**Controlla la torre nera**: se attacca il pedone, difendilo con il re o con la torre.\",\"source\": \"theory\"}, {\"text\": \"**Avanza il pedone solo quando è protetto**: spingilo a promozione quando il re bianco è vicino.\",\"source\": \"theory\"}]}]}, {\"id\": \"S12\", \"blocks\": [{\"type\": \"p\", \"text\": \"La posizione è un finale di torre e pedone contro torre, con il pedone bianco in b7 già molto avanzato. La tablebase dà vittoria per il Bianco: {{ev:N1}} e il risultato è chiaro.\",\"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"winning\"}]}, {\"type\": \"p\", \"text\": \"La tecnica è quella classica del finale di torre: il re bianco deve avvicinarsi al pedone, la torre deve tagliare il re nero e il pedone deve avanzare solo quando è protetto. Il Nero non ha pedoni, quindi non può contrattaccare: può solo cercare di catturare il pedone o di dare scacco perpetuo.\",\"source\": \"theory\"}, {\"type\": \"p\", \"text\": \"La linea forzata dopo {{mv:C3}} è {{pv:PV3:8}}: il Bianco dà scacco, il Nero si sposta, il Bianco riporta la torre in c4 e continua a migliorare. Dopo {{mv:C6}} la linea è {{pv:PV2:8}}, praticamente identica.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Le difese del Nero sono limitate: la torre in a2 può attaccare il pedone, ma il Bianco può difenderlo con il re o con la torre. Se il Nero dà scacco, il Bianco sposta il re e continua.\",\"source\": \"theory\"}, {\"type\": \"p\", \"text\": \"Non si evita la vittoria: anche le mosse meno precise, come {{mv:C7}} o {{mv:C10}}, mantengono il vantaggio. Solo {{mv:C14}} perde e {{mv:C13}} è patta.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Il piano pratico è: porta il re in b6 o c7, difendi il pedone con la torre, poi spingi il pedone a promozione. Con il re nero lontano, la promozione è inevitabile.\",\"source\": \"theory\"}]}], \"notes\": [\"Le probabilità di Maia-2 sono state trattate con cautela perché il pacchetto segnala confidenza bassa.\", \"Alcuni nodi hanno profondità instabile; le valutazioni restano comunque di vittoria per il Bianco.\", \"La raccomandazione C3 è segnalata come scelta debole e non unica: molte mosse di torre vincono.\"]}"
+          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Bianco è in vantaggio decisivo: il motore valuta la posizione {{ev:N1}} e la tabella di finale dà {{pct:root.win}} di vittoria, con patta e sconfitta a zero. Il pedone in b7 è passato e protetto dal re, e la torre bianca è già sulla colonna aperta c.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"winning\"},{\"kind\":\"feature\",\"key\":\"passed_pawn\",\"side\":\"w\",\"squares\":[\"b7\"]},{\"kind\":\"feature\",\"key\":\"rook_open_file\",\"side\":\"w\",\"squares\":[\"c1\"]}]},{\"type\":\"p\",\"text\":\"Non c'è una mossa unica: quasi tutte le mosse di torre tengono la vittoria, e la differenza tra le candidate spiegate è nulla. Il Nero ha la torre in a2, attiva e sulla colonna aperta a, ma da sola non basta contro re, torre e pedone passato.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"rook_open_file\",\"side\":\"b\",\"squares\":[\"a2\"]},{\"kind\":\"feature\",\"key\":\"rook_seventh\",\"side\":\"b\",\"squares\":[\"a2\"]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero ha una sola risorsa: la torre in a2, che controlla la colonna a e può dare scacco al re bianco. Le sue mosse migliori secondo il motore sono {{m:Ra3@N2}}, {{m:Kd7@N2}} e {{m:Rb2@N2}}, tutte con la stessa valutazione {{ev:N2}}: il Nero non ha un modo per fermare il pedone, cerca solo di creare fastidi.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"file_control\",\"side\":\"b\",\"squares\":[\"a2\"]}]},{\"type\":\"p\",\"text\":\"Il piano difensivo tipico è portare la torre dietro il pedone passato, sulla colonna b, per attaccarlo da dietro: {{m:Rb2@N2}} è la mossa che Maia-2 sceglie più spesso in questa posizione, e anche {{m:Ra3@N2}} e {{m:Kd7@N2}} sono frequenti. Il re nero cerca di avvicinarsi al pedone passato, ma resta troppo lontano.\",\"source\":\"maia\",\"assertions\":[{\"kind\":\"maia_band\",\"ref\":\"Rb2@N2\",\"band\":\"frequent\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C3}} il Nero deve rispondere allo scacco: le due mosse sono {{m:Ke7@N3}} e {{m:Kd7@N3}}, e Maia-2 sceglie quasi sempre la seconda. Dopo {{mv:C6}} il Nero ha {{m:Ke7@N4}} e {{m:Ke8@N4}} come risposte principali, con la prima nettamente più probabile. Dopo {{mv:C7}} il Nero può giocare {{m:Ra5@N6}}, {{m:Ra1@N6}} o {{m:Ra6@N6}}, tutte mosse di torre sulla colonna a.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"maia_band\",\"ref\":\"Kd7@N3\",\"band\":\"very_frequent\"}]},{\"type\":\"p\",\"text\":\"La mossa di contesto del Nero è la torre in a2: da lì può dare scacco sulla colonna a o sulla diagonale, e in alcune linee arriva fino alla seconda traversa. Il suo costo è però limitato: in tutti i sistemi il Bianco mantiene la vittoria, perché il pedone in b7 è troppo avanzato e il re bianco lo scorta.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Attenzione a non regalare la torre: se il Bianco gioca {{mv:C14}} il Nero cattura e vince, e se gioca {{mv:C13}} la partita finisce patta. Sono le uniche due mosse che rovinano tutto; tutte le altre, anche quelle che sembrano passive, mantengono la vittoria.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C14\",\"category\":\"improbable_error\"},{\"kind\":\"classification\",\"ref\":\"C13\",\"category\":\"natural_trap\"}]}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C3\":{\"idea\":{\"text\":\"Scacco di torre in c8: spinge il re nero e prepara la manovra sulla colonna c. Il motore dà {{ev:C3}} e Maia-2 la sceglie nel {{pct:C3.p_user}} dei casi.\",\"source\":\"mixed\"}},\"C6\":{\"idea\":{\"text\":\"Scacco di torre in d1: allontana il re nero e libera la strada al pedone. Valutazione {{ev:C6}}, scelta dal {{pct:C6.p_user}} dei giocatori.\",\"source\":\"mixed\"}},\"C7\":{\"idea\":{\"text\":\"Torre in h1, mossa tranquilla che tiene tutto: {{ev:C7}}, frequenza {{pct:C7.p_user}}.\",\"source\":\"mixed\"}},\"C10\":{\"idea\":{\"text\":\"Torre in c7, attacca subito il pedone e limita il re nero: {{ev:C10}}, frequenza {{pct:C10.p_user}}.\",\"source\":\"mixed\"}},\"C11\":{\"idea\":{\"text\":\"Torre in b1, difende il pedone passato da dietro: {{ev:C11}}, frequenza {{pct:C11.p_user}}.\",\"source\":\"mixed\"}}}},{\"type\":\"p\",\"text\":\"Tutte le candidate spiegate mantengono la vittoria con la stessa valutazione {{ev:N1}}: la differenza tra loro è solo di stile. {{mv:C3}} e {{mv:C6}} sono gli scacchi, che costringono il re nero a muoversi; {{mv:C7}}, {{mv:C10}} e {{mv:C11}} sono mosse tranquille che migliorano la torre.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La mossa consigliata è {{mv:C3}}, ma il motore segnala che non esiste una mossa unica: puoi scegliere tra lo scacco immediato e le mosse tranquille. Se preferisci la semplicità, {{mv:C11}} difende il pedone e non richiede calcolo.\",\"source\":\"engine\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Prima di tutto, controlla che la torre non sia in presa**: evita {{mv:C14}} e {{mv:C13}}, le uniche mosse che rovinano la posizione.\",\"source\":\"engine\"},{\"text\":\"**Scegli se dare scacco o migliorare la torre**: {{mv:C3}} e {{mv:C6}} spingono il re nero, le altre lo lasciano dove sta.\",\"source\":\"engine\"},{\"text\":\"**Avanza il pedone in b7 solo quando il re bianco lo protegge**: il pedone è passato, ma va scortato.\",\"source\":\"theory\"},{\"text\":\"**Porta la torre sulla colonna c o dietro il pedone**: la torre deve sostenere l'avanzata, non vagare.\",\"source\":\"theory\"},{\"text\":\"**Non avere fretta**: il Nero non ha controgioco reale, quindi migliora la posizione prima di promuovere.\",\"source\":\"theory\"}]}]},{\"id\":\"S12\",\"blocks\":[{\"type\":\"p\",\"text\":\"Questa è una posizione di finale con tablebase: il motore sa che il Bianco vince, {{ev:N1}}, e la tabella conferma {{pct:root.win}} di vittoria. Il piano tecnico è semplice: promuovere il pedone in b7, usando re e torre per proteggerlo e per tagliare fuori il re nero.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"winning\"}]},{\"type\":\"p\",\"text\":\"La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}: il Bianco dà scacco, poi riporta la torre sulla colonna c e continua a limitare il re nero. Il Nero non riesce mai a catturare il pedone, perché il re bianco lo difende e la torre controlla le case di accesso.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La tecnica standard in questi finali è la manovra di torre dietro il pedone passato: la torre bianca si mette sulla colonna c o sulla colonna b, il re accompagna il pedone, e il Nero è costretto a difendersi passivamente. Quando il pedone arriva in b8, promuove e la partita è decisa.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Attenzione a un dettaglio: se il Bianco gioca {{mv:C13}}, il Nero cattura la torre con {{m:Rxa1@N1}} e la partita è patta, perché resta solo re e pedone contro re e torre. È l'unico modo di rovinare un finale vinto.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C13\",\"category\":\"natural_trap\"}]},{\"type\":\"p\",\"text\":\"Il Nero proverà a dare scacco con la torre per allontanare il re bianco dal pedone, ma il re bianco può sempre tornare a proteggerlo. La torre nera da sola non può fermare un pedone passato scortato dal re: è una posizione teoricamente vinta per il Bianco.\",\"source\":\"theory\"}]}],\"notes\":[\"Il pacchetto segnala maia_low_confidence_header e unstable_nodes: le probabilità di Maia-2 sono poco affidabili, quindi le ho usate solo come indicazione di frequenza, non come base del giudizio.\",\"La valutazione del motore è saturata a +9999 (vittoria forzata), quindi tutte le candidate spiegate hanno la stessa valutazione e perdita nulla: la scelta tra loro è puramente stilistica.\",\"Le sezioni S02, S03, S04, S05, S08, S09, S11 e S13 sono state omesse dal programma (motivo: matrix), quindi non le ho scritte.\"]}"
          }
         }
        ]
@@ -69,21 +325,21 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 38632,
-     "completion_tokens": 2465,
-     "total_tokens": 41097,
-     "cost": 0.0057328344,
+     "prompt_tokens": 40359,
+     "completion_tokens": 2670,
+     "total_tokens": 43029,
+     "cost": 0.012376404,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 8704,
+      "cached_tokens": 9984,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.0057328344,
-      "upstream_inference_prompt_cost": 0.0043425744,
-      "upstream_inference_completions_cost": 0.00139026
+      "upstream_inference_cost": 0.012376404,
+      "upstream_inference_prompt_cost": 0.009172404,
+      "upstream_inference_completions_cost": 0.003204
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,
@@ -98,7 +354,7 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "call_00_lea6qql9z92phylv6dwdvjur",
+     "id": "call_01a108324d587371906acfbd",
      "name": "submit_analysis",
      "input": {
       "schema_version": "1",
@@ -108,25 +364,52 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Il Bianco vince: il motore dà {{ev:N1}} con la mossa migliore, e la tabella di finale conferma che la posizione è vinta. Il tuo pedone in b7 è passato e il re nero non riesce a fermarlo da solo, perché la tua torre lo tiene lontano. Non serve trovare la mossa perfetta: serve solo non regalare la torre e accompagnare il pedone.",
+          "text": "Il Bianco è in vantaggio decisivo: il motore valuta la posizione {{ev:N1}}, e la tabella di finale conferma la vittoria. Il pedone in b7 è passato e protetto dal re, e la torre bianca è già sulla colonna aperta c.",
           "source": "engine",
           "assertions": [
            {
             "kind": "eval_band",
             "ref": "N1",
-            "band": "winning"
+            "band": "decisive_plus"
+           },
+           {
+            "kind": "feature",
+            "key": "passed_pawn",
+            "side": "w",
+            "squares": [
+             "b7"
+            ]
+           },
+           {
+            "kind": "feature",
+            "key": "rook_open_file",
+            "side": "w",
+            "squares": [
+             "c1"
+            ]
            }
           ]
          },
          {
           "type": "p",
-          "text": "Anche se toccasse al Nero la posizione resterebbe vinta ({{ev:N2}}), quindi non hai fretta: ogni mossa ragionevole che non perda materiale mantiene il risultato.",
-          "source": "engine",
+          "text": "Non c'è una mossa unica: quasi tutte le mosse di torre tengono la vittoria, e la differenza tra le candidate spiegate è nulla. Il Nero ha la torre in a2, attiva e sulla colonna aperta a, ma da sola non basta contro re, torre e pedone passato.",
+          "source": "feature",
           "assertions": [
            {
-            "kind": "eval_band",
-            "ref": "N2",
-            "band": "winning"
+            "kind": "feature",
+            "key": "rook_open_file",
+            "side": "b",
+            "squares": [
+             "a2"
+            ]
+           },
+           {
+            "kind": "feature",
+            "key": "rook_seventh",
+            "side": "b",
+            "squares": [
+             "a2"
+            ]
            }
           ]
          }
@@ -137,33 +420,57 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Il Nero ha una sola idea concreta: dare scacco con la torre e sperare che tu ti distragga. Dopo la mossa nulla, la sua prima scelta è {{m:Ra3@N2}} ({{ev:N2}}), ma anche {{m:Kd7@N2}} e {{m:Rb2@N2}} non cambiano nulla: la posizione resta vinta per te.",
-          "source": "engine"
+          "text": "Il Nero ha una sola risorsa: la torre in a2, che controlla la colonna a e può dare scacco al re bianco. Le sue mosse migliori secondo il motore sono {{m:Ra3@N2}}, {{m:Kd7@N2}} e {{m:Rb2@N2}}, tutte con la stessa valutazione {{ev:N2}}: il Nero non ha un modo per fermare il pedone, cerca solo di creare fastidi.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "feature",
+            "key": "file_control",
+            "side": "b",
+            "squares": [
+             "a2"
+            ]
+           }
+          ]
          },
          {
           "type": "p",
-          "text": "Dopo {{mv:C3}} il Nero ha due risposte: {{m:Ke7@N3}} e {{m:Kd7@N3}}. In entrambi i casi la tua torre può tornare a lavorare sulla colonna c e il pedone resta intoccabile.",
-          "source": "engine"
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C6}} il Nero sceglie quasi sempre {{m:Ke7@N4}}; se invece gioca {{m:Ke8@N4}} o prova {{m:Rd2@N4}}, tu rispondi prendendo la torre e il finale è vinto.",
-          "source": "engine"
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C7}} il Nero ha più scelte: {{m:Ra3@N5}}, {{m:Ke7@N5}}, {{m:Kd7@N5}} o {{m:Rb2@N5}}. Sono tutte equivalenti per il risultato: la sua torre non può fermare il pedone senza essere catturata.",
-          "source": "engine"
-         },
-         {
-          "type": "p",
-          "text": "La sua risorsa più fastidiosa è lo scacco laterale: se la torre arriva sulla colonna b o sulla traversa, devi solo spostare il re e continuare. Non ci sono trappole reali: il Nero non ha modo di dare scacco perpetuo perché il tuo re ha sempre una casa di fuga.",
+          "text": "Il piano difensivo tipico è portare la torre dietro il pedone passato, sulla colonna b, per attaccarlo da dietro: {{m:Rb2@N2}} è una delle mosse più naturali in questa posizione, insieme a {{m:Ra3@N2}} e {{m:Kd7@N2}}. Il re nero cerca di avvicinarsi al pedone passato, ma resta troppo lontano.",
           "source": "theory"
          },
          {
           "type": "p",
-          "text": "In sintesi: il Nero cerca scacchi e spera in un tuo errore, non ha un piano per vincere. Tu devi solo avanzare il pedone e usare la torre per tagliare il re.",
-          "source": "mixed"
+          "text": "Dopo {{mv:C3}} il Nero deve rispondere allo scacco: le due mosse sono {{m:Ke7@N3}} e {{m:Kd7@N3}}, e Maia-2 sceglie quasi sempre la seconda, con una probabilità molto alta. Dopo {{mv:C6}} il Nero ha {{m:Ke7@N4}} e {{m:Ke8@N4}} come risposte principali, con la prima nettamente più probabile. Dopo {{mv:C7}} il Nero può giocare {{m:Ra5@N6}}, {{m:Ra1@N6}} o {{m:Ra6@N6}}, tutte mosse di torre sulla colonna a.",
+          "source": "maia",
+          "assertions": [
+           {
+            "kind": "maia_band",
+            "ref": "Kd7@N3",
+            "band": "very_frequent"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "La mossa di contesto del Nero è la torre in a2: da lì può dare scacco sulla colonna a o sulla diagonale, e in alcune linee arriva fino alla seconda traversa. Il suo costo è però limitato: in tutti i sistemi il Bianco mantiene la vittoria, perché il pedone in b7 è troppo avanzato e il re bianco lo scorta.",
+          "source": "theory"
+         },
+         {
+          "type": "p",
+          "text": "Attenzione a non regalare la torre: se il Bianco gioca {{mv:C14}} il Nero cattura e vince, e se gioca {{mv:C13}} la partita finisce patta. Sono le uniche due mosse che rovinano tutto; tutte le altre, anche quelle che sembrano passive, mantengono la vittoria.",
+          "source": "mixed",
+          "assertions": [
+           {
+            "kind": "classification",
+            "ref": "C14",
+            "category": "improbable_error"
+           },
+           {
+            "kind": "classification",
+            "ref": "C13",
+            "category": "natural_trap"
+           }
+          ]
          }
         ]
        },
@@ -176,45 +483,45 @@
           "text_cells": {
            "C3": {
             "idea": {
-             "text": "Scacco che allontana il re nero e prepara il ritorno della torre sulla colonna c; è la mossa consigliata.",
-             "source": "engine"
+             "text": "Scacco di torre in c8: spinge il re nero e prepara la manovra sulla colonna c. Il motore dà {{ev:C3}} e Maia-2 la sceglie nel {{pct:C3.p_user}} dei casi.",
+             "source": "mixed"
             }
            },
            "C6": {
             "idea": {
-             "text": "Scacco sulla colonna d; dopo la risposta del re la torre si riporta in gioco.",
-             "source": "engine"
+             "text": "Scacco di torre in d1: allontana il re nero e libera la strada al pedone. Valutazione {{ev:C6}}, scelta dal {{pct:C6.p_user}} dei giocatori.",
+             "source": "mixed"
             }
            },
            "C7": {
             "idea": {
-             "text": "Torre attiva sulla settima traversa, pronta a tagliare il re.",
-             "source": "engine"
+             "text": "Torre in h1, mossa tranquilla che tiene tutto: {{ev:C7}}, frequenza {{pct:C7.p_user}}.",
+             "source": "mixed"
             }
            },
            "C10": {
             "idea": {
-             "text": "Torre in c7 con idea simile, ma il Nero ha più risorse difensive.",
-             "source": "engine"
+             "text": "Torre in c7, attacca subito il pedone e limita il re nero: {{ev:C10}}, frequenza {{pct:C10.p_user}}.",
+             "source": "mixed"
             }
            },
            "C11": {
             "idea": {
-             "text": "Torre in b1 a sostegno del pedone; semplice e sicura.",
-             "source": "engine"
+             "text": "Torre in b1, difende il pedone passato da dietro: {{ev:C11}}, frequenza {{pct:C11.p_user}}.",
+             "source": "mixed"
             }
            }
           }
          },
          {
           "type": "p",
-          "text": "Tutte le mosse elencate mantengono la vittoria: il motore non trova differenze pratiche tra loro. La scelta migliore è {{mv:C3}}, che dà scacco e guadagna un tempo.",
+          "text": "Tutte le candidate spiegate mantengono la vittoria con la stessa valutazione {{ev:N1}}: la differenza tra loro è solo di stile. {{mv:C3}} e {{mv:C6}} sono gli scacchi, che costringono il re nero a muoversi; {{mv:C7}}, {{mv:C10}} e {{mv:C11}} sono mosse tranquille che migliorano la torre.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "Non esiste una mossa unica: puoi giocare {{mv:C6}}, {{mv:C7}}, {{mv:C10}} o {{mv:C11}} e restare vincente. Scegli quella che ti sembra più comoda da calcolare.",
-          "source": "engine"
+          "text": "La mossa consigliata è {{mv:C3}}, ma il motore segnala che non esiste una mossa unica: puoi scegliere tra lo scacco immediato e le mosse tranquille. Se preferisci la semplicità, {{mv:C11}} difende il pedone e non richiede calcolo.",
+          "source": "mixed"
          }
         ]
        },
@@ -225,23 +532,23 @@
           "type": "ol",
           "items": [
            {
-            "text": "Controlla che la tua torre non sia attaccabile: è l'unico pezzo che può salvarti da uno scacco perpetuo.",
+            "text": "**Prima di tutto, controlla che la torre non sia in presa**: evita {{mv:C14}} e {{mv:C13}}, le uniche mosse che rovinano la posizione.",
+            "source": "mixed"
+           },
+           {
+            "text": "**Scegli se dare scacco o migliorare la torre**: {{mv:C3}} e {{mv:C6}} spingono il re nero, le altre lo lasciano dove sta.",
+            "source": "mixed"
+           },
+           {
+            "text": "**Avanza il pedone in b7 solo quando il re bianco lo protegge**: il pedone è passato, ma va scortato.",
             "source": "theory"
            },
            {
-            "text": "Avanza il pedone in b7 quando il re nero è lontano.",
+            "text": "**Porta la torre sulla colonna c o dietro il pedone**: la torre deve sostenere l'avanzata, non vagare.",
             "source": "theory"
            },
            {
-            "text": "Usa la torre per tagliare il re sulla colonna o sulla traversa.",
-            "source": "theory"
-           },
-           {
-            "text": "Se il Nero dà scacco, sposta il re e riprendi il piano.",
-            "source": "theory"
-           },
-           {
-            "text": "Promuovi il pedone e vinci con la donna.",
+            "text": "**Non avere fretta**: il Nero non ha controgioco reale, quindi migliora la posizione prima di promuovere.",
             "source": "theory"
            }
           ]
@@ -253,63 +560,71 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Questa è una posizione di finale con torre e pedone contro torre, ma il pedone è già in b7 e il re nero è tagliato fuori: la tabella di finale dice che è vinta per il Bianco. Il motore valuta {{ev:N1}} e la linea principale è {{pv:PV1:8}}.",
+          "text": "Questa è una posizione di finale con tablebase: il motore sa che il Bianco vince, {{ev:N1}}, e la tabella conferma la vittoria. Il piano tecnico è semplice: promuovere il pedone in b7, usando re e torre per proteggerlo e per tagliare fuori il re nero.",
           "source": "engine",
           "assertions": [
            {
             "kind": "eval_band",
             "ref": "N1",
-            "band": "winning"
+            "band": "decisive_plus"
            }
           ]
          },
          {
           "type": "p",
-          "text": "La tecnica è semplice: porta il re vicino al pedone, usa la torre per tagliare il re nero e promuovi. Non serve calcolare molto: basta non perdere la torre.",
-          "source": "theory"
-         },
-         {
-          "type": "p",
-          "text": "Attenzione agli scacchi laterali: se il re nero si avvicina, la torre deve restare attiva. La linea {{pv:PV3:8}} mostra come il Bianco mantiene il controllo.",
+          "text": "La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}: il Bianco dà scacco, poi riporta la torre sulla colonna c e continua a limitare il re nero. Il Nero non riesce mai a catturare il pedone, perché il re bianco lo difende e la torre controlla le case di accesso.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "Se il Nero prova a sacrificare la torre per il pedone, tu prendi e resti con re e torre contro re: finale elementare.",
+          "text": "La tecnica standard in questi finali è la manovra di torre dietro il pedone passato: la torre bianca si mette sulla colonna c o sulla colonna b, il re accompagna il pedone, e il Nero è costretto a difendersi passivamente. Quando il pedone arriva in b8, promuove e la partita è decisa.",
           "source": "theory"
          },
          {
           "type": "p",
-          "text": "In pratica: gioca {{mv:C3}}, poi riporta la torre sulla colonna c, avanza il re e promuovi. Il risultato è certo.",
-          "source": "mixed"
+          "text": "Attenzione a un dettaglio: se il Bianco gioca {{mv:C13}}, il Nero cattura la torre e la partita è patta, perché resta solo re e pedone contro re e torre. È l'unico modo di rovinare un finale vinto.",
+          "source": "mixed",
+          "assertions": [
+           {
+            "kind": "classification",
+            "ref": "C13",
+            "category": "natural_trap"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Il Nero proverà a dare scacco con la torre per allontanare il re bianco dal pedone, ma il re bianco può sempre tornare a proteggerlo. La torre nera da sola non può fermare un pedone passato scortato dal re: è una posizione teoricamente vinta per il Bianco.",
+          "source": "theory"
          }
         ]
        }
       ],
       "notes": [
-       "Il pacchetto segnala maia_low_confidence: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti.",
-       "Alcuni nodi hanno unstable_depth: le valutazioni dei nodi secondari vanno lette con cautela, ma la posizione è chiaramente vinta secondo la tablebase."
+       "Il pacchetto segnala maia_low_confidence_header e unstable_nodes: le probabilità di Maia-2 sono poco affidabili, quindi le ho usate solo come indicazione di frequenza, non come base del giudizio.",
+       "La valutazione del motore è saturata in alto (vittoria forzata), quindi tutte le candidate spiegate hanno la stessa valutazione e perdita nulla: la scelta tra loro è puramente stilistica.",
+       "Le sezioni non richieste sono state omesse dal programma (motivo: matrix), quindi non le ho scritte."
       ]
      }
     }
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 38753,
-    "completion_tokens": 1835,
-    "total_tokens": 40588,
-    "cost": 0.0016099098,
+    "prompt_tokens": 45258,
+    "completion_tokens": 2583,
+    "total_tokens": 47841,
+    "cost": 0.004032648,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 38528,
+     "cached_tokens": 43008,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.0016099098,
-     "upstream_inference_prompt_cost": 0.0005749698,
-     "upstream_inference_completions_cost": 0.00103494
+     "upstream_inference_cost": 0.004032648,
+     "upstream_inference_prompt_cost": 0.000933048,
+     "upstream_inference_completions_cost": 0.0030996
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -318,13 +633,13 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791134929-3RPxapsxMkJTTStB036L",
+    "id": "gen-1791138875-XP0MT4ZmWskKtzJVM72q",
     "object": "chat.completion",
-    "created": 1791134929,
+    "created": 1791138875,
     "model": "deepseek/deepseek-v4.1-flash",
-    "provider": "AtlasCloud",
-    "system_fingerprint": null,
-    "service_tier": "default",
+    "provider": "Together",
+    "system_fingerprint": "default",
+    "service_tier": null,
     "choices": [
      {
       "index": 0,
@@ -340,10 +655,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "call_00_lea6qql9z92phylv6dwdvjur",
+         "id": "call_01a108324d587371906acfbd",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Bianco vince: il motore dà {{ev:N1}} con la mossa migliore, e la tabella di finale conferma che la posizione è vinta. Il tuo pedone in b7 è passato e il re nero non riesce a fermarlo da solo, perché la tua torre lo tiene lontano. Non serve trovare la mossa perfetta: serve solo non regalare la torre e accompagnare il pedone.\",\"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"winning\"}]}, {\"type\": \"p\", \"text\": \"Anche se toccasse al Nero la posizione resterebbe vinta ({{ev:N2}}), quindi non hai fretta: ogni mossa ragionevole che non perda materiale mantiene il risultato.\",\"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N2\", \"band\": \"winning\"}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Nero ha una sola idea concreta: dare scacco con la torre e sperare che tu ti distragga. Dopo la mossa nulla, la sua prima scelta è {{m:Ra3@N2}} ({{ev:N2}}), ma anche {{m:Kd7@N2}} e {{m:Rb2@N2}} non cambiano nulla: la posizione resta vinta per te.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Dopo {{mv:C3}} il Nero ha due risposte: {{m:Ke7@N3}} e {{m:Kd7@N3}}. In entrambi i casi la tua torre può tornare a lavorare sulla colonna c e il pedone resta intoccabile.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Dopo {{mv:C6}} il Nero sceglie quasi sempre {{m:Ke7@N4}}; se invece gioca {{m:Ke8@N4}} o prova {{m:Rd2@N4}}, tu rispondi prendendo la torre e il finale è vinto.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Dopo {{mv:C7}} il Nero ha più scelte: {{m:Ra3@N5}}, {{m:Ke7@N5}}, {{m:Kd7@N5}} o {{m:Rb2@N5}}. Sono tutte equivalenti per il risultato: la sua torre non può fermare il pedone senza essere catturata.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"La sua risorsa più fastidiosa è lo scacco laterale: se la torre arriva sulla colonna b o sulla traversa, devi solo spostare il re e continuare. Non ci sono trappole reali: il Nero non ha modo di dare scacco perpetuo perché il tuo re ha sempre una casa di fuga.\",\"source\": \"theory\"}, {\"type\": \"p\", \"text\": \"In sintesi: il Nero cerca scacchi e spera in un tuo errore, non ha un piano per vincere. Tu devi solo avanzare il pedone e usare la torre per tagliare il re.\",\"source\": \"mixed\"}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C3\": {\"idea\": {\"text\": \"Scacco che allontana il re nero e prepara il ritorno della torre sulla colonna c; è la mossa consigliata.\",\"source\": \"engine\"}}, \"C6\": {\"idea\": {\"text\": \"Scacco sulla colonna d; dopo la risposta del re la torre si riporta in gioco.\",\"source\": \"engine\"}}, \"C7\": {\"idea\": {\"text\": \"Torre attiva sulla settima traversa, pronta a tagliare il re.\",\"source\": \"engine\"}}, \"C10\": {\"idea\": {\"text\": \"Torre in c7 con idea simile, ma il Nero ha più risorse difensive.\",\"source\": \"engine\"}}, \"C11\": {\"idea\": {\"text\": \"Torre in b1 a sostegno del pedone; semplice e sicura.\",\"source\": \"engine\"}}}}, {\"type\": \"p\", \"text\": \"Tutte le mosse elencate mantengono la vittoria: il motore non trova differenze pratiche tra loro. La scelta migliore è {{mv:C3}}, che dà scacco e guadagna un tempo.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Non esiste una mossa unica: puoi giocare {{mv:C6}}, {{mv:C7}}, {{mv:C10}} o {{mv:C11}} e restare vincente. Scegli quella che ti sembra più comoda da calcolare.\",\"source\": \"engine\"}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Controlla che la tua torre non sia attaccabile: è l'unico pezzo che può salvarti da uno scacco perpetuo.\",\"source\": \"theory\"}, {\"text\": \"Avanza il pedone in b7 quando il re nero è lontano.\",\"source\": \"theory\"}, {\"text\": \"Usa la torre per tagliare il re sulla colonna o sulla traversa.\",\"source\": \"theory\"}, {\"text\": \"Se il Nero dà scacco, sposta il re e riprendi il piano.\",\"source\": \"theory\"}, {\"text\": \"Promuovi il pedone e vinci con la donna.\",\"source\": \"theory\"}]}]}, {\"id\": \"S12\", \"blocks\": [{\"type\": \"p\", \"text\": \"Questa è una posizione di finale con torre e pedone contro torre, ma il pedone è già in b7 e il re nero è tagliato fuori: la tabella di finale dice che è vinta per il Bianco. Il motore valuta {{ev:N1}} e la linea principale è {{pv:PV1:8}}.\",\"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"winning\"}]}, {\"type\": \"p\", \"text\": \"La tecnica è semplice: porta il re vicino al pedone, usa la torre per tagliare il re nero e promuovi. Non serve calcolare molto: basta non perdere la torre.\",\"source\": \"theory\"}, {\"type\": \"p\", \"text\": \"Attenzione agli scacchi laterali: se il re nero si avvicina, la torre deve restare attiva. La linea {{pv:PV3:8}} mostra come il Bianco mantiene il controllo.\",\"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Se il Nero prova a sacrificare la torre per il pedone, tu prendi e resti con re e torre contro re: finale elementare.\",\"source\": \"theory\"}, {\"type\": \"p\", \"text\": \"In pratica: gioca {{mv:C3}}, poi riporta la torre sulla colonna c, avanza il re e promuovi. Il risultato è certo.\",\"source\": \"mixed\"}]}], \"notes\": [\"Il pacchetto segnala maia_low_confidence: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti.\", \"Alcuni nodi hanno unstable_depth: le valutazioni dei nodi secondari vanno lette con cautela, ma la posizione è chiaramente vinta secondo la tablebase.\"]}"
+          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Bianco è in vantaggio decisivo: il motore valuta la posizione {{ev:N1}}, e la tabella di finale conferma la vittoria. Il pedone in b7 è passato e protetto dal re, e la torre bianca è già sulla colonna aperta c.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"decisive_plus\"},{\"kind\":\"feature\",\"key\":\"passed_pawn\",\"side\":\"w\",\"squares\":[\"b7\"]},{\"kind\":\"feature\",\"key\":\"rook_open_file\",\"side\":\"w\",\"squares\":[\"c1\"]}]},{\"type\":\"p\",\"text\":\"Non c'è una mossa unica: quasi tutte le mosse di torre tengono la vittoria, e la differenza tra le candidate spiegate è nulla. Il Nero ha la torre in a2, attiva e sulla colonna aperta a, ma da sola non basta contro re, torre e pedone passato.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"rook_open_file\",\"side\":\"b\",\"squares\":[\"a2\"]},{\"kind\":\"feature\",\"key\":\"rook_seventh\",\"side\":\"b\",\"squares\":[\"a2\"]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero ha una sola risorsa: la torre in a2, che controlla la colonna a e può dare scacco al re bianco. Le sue mosse migliori secondo il motore sono {{m:Ra3@N2}}, {{m:Kd7@N2}} e {{m:Rb2@N2}}, tutte con la stessa valutazione {{ev:N2}}: il Nero non ha un modo per fermare il pedone, cerca solo di creare fastidi.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"file_control\",\"side\":\"b\",\"squares\":[\"a2\"]}]},{\"type\":\"p\",\"text\":\"Il piano difensivo tipico è portare la torre dietro il pedone passato, sulla colonna b, per attaccarlo da dietro: {{m:Rb2@N2}} è una delle mosse più naturali in questa posizione, insieme a {{m:Ra3@N2}} e {{m:Kd7@N2}}. Il re nero cerca di avvicinarsi al pedone passato, ma resta troppo lontano.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Dopo {{mv:C3}} il Nero deve rispondere allo scacco: le due mosse sono {{m:Ke7@N3}} e {{m:Kd7@N3}}, e Maia-2 sceglie quasi sempre la seconda, con una probabilità molto alta. Dopo {{mv:C6}} il Nero ha {{m:Ke7@N4}} e {{m:Ke8@N4}} come risposte principali, con la prima nettamente più probabile. Dopo {{mv:C7}} il Nero può giocare {{m:Ra5@N6}}, {{m:Ra1@N6}} o {{m:Ra6@N6}}, tutte mosse di torre sulla colonna a.\",\"source\":\"maia\",\"assertions\":[{\"kind\":\"maia_band\",\"ref\":\"Kd7@N3\",\"band\":\"very_frequent\"}]},{\"type\":\"p\",\"text\":\"La mossa di contesto del Nero è la torre in a2: da lì può dare scacco sulla colonna a o sulla diagonale, e in alcune linee arriva fino alla seconda traversa. Il suo costo è però limitato: in tutti i sistemi il Bianco mantiene la vittoria, perché il pedone in b7 è troppo avanzato e il re bianco lo scorta.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Attenzione a non regalare la torre: se il Bianco gioca {{mv:C14}} il Nero cattura e vince, e se gioca {{mv:C13}} la partita finisce patta. Sono le uniche due mosse che rovinano tutto; tutte le altre, anche quelle che sembrano passive, mantengono la vittoria.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C14\",\"category\":\"improbable_error\"},{\"kind\":\"classification\",\"ref\":\"C13\",\"category\":\"natural_trap\"}]}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C3\":{\"idea\":{\"text\":\"Scacco di torre in c8: spinge il re nero e prepara la manovra sulla colonna c. Il motore dà {{ev:C3}} e Maia-2 la sceglie nel {{pct:C3.p_user}} dei casi.\",\"source\":\"mixed\"}},\"C6\":{\"idea\":{\"text\":\"Scacco di torre in d1: allontana il re nero e libera la strada al pedone. Valutazione {{ev:C6}}, scelta dal {{pct:C6.p_user}} dei giocatori.\",\"source\":\"mixed\"}},\"C7\":{\"idea\":{\"text\":\"Torre in h1, mossa tranquilla che tiene tutto: {{ev:C7}}, frequenza {{pct:C7.p_user}}.\",\"source\":\"mixed\"}},\"C10\":{\"idea\":{\"text\":\"Torre in c7, attacca subito il pedone e limita il re nero: {{ev:C10}}, frequenza {{pct:C10.p_user}}.\",\"source\":\"mixed\"}},\"C11\":{\"idea\":{\"text\":\"Torre in b1, difende il pedone passato da dietro: {{ev:C11}}, frequenza {{pct:C11.p_user}}.\",\"source\":\"mixed\"}}}},{\"type\":\"p\",\"text\":\"Tutte le candidate spiegate mantengono la vittoria con la stessa valutazione {{ev:N1}}: la differenza tra loro è solo di stile. {{mv:C3}} e {{mv:C6}} sono gli scacchi, che costringono il re nero a muoversi; {{mv:C7}}, {{mv:C10}} e {{mv:C11}} sono mosse tranquille che migliorano la torre.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La mossa consigliata è {{mv:C3}}, ma il motore segnala che non esiste una mossa unica: puoi scegliere tra lo scacco immediato e le mosse tranquille. Se preferisci la semplicità, {{mv:C11}} difende il pedone e non richiede calcolo.\",\"source\":\"mixed\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Prima di tutto, controlla che la torre non sia in presa**: evita {{mv:C14}} e {{mv:C13}}, le uniche mosse che rovinano la posizione.\",\"source\":\"mixed\"},{\"text\":\"**Scegli se dare scacco o migliorare la torre**: {{mv:C3}} e {{mv:C6}} spingono il re nero, le altre lo lasciano dove sta.\",\"source\":\"mixed\"},{\"text\":\"**Avanza il pedone in b7 solo quando il re bianco lo protegge**: il pedone è passato, ma va scortato.\",\"source\":\"theory\"},{\"text\":\"**Porta la torre sulla colonna c o dietro il pedone**: la torre deve sostenere l'avanzata, non vagare.\",\"source\":\"theory\"},{\"text\":\"**Non avere fretta**: il Nero non ha controgioco reale, quindi migliora la posizione prima di promuovere.\",\"source\":\"theory\"}]}]},{\"id\":\"S12\",\"blocks\":[{\"type\":\"p\",\"text\":\"Questa è una posizione di finale con tablebase: il motore sa che il Bianco vince, {{ev:N1}}, e la tabella conferma la vittoria. Il piano tecnico è semplice: promuovere il pedone in b7, usando re e torre per proteggerlo e per tagliare fuori il re nero.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"decisive_plus\"}]},{\"type\":\"p\",\"text\":\"La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}: il Bianco dà scacco, poi riporta la torre sulla colonna c e continua a limitare il re nero. Il Nero non riesce mai a catturare il pedone, perché il re bianco lo difende e la torre controlla le case di accesso.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La tecnica standard in questi finali è la manovra di torre dietro il pedone passato: la torre bianca si mette sulla colonna c o sulla colonna b, il re accompagna il pedone, e il Nero è costretto a difendersi passivamente. Quando il pedone arriva in b8, promuove e la partita è decisa.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Attenzione a un dettaglio: se il Bianco gioca {{mv:C13}}, il Nero cattura la torre e la partita è patta, perché resta solo re e pedone contro re e torre. È l'unico modo di rovinare un finale vinto.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C13\",\"category\":\"natural_trap\"}]},{\"type\":\"p\",\"text\":\"Il Nero proverà a dare scacco con la torre per allontanare il re bianco dal pedone, ma il re bianco può sempre tornare a proteggerlo. La torre nera da sola non può fermare un pedone passato scortato dal re: è una posizione teoricamente vinta per il Bianco.\",\"source\":\"theory\"}]}],\"notes\":[\"Il pacchetto segnala maia_low_confidence_header e unstable_nodes: le probabilità di Maia-2 sono poco affidabili, quindi le ho usate solo come indicazione di frequenza, non come base del giudizio.\",\"La valutazione del motore è saturata in alto (vittoria forzata), quindi tutte le candidate spiegate hanno la stessa valutazione e perdita nulla: la scelta tra loro è puramente stilistica.\",\"Le sezioni non richieste sono state omesse dal programma (motivo: matrix), quindi non le ho scritte.\"]}"
          }
         }
        ]
@@ -351,21 +666,21 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 38753,
-     "completion_tokens": 1835,
-     "total_tokens": 40588,
-     "cost": 0.0016099098,
+     "prompt_tokens": 45258,
+     "completion_tokens": 2583,
+     "total_tokens": 47841,
+     "cost": 0.004032648,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 38528,
+      "cached_tokens": 43008,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.0016099098,
-      "upstream_inference_prompt_cost": 0.0005749698,
-      "upstream_inference_completions_cost": 0.00103494
+      "upstream_inference_cost": 0.004032648,
+      "upstream_inference_prompt_cost": 0.000933048,
+      "upstream_inference_completions_cost": 0.0030996
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,
@@ -380,7 +695,7 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "call_00_c6xmem5y1eq5mip0y73a4fh1",
+     "id": "call_01a1083267e47152820ae645",
      "name": "submit_analysis",
      "input": {
       "schema_version": "1",
@@ -390,7 +705,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Il Bianco vince: il motore dà {{ev:N1}} con la mossa migliore, e la tabella di finale conferma che la posizione è vinta. Il tuo pedone in b7 è passato e il re nero non riesce a fermarlo da solo, perché la tua torre lo tiene lontano. Non serve trovare la mossa perfetta: serve solo non regalare la torre e accompagnare il pedone. Anche se toccasse al Nero la posizione resterebbe vinta ({{ev:N2}}), quindi non hai fretta: ogni mossa ragionevole che non perda materiale mantiene il risultato. La mossa consigliata è {{mv:C3}}, ma non è l'unica: {{mv:C6}}, {{mv:C7}}, {{mv:C10}} e {{mv:C11}} portano tutte allo stesso esito.",
+          "text": "Il Bianco è in vantaggio decisivo: il motore valuta la posizione {{ev:N1}}, e la tabella di finale conferma la vittoria. Il pedone in b7 è passato e protetto dal re, e la torre bianca è già sulla colonna aperta c.",
           "source": "engine",
           "assertions": [
            {
@@ -399,9 +714,51 @@
             "band": "decisive_plus"
            },
            {
-            "kind": "eval_band",
-            "ref": "N2",
-            "band": "decisive_plus"
+            "kind": "feature",
+            "key": "passed_pawn",
+            "side": "w",
+            "squares": [
+             "b7"
+            ]
+           },
+           {
+            "kind": "feature",
+            "key": "rook_open_file",
+            "side": "w",
+            "squares": [
+             "c1"
+            ]
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Non c'è una mossa unica: quasi tutte le mosse di torre tengono la vittoria, e la differenza tra le candidate spiegate è nulla. Il Nero ha la torre in a2, attiva e sulla colonna aperta a, ma da sola non basta contro re, torre e pedone passato: il pedone in b7 è isolato ma il re bianco lo scorta, e la torre bianca controlla la colonna c.",
+          "source": "feature",
+          "assertions": [
+           {
+            "kind": "feature",
+            "key": "rook_open_file",
+            "side": "b",
+            "squares": [
+             "a2"
+            ]
+           },
+           {
+            "kind": "feature",
+            "key": "rook_seventh",
+            "side": "b",
+            "squares": [
+             "a2"
+            ]
+           },
+           {
+            "kind": "feature",
+            "key": "isolated_pawn",
+            "side": "w",
+            "squares": [
+             "b7"
+            ]
            }
           ]
          }
@@ -412,28 +769,52 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Il Nero ha una sola idea concreta: dare scacco con la torre e sperare che tu ti distragga. Dopo la mossa nulla, la sua prima scelta è {{m:Ra3@N2}} ({{ev:N2}}), ma anche {{m:Kd7@N2}} e {{m:Rb2@N2}} non cambiano nulla: la posizione resta vinta per te. Il motore non vede alcuna risorsa difensiva reale: la sua torre non può fermare il pedone senza essere catturata.",
-          "source": "engine"
+          "text": "Il Nero ha una sola risorsa: la torre in a2, che controlla la colonna a e può dare scacco al re bianco. Le sue mosse migliori secondo il motore sono {{m:Ra3@N2}}, {{m:Kd7@N2}} e {{m:Rb2@N2}}, tutte con la stessa valutazione {{ev:N2}}: il Nero non ha un modo per fermare il pedone, cerca solo di creare fastidi.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "feature",
+            "key": "file_control",
+            "side": "b",
+            "squares": [
+             "a2"
+            ]
+           }
+          ]
          },
          {
           "type": "p",
-          "text": "Dopo {{mv:C3}} il Nero ha due risposte: {{m:Ke7@N3}} e {{m:Kd7@N3}}. In entrambi i casi la tua torre può tornare a lavorare sulla colonna c e il pedone resta intoccabile. La variante principale è {{pv:PV3:8}}.",
-          "source": "mixed"
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C6}} il Nero sceglie quasi sempre {{m:Ke7@N4}}; se invece gioca {{m:Ke8@N4}} o prova {{m:Rd2@N4}}, tu rispondi prendendo la torre e il finale è vinto. La linea {{pv:PV6:8}} mostra come il Bianco mantiene il controllo.",
-          "source": "mixed"
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C7}} il Nero ha più scelte: {{m:Ra3@N5}}, {{m:Ke7@N5}}, {{m:Kd7@N5}} o {{m:Rb2@N5}}. Sono tutte equivalenti per il risultato: la sua torre non può fermare il pedone senza essere catturata. La variante {{pv:PV7:8}} è tipica.",
-          "source": "mixed"
-         },
-         {
-          "type": "p",
-          "text": "La sua risorsa più fastidiosa è lo scacco laterale: se la torre arriva sulla colonna b o sulla traversa, devi solo spostare il re e continuare. Non ci sono trappole reali: il Nero non ha modo di dare scacco perpetuo perché il tuo re ha sempre una casa di fuga. In sintesi: il Nero cerca scacchi e spera in un tuo errore, non ha un piano per vincere. Tu devi solo avanzare il pedone e usare la torre per tagliare il re.",
+          "text": "Il piano difensivo tipico è portare la torre dietro il pedone passato, sulla colonna b, per attaccarlo da dietro: {{m:Rb2@N2}} è una delle mosse più naturali in questa posizione, insieme a {{m:Ra3@N2}} e {{m:Kd7@N2}}. Il re nero cerca di avvicinarsi al pedone passato, ma resta troppo lontano.",
           "source": "theory"
+         },
+         {
+          "type": "p",
+          "text": "Dopo {{mv:C3}} il Nero deve rispondere allo scacco: le due mosse sono {{m:Ke7@N3}} e {{m:Kd7@N3}}, e Maia-2 sceglie quasi sempre la seconda, con una probabilità molto alta. Dopo {{mv:C6}} il Nero ha {{m:Ke7@N4}} e {{m:Ke8@N4}} come risposte principali, con la prima nettamente più probabile. Dopo {{mv:C7}} il Nero può giocare {{m:Ra5@N6}}, {{m:Ra1@N6}} o {{m:Ra6@N6}}, tutte mosse di torre sulla colonna a.",
+          "source": "maia",
+          "assertions": [
+           {
+            "kind": "maia_band",
+            "ref": "Kd7@N3",
+            "band": "very_frequent"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "La mossa di contesto del Nero è la torre in a2: da lì può dare scacco sulla colonna a o sulla diagonale, e in alcune linee arriva fino alla seconda traversa. Il suo costo è però limitato: in tutti i sistemi il Bianco mantiene la vittoria, perché il pedone in b7 è troppo avanzato e il re bianco lo scorta.",
+          "source": "theory"
+         },
+         {
+          "type": "p",
+          "text": "Attenzione a non regalare la torre: se il Bianco gioca {{mv:C14}} il Nero cattura e vince, e se gioca {{mv:C13}} la partita finisce patta. Sono le uniche due mosse che rovinano tutto; tutte le altre, anche quelle che sembrano passive, mantengono la vittoria.",
+          "source": "mixed",
+          "assertions": [
+           {
+            "kind": "feature",
+            "key": "material_balance",
+            "side": null
+           }
+          ]
          }
         ]
        },
@@ -446,39 +827,44 @@
           "text_cells": {
            "C3": {
             "idea": {
-             "text": "Scacco che allontana il re nero e prepara il ritorno della torre sulla colonna c; è la mossa consigliata ({{ev:C3}}).",
-             "source": "engine"
+             "text": "Scacco di torre in c8: spinge il re nero e prepara la manovra sulla colonna c. Il motore dà {{ev:C3}} e Maia-2 la sceglie nel {{pct:C3.p_user}} dei casi.",
+             "source": "mixed"
             }
            },
            "C6": {
             "idea": {
-             "text": "Scacco sulla colonna d; dopo la risposta del re la torre si riporta in gioco ({{ev:C6}}).",
-             "source": "engine"
+             "text": "Scacco di torre in d1: allontana il re nero e libera la strada al pedone. Valutazione {{ev:C6}}, scelta dal {{pct:C6.p_user}} dei giocatori.",
+             "source": "mixed"
             }
            },
            "C7": {
             "idea": {
-             "text": "Torre attiva sulla settima traversa, pronta a tagliare il re ({{ev:C7}}).",
-             "source": "engine"
+             "text": "Torre in h1, mossa tranquilla che tiene tutto: {{ev:C7}}, frequenza {{pct:C7.p_user}}.",
+             "source": "mixed"
             }
            },
            "C10": {
             "idea": {
-             "text": "Torre in c7 con idea simile, ma il Nero ha più risorse difensive ({{ev:C10}}).",
-             "source": "engine"
+             "text": "Torre in c7, attacca subito il pedone e limita il re nero: {{ev:C10}}, frequenza {{pct:C10.p_user}}.",
+             "source": "mixed"
             }
            },
            "C11": {
             "idea": {
-             "text": "Torre in b1 a sostegno del pedone; semplice e sicura ({{ev:C11}}).",
-             "source": "engine"
+             "text": "Torre in b1, difende il pedone passato da dietro: {{ev:C11}}, frequenza {{pct:C11.p_user}}.",
+             "source": "mixed"
             }
            }
           }
          },
          {
           "type": "p",
-          "text": "Tutte le mosse elencate mantengono la vittoria: il motore non trova differenze pratiche tra loro. La scelta migliore è {{mv:C3}}, che dà scacco e guadagna un tempo. Non esiste una mossa unica: puoi giocare {{mv:C6}}, {{mv:C7}}, {{mv:C10}} o {{mv:C11}} e restare vincente. Scegli quella che ti sembra più comoda da calcolare.",
+          "text": "Tutte le candidate spiegate mantengono la vittoria con la stessa valutazione {{ev:N1}}: la differenza tra loro è solo di stile. {{mv:C3}} e {{mv:C6}} sono gli scacchi, che costringono il re nero a muoversi; {{mv:C7}}, {{mv:C10}} e {{mv:C11}} sono mosse tranquille che migliorano la torre.",
+          "source": "engine"
+         },
+         {
+          "type": "p",
+          "text": "La mossa consigliata è {{mv:C3}}, ma il motore segnala che non esiste una mossa unica: puoi scegliere tra lo scacco immediato e le mosse tranquille. Se preferisci la semplicità, {{mv:C11}} difende il pedone e non richiede calcolo.",
           "source": "engine"
          }
         ]
@@ -490,23 +876,23 @@
           "type": "ol",
           "items": [
            {
-            "text": "Controlla che la tua torre non sia attaccabile: è l'unico pezzo che può salvarti da uno scacco perpetuo.",
+            "text": "**Prima di tutto, controlla che la torre non sia in presa**: evita {{mv:C14}} e {{mv:C13}}, le uniche mosse che rovinano la posizione.",
+            "source": "engine"
+           },
+           {
+            "text": "**Scegli se dare scacco o migliorare la torre**: {{mv:C3}} e {{mv:C6}} spingono il re nero, le altre lo lasciano dove sta.",
+            "source": "engine"
+           },
+           {
+            "text": "**Avanza il pedone in b7 solo quando il re bianco lo protegge**: il pedone è passato, ma va scortato.",
             "source": "theory"
            },
            {
-            "text": "Avanza il pedone in b7 quando il re nero è lontano.",
+            "text": "**Porta la torre sulla colonna c o dietro il pedone**: la torre deve sostenere l'avanzata, non vagare.",
             "source": "theory"
            },
            {
-            "text": "Usa la torre per tagliare il re sulla colonna o sulla traversa.",
-            "source": "theory"
-           },
-           {
-            "text": "Se il Nero dà scacco, sposta il re e riprendi il piano.",
-            "source": "theory"
-           },
-           {
-            "text": "Promuovi il pedone e vinci con la donna.",
+            "text": "**Non avere fretta**: il Nero non ha controgioco reale, quindi migliora la posizione prima di promuovere.",
             "source": "theory"
            }
           ]
@@ -518,7 +904,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Questa è una posizione di finale con torre e pedone contro torre, ma il pedone è già in b7 e il re nero è tagliato fuori: la tabella di finale dice che è vinta per il Bianco. Il motore valuta {{ev:N1}} e la linea principale è {{pv:PV1:8}}.",
+          "text": "Questa è una posizione di finale con tablebase: il motore sa che il Bianco vince, {{ev:N1}}, e la tabella conferma la vittoria. Il piano tecnico è semplice: promuovere il pedone in b7, usando re e torre per proteggerlo e per tagliare fuori il re nero.",
           "source": "engine",
           "assertions": [
            {
@@ -530,41 +916,59 @@
          },
          {
           "type": "p",
-          "text": "La tecnica è semplice: porta il re vicino al pedone, usa la torre per tagliare il re nero e promuovi. Non serve calcolare molto: basta non perdere la torre. Attenzione agli scacchi laterali: se il re nero si avvicina, la torre deve restare attiva. La linea {{pv:PV3:8}} mostra come il Bianco mantiene il controllo.",
-          "source": "mixed"
+          "text": "La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}: il Bianco dà scacco, poi riporta la torre sulla colonna c e continua a limitare il re nero. Il Nero non riesce mai a catturare il pedone, perché il re bianco lo difende e la torre controlla le case di accesso.",
+          "source": "engine"
          },
          {
           "type": "p",
-          "text": "Se il Nero prova a sacrificare la torre per il pedone, tu prendi e resti con re e torre contro re: finale elementare. In pratica: gioca {{mv:C3}}, poi riporta la torre sulla colonna c, avanza il re e promuovi. Il risultato è certo.",
-          "source": "mixed"
+          "text": "La tecnica standard in questi finali è la manovra di torre dietro il pedone passato: la torre bianca si mette sulla colonna c o sulla colonna b, il re accompagna il pedone, e il Nero è costretto a difendersi passivamente. Quando il pedone arriva in b8, promuove e la partita è decisa.",
+          "source": "theory"
+         },
+         {
+          "type": "p",
+          "text": "Attenzione a un dettaglio: se il Bianco gioca {{mv:C13}}, il Nero cattura la torre e la partita è patta, perché resta solo re e pedone contro re e torre. È l'unico modo di rovinare un finale vinto.",
+          "source": "mixed",
+          "assertions": [
+           {
+            "kind": "feature",
+            "key": "material_balance",
+            "side": null
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Il Nero proverà a dare scacco con la torre per allontanare il re bianco dal pedone, ma il re bianco può sempre tornare a proteggerlo. La torre nera da sola non può fermare un pedone passato scortato dal re: è una posizione teoricamente vinta per il Bianco.",
+          "source": "theory"
          }
         ]
        }
       ],
       "notes": [
-       "Il pacchetto segnala maia_low_confidence: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti.",
-       "Alcuni nodi hanno unstable_depth: le valutazioni dei nodi secondari vanno lette con cautela, ma la posizione è chiaramente vinta secondo la tablebase."
+       "Il pacchetto segnala maia_low_confidence_header e unstable_nodes: le probabilità di Maia-2 sono poco affidabili, quindi le ho usate solo come indicazione di frequenza, non come base del giudizio.",
+       "La valutazione del motore è saturata in alto (vittoria forzata), quindi tutte le candidate spiegate hanno la stessa valutazione e perdita nulla: la scelta tra loro è puramente stilistica.",
+       "Le sezioni non richieste sono state omesse dal programma (motivo: matrix), quindi non le ho scritte."
       ]
      }
     }
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 41719,
-    "completion_tokens": 1923,
-    "total_tokens": 43642,
-    "cost": 0.0020615046,
+    "prompt_tokens": 48465,
+    "completion_tokens": 2616,
+    "total_tokens": 51081,
+    "cost": 0.003641964,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 38656,
+     "cached_tokens": 47744,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.0020615046,
-     "upstream_inference_prompt_cost": 0.0009769326,
-     "upstream_inference_completions_cost": 0.001084572
+     "upstream_inference_cost": 0.003641964,
+     "upstream_inference_prompt_cost": 0.000502764,
+     "upstream_inference_completions_cost": 0.0031392
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -573,13 +977,13 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791134942-dmR6iS4KzqFUsGZs8qU0",
+    "id": "gen-1791138881-Qvs39EhLdYn0bgZYz8nS",
     "object": "chat.completion",
-    "created": 1791134942,
+    "created": 1791138881,
     "model": "deepseek/deepseek-v4.1-flash",
-    "provider": "AtlasCloud",
-    "system_fingerprint": null,
-    "service_tier": "default",
+    "provider": "Together",
+    "system_fingerprint": "default",
+    "service_tier": null,
     "choices": [
      {
       "index": 0,
@@ -595,10 +999,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "call_00_c6xmem5y1eq5mip0y73a4fh1",
+         "id": "call_01a1083267e47152820ae645",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Bianco vince: il motore dà {{ev:N1}} con la mossa migliore, e la tabella di finale conferma che la posizione è vinta. Il tuo pedone in b7 è passato e il re nero non riesce a fermarlo da solo, perché la tua torre lo tiene lontano. Non serve trovare la mossa perfetta: serve solo non regalare la torre e accompagnare il pedone. Anche se toccasse al Nero la posizione resterebbe vinta ({{ev:N2}}), quindi non hai fretta: ogni mossa ragionevole che non perda materiale mantiene il risultato. La mossa consigliata è {{mv:C3}}, ma non è l'unica: {{mv:C6}}, {{mv:C7}}, {{mv:C10}} e {{mv:C11}} portano tutte allo stesso esito.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"decisive_plus\"}, {\"kind\": \"eval_band\", \"ref\": \"N2\", \"band\": \"decisive_plus\"}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Nero ha una sola idea concreta: dare scacco con la torre e sperare che tu ti distragga. Dopo la mossa nulla, la sua prima scelta è {{m:Ra3@N2}} ({{ev:N2}}), ma anche {{m:Kd7@N2}} e {{m:Rb2@N2}} non cambiano nulla: la posizione resta vinta per te. Il motore non vede alcuna risorsa difensiva reale: la sua torre non può fermare il pedone senza essere catturata.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Dopo {{mv:C3}} il Nero ha due risposte: {{m:Ke7@N3}} e {{m:Kd7@N3}}. In entrambi i casi la tua torre può tornare a lavorare sulla colonna c e il pedone resta intoccabile. La variante principale è {{pv:PV3:8}}.\", \"source\": \"mixed\"}, {\"type\": \"p\", \"text\": \"Dopo {{mv:C6}} il Nero sceglie quasi sempre {{m:Ke7@N4}}; se invece gioca {{m:Ke8@N4}} o prova {{m:Rd2@N4}}, tu rispondi prendendo la torre e il finale è vinto. La linea {{pv:PV6:8}} mostra come il Bianco mantiene il controllo.\", \"source\": \"mixed\"}, {\"type\": \"p\", \"text\": \"Dopo {{mv:C7}} il Nero ha più scelte: {{m:Ra3@N5}}, {{m:Ke7@N5}}, {{m:Kd7@N5}} o {{m:Rb2@N5}}. Sono tutte equivalenti per il risultato: la sua torre non può fermare il pedone senza essere catturata. La variante {{pv:PV7:8}} è tipica.\", \"source\": \"mixed\"}, {\"type\": \"p\", \"text\": \"La sua risorsa più fastidiosa è lo scacco laterale: se la torre arriva sulla colonna b o sulla traversa, devi solo spostare il re e continuare. Non ci sono trappole reali: il Nero non ha modo di dare scacco perpetuo perché il tuo re ha sempre una casa di fuga. In sintesi: il Nero cerca scacchi e spera in un tuo errore, non ha un piano per vincere. Tu devi solo avanzare il pedone e usare la torre per tagliare il re.\", \"source\": \"theory\"}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C3\": {\"idea\": {\"text\": \"Scacco che allontana il re nero e prepara il ritorno della torre sulla colonna c; è la mossa consigliata ({{ev:C3}}).\", \"source\": \"engine\"}}, \"C6\": {\"idea\": {\"text\": \"Scacco sulla colonna d; dopo la risposta del re la torre si riporta in gioco ({{ev:C6}}).\", \"source\": \"engine\"}}, \"C7\": {\"idea\": {\"text\": \"Torre attiva sulla settima traversa, pronta a tagliare il re ({{ev:C7}}).\", \"source\": \"engine\"}}, \"C10\": {\"idea\": {\"text\": \"Torre in c7 con idea simile, ma il Nero ha più risorse difensive ({{ev:C10}}).\", \"source\": \"engine\"}}, \"C11\": {\"idea\": {\"text\": \"Torre in b1 a sostegno del pedone; semplice e sicura ({{ev:C11}}).\", \"source\": \"engine\"}}}}, {\"type\": \"p\", \"text\": \"Tutte le mosse elencate mantengono la vittoria: il motore non trova differenze pratiche tra loro. La scelta migliore è {{mv:C3}}, che dà scacco e guadagna un tempo. Non esiste una mossa unica: puoi giocare {{mv:C6}}, {{mv:C7}}, {{mv:C10}} o {{mv:C11}} e restare vincente. Scegli quella che ti sembra più comoda da calcolare.\", \"source\": \"engine\"}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Controlla che la tua torre non sia attaccabile: è l'unico pezzo che può salvarti da uno scacco perpetuo.\", \"source\": \"theory\"}, {\"text\": \"Avanza il pedone in b7 quando il re nero è lontano.\", \"source\": \"theory\"}, {\"text\": \"Usa la torre per tagliare il re sulla colonna o sulla traversa.\", \"source\": \"theory\"}, {\"text\": \"Se il Nero dà scacco, sposta il re e riprendi il piano.\", \"source\": \"theory\"}, {\"text\": \"Promuovi il pedone e vinci con la donna.\", \"source\": \"theory\"}]}]}, {\"id\": \"S12\", \"blocks\": [{\"type\": \"p\", \"text\": \"Questa è una posizione di finale con torre e pedone contro torre, ma il pedone è già in b7 e il re nero è tagliato fuori: la tabella di finale dice che è vinta per il Bianco. Il motore valuta {{ev:N1}} e la linea principale è {{pv:PV1:8}}.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"decisive_plus\"}]}, {\"type\": \"p\", \"text\": \"La tecnica è semplice: porta il re vicino al pedone, usa la torre per tagliare il re nero e promuovi. Non serve calcolare molto: basta non perdere la torre. Attenzione agli scacchi laterali: se il re nero si avvicina, la torre deve restare attiva. La linea {{pv:PV3:8}} mostra come il Bianco mantiene il controllo.\", \"source\": \"mixed\"}, {\"type\": \"p\", \"text\": \"Se il Nero prova a sacrificare la torre per il pedone, tu prendi e resti con re e torre contro re: finale elementare. In pratica: gioca {{mv:C3}}, poi riporta la torre sulla colonna c, avanza il re e promuovi. Il risultato è certo.\", \"source\": \"mixed\"}]}], \"notes\": [\"Il pacchetto segnala maia_low_confidence: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti.\", \"Alcuni nodi hanno unstable_depth: le valutazioni dei nodi secondari vanno lette con cautela, ma la posizione è chiaramente vinta secondo la tablebase.\"]}"
+          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Bianco è in vantaggio decisivo: il motore valuta la posizione {{ev:N1}}, e la tabella di finale conferma la vittoria. Il pedone in b7 è passato e protetto dal re, e la torre bianca è già sulla colonna aperta c.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"decisive_plus\"},{\"kind\":\"feature\",\"key\":\"passed_pawn\",\"side\":\"w\",\"squares\":[\"b7\"]},{\"kind\":\"feature\",\"key\":\"rook_open_file\",\"side\":\"w\",\"squares\":[\"c1\"]}]},{\"type\":\"p\",\"text\":\"Non c'è una mossa unica: quasi tutte le mosse di torre tengono la vittoria, e la differenza tra le candidate spiegate è nulla. Il Nero ha la torre in a2, attiva e sulla colonna aperta a, ma da sola non basta contro re, torre e pedone passato: il pedone in b7 è isolato ma il re bianco lo scorta, e la torre bianca controlla la colonna c.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"rook_open_file\",\"side\":\"b\",\"squares\":[\"a2\"]},{\"kind\":\"feature\",\"key\":\"rook_seventh\",\"side\":\"b\",\"squares\":[\"a2\"]},{\"kind\":\"feature\",\"key\":\"isolated_pawn\",\"side\":\"w\",\"squares\":[\"b7\"]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero ha una sola risorsa: la torre in a2, che controlla la colonna a e può dare scacco al re bianco. Le sue mosse migliori secondo il motore sono {{m:Ra3@N2}}, {{m:Kd7@N2}} e {{m:Rb2@N2}}, tutte con la stessa valutazione {{ev:N2}}: il Nero non ha un modo per fermare il pedone, cerca solo di creare fastidi.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"file_control\",\"side\":\"b\",\"squares\":[\"a2\"]}]},{\"type\":\"p\",\"text\":\"Il piano difensivo tipico è portare la torre dietro il pedone passato, sulla colonna b, per attaccarlo da dietro: {{m:Rb2@N2}} è una delle mosse più naturali in questa posizione, insieme a {{m:Ra3@N2}} e {{m:Kd7@N2}}. Il re nero cerca di avvicinarsi al pedone passato, ma resta troppo lontano.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Dopo {{mv:C3}} il Nero deve rispondere allo scacco: le due mosse sono {{m:Ke7@N3}} e {{m:Kd7@N3}}, e Maia-2 sceglie quasi sempre la seconda, con una probabilità molto alta. Dopo {{mv:C6}} il Nero ha {{m:Ke7@N4}} e {{m:Ke8@N4}} come risposte principali, con la prima nettamente più probabile. Dopo {{mv:C7}} il Nero può giocare {{m:Ra5@N6}}, {{m:Ra1@N6}} o {{m:Ra6@N6}}, tutte mosse di torre sulla colonna a.\",\"source\":\"maia\",\"assertions\":[{\"kind\":\"maia_band\",\"ref\":\"Kd7@N3\",\"band\":\"very_frequent\"}]},{\"type\":\"p\",\"text\":\"La mossa di contesto del Nero è la torre in a2: da lì può dare scacco sulla colonna a o sulla diagonale, e in alcune linee arriva fino alla seconda traversa. Il suo costo è però limitato: in tutti i sistemi il Bianco mantiene la vittoria, perché il pedone in b7 è troppo avanzato e il re bianco lo scorta.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Attenzione a non regalare la torre: se il Bianco gioca {{mv:C14}} il Nero cattura e vince, e se gioca {{mv:C13}} la partita finisce patta. Sono le uniche due mosse che rovinano tutto; tutte le altre, anche quelle che sembrano passive, mantengono la vittoria.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"material_balance\",\"side\":null}]}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C3\":{\"idea\":{\"text\":\"Scacco di torre in c8: spinge il re nero e prepara la manovra sulla colonna c. Il motore dà {{ev:C3}} e Maia-2 la sceglie nel {{pct:C3.p_user}} dei casi.\",\"source\":\"mixed\"}},\"C6\":{\"idea\":{\"text\":\"Scacco di torre in d1: allontana il re nero e libera la strada al pedone. Valutazione {{ev:C6}}, scelta dal {{pct:C6.p_user}} dei giocatori.\",\"source\":\"mixed\"}},\"C7\":{\"idea\":{\"text\":\"Torre in h1, mossa tranquilla che tiene tutto: {{ev:C7}}, frequenza {{pct:C7.p_user}}.\",\"source\":\"mixed\"}},\"C10\":{\"idea\":{\"text\":\"Torre in c7, attacca subito il pedone e limita il re nero: {{ev:C10}}, frequenza {{pct:C10.p_user}}.\",\"source\":\"mixed\"}},\"C11\":{\"idea\":{\"text\":\"Torre in b1, difende il pedone passato da dietro: {{ev:C11}}, frequenza {{pct:C11.p_user}}.\",\"source\":\"mixed\"}}}},{\"type\":\"p\",\"text\":\"Tutte le candidate spiegate mantengono la vittoria con la stessa valutazione {{ev:N1}}: la differenza tra loro è solo di stile. {{mv:C3}} e {{mv:C6}} sono gli scacchi, che costringono il re nero a muoversi; {{mv:C7}}, {{mv:C10}} e {{mv:C11}} sono mosse tranquille che migliorano la torre.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La mossa consigliata è {{mv:C3}}, ma il motore segnala che non esiste una mossa unica: puoi scegliere tra lo scacco immediato e le mosse tranquille. Se preferisci la semplicità, {{mv:C11}} difende il pedone e non richiede calcolo.\",\"source\":\"engine\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Prima di tutto, controlla che la torre non sia in presa**: evita {{mv:C14}} e {{mv:C13}}, le uniche mosse che rovinano la posizione.\",\"source\":\"engine\"},{\"text\":\"**Scegli se dare scacco o migliorare la torre**: {{mv:C3}} e {{mv:C6}} spingono il re nero, le altre lo lasciano dove sta.\",\"source\":\"engine\"},{\"text\":\"**Avanza il pedone in b7 solo quando il re bianco lo protegge**: il pedone è passato, ma va scortato.\",\"source\":\"theory\"},{\"text\":\"**Porta la torre sulla colonna c o dietro il pedone**: la torre deve sostenere l'avanzata, non vagare.\",\"source\":\"theory\"},{\"text\":\"**Non avere fretta**: il Nero non ha controgioco reale, quindi migliora la posizione prima di promuovere.\",\"source\":\"theory\"}]}]},{\"id\":\"S12\",\"blocks\":[{\"type\":\"p\",\"text\":\"Questa è una posizione di finale con tablebase: il motore sa che il Bianco vince, {{ev:N1}}, e la tabella conferma la vittoria. Il piano tecnico è semplice: promuovere il pedone in b7, usando re e torre per proteggerlo e per tagliare fuori il re nero.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"decisive_plus\"}]},{\"type\":\"p\",\"text\":\"La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}: il Bianco dà scacco, poi riporta la torre sulla colonna c e continua a limitare il re nero. Il Nero non riesce mai a catturare il pedone, perché il re bianco lo difende e la torre controlla le case di accesso.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La tecnica standard in questi finali è la manovra di torre dietro il pedone passato: la torre bianca si mette sulla colonna c o sulla colonna b, il re accompagna il pedone, e il Nero è costretto a difendersi passivamente. Quando il pedone arriva in b8, promuove e la partita è decisa.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Attenzione a un dettaglio: se il Bianco gioca {{mv:C13}}, il Nero cattura la torre e la partita è patta, perché resta solo re e pedone contro re e torre. È l'unico modo di rovinare un finale vinto.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"material_balance\",\"side\":null}]},{\"type\":\"p\",\"text\":\"Il Nero proverà a dare scacco con la torre per allontanare il re bianco dal pedone, ma il re bianco può sempre tornare a proteggerlo. La torre nera da sola non può fermare un pedone passato scortato dal re: è una posizione teoricamente vinta per il Bianco.\",\"source\":\"theory\"}]}],\"notes\":[\"Il pacchetto segnala maia_low_confidence_header e unstable_nodes: le probabilità di Maia-2 sono poco affidabili, quindi le ho usate solo come indicazione di frequenza, non come base del giudizio.\",\"La valutazione del motore è saturata in alto (vittoria forzata), quindi tutte le candidate spiegate hanno la stessa valutazione e perdita nulla: la scelta tra loro è puramente stilistica.\",\"Le sezioni non richieste sono state omesse dal programma (motivo: matrix), quindi non le ho scritte.\"]}"
          }
         }
        ]
@@ -606,21 +1010,21 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 41719,
-     "completion_tokens": 1923,
-     "total_tokens": 43642,
-     "cost": 0.0020615046,
+     "prompt_tokens": 48465,
+     "completion_tokens": 2616,
+     "total_tokens": 51081,
+     "cost": 0.003641964,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 38656,
+      "cached_tokens": 47744,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.0020615046,
-      "upstream_inference_prompt_cost": 0.0009769326,
-      "upstream_inference_completions_cost": 0.001084572
+      "upstream_inference_cost": 0.003641964,
+      "upstream_inference_prompt_cost": 0.000502764,
+      "upstream_inference_completions_cost": 0.0031392
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,

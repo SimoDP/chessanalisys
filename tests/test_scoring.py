@@ -167,3 +167,13 @@ def test_quiescent_leaf_follows_the_line():
     assert leaf.board_fen() == "4k3/8/8/3P4/8/8/8/4K3"
     # horizon 0: the next move of the line is a capture, so it is played
     assert quiescent_leaf(b, ["exd5", "Kd7"], 0, 1, 4).board_fen() == "4k3/8/8/3P4/8/8/8/4K3"
+
+
+def test_override_only_on_the_primary_category(cfg):
+    sc = cfg.thresholds.scoring
+    root = node("N1", START.fen(), "E0", [mpv("e2e4", "e4", 0, ["e4"])], maia=pol(e2e4=1.0))
+    line = _line(kind="threat", impact=300, p_att=0.5, p_walk=0.01, attacker="b")     # risk 0.015
+    line.id, line.tags, line.primary = "L1", ["king_safety", "threats_dynamics"], "threats_dynamics"
+    cats = {c["id"]: c for c in score_categories(cfg, [root], [], [line], "w", "middlegame", False, "1600_2000")}
+    assert cats["threats_dynamics"]["T"]["w"] == sc.override.t_max and cats["threats_dynamics"]["advice"] == "critical"
+    assert cats["king_safety"]["components"]["override"]["w"] is False and cats["king_safety"]["T"]["w"] > 90
