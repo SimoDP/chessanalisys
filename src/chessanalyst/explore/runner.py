@@ -1,8 +1,11 @@
 """Exploration runner (§3-ter.2, D-43).
 
 Order: Maia-2 at the root → E0 → E4 → candidate selection → E1 → E2 (+ Maia-2)
-→ E3-ℓ1 (+ Maia-2) → E2b → E2c. In M1 E3 stops at ℓ1 (D-23). With the
-opponent to move the phase R replaces E2, E2b and E3 (§2-bis.6).
+→ E3-ℓ1 (+ Maia-2) → E2b → E2c → E3-ℓ2 (+ Maia-2) → E3-ℓ3 (+ Maia-2). The levels
+are capped by ``milestone_max_e3_level`` (M1: ℓ1, from M2: ℓ3). From M2 the T3
+nodes include the ℓ2 nodes: E2c runs on the E2 nodes in its slot and once more
+after ℓ2 for the moves missing there (OQ-M2-2). With the opponent to move the
+phase R replaces E2, E2b and E3 (§2-bis.6).
 """
 
 from __future__ import annotations
@@ -25,7 +28,7 @@ from chessanalyst.explore.select import (BandSel, ReplyRow, RootRow, Selection, 
                                          select_candidates, select_replies)
 
 log = logging.getLogger(__name__)
-DISCARDABLE = ("E3l1", "E2b", "E2c")
+DISCARDABLE = ("E3l1", "E2b", "E2c", "E3l2", "E3l3")
 
 
 @dataclass
@@ -40,7 +43,7 @@ class UserCtx:
 
 @dataclass
 class NodeRec:
-    phase: str                         # E0 E1 E2 E3l1 E2b E2c R
+    phase: str                         # E0 E1 E2 E3l1 E3l2 E3l3 E2b E2c R
     path: list[str]                    # SAN from the root ("--" = null move)
     board: chess.Board
     result: NodeResult | None = None
@@ -115,7 +118,7 @@ class Budget:
         s = self.cfg.exploration.phase_shares
         if phase == "R":
             return s.E2 + s.E2b + s.E3
-        if phase == "E3l1":
+        if phase.startswith("E3l"):
             return s.E3
         return getattr(s, phase)
 
@@ -291,8 +294,10 @@ def _user_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: ches
                 continue
             ref = f"{exp.rows[u].san} {n2.board.san(chess.Move.from_uci(r))}"
             e3_items.append((u, r, Item("E3l1", b, prof.multipv.nodes, prof.dmin.nodes, None, ref)))
-    e3_t = budget.t_target("E3l1", len(e3_items) if e3_items else prof.e3_M * (prof.e3_R + 1))
-    results = budget.run_phase([it for _, _, it in e3_items], True, progress=progress) if e3_items else []
+    # one t_target for the whole phase E3: ℓ2 and ℓ3 add one node per node of the level above
+    e3_t = budget.t_target("E3l1", (len(e3_items) if e3_items else prof.e3_M * (prof.e3_R + 1)) * levels)
+    results = budget.run_phase([it for _, _, it in e3_items], True, t_target=e3_t,
+                               progress=progress) if e3_items else []
     for k, ((u, r, it), res) in enumerate(zip(e3_items, results)):
         if res is None:
             continue
@@ -330,25 +335,59 @@ def _user_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: ches
         exp.complexity[u] = complexity([(r.board, r.result) for r in recs], fg)
         exp.e2b[u] = [r for r in recs if r.result is not None]
 
-    # E2c + context move (T3 nodes = E2 nodes in M1)
+    # E2c + context move: T3 nodes = E2 nodes, then (from M2) also the ℓ2 nodes
     t3 = [ctx.ContextNode(exp.rows[u].san, exp.e2[u].board, exp.e2[u].result, exp.e2[u].maia["policy"])
           for u in sel.explained if exp.e2[u].result is not None]
-    cands = ctx.context_candidates(t3, th.selection.context_candidates)
-    e2c_items: list[tuple[ctx.ContextNode, str, Item]] = []
+    e2c_t = cfg.exploration.e2c_time_factor * e3_t
+    _run_e2c(exp, budget, t3, prof, th.selection.context_candidates, e2c_t, progress)
+
+    # E3 ℓ2 (opponent to move, after the first move of ℓ1) and ℓ3 (user, after the first move of ℓ2)
+    for lvl in range(2, levels + 1):
+        above = [(u, n) for lv, u, n in exp.e3 if lv == lvl - 1 and n.result is not None and n.result.lines]
+        items = []
+        for u, n in above:
+            b = _child(n.board, n.result.lines[0].uci)
+            if b.is_game_over():
+                continue
+            path = n.path + [n.result.lines[0].san]
+            items.append((u, n, path, Item(f"E3l{lvl}", b, prof.multipv.nodes, prof.dmin.nodes, None, " ".join(path))))
+        results = budget.run_phase([it for *_, it in items], True, t_target=e3_t, progress=progress) if items else []
+        for (u, n, path, it), res in zip(items, results):
+            if res is None:
+                continue
+            rec = NodeRec(f"E3l{lvl}", path, it.board, res, order=(3, lvl) + n.order[2:])
+            user_moves = it.board.turn == user.color
+            rec.maia = _maia_rec(maia, it.board, *((user.elo_maia, user.opp_elo_maia) if user_moves
+                                                   else (user.opp_elo_maia, user.elo_maia)))
+            exp.e3.append((lvl, u, rec))
+            if lvl == 2:
+                t3.append(ctx.ContextNode(" ".join(path), it.board, res, rec.maia["policy"]))
+        if lvl == 2 and items:
+            _run_e2c(exp, budget, t3, prof, th.selection.context_candidates, e2c_t, progress)
+    exp.context = ctx.choose_context(t3, ctx.context_candidates(t3, th.selection.context_candidates),
+                                     th.selection.context_spread_cp)
+
+
+def _run_e2c(exp: Exploration, budget: Budget, t3: list[ctx.ContextNode], prof: ProfileCfg, n_cands: int,
+             t_target: float, progress) -> None:
+    """E2c: restricted searches for the context candidates where they are legal but missing (§3-ter.6)."""
+    cands = ctx.context_candidates(t3, n_cands)
+    items: list[tuple[ctx.ContextNode, str, Item]] = []
     for m in cands:
         for n in ctx.missing_nodes(t3, m):
-            mv = chess.Move.from_uci(m)
-            ref = f"{n.key} {n.board.san(mv)}"
-            e2c_items.append((n, m, Item("E2c", n.board, 1, prof.dmin.pvwalk, [mv], ref)))
-    if e2c_items:
-        tt = cfg.exploration.e2c_time_factor * e3_t
-        results = budget.run_phase([it for _, _, it in e2c_items], True, t_target=tt, progress=progress)
-        for k, ((n, m, it), res) in enumerate(zip(e2c_items, results)):
-            if res is None or not res.lines:
+            if n.extra and m in n.extra:
                 continue
-            n.extra = {**(n.extra or {}), m: res.lines[0].eval_white_cp}
-            exp.e2c.append(NodeRec("E2c", [n.key], it.board, res, citable=False, order=(6, k), root_moves=[m]))
-    exp.context = ctx.choose_context(t3, cands, th.selection.context_spread_cp)
+            mv = chess.Move.from_uci(m)
+            items.append((n, m, Item("E2c", n.board, 1, prof.dmin.pvwalk, [mv], f"{n.key} {n.board.san(mv)}")))
+    if not items:
+        return
+    results = budget.run_phase([it for _, _, it in items], True, t_target=t_target, progress=progress)
+    for (n, m, it), res in zip(items, results):
+        if res is None or not res.lines:
+            continue
+        n.extra = {**(n.extra or {}), m: res.lines[0].eval_white_cp}
+        exp.e2c.append(NodeRec("E2c", n.key.split(" "), it.board, res, citable=False,
+                               order=(6, len(exp.e2c)), root_moves=[m]))
 
 
 def _opponent_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: chess.Board, user: UserCtx,

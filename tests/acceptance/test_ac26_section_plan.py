@@ -95,10 +95,43 @@ def test_opponent_to_move(cfg, anchor, band):
     assert p["S07"]["must_cover"] == ["R1", "R2"] and p["S07"]["tables"] == ["T1"]
 
 
-def test_other_columns_in_m1(cfg):
-    pi = PlanInput("1900", "1600_2000", 1900, 2, {"w": "can_both", "b": "can_both"}, True, "il Nero",
-                   EXPL, 4, {"C3": "hard_move"}, [], "C1", False, False, False)
+def _other(cfg, col, **kw):
+    pi = PlanInput("1900", "1600_2000", 1900, col, kw.pop("castling", {"w": "can_both", "b": "can_both"}), True,
+                   "il Nero", EXPL, 4, kw.pop("categories", {"C3": "hard_move"}), [], "C1", False, False, False, **kw)
     entries, omitted, warnings = build_section_plan(cfg, pi)
+    return entries, {o["id"]: o["reason"] for o in omitted}, warnings
+
+
+def test_column_2_tactical_from_m2(cfg):
+    # M2: complete matrix (§8.3); S13 mandatory, S05 only with involved pieces (c5)
+    entries, omitted, warnings = _other(cfg, 2, focus_squares=["c4", "g5"])
+    p = {e["id"]: e for e in entries}
     req = [e["id"] for e in entries if e["required"]]
-    assert req == ["S01", "S06", "S07", "S10"] and warnings == ["profile_unsupported"]
-    assert {o["id"]: o["reason"] for o in omitted}["S05"] == "unsupported_profile"
+    assert req == ["S01", "S03", "S04", "S05", "S06", "S07", "S08", "S10", "S13"] and warnings == []
+    assert p["S05"]["focus_squares"] == ["c4", "g5"] and p["S13"]["title"] == "Tattica forzata"
+    assert p["S13"]["theory_allowed"] is False and omitted["S12"] == "matrix"
+    assert all(e["focus_squares"] == [] for e in entries if e["id"] != "S05")
+
+
+def test_column_2_without_involved_pieces_omits_s05(cfg):
+    _, omitted, _ = _other(cfg, 2, focus_squares=[])
+    assert omitted["S05"] == "matrix"
+
+
+def test_column_3_endgame(cfg):
+    entries, omitted, warnings = _other(cfg, 3, castling={"w": "lost", "b": "lost"})
+    p = {e["id"]: e for e in entries}
+    req = [e["id"] for e in entries if e["required"]]
+    assert req == ["S01", "S06", "S07", "S08", "S10", "S12"] and warnings == []
+    assert omitted["S03"] == omitted["S04"] == omitted["S05"] == omitted["S13"] == "matrix"
+    assert p["S12"]["theory_allowed"] is True and p["S12"]["must_cover"] == []
+
+
+def test_column_4_tablebase(cfg):
+    entries, omitted, _ = _other(cfg, 4, castling={"w": "lost", "b": "lost"}, tablebase=True)
+    p = {e["id"]: e for e in entries}
+    req = [e["id"] for e in entries if e["required"]]
+    assert req == ["S01", "S06", "S07", "S10", "S12"]
+    assert omitted["S08"] == "matrix" and p["S12"]["must_cover"] == ["N1"]    # the exact result is cited
+    total = sum(e["word_budget"] for e in entries if e["required"])
+    assert abs(total - cfg.thresholds.band_params["1600_2000"].prose_words) <= 30

@@ -11,7 +11,8 @@ from typing import Any
 
 import chess
 
-from chessanalyst.render.format_it import fmt_eval, fmt_loss, fmt_pct, fmt_wdl, numbered
+from chessanalyst.engines.types import CP_CLAMP
+from chessanalyst.render.format_it import fmt_eval, fmt_loss, fmt_pct, fmt_wdl, numbered, tb_outcome
 from chessanalyst.verify.plan_check import PlanError, check_diag, check_plan, render_plan
 from chessanalyst.verify.tokens import Token, TokenSyntaxError, parse_token
 
@@ -57,6 +58,7 @@ class Resolver:
         self.ruids = {u["id"]: (r, u) for r in eng["replies"] for u in r["user_best"]}
         self.pvs = {p["id"]: p for p in eng["pvs"]}
         self.nodes = {n["id"]: n for n in pack["nodes"]}
+        self.tb = pack.get("tablebase")          # M2: exact result at the root, values in words
 
     # -- helpers -------------------------------------------------------------
     def node(self, nid: str) -> dict:
@@ -89,8 +91,17 @@ class Resolver:
                         return ln
         return None
 
-    def _ev_text(self, cp: int, mate: int | None) -> str:
+    def _ev_text(self, cp: int, mate: int | None, root_node: bool = False) -> str:
+        if self.tb is not None:          # tablebase position: the exact result, in words (§3.3)
+            key = self.tb["result_text_key"] if root_node else tb_outcome(cp, mate, CP_CLAMP)
+            return self.wording["tablebase"]["results"][key]
         return fmt_eval(cp, mate, opp_name=self.opp_name)
+
+    def _loss_text(self, loss_cp: int, mate: bool, best: tuple[int, int | None], move: tuple[int, int | None]) -> str:
+        if self.tb is not None:          # same outcome as the best move or not
+            same = tb_outcome(*best, CP_CLAMP) == tb_outcome(*move, CP_CLAMP)
+            return self.wording["tablebase"]["loss_none" if same else "loss_decisive"]
+        return fmt_loss(loss_cp, mate)
 
     def _ruid(self, ref: str) -> tuple[dict, dict]:
         if ref not in self.ruids:
@@ -161,7 +172,7 @@ class Resolver:
             cp, mate, cites = n["multipv"][0]["eval_user_cp"], n["multipv"][0]["mate_user"], {ref}
         else:
             raise _v02(f"ID inesistente: {ref}")
-        return Resolved(t, self._ev_text(cp, mate), "ev", cites, (cp, mate))
+        return Resolved(t, self._ev_text(cp, mate, root_node=(ref == "N1")), "ev", cites, (cp, mate))
 
     def _r_loss(self, t: Token) -> Resolved:
         ref = t.ref
@@ -171,17 +182,23 @@ class Resolver:
             mate = ln["mate_user"] is not None or best["mate_user"] is not None
             diff = best["eval_user_cp"] - ln["eval_user_cp"]
             loss = diff if b.turn == self.user_color else -diff
-            return Resolved(t, fmt_loss(max(0, loss), mate), "loss", {t.node}, max(0, loss))
+            text = self._loss_text(max(0, loss), mate, (best["eval_user_cp"], best["mate_user"]),
+                                   (ln["eval_user_cp"], ln["mate_user"]))
+            return Resolved(t, text, "loss", {t.node}, max(0, loss))
         if ref in self.cands:
             c = self.cands[ref]
             best = self.pack["engine"]["root"]
             mate = c["mate_user"] is not None or best["mate_user"] is not None
-            return Resolved(t, fmt_loss(c["loss_cp"], mate), "loss", {ref}, c["loss_cp"])
+            text = self._loss_text(c["loss_cp"], mate, (best["eval_user_cp"], best["mate_user"]),
+                                   (c["eval_user_cp"], c["mate_user"]))
+            return Resolved(t, text, "loss", {ref}, c["loss_cp"])
         if "." in ref:
             r, u = self._ruid(ref)
             u1 = r["user_best"][0]
             mate = u["mate_user"] is not None or u1["mate_user"] is not None
-            return Resolved(t, fmt_loss(u["loss_cp"], mate), "loss", {ref}, u["loss_cp"])
+            text = self._loss_text(u["loss_cp"], mate, (u1["eval_user_cp"], u1["mate_user"]),
+                                   (u["eval_user_cp"], u["mate_user"]))
+            return Resolved(t, text, "loss", {ref}, u["loss_cp"])
         raise _v02(f"ID inesistente: {ref}")
 
     def _r_pct(self, t: Token) -> Resolved:
@@ -195,6 +212,8 @@ class Resolver:
             text = fmt_pct(p) if p is not None else "<1%"
             return Resolved(t, text, "pct_maia", {t.node}, p if p is not None else 0.0)
         if ref == "root":
+            if self.tb is not None:
+                raise _v02("con la tablebase l'esito esatto prevale: usa {{ev:N1}} invece di pct:root")
             wdl = self.pack["engine"]["root"]["wdl_user"]
             if wdl is None:
                 raise _v02("WDL della radice nullo")

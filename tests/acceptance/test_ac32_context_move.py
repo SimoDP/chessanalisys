@@ -59,3 +59,43 @@ def test_missing_nodes_for_e2c():
     ns[1].extra = {"b8c6": 77}       # E2c result, White's point of view
     ctx = choose_context(ns, ["b8c6"], 30)
     assert ctx is not None and sorted(r["cost_cp"] for r in ctx["rows"]) == [8, 10, 53]
+
+
+# -- M2: recorded nodes of fixtures/golden_nodes.json (Stockfish 16, raw 1900) -----------------
+
+import json  # noqa: E402
+from pathlib import Path  # noqa: E402
+
+from chessanalyst.engines.types import NodeResult as _NR  # noqa: E402
+
+GOLDEN = Path(__file__).resolve().parents[2] / "fixtures"
+# One E2 node and the three ℓ2 nodes that reproduce the rows of the raw 1900 (§3-ter.6)
+T3_LABELS = ("6.Be3", "6.Be3 e5 7.Nb3", "6.Be2 e5 7.Nb3", "6.f4 e5 7.Nb3")
+
+
+def golden_t3_nodes() -> list[ContextNode]:
+    nodes = {n["label"]: n for n in json.loads((GOLDEN / "golden_nodes.json").read_text(encoding="utf-8"))["nodes"]}
+    maia = json.loads((GOLDEN / "golden_maia.json").read_text(encoding="utf-8"))["anchors"]["1900"]["nodes"]
+    policy = {n["label"]: {x["uci"]: x["p"] for x in n["policy"]} for n in maia}
+    out = []
+    for label in T3_LABELS:
+        n = nodes[label]
+        out.append(ContextNode(label, chess.Board(n["fen"]), _NR.from_dict(n["result"]), policy[label]))
+    return out
+
+
+def test_recorded_nodes_choose_nc6():
+    ns = golden_t3_nodes()
+    assert all(n.board.turn == chess.BLACK for n in ns)
+    ctx = choose_context(ns, context_candidates(ns, 3), 30)
+    assert ctx is not None and ctx["uci"] == "b8c6"
+    costs = {r["node"].key: r["cost_cp"] for r in ctx["rows"]}
+    # ...Nc6 costs about half a pawn after 6.Be3 e5 7.Nb3, almost nothing against 6.f4 (§8-bis.2)
+    assert costs["6.Be3 e5 7.Nb3"] >= 50 and costs["6.f4 e5 7.Nb3"] <= 5 and costs["6.Be3"] <= 10
+    assert 45 <= ctx["spread_cp"] <= 55                    # «spread ≈ 50»
+
+
+def test_recorded_nodes_threshold():
+    ns = golden_t3_nodes()
+    spread = choose_context(ns, context_candidates(ns, 3), 30)["spread_cp"]
+    assert choose_context(ns, context_candidates(ns, 3), spread + 1) is None

@@ -311,6 +311,13 @@ class Constraints(M):
     plan_max_moves: int
 
 
+class TablebaseInfo(M):
+    """Exact result from the Syzygy probe at the root (M2): user's point of view."""
+    wdl: Literal[-2, -1, 0, 1, 2]
+    dtz: int
+    result_text_key: Literal["win", "cursed_win", "draw", "blessed_loss", "loss"]
+
+
 class Pack(M):
     schema_version: Literal["0.9"] = "0.9"
     app_version: str
@@ -327,7 +334,7 @@ class Pack(M):
     features: list[Feature]
     categories: list = []
     filtered_lines: list = []
-    tablebase: None = None
+    tablebase: TablebaseInfo | None = None
     tables: dict[str, Table]
     nodes: list[Node]
     section_plan: list[SectionPlanEntry]

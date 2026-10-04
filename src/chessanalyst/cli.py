@@ -120,19 +120,21 @@ def _cmd_golden_packs(args: argparse.Namespace) -> int:
     check_overwrite(cfg, args.force)   # before starting the engines
     if args.recorded:
         from chessanalyst.engines.fake import FakeEngine, FakeMaiaBackend
+        from chessanalyst.engines.syzygy import recorded_tablebase
         from chessanalyst.engines.maia2 import MaiaEngine
 
         rec = cfg.project_root / "fixtures" / "recorded"
         cache = Cache(":memory:")
         analyzer = CachedAnalyzer(FakeEngine.from_dir(rec / "engine"), cache)
         maia = MaiaEngine(FakeMaiaBackend.from_dir(rec / "maia"), cfg.maia2_limits, cache)
+        tablebase = recorded_tablebase(cfg)
         close = lambda: None  # noqa: E731
     else:
         engines = open_engines(cfg, Cache(":memory:"))   # fresh cache: the packs come from this run only
-        analyzer, maia, close = engines.analyzer, engines.maia, engines.close
+        analyzer, maia, close, tablebase = engines.analyzer, engines.maia, engines.close, engines.tablebase
     try:
         written = golden_packs(cfg, analyzer, maia, load_openings(cfg), force=args.force,
-                               time_scale=args.time_scale,
+                               time_scale=args.time_scale, tablebase=tablebase,
                                progress=lambda s: console.print(s, highlight=False, markup=False))
     finally:
         close()
@@ -203,6 +205,7 @@ def _cmd_analyze(args: argparse.Namespace) -> int:
     from chessanalyst.inputs.confirm import confirmation_text
     from chessanalyst.inputs.load import load_position
     from chessanalyst.inputs.read_source import read_source, read_stdin
+    from chessanalyst.engines.openings import opening_entry
     from chessanalyst.run import load_openings, run_analysis
     from chessanalyst.settings import check_available, check_elo, effective
 
@@ -241,7 +244,7 @@ def _cmd_analyze(args: argparse.Namespace) -> int:
     console = _console()
     if not args.yes:
         openings = load_openings(cfg)
-        console.print(confirmation_text(pos, openings.lookup_epd(pos.board) if openings else None), markup=False)
+        console.print(confirmation_text(pos, opening_entry(openings, pos.board)), markup=False)
         if input("Confermi? [s/n]: ").strip().lower() not in ("s", "si", "sì"):
             return exit_codes.OK
     out_base = Path(args.out) if args.out else cfg.resolve_path(cfg.default.output.dir)

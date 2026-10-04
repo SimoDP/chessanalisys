@@ -29,7 +29,8 @@ def test_full_run_without_cap(cfg):
     exp, eng = run(cfg, max_nodes=1000)
     assert not exp.omitted_nodes
     assert len(exp.e2) == 5 and exp.e3 and exp.e2b
-    assert {p["phase"] for p in exp.omitted_phases} == {"E3l2"}       # standard: ℓ1–ℓ2, M1 limits to ℓ1
+    assert exp.omitted_phases == []                                    # M2: standard runs ℓ1–ℓ2
+    assert {lv for lv, _, _ in exp.e3} == {1, 2}
 
 
 def test_e2b_reuses_e3_l1_nodes(cfg):

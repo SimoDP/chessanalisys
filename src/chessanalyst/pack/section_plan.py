@@ -26,9 +26,9 @@ MATRIX: dict[str, tuple] = {
     "S12": (None, None, "req", "req"),
     "S13": (None, "req", None, None),
 }
-# Sections available in M1 (§8.3).
-M1_SECTIONS = ("S01", "S03", "S04", "S05", "S06", "S07", "S08", "S10")
-M1_OTHER_COLUMNS = ("S01", "S06", "S07", "S10")
+# Sections available in the current milestone (§8.3, M2): the matrix is complete,
+# S02 and S09 arrive in M3, S11 in M4.
+MILESTONE_SECTIONS = ("S01", "S03", "S04", "S05", "S06", "S07", "S08", "S10", "S12", "S13")
 THEORY = {"S01": False, "S02": False, "S03": True, "S04": True, "S05": True, "S06": True, "S07": False,
           "S08": False, "S09": False, "S10": True, "S11": True, "S12": True, "S13": False}
 COUNTING_C8 = ("natural_trap", "hard_move", "practical_alt", "improbable_error")
@@ -54,6 +54,8 @@ class PlanInput:
     has_t3: bool = False
     maia_low: bool = False
     detail: int = 4
+    focus_squares: list[str] = field(default_factory=list)   # c5 (column 2)
+    tablebase: bool = False                  # exact result at the root: S12 must cite N1
 
 
 def fill_opp(text: str, opp: str) -> str:
@@ -88,19 +90,17 @@ def build_section_plan(cfg: Config, pi: PlanInput) -> tuple[list[dict], list[dic
             omit(s, "matrix")
         elif rule == "c4" and not any(pi.castling.get(side) in CASTLING_OPEN for side in ("w", "b")):
             omit(s, "matrix")
+        elif rule == "c5" and not pi.focus_squares:
+            omit(s, "matrix")
         elif rule == "c8" and not c8_moves and pi.anchor != "1500" and pi.user_to_move:
             # always present at 1500 (D-48); with the opponent to move the reason is opponent_to_move (D-54)
             omit(s, "no_classified_move")
         elif rule == "c11" and not (pi.elo_ref_fide >= cfg.thresholds.elo_rules.s11_from or pi.detail == 5):
             omit(s, "elo<2000")
-    # 2. milestone (M1)
+    # 2. milestone
     for s in SECTION_IDS:
-        if s not in M1_SECTIONS:
+        if s not in MILESTONE_SECTIONS:
             omit(s, "milestone")
-        elif col != 1 and s not in M1_OTHER_COLUMNS:
-            omit(s, "unsupported_profile")
-    if col != 1:
-        warnings.append("profile_unsupported")
     # 3. anchor (§8.2-bis)
     if pi.anchor == "1500":
         omit("S11", "band_1500")
@@ -150,12 +150,15 @@ def build_section_plan(cfg: Config, pi: PlanInput) -> tuple[list[dict], list[dic
             must = c8_moves
         if req and s == "S03" and pi.anchor == "1500" and pi.recommendation:
             must = [pi.recommendation]
+        if req and s == "S12" and pi.tablebase:
+            must = ["N1"]
         theory = THEORY[s] or (s == "S08" and pi.anchor == "1500")
         plan.append({
             "id": s, "title": title, "required": req, "absorbed_into": st["absorbed_into"],
             "omitted": st["omitted"], "word_budget": _round_tens(total * w[s] / wsum) if req else None,
             "max_pv_plies": plies, "theory_allowed": theory, "tables": tables, "must_cover": must,
-            "focus_squares": [], "maia_low_confidence": bool(req and pi.maia_low and s in ("S06", "S08")),
+            "focus_squares": list(pi.focus_squares) if (req and s == "S05" and col == 2) else [],
+            "maia_low_confidence": bool(req and pi.maia_low and s in ("S06", "S08")),
         })
         if st["omitted"] is not None:
             omitted.append({"id": s, "reason": st["omitted"]})

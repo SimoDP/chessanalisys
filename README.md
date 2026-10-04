@@ -3,7 +3,9 @@
 App locale che, data una posizione e un livello Elo, produce un'analisi testuale calibrata sul livello.
 Fonte di verità: [`docs/Chess_Position_Analyst_Documentazione_tecnica_v0_9_1.md`](docs/Chess_Position_Analyst_Documentazione_tecnica_v0_9_1.md).
 
-**Stato: milestone M1c (modello).** Disponibili il flusso interattivo `chessanalyst` e
+**Stato: milestone M2 (completezza delle posizioni).** Stockfish 19 (D-66), move order E3 fino a ℓ3,
+tablebase Syzygy dentro Stockfish e con sonda diretta, aperture per sequenza, matrice completa delle sezioni
+(S12 finale, S13 tattica forzata). Disponibili il flusso interattivo `chessanalyst` e
 `chessanalyst analyze` (motori → `pack.json` → modello, verifica e render → `analysis.md`),
 `chessanalyst rerun <cartella>`, `chessanalyst doctor`, `chessanalyst golden --data/--packs/--render`.
 Serve la chiave API del fornitore del modello: per default OpenRouter, variabile d'ambiente
@@ -15,7 +17,7 @@ Decisioni prese dopo il congelamento della documentazione: `docs/DECISIONI_POST_
 ```bash
 python3.12 -m venv .venv
 .venv/bin/pip install -e ".[dev]"          # oppure: pip install -r requirements.lock
-.venv/bin/python scripts/setup_engines.py  # Stockfish, pesi di Maia-2, Syzygy 3-4-5, aperture
+.venv/bin/python scripts/setup_engines.py  # Stockfish 19, pesi di Maia-2, Syzygy 3-4-5, aperture
 .venv/bin/chessanalyst doctor
 ```
 
@@ -35,6 +37,7 @@ python3.12 -m venv .venv
 .venv/bin/chessanalyst analyze --input pgn --file partita.pgn --at 17b --budget fast --yes
 ```
 
-Rapporti: `docs/M0_REPORT.md`, `docs/M1A_REPORT.md`, `docs/M1B_REPORT.md`, `docs/M1C_REPORT.md`; questioni aperte: `docs/OPEN_QUESTIONS.md`.
+Rapporti: `docs/M0_REPORT.md`, `docs/M1A_REPORT.md`, `docs/M1B_REPORT.md`, `docs/M1C_REPORT.md`,
+`docs/M2_REPORT.md`; questioni aperte: `docs/OPEN_QUESTIONS.md`.
 Registrazioni dei motori per i test: `pytest -m engines --record`; risposte difettose del modello
 (Appendice G.6): `python -m tests.fault_fixtures`.

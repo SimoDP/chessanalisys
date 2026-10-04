@@ -30,7 +30,24 @@ def make_stockfish(cfg: Config):
             "engines.stockfish.path in config/local.yaml"
         )
     sf = cfg.default.engines.stockfish
-    return StockfishEngine(path, hash_mb=sf.hash_mb, poll_s=sf.poll_s, ram_fraction=sf.hash_max_ram_fraction)
+    return StockfishEngine(path, hash_mb=sf.hash_mb, poll_s=sf.poll_s, ram_fraction=sf.hash_max_ram_fraction,
+                           syzygy_path=syzygy_dir(cfg))
+
+
+def syzygy_dir(cfg: Config) -> Path | None:
+    """Folder of the Syzygy tables if present (``engines.syzygy.path``), else None."""
+    from chessanalyst.engines.syzygy import complete_up_to
+
+    path = cfg.resolve_path(cfg.default.engines.syzygy.path)
+    return path if path is not None and complete_up_to(path) > 0 else None
+
+
+def make_tablebase(cfg: Config):
+    """Direct probe of the tables (M2), or None when they are not installed."""
+    from chessanalyst.engines.syzygy import Tablebase
+
+    path = syzygy_dir(cfg)
+    return Tablebase(path, cfg.default.engines.syzygy.max_pieces) if path is not None else None
 
 
 def maia_models_dir(cfg: Config) -> Path:

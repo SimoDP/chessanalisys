@@ -267,3 +267,69 @@ Poi `bad_notes_token.json` diventa un test di fault injection (G.6). Prompt ed e
 sezione né blocco. Il messaggio di retry dice al modello quale nota correggere. `degrade` toglie la nota in
 entrambe le modalità (`mark` e `drop`) e la elenca in «Rimossi in modalità degradata» («nota k del modello
 (V03)»). Test: `bad_notes_token.json` (G.6) e due test in `test_ac16_fault_injection.py`.
+
+## M2
+
+### OQ-M2-1 · Stockfish 19 (D-66): nomi dei file della release
+Da Stockfish 19 le release hanno binari «universali», che riconoscono da soli le istruzioni della CPU.
+I nomi sono stati verificati sulla pagina ufficiale `stockfishchess.org/download` (ottobre 2026):
+`stockfish-linux-x86-64-universal.tar.gz`, `stockfish-linux-arm64-universal.tar.gz`,
+`stockfish-macos-universal.tar.gz`, `stockfish-windows-x86-64-universal.zip`,
+`stockfish-windows-arm64-universal.zip`. `setup_engines.py` sceglie lo schema in base al numero di versione:
+da 19 i binari universali, prima quelli per insieme di istruzioni. In questo ambiente cloud lo scaricamento
+diretto del file da GitHub funziona (la pagina delle release e l'API restano bloccate, 403). Pin:
+`version_pin: "Stockfish 19"`. `FakeEngine.from_dir` legge la versione dalle registrazioni, perché la versione
+fa parte della chiave di cache.
+
+### OQ-M2-2 · E2c e nodi di ℓ2 in T3
+§3-ter.2 mette E2c prima di E3-ℓ2, ma da M2 i nodi di T3 comprendono anche quelli di ℓ2 (§3-ter.6), che in
+quel momento non esistono ancora. **Default:** E2c gira al suo posto sui nodi di E2; dopo E3-ℓ2 le candidate di
+contesto si ricalcolano su E2 + ℓ2 e una seconda passata di E2c completa i valori mancanti (stessa fase E2c,
+stesso tempo per nodo). L'ordine di scarto resta quello di §3-ter.2 per tutto ciò che precede ℓ2. Il tempo per
+nodo di E3 (`quota × B / nodi pianificati`) usa i nodi di tutti i livelli: ℓ1 × numero di livelli, perché ℓ2 e
+ℓ3 aggiungono un nodo per ogni nodo del livello sopra.
+
+### OQ-M2-3 · Aperture per sequenza
+L'indice per EPD (`data/openings_index.json`) non conserva l'ordine delle mosse, quindi `setup_engines.py`
+scrive accanto un secondo file, `data/openings_sequences.json`: sequenza UCI dalla posizione iniziale → voce.
+Con una partita PGN che parte dalla posizione iniziale si cerca la riga più lunga che è prefisso delle mosse
+(`matched_by: "sequence"`). Senza storia, o con un `[FEN]` iniziale, si cerca per EPD come in M1. `in_book` resta
+«EPD nell'indice» (§3.3), anche quando il nome viene dalla sequenza.
+
+### OQ-M2-4 · Esito delle tablebase «espresso a parole»
+§3.3 dice che con la tablebase l'esito esatto prevale sulla valutazione ed è espresso a parole. AC-17 vuole
+«nessuna valutazione numerica nel testo». La grammatica dei token è congelata e non ha un token per la
+tablebase. **Default:**
+- Il pacchetto ha `tablebase: {wdl, dtz, result_text_key}` dalla sonda diretta alla radice, dal punto di vista
+  dell'utente (anche il segno di `dtz`). `result_text_key` vale `win`, `cursed_win`, `draw`, `blessed_loss`
+  o `loss`.
+- Quando `tablebase` non è nullo:
+  - `{{ev:N1}}` si rende con il testo dell'esito esatto (`wording.yaml: tablebase.results`);
+  - gli altri `ev` diventano vittoria, patta o sconfitta. Stockfish con `SyzygyPath` dà alle posizioni in
+    tablebase punteggi di vittoria (`cp 20000`, quindi ±9999 dopo il limite di D-39) oppure 0;
+  - `loss` si rende «nessuna» o «decisiva»;
+  - le celle delle tabelle si rendono «vinta», «patta» o «persa»;
+  - `pct:root.*` dà V02, perché l'esito esatto prevale.
+- S12 ha `must_cover: [N1]`, così l'esito esatto è sempre citato.
+
+Il testo dell'utente non contiene quindi cifre di valutazione.
+
+### OQ-M2-5 · c5: «pezzi coinvolti»
+Le case di `focus_squares` sono le case **alla radice** di due gruppi di pezzi:
+- quelli nel testimone delle feature tattiche disponibili (`pin`, `hanging_piece`, `unresolved_capture`; da M3
+  anche `fork`, `skewer`, `overloaded_piece`);
+- quelli che si muovono nelle prime `c5_pv_plies` (4) semimosse delle prime `c5_pvs` (3) PV. Un pezzo che si
+  muove due volte conta con la casa di partenza; nell'arrocco si muovono re e torre.
+
+I pedoni non sono «pezzi» e restano fuori. Senza pezzi coinvolti S05 è omessa (`matrix`). Le due costanti sono
+in `thresholds.yaml: section_plan` (D-65).
+
+### OQ-M2-6 · Posizioni non Najdorf (§8-bis.6)
+Tre fixture con checklist in `fixtures/checklists/`, con i pacchetti congelati in `fixtures/packs/`:
+- **Fried Liver** (PGN, utente Bianco, 1500): colonna 2, mediogioco tattico per il cavallo in presa. Il nome
+  dell'apertura viene dalla sequenza;
+- **finale di torri** (`rook_endgame.fen`, 1900): colonna 3;
+- **Lucena** (`lucena.fen`, 1900): colonna 4, tablebase, usata per AC-17.
+
+Il raw 1900 di `golden_nodes.json` (Stockfish 16) resta il dato di M0: AC-32 «registrato» lo usa così com'è,
+perché riproduce le righe del raw. D-66 chiede di rifare solo registrazioni, pacchetti e fewshot.

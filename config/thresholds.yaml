@@ -47,7 +47,7 @@ elo_rules:
   s11_from: 2000
 theory_max_share: {"1500": 0.70, "1900": 0.50, "2400": 0.35}
 # D-65: valori fissati nel testo della documentazione, spostati in configurazione
-section_plan: {c3_loss_max_cp: 30}               # §8.2, condizione c3
+section_plan: {c3_loss_max_cp: 30, c5_pv_plies: 4, c5_pvs: 3}   # §8.2, condizioni c3 e c5
 maia: {policy_min_p: 0.001}                      # §6.2, policy salvata nei nodi
 features:                                        # §5.1, definizioni geometriche
   weak_square_files: "cdef"

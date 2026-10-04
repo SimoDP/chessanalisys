@@ -1,6 +1,6 @@
 """Stockfish adapter: the only module that drives the UCI process (CLAUDE.md).
 
-API verified in M0 on ``chess`` 1.11.2 with Stockfish 16:
+API verified in M0 on ``chess`` 1.11.2 with Stockfish 16 (unchanged with Stockfish 19, M2):
 ``SimpleEngine.analysis(board, multipv=k, root_moves=[...])`` returns a
 ``SimpleAnalysisResult`` with ``would_block()``, ``get()`` (raises
 ``chess.engine.AnalysisComplete`` once the search has ended) and ``stop()``;
@@ -51,11 +51,13 @@ class StockfishEngine:
         poll_s: float,
         threads: int | None = None,
         ram_fraction: float | None = None,
+        syzygy_path: str | Path | None = None,
     ) -> None:
         self.command = [str(c) for c in command] if isinstance(command, (list, tuple)) else str(command)
         self.hash_mb = default_hash_mb(hash_mb, ram_fraction) if ram_fraction is not None else hash_mb
         self.threads = threads if threads is not None else default_threads()
         self.poll_s = poll_s
+        self.syzygy_path = str(syzygy_path) if syzygy_path else None
         self._engine: chess.engine.SimpleEngine | None = None
 
     # -- lifecycle ---------------------------------------------------------
@@ -74,6 +76,8 @@ class StockfishEngine:
             opts["Hash"] = self.hash_mb
         if "UCI_ShowWDL" in eng.options:
             opts["UCI_ShowWDL"] = True
+        if self.syzygy_path and "SyzygyPath" in eng.options:      # from M2 (D-62)
+            opts["SyzygyPath"] = self.syzygy_path
         if opts:
             eng.configure(opts)
         self._engine = eng

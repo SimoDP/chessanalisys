@@ -41,7 +41,7 @@ def test_version_pin_mismatch_api_key_device_and_elo_table(cfg, fake_uci):
                            maia_factory=fake_maia, benchmark=False)
     c = by_name(checks)
     assert c["Stockfish"].status == OK and "Stockfish 15" in c["Stockfish"].detail
-    assert c["Versione Stockfish"].status == WARN and "Stockfish 16" in c["Versione Stockfish"].detail
+    assert c["Versione Stockfish"].status == WARN and "Stockfish 19" in c["Versione Stockfish"].detail
     assert c["OPENROUTER_API_KEY"].status == WARN
     assert "dispositivo" in c["PyTorch"].detail
     assert c["Maia-2"].status == OK

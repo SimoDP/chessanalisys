@@ -36,4 +36,4 @@ profiles:
     e3_R: 3
     e4_max_moves: 6
     max_nodes: 80
-milestone_max_e3_level: 1       # M1: 1; da M2: 3
+milestone_max_e3_level: 3       # M1: 1; da M2: 3

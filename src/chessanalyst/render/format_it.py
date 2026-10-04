@@ -31,6 +31,16 @@ def fmt_loss(cp: int, mate: bool = False) -> str:
     return f"{abs(_half_away(cp / 100, 2)):.2f}".replace(".", ",")
 
 
+def tb_outcome(cp: int, mate_user: int | None, win_cp: int) -> str:
+    """Outcome class of an evaluation in a tablebase position: Stockfish with Syzygy reports a
+    tablebase win as a clamped score (``|cp| >= win_cp``) or a mate, a draw as 0."""
+    if mate_user is not None:
+        return "win" if mate_user > 0 else "loss"
+    if abs(cp) >= win_cp:
+        return "win" if cp > 0 else "loss"
+    return "draw"
+
+
 def fmt_pct(p: float) -> str:
     if p == 0:
         return "0%"

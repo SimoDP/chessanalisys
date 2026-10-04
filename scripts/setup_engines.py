@@ -38,9 +38,8 @@ SYZYGY_URLS = (
     "https://tablebase.lichess.ovh/tables/standard/3-4-5-wdl/",
     "https://tablebase.lichess.ovh/tables/standard/3-4-5-dtz/",
 )
-# Release assets of the official repository (naming scheme since Stockfish 16).
-# Verified only by name in M0 (github.com release downloads were blocked by the
-# sandbox network policy, see docs/OPEN_QUESTIONS.md).
+# Release assets of the official repository; names in stockfish_asset(). In M2 the
+# direct asset download works (the release page and the API are still blocked).
 SF_RELEASE = "https://github.com/official-stockfish/Stockfish/releases/download/sf_{num}/{asset}"
 
 
@@ -78,8 +77,20 @@ def human(n: int | None) -> str:
 # --- Stockfish ---------------------------------------------------------------
 
 
-def stockfish_asset() -> str:
+def stockfish_asset(num: int) -> str:
+    """Release asset for this machine. From Stockfish 19 the releases ship universal
+    binaries that detect the CPU features (names verified on stockfishchess.org/download,
+    October 2026); before, one asset per instruction set (Stockfish 16-18)."""
     system, machine = platform.system(), platform.machine().lower()
+    arm = machine in ("arm64", "aarch64")
+    if num >= 19:
+        if system == "Linux":
+            return "stockfish-linux-arm64-universal.tar.gz" if arm else "stockfish-linux-x86-64-universal.tar.gz"
+        if system == "Darwin":
+            return "stockfish-macos-universal.tar.gz"
+        if system == "Windows":
+            return "stockfish-windows-arm64-universal.zip" if arm else "stockfish-windows-x86-64-universal.zip"
+        raise SystemExit(f"Sistema non supportato: {system}")
     avx2 = False
     try:
         avx2 = "avx2" in Path("/proc/cpuinfo").read_text()
@@ -88,7 +99,7 @@ def stockfish_asset() -> str:
     if system == "Linux":
         return "stockfish-ubuntu-x86-64-avx2.tar" if avx2 else "stockfish-ubuntu-x86-64.tar"
     if system == "Darwin":
-        return "stockfish-macos-m1-apple-silicon.tar" if machine in ("arm64", "aarch64") else "stockfish-macos-x86-64-avx2.tar"
+        return "stockfish-macos-m1-apple-silicon.tar" if arm else "stockfish-macos-x86-64-avx2.tar"
     if system == "Windows":
         return "stockfish-windows-x86-64-avx2.zip"
     raise SystemExit(f"Sistema non supportato: {system}")
@@ -120,7 +131,7 @@ def setup_stockfish(cfg, args) -> Path | None:
         print("Stockfish: version_pin non impostato e nessun binario trovato")
         return None
     num = pin.split()[-1]
-    asset = stockfish_asset()
+    asset = stockfish_asset(int(num))
     url = SF_RELEASE.format(num=num, asset=asset)
     if not ask(f"Scaricare {asset} ({human(head_size(url))})?", args.yes):
         return None
@@ -135,7 +146,7 @@ def setup_stockfish(cfg, args) -> Path | None:
         zipfile.ZipFile(io.BytesIO(blob)).extractall(dest)
     else:
         tarfile.open(fileobj=io.BytesIO(blob)).extractall(dest, filter="data")
-    exe = next((p for p in dest.rglob("stockfish*") if p.is_file() and not p.suffix in (".tar", ".zip", ".txt", ".md")), None)
+    exe = next((p for p in dest.rglob("stockfish*") if p.is_file() and p.suffix not in (".tar", ".gz", ".zip", ".txt", ".md")), None)
     if exe is None:
         print("Stockfish: eseguibile non trovato nell'archivio")
         return None
@@ -217,8 +228,9 @@ def setup_openings(cfg, args) -> Path | None:
             print(f"Aperture: download di {name} fallito ({e})")
             return None
     index_path = cfg.resolve_path(cfg.default.engines.openings.index_file)
-    index = build_index_from_dir(src)
-    write_index(index, index_path)
+    sequences: dict[str, dict] = {}
+    index = build_index_from_dir(src, sequences)
+    write_index(index, index_path, sequences)
     print(f"Aperture: {len(index)} posizioni in {index_path}")
     return index_path
 

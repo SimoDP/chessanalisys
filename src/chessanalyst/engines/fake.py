@@ -37,11 +37,14 @@ class FakeEngine:
             self._store[rec["key"]] = NodeResult.from_dict(rec["result"])
 
     @classmethod
-    def from_dir(cls, directory: Path, version: str = "Stockfish 16") -> "FakeEngine":
+    def from_dir(cls, directory: Path, version: str | None = None) -> "FakeEngine":
+        """``version`` defaults to the engine that produced the recordings (it is part of the key)."""
         records: list[dict[str, Any]] = []
         for f in sorted(Path(directory).glob("*.json")):
             data = json.loads(f.read_text(encoding="utf-8"))
             records.extend(data if isinstance(data, list) else [data])
+        if version is None:
+            version = next((r["result"]["engine_version"] for r in records), "Stockfish 16")
         return cls(version, records)
 
     def add(self, board: chess.Board, result: NodeResult, root_moves: Sequence[str] | None = None) -> None:

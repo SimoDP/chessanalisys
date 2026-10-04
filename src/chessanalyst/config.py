@@ -295,6 +295,8 @@ class EloRules(Strict):
 
 class SectionPlanThresholds(Strict):
     c3_loss_max_cp: int
+    c5_pv_plies: int          # c5: plies of the PVs whose moving pieces are «involved»
+    c5_pvs: int               # c5: PVs of the first candidates (or replies)
 
 
 class MaiaThresholds(Strict):

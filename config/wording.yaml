@@ -78,3 +78,14 @@ verify_hints:
   V08: "Contenuto theory fuori posto, con token di dati o oltre la quota."
   V09: "Il termine appartiene a un'altra apertura: non usarlo."
   V10: "La fonte (source) non corrisponde ai token usati."
+# M2: con la tablebase l'esito esatto prevale sulla valutazione ed è espresso a parole (§3.3, OQ-M2-4)
+tablebase:
+  results:
+    win: "vittoria teorica per te"
+    cursed_win: "patta teorica (la vittoria è annullata dalla regola delle cinquanta mosse)"
+    draw: "patta teorica"
+    blessed_loss: "patta teorica (la sconfitta è salvata dalla regola delle cinquanta mosse)"
+    loss: "sconfitta teorica"
+  table: {win: "vinta", draw: "patta", loss: "persa"}
+  loss_none: "nessuna"
+  loss_decisive: "decisiva"

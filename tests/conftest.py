@@ -55,7 +55,7 @@ def uci_iterations(
 def fake_uci(tmp_path):
     """Return a factory: events → command list starting FakeUCI on a script."""
 
-    def make(events: list[dict], id_name: str = "Stockfish 16", bestmove: str = "e2e4") -> list[str]:
+    def make(events: list[dict], id_name: str = "Stockfish 19", bestmove: str = "e2e4") -> list[str]:
         script = {"id_name": id_name, "options": ["Threads", "Hash", "MultiPV", "UCI_ShowWDL"],
                   "events": events, "bestmove": bestmove}
         path = tmp_path / f"script_{len(list(tmp_path.glob('script_*.json')))}.json"

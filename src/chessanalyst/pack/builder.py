@@ -59,6 +59,40 @@ def _p4(p: float) -> float:
     return round(float(p), 4)
 
 
+C5_TACTICAL_KEYS = ("pin", "hanging_piece", "unresolved_capture", "fork", "skewer", "overloaded_piece")
+
+
+def focus_squares(root: chess.Board, features: list[Feature], pvs: list[list[str]], plies: int) -> list[str]:
+    """c5 (§8.2): root squares of the pieces in the witness of a tactical feature or moving in the
+    first ``plies`` half-moves of the given PVs (SAN from the root). Pawns are not «pieces»."""
+    out: set[int] = set()
+    for f in features:
+        if f.key in C5_TACTICAL_KEYS:
+            for name in f.squares:
+                sq = chess.parse_square(name)
+                p = root.piece_at(sq)
+                if p is not None and p.piece_type != chess.PAWN:
+                    out.add(sq)
+    for pv in pvs:
+        b = root.copy(stack=False)
+        origin = {sq: sq for sq in chess.SQUARES if b.piece_at(sq) is not None}   # current → root square
+        for san in pv[:plies]:
+            mv = b.parse_san(san)
+            src = origin.pop(mv.from_square, mv.from_square)
+            p = b.piece_at(mv.from_square)
+            if p is not None and p.piece_type != chess.PAWN:
+                out.add(src)
+            if b.is_castling(mv):
+                rook_from = chess.square(7 if chess.square_file(mv.to_square) == 6 else 0, chess.square_rank(mv.from_square))
+                rook_to = chess.square(5 if chess.square_file(mv.to_square) == 6 else 3, chess.square_rank(mv.from_square))
+                origin[rook_to] = origin.pop(rook_from, rook_from)
+                out.add(origin[rook_to])                          # castling moves the rook too
+            origin.pop(mv.to_square, None)
+            b.push(mv)
+            origin[mv.to_square] = src
+    return sorted(chess.square_name(s) for s in out)
+
+
 def _parent(rec: NodeRec, by_path: dict[tuple, str]) -> str | None:
     """Nearest analysed ancestor (an E2c search has the node it completes as parent)."""
     path = tuple(rec.path)
@@ -108,7 +142,7 @@ def _node_dict(rec: NodeRec, nid: str, parent: str | None, color: chess.Color, m
 
 def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, maia_info: dict[str, str],
                features: list[Feature], profile: dict[str, Any], opening: dict | None,
-               stockfish: dict[str, Any], maia_limits_bucket) -> Pack:
+               stockfish: dict[str, Any], maia_limits_bucket, tablebase: dict | None = None) -> Pack:
     color = us.color
     root = pos.board
     bp = cfg.thresholds.band_params[us.band]
@@ -125,7 +159,7 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
     nid = {id(r): f"N{k}" for k, r in enumerate(recs, 1)}
     by_path: dict[tuple, str] = {}
     for r in recs:
-        if r.phase in ("E0", "E1", "E2", "E3l1", "R"):
+        if r.phase in ("E0", "E1", "E2", "E3l1", "E3l2", "E3l3", "R"):
             by_path.setdefault(tuple(r.path), nid[id(r)])
     nodes = []
     for r in recs:
@@ -202,22 +236,27 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
                     ml.append((san_r, None, None))
             ml.sort(key=lambda x: (x[1] is None, x[1] if x[1] is not None else 0))  # best for the opponent first
             t2_entries.append({"root": root, "after_moves": [exp.rows[u].san], "after_board": n2.board, "moves": ml})
+            per_cell = cfg.tables["T2"]["moves_per_cell"]
             for r in exp.rset[u]:
                 san_r = n2.board.san(chess.Move.from_uci(r))
-                l1 = next((n for lv, uu, n in exp.e3 if uu == u and n.path[-1] == san_r), None)
-                if l1 is None or not l1.result:
-                    continue
-                moves3 = [(x.san, _ucp(x.eval_white_cp, color), _umate(x.mate_white, color))
-                          for x in l1.result.lines[: cfg.tables["T2"]["moves_per_cell"]]]
-                t2_entries.append({"root": root, "after_moves": list(l1.path), "after_board": l1.board,
-                                   "moves": moves3})
+                # ℓ1 «Dopo c r», then (from M2) ℓ2 «Dopo c r u» and ℓ3 «Dopo c r u r′» of the same branch
+                prefix = [exp.rows[u].san, san_r]
+                for lvl in (1, 2, 3):
+                    n = next((n for lv, uu, n in exp.e3 if lv == lvl and uu == u and n.path[:2] == prefix), None)
+                    if n is None or not n.result:
+                        break
+                    moves3 = [(x.san, _ucp(x.eval_white_cp, color), _umate(x.mate_white, color))
+                              for x in n.result.lines[:per_cell]]
+                    t2_entries.append({"root": root, "after_moves": list(n.path), "after_board": n.board,
+                                       "moves": moves3})
 
         # Context move (T3)
         if exp.context is not None:
             rows = []
             san_by_node = {}
+            t3_recs = list(exp.e2.values()) + [n for lv, _, n in exp.e3 if lv == 2]
             for r in exp.context["rows"]:
-                node_rec = next(n for n in exp.e2.values() if n.board.fen() == r["node"].board.fen())
+                node_rec = next(n for n in t3_recs if n.board.fen() == r["node"].board.fen())
                 n_id = nid[id(node_rec)]
                 mv = chess.Move.from_uci(exp.context["uci"])
                 san_by_node[n_id] = node_rec.board.san(mv)
@@ -267,30 +306,35 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
     tables: dict[str, dict] = {}
     if exp.user_to_move:
         tables["T1"] = T.build_t1(cfg, us.anchor, root, candidates, pvs, recommendation["id"],
-                                  us.elo_declared, sat, plies_max)
+                                  us.elo_declared, sat, plies_max, tb=tablebase is not None)
         if us.anchor in cfg.tables["T2"]["anchors"]:
-            t2 = T.build_t2(cfg, t2_entries)
+            t2 = T.build_t2(cfg, t2_entries, tb=tablebase is not None)
             if t2 is not None:
                 tables["T2"] = t2
         if context_move is not None and us.anchor in cfg.tables["T3"]["anchors"]:
-            boards = {nid[id(n)]: n.board for n in exp.e2.values()}
-            tables["T3"] = T.build_t3(cfg, root, context_move, boards, opp_name)
+            boards = {nid[id(n)]: n.board for n in list(exp.e2.values()) + [n for lv, _, n in exp.e3 if lv == 2]}
+            tables["T3"] = T.build_t3(cfg, root, context_move, boards, opp_name, tb=tablebase is not None)
     else:
         rb = {r["id"]: exp.r_nodes[r["uci"]].board for r in replies}
-        tables["T1"] = T.build_t1_alt(cfg, root, replies, rb, us.opp_elo_declared, sat)
+        tables["T1"] = T.build_t1_alt(cfg, root, replies, rb, us.opp_elo_declared, sat, tb=tablebase is not None)
 
     # -- section plan ------------------------------------------------------------
+    spt = cfg.thresholds.section_plan
     low_loss = sum(1 for c in candidates if c["explained"] and c["loss_cp"] <= cfg.thresholds.section_plan.c3_loss_max_cp)
     pi = PlanInput(anchor=us.anchor, band=us.band, elo_ref_fide=us.elo_ref_fide,
                    matrix_column=profile["matrix_column"], castling=profile["castling"],
                    user_to_move=exp.user_to_move, opp_color_name=opp_name, explained=explained_ids,
                    explained_low_loss=low_loss, categories=categories, replies=[r["id"] for r in replies],
                    recommendation=recommendation["id"] if recommendation else None,
-                   has_t2="T2" in tables, has_t3="T3" in tables, maia_low=sat, detail=us.detail_level)
+                   has_t2="T2" in tables, has_t3="T3" in tables, maia_low=sat, detail=us.detail_level,
+                   focus_squares=focus_squares(root, features, [p["plies"] for p in list(pvs.values())[:spt.c5_pvs]],
+                                               spt.c5_pv_plies) if profile["matrix_column"] == 2 else [],
+                   tablebase=tablebase is not None)
     plan, omitted_sections, plan_warnings = build_section_plan(cfg, pi)
     warnings += plan_warnings
-    if us.elo_ref_fide >= cfg.thresholds.elo_rules.e3_mandatory_from:
-        warnings.append("move_order_limited")
+    if (us.elo_ref_fide >= cfg.thresholds.elo_rules.e3_mandatory_from
+            and cfg.exploration.milestone_max_e3_level < exp.profile.e3_levels):
+        warnings.append("move_order_limited")          # M1 only (§8.3)
     if sat:
         warnings.append("maia_low_confidence_header")
     if any(n["unstable_depth"] for n in nodes):
@@ -324,6 +368,7 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
         "maia": maia,
         "recommendation": recommendation,
         "features": [f.to_dict() for f in features],
+        "tablebase": tablebase,
         "tables": tables,
         "nodes": nodes,
         "section_plan": plan,

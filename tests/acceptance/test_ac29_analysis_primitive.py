@@ -25,7 +25,7 @@ def test_stops_on_time_and_depth(fake_uci):
     assert [ln.san for ln in res.lines] == ["e4", "d4"]
     assert res.lines[0].pv == ["e4", "e5"]
     assert res.lines[0].eval_white_cp == 30 and res.lines[0].wdl_white == [100, 850, 50]
-    assert res.engine_version == "Stockfish 16"
+    assert res.engine_version == "Stockfish 19"
 
 
 def test_stops_as_soon_as_min_depth_when_target_reached(fake_uci):

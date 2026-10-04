@@ -4,7 +4,7 @@ Usage: ``python -m chessanalyst.engines.fake_uci <script.json>``
 
 Script format::
 
-    {"id_name": "Stockfish 16",
+    {"id_name": "Stockfish 19",
      "options": ["Threads", "Hash", "UCI_ShowWDL"],
      "events": [{"delay": 0.01, "line": "info depth 1 multipv 1 score cp 20 pv e2e4"}, ...],
      "bestmove": "e2e4"}

@@ -153,20 +153,24 @@ def run_doctor(
                     f"{' (satura)' if saturated(e_maia, lim) else ''}")
     checks.append(Check("Elo Maia-2", OK, f"top_bucket_lower {lim.top_bucket_lower}: " + " · ".join(rows)))
 
-    # Syzygy (used from M2)
+    # Syzygy (SyzygyPath and direct probe from M2)
     tb_path = cfg.resolve_path(cfg.default.engines.syzygy.path)
     n = syzygy.complete_up_to(tb_path)
     if n >= 5:
         checks.append(Check("Syzygy", OK, f"{tb_path}: completo fino a {n} pezzi"))
     else:
         checks.append(Check("Syzygy", WARN, f"tablebase 3-4-5 incomplete ({n} pezzi) in {tb_path or 'percorso non configurato'}",
-                            "Esegui `python scripts/setup_engines.py` (servono da M2)"))
+                            "Esegui `python scripts/setup_engines.py`: senza tablebase i finali con pochi pezzi restano in colonna 3"))
 
     # Openings index
     idx_path = cfg.resolve_path(cfg.default.engines.openings.index_file)
     try:
         idx = OpeningIndex.load(idx_path)
-        checks.append(Check("Indice aperture", OK, f"{len(idx)} voci"))
+        if idx.sequences:
+            checks.append(Check("Indice aperture", OK, f"{len(idx)} voci, {len(idx.sequences)} sequenze"))
+        else:                                      # M2: lookup by sequence (§3.3)
+            checks.append(Check("Indice aperture", WARN, f"{len(idx)} voci, sequenze assenti",
+                                "Esegui `python scripts/setup_engines.py --skip stockfish maia syzygy`"))
     except (OSError, ValueError) as e:
         checks.append(Check("Indice aperture", ERR, f"non leggibile: {e}", "Esegui `python scripts/setup_engines.py`"))
 

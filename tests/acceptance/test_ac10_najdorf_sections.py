@@ -1,4 +1,5 @@
-"""AC-10 (M1b): Najdorf, anchors 1500 and 1900, checked on the versioned ``rendered`` files."""
+"""AC-10: Najdorf, anchors 1500 and 1900 (M1b, M1c) and 2400 (M2), checked on the versioned
+``rendered`` files and on a recorded answer of the real model."""
 
 from __future__ import annotations
 
@@ -11,13 +12,16 @@ from chessanalyst.golden.packs import load_frozen_pack
 from chessanalyst.pack.section_plan import fill_opp
 from chessanalyst.render.report import REPORT_TITLE
 
-EXPECTED = {   # sections after matrix, milestone and §8.2-bis (column 1, user to move, M1)
+EXPECTED = {   # sections after matrix, milestone and §8.2-bis (column 1, user to move)
     "1500": ["S01", "S03", "S05", "S06", "S07", "S08", "S10"],
     "1900": ["S01", "S03", "S04", "S05", "S06", "S07", "S08", "S10"],
+    # 2400: S04 absorbed in S03, S05 and S10 excluded (band_2400), S08 by c8 (natural_trap, hard_move)
+    "2400": ["S01", "S03", "S06", "S07", "S08"],
 }
+ANCHORS = ["1500", "1900", "2400"]
 
 
-@pytest.mark.parametrize("anchor", ["1500", "1900"])
+@pytest.mark.parametrize("anchor", ANCHORS)
 def test_rendered_sections(cfg, root, anchor):
     doc = (root / "examples" / "golden" / "rendered" / f"najdorf_w_{anchor}.md").read_text(encoding="utf-8")
     titles = [h for h in re.findall(r"^## (.+)$", doc, re.M) if h != REPORT_TITLE]
@@ -32,6 +36,12 @@ def test_rendered_sections(cfg, root, anchor):
         assert plan["S04"]["absorbed_into"] == "S03" and "S04 in S03" in report
         assert plan["S08"]["required"]                           # always present at 1500 (D-48)
         assert "S11 (elo<2000)" in report
+    elif anchor == "2400":
+        assert plan["S04"]["absorbed_into"] == "S03" and "S04 in S03" in report
+        assert "S05 (band_2400)" in report and "S10 (band_2400)" in report
+        assert plan["S07"]["tables"] == ["T1", "T2"]              # move order at 2400 (§8.5)
+        assert plan["S08"]["required"] == bool(plan["S08"]["must_cover"])
+        assert "S11 (milestone)" in report                       # S11 arrives in M4
     else:
         assert "assorbite: nessuna" in report
         assert plan["S08"]["required"] == bool(plan["S08"]["must_cover"])    # c8
@@ -41,7 +51,7 @@ def test_rendered_sections(cfg, root, anchor):
 
 # -- M1c: a recorded response of the real model --------------------------------------------
 
-@pytest.mark.parametrize("anchor", ["1500", "1900"])
+@pytest.mark.parametrize("anchor", ANCHORS)
 def test_real_model_sections(cfg, anchor):
     from tests.real_llm import replay
 

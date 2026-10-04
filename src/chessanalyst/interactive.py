@@ -129,6 +129,7 @@ def interactive(cfg: Config, io: IO, run: Callable[[Position, dict[str, Any]], i
     """Return the exit code. ``run`` performs the analysis after confirmation.
     Options not yet available raise UsageError (exit code 2 in ``cli.main``)."""
     from chessanalyst.profile import save_profile
+    from chessanalyst.engines.openings import opening_entry
     from chessanalyst.run import load_openings
 
     try:
@@ -136,7 +137,7 @@ def interactive(cfg: Config, io: IO, run: Callable[[Position, dict[str, Any]], i
         openings = load_openings(cfg)
         while True:
             pos = ask_position(cfg, io)
-            entry = openings.lookup_epd(pos.board) if openings else None
+            entry = opening_entry(openings, pos.board)
             io.say(confirmation_text(pos, entry))
             ans = _retry(io, cfg.default.input.max_attempts, "Confermi? [s/n/correggi]: ",
                          lambda s: s.strip().lower() if s.strip().lower() in ("s", "n", "correggi") else None,

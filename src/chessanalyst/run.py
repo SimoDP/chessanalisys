@@ -29,16 +29,24 @@ class Engines:
     analyzer: CachedAnalyzer
     maia: Any
     close: Callable[[], None]
+    tablebase: Any = None          # Syzygy probe (M2), None without the tables
 
 
 def open_engines(cfg: Config, cache: Cache | None = None) -> Engines:
     """Real Stockfish and Maia-2 behind the SQLite cache (missing → EnvironmentProblem, exit 4)."""
-    from chessanalyst.engines.factory import make_maia, make_stockfish
+    from chessanalyst.engines.factory import make_maia, make_stockfish, make_tablebase
 
     cache = cache if cache is not None else Cache()
     maia = make_maia(cfg, cache)
     sf = make_stockfish(cfg).open()
-    return Engines(CachedAnalyzer(sf, cache), maia, sf.close)
+    tb = make_tablebase(cfg)
+
+    def close() -> None:
+        sf.close()
+        if tb is not None:
+            tb.close()
+
+    return Engines(CachedAnalyzer(sf, cache), maia, close, tb)
 
 
 def load_openings(cfg: Config) -> OpeningIndex | None:
@@ -121,7 +129,8 @@ def run_analysis(cfg: Config, pos: Position, us: UserSettings, out_base: Path, *
                  engines: Engines | None = None, progress: Callable[[str], None] = lambda s: None,
                  openings: OpeningIndex | None = None, time_scale: float = 1.0, llm=None) -> Path:
     openings = openings if openings is not None else load_openings(cfg)
-    entry = openings.lookup_epd(pos.board) if openings is not None else None
+    found = openings.lookup(pos.board) if openings is not None else None
+    entry = found[0] if found else None
     outdir = make_output_dir(out_base, entry["name"] if entry else None, pos.board.epd(en_passant="legal"),
                              cfg.default.output.slug_max_chars)
     handler = attach_run_log(outdir / "run.log", verbose)
@@ -135,7 +144,7 @@ def run_analysis(cfg: Config, pos: Position, us: UserSettings, out_base: Path, *
             engines = open_engines(cfg)
         try:
             pack = analyse_position(cfg, pos, us, engines.analyzer, engines.maia, openings,
-                                    progress=progress, time_scale=time_scale)
+                                    progress=progress, time_scale=time_scale, tablebase=engines.tablebase)
         finally:
             if own:
                 engines.close()
