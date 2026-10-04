@@ -31,7 +31,10 @@ citati da DeepSeek, vedi sotto). `pytest -m engines` → 4 superati, 1 saltato (
 
 - **Stockfish 19** (D-66, OQ-M2-1). Da questa versione i binari sono universali: i nomi dei file sono stati
   verificati sulla pagina ufficiale. Pin `Stockfish 19`, `reference_time_s` 6,0 s (era 7,9 con Stockfish 16).
-  `golden_nodes.json` resta il dato di M0 (Stockfish 16), perché riproduce i raw.
+  `golden_nodes.json` resta il dato di M0 (Stockfish 16), perché riproduce i raw. Dopo la chiusura `golden --data`
+  è stato ripetuto con Stockfish 19 (`docs/golden_diff_sf19.md`, `fixtures/golden_nodes_sf19.json`): AC-09 è
+  superato anche così (scarti −0,13…−0,18 sulle prime 3 dei raw, nessun valore oltre 0,25) e il test controlla
+  entrambi i file.
 - **E3 ℓ2–ℓ3** (D-28). Con `milestone_max_e3_level: 3`, il profilo `standard` arriva a ℓ2 e `deep` a ℓ3. T2 ha le
   righe di ℓ2 e ℓ3 dopo quella di ℓ1 dello stesso ramo: 33 righe a 2400. T3 considera anche i nodi di ℓ2, con una
   seconda passata di E2c (OQ-M2-2). L'avviso `move_order_limited` vale solo finché la milestone limita i livelli.
