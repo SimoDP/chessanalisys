@@ -6,34 +6,21 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "call_01a1083169607318b5d7d1bf",
+     "id": "call_01a10875b85674d6ba8843c4",
      "name": "submit_analysis",
      "input": {
-      "schema_version": "1",
       "sections": [
        {
         "id": "S01",
         "blocks": [
          {
           "type": "p",
-          "text": "Posizione di finale assolutamente pari: il motore dà {{ev:N1}} con la mossa migliore, e l'esito secondo Stockfish è {{pct:root.win}} di vittorie, {{pct:root.draw}} di patte e {{pct:root.loss}} di sconfitte. Sette pezzi per parte, un pedone ciascuno in più oltre ai re e alle torri, nessuno può forzare nulla.",
+          "text": "Posizione di finale completamente pari: il motore dà {{ev:N1}} con la mossa migliore, e l'esito secondo Stockfish è {{pct:root.draw}} di patta. Tutte le candidate spiegate valgono lo stesso, {{ev:C3}} e {{ev:C4}}, e nessuna perde nulla: {{loss:C3}} e {{loss:C4}} sono nulli. Anche se passassi la mossa, il Nero otterrebbe solo {{ev:N2}}. Non c'è nulla da vincere: c'è da non rovinare. Il tuo vantaggio pratico è minimo, {{pct:root.win}} di vittorie secondo il motore, e Maia-2 stima per te un punteggio atteso di poco sopra la metà.",
           "source": "engine",
           "assertions": [
            {
             "kind": "eval_band",
             "ref": "N1",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Tutte le mosse spiegate valgono esattamente lo stesso: dalla prima all'ultima la perdita è {{loss:C11}}, cioè zero. Non c'è una mossa migliore da trovare, c'è solo da scegliere una torre attiva e giocarla bene. Anche se passassi la mossa, il Nero otterrebbe solo {{ev:N2}}: il tuo vantaggio è puramente il tratto.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N2",
             "band": "equal"
            }
           ]
@@ -49,12 +36,12 @@
           "text_cells": {
            "piece_activity": {
             "nota": {
-             "text": "Pesa più di tutto: le torri sono già su colonne aperte",
+             "text": "Le due torri hanno la stessa mobilità e la stessa colonna aperta",
              "source": "feature",
              "assertions": [
               {
                "kind": "feature",
-               "key": "rook_open_file",
+               "key": "piece_mobility",
                "side": "w",
                "squares": [
                 "d1"
@@ -62,7 +49,7 @@
               },
               {
                "kind": "feature",
-               "key": "rook_open_file",
+               "key": "piece_mobility",
                "side": "b",
                "squares": [
                 "a5"
@@ -91,7 +78,7 @@
            },
            "king_safety": {
             "nota": {
-             "text": "Arrocco perduto da entrambi, ma nessuna colonna aperta sul re",
+             "text": "Arrocco perduto da entrambi, ma nessuna linea filtrata tocca i re",
              "source": "feature",
              "assertions": [
               {
@@ -120,7 +107,7 @@
            },
            "pawn_structure": {
             "nota": {
-             "text": "Un'isola di pedoni per parte, struttura simmetrica e stabile",
+             "text": "Un'isola di pedoni per parte, nessun pedone debole",
              "source": "feature",
              "assertions": [
               {
@@ -145,7 +132,7 @@
            },
            "threats_dynamics": {
             "nota": {
-             "text": "Nessuna linea filtrata: non ci sono tattiche in giro",
+             "text": "Nessuna minaccia supera la soglia del tuo livello",
              "source": "mixed",
              "assertions": [
               {
@@ -158,7 +145,7 @@
            },
            "space_center": {
             "nota": {
-             "text": "Controllo centrale pari, due case per parte",
+             "text": "Controllo centrale identico",
              "source": "feature",
              "assertions": [
               {
@@ -177,7 +164,7 @@
            },
            "initiative_tempo": {
             "nota": {
-             "text": "Nessuno ha l'iniziativa: è un finale statico",
+             "text": "Nessuno dei due può forzare",
              "source": "mixed",
              "assertions": [
               {
@@ -190,7 +177,7 @@
            },
            "material": {
             "nota": {
-             "text": "Materiale identico, bilanciato",
+             "text": "Materiale pari: torre e pedoni contro torre e pedoni",
              "source": "feature",
              "assertions": [
               {
@@ -209,7 +196,7 @@
            },
            "transition_plans": {
             "nota": {
-             "text": "Nessuna transizione: si resta in finale di torri",
+             "text": "Nessuna transizione rilevante",
              "source": "mixed",
              "assertions": [
               {
@@ -224,7 +211,7 @@
          },
          {
           "type": "p",
-          "text": "Nessuna categoria preoccupa. La tranquillità più bassa è la complessità pratica ({{sc:practical_complexity.T}}), perché quasi ogni mossa di torre vale lo stesso. La più rilevante è l'attività dei pezzi ({{sc:piece_activity.R}}): entrambe le torri stanno già su colonne aperte, la tua in d1 e quella nera in a5.",
+          "text": "Nessuna categoria preoccupa. La tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché quasi ogni mossa di torre o di re mantiene la patta. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): le due torri hanno la stessa mobilità e ciascuna occupa una colonna aperta, la tua in d e quella nera in a. Il re è al sicuro da entrambe le parti, con l'arrocco perduto ma nessuna linea filtrata che lo tocchi. La struttura è simmetrica, con una sola isola di pedoni per parte, e il controllo centrale è identico. Le categorie tattiche hanno rilevanza quasi nulla: qui decide la tecnica, non il calcolo.",
           "source": "mixed",
           "assertions": [
            {
@@ -246,47 +233,28 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Il Nero non ha colpi pronti. Se passassi la mossa, la sua migliore sarebbe {{m:g5@N2}} con la posizione ancora pari ({{ev:N2}}): spinge il pedone per guadagnare spazio sul lato di re, ma non crea minacce concrete.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N2",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Dopo la mossa consigliata {{mv:C3}} il Nero ha tre risposte principali, tutte equivalenti per il motore: {{m:Ra3@N8}}, {{m:Ra4@N9}} e {{m:Kf6@N10}}. La torre nera cerca la tua seconda traversa o la colonna a, il re viene verso il centro. Contro {{m:Ra3@N8}} la tua risposta più naturale è {{m:Rb7@N8}}, che tiene la torre attiva dietro il pedone nero.",
+          "text": "Il Nero non ha un piano di vittoria: la sua torre in a5 sta sulla colonna aperta e cerca di entrare nella tua metà, di solito in a2 o in a3, per dare scacco e guadagnare tempo. Se passassi la mossa, la sua prima scelta sarebbe la spinta del pedone in g5, che vale {{ev:N2}}: non è una minaccia, è solo spazio.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "Dopo {{mv:C4}} il Nero può giocare {{m:Rb5@N11}}, {{m:Ra3@N12}} o {{m:Ra4@N13}}: la torre cerca di attaccare il tuo pedone f2 o di entrare in settima. Contro {{m:Rb5@N11}} la mossa più solida è {{m:g4@N11}}, che guadagna spazio e prepara la spinta del pedone f.",
+          "text": "Dopo le tue candidate le sue risposte sono tutte equivalenti. Contro {{mv:C3}} il motore preferisce {{m:Ra3@N3}} e {{m:Ra4@N3}}, entrambe con valutazione pari; contro {{mv:C4}} la prima scelta è {{m:Rb5@N4}}, che mette la torre davanti al tuo re in modo fastidioso ma innocuo; contro {{mv:C6}} la sua idea è {{m:Ra7@N5}}, per poi scendere in a2; contro {{mv:C9}} e {{mv:C11}} cerca ancora la seconda traversa con {{m:Ra2@N6}} e {{m:Kh6@N7}}. In nessun caso la valutazione si muove da zero.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "Dopo {{mv:C6}} il Nero ha {{m:Ra7@N14}}, {{m:Ra2@N15}}, {{m:Ra3@N16}} e {{m:g5@N17}}. La spinta {{m:g5@N17}} è la più frequente a questo livello: secondo Maia-2 la sceglie il {{pct:g5@N17}} dei giocatori del tuo Elo. Contro {{m:Ra2@N15}} la torre nera entra in seconda e va cacciata con {{m:Rb5@N15}}.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "maia_band",
-            "ref": "g5@N17",
-            "band": "frequent"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C9}} il Nero risponde di solito {{m:Ra2@N6}} o {{m:g5@N6}}, mentre dopo {{mv:C11}} la scelta più comune è {{m:Kh6@N7}} o {{m:Ra2@N7}}. In tutti i casi la torre nera cerca la seconda traversa per attaccare i pedoni, ma il tuo re è ben difeso e non ci sono punti deboli reali.",
-          "source": "engine"
-         },
-         {
-          "type": "p",
-          "text": "Il piano tipico del Nero in questo finale è attivare la torre, spingere il pedone g per creare un pedone passato e portare il re verso il centro. La tua risposta è simmetrica: torre attiva, re verso il centro, pedone f spinto al momento giusto. Non ci sono trappole nascoste: è un finale di pura tecnica.",
+          "text": "Il vero tema del Nero è la **torre attiva sulla colonna a**: se la lasci entrare in a2, ti costringe a difendere il pedone f2 con il re, e ogni tempo speso a difendere è un tempo che non usi per migliorare la tua torre. La contromisura è semplice: tieni la tua torre sulla colonna d, dove è attiva, e usa il re per sostenere i pedoni. Non cercare di cacciare la torre nera: non puoi, e non serve.",
           "source": "theory"
+         },
+         {
+          "type": "p",
+          "text": "Attenzione a una sola cosa concreta: se la tua torre si allontana dalla prima traversa e il re si sposta, la torre nera in a2 può diventare scomoda. Nella linea del motore dopo {{mv:C6}} il Nero gioca {{m:g5@N17}} e poi spinge i pedoni, ma resta tutto pari. Il pedone f7 e il pedone g6 neri sono i suoi punti da difendere: se la tua torre arriva in settima traversa, li attacca e lo costringe a difendere passivamente.",
+          "source": "mixed"
+         },
+         {
+          "type": "p",
+          "text": "Secondo Maia-2, contro {{mv:C3}} il Nero sceglie {{m:Kf6@N3}} con una frequenza vicina a quella delle altre mosse di torre, e contro {{mv:C6}} la spinta {{m:g5@N5}} è la più gettonata: sono mosse naturali, non piani. A questo livello il Nero non calcola linee lunghe, quindi non aspettarti trappole: aspettati che spinga i pedoni e cerchi scacchi di torre.",
+          "source": "maia"
          }
         ]
        },
@@ -299,31 +267,31 @@
           "text_cells": {
            "C3": {
             "idea": {
-             "text": "Torre in settima: la più naturale a questo livello ({{pct:C3.p_user}}), attacca il pedone f7 e limita il re nero",
-             "source": "mixed"
+             "text": "La mossa consigliata: la torre in settima traversa attacca f7 e g6 e resta attiva; il Nero deve difendere",
+             "source": "engine"
             }
            },
            "C4": {
             "idea": {
-             "text": "Torre in sesta: controlla la colonna d e tiene il re nero lontano dal centro",
+             "text": "La torre in sesta traversa controlla la colonna e prepara l'avanzata dei pedoni; il Nero risponde {{m:Rb5@N4}}",
              "source": "engine"
             }
            },
            "C6": {
             "idea": {
-             "text": "Torre in b1: si sposta sul lato di donna e prepara l'ingresso in settima",
+             "text": "La torre in b1 cerca la settima traversa passando dal lato; il Nero gioca {{m:Ra7@N5}}",
              "source": "engine"
             }
            },
            "C9": {
             "idea": {
-             "text": "Torre in d4: centrale e attiva, pronta a cambiare colonna",
+             "text": "La torre in d4 centralizza e sostiene la spinta del pedone f; il Nero risponde {{m:Ra2@N6}}",
              "source": "engine"
             }
            },
            "C11": {
             "idea": {
-             "text": "Torre in d8: la più aggressiva, va dietro le linee nemiche ma il re nero la caccia subito",
+             "text": "La torre in d8 va in fondo per attaccare i pedoni; il Nero risponde {{m:Kh6@N7}}",
              "source": "engine"
             }
            }
@@ -331,18 +299,13 @@
          },
          {
           "type": "p",
-          "text": "Tutte le candidate valgono esattamente {{ev:C3}}: la perdita è {{loss:C3}}, {{loss:C4}}, {{loss:C6}}, {{loss:C9}} e {{loss:C11}}, cioè zero per tutte. Il motore non vede alcuna differenza: la scelta è puramente pratica.",
+          "text": "Il motore non vede alcuna differenza tra queste mosse: tutte valgono {{ev:C3}}, {{ev:C4}}, {{ev:C6}}, {{ev:C9}} e {{ev:C11}}, con perdita nulla. La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: puoi scegliere tra sistemi diversi. La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}, e dopo {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: {{mv:C3}} e {{mv:C4}} sono intercambiabili, {{mv:C6}} e {{mv:C9}} portano a posizioni equivalenti. Scegli quella che ti sembra più comoda da giocare.",
-          "source": "engine"
-         },
-         {
-          "type": "p",
-          "text": "La linea principale dopo {{mv:C3}} è {{pv:PV3:6}}: il Nero spinge il pedone g, tu porti il re in h3 e poi la torre in d6. Con {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:6}}. Nessuna delle due linee contiene mosse obbligate.",
-          "source": "engine"
+          "text": "Come scegliere: se ti piace la torre attiva in settima traversa, gioca {{mv:C3}}; se preferisci tenere la torre al centro e spingere i pedoni, {{mv:C4}} o {{mv:C9}}; se vuoi attaccare i pedoni neri dal fondo, {{mv:C11}}. Sono tutte equivalenti, quindi scegli quella che capisci meglio e non cambiarla a metà strada.",
+          "source": "mixed"
          }
         ]
        },
@@ -351,76 +314,12 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Le mosse di re {{mv:C1}}, {{mv:C2}}, {{mv:C7}}, {{mv:C14}} e {{mv:C15}} sono tutte equivalenti per il motore ({{ev:C1}}, {{ev:C2}}), ma a questo livello sono mosse difficili: spostare il re senza un piano chiaro non migliora nulla. Meglio una mossa di torre.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "classification",
-            "ref": "C1",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C2",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C7",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C14",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C15",
-            "category": "hard_move"
-           }
-          ]
+          "text": "Le mosse di re e di pedone sono tutte innocue: {{mv:C1}}, {{mv:C2}}, {{mv:C5}}, {{mv:C7}}, {{mv:C8}}, {{mv:C13}}, {{mv:C14}}, {{mv:C15}}, {{mv:C16}} e {{mv:C18}} mantengono la patta con perdita nulla, e nessuna è una trappola. Sono mosse difficili solo perché sembrano passive: a questo livello è facile sceglierle per abitudine invece di migliorare la torre.",
+          "source": "engine"
          },
          {
           "type": "p",
-          "text": "Anche {{mv:C5}}, {{mv:C8}}, {{mv:C10}}, {{mv:C13}}, {{mv:C16}} e {{mv:C18}} valgono lo stesso ({{loss:C5}}, {{loss:C8}}, {{loss:C10}}, {{loss:C13}}, {{loss:C16}}, {{loss:C18}}), ma sono mosse passive: la torre resta inattiva. Non sono errori, semplicemente non fanno progredire nulla.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "classification",
-            "ref": "C5",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C8",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C10",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C13",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C16",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C18",
-            "category": "hard_move"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Non ci sono trappole naturali in questa posizione: nessuna mossa perde materiale, nessuna permette al Nero di forzare qualcosa. L'unico errore di principio sarebbe cedere la torre in cambio di nulla, ma nessuna delle mosse elencate lo fa.",
+          "text": "L'unico errore di principio da evitare è dare la torre: se la tua torre finisce su una casa dove il re nero o la torre nera possono catturarla senza compenso, perdi subito. Nella linea del motore dopo {{mv:C6}} {{m:Ra7@N5}} {{m:f3@N24}} il Nero gioca {{m:Ra2+@N24}} e ti dà scacco: rispondi con il re, non con la torre. Il resto è tecnica.",
           "source": "theory"
          }
         ]
@@ -432,31 +331,26 @@
           "type": "ol",
           "items": [
            {
-            "text": "**Scegli una torre attiva**: in settima, in sesta o in quarta. Tutte valgono lo stesso.",
+            "text": "**Riconosci che è patta**: nessuna mossa vince, quindi il tuo obiettivo è non perdere.",
             "source": "theory"
            },
            {
-            "text": "**Porta il re verso il centro** quando la torre è sistemata: il re in f3 o g3 è più utile che in g2.",
+            "text": "**Attiva la torre**: mettila su una colonna aperta o in settima traversa, come in {{mv:C3}}.",
             "source": "theory"
            },
            {
-            "text": "**Spingi il pedone f** al momento giusto per creare un pedone passato o aprire linee per la torre.",
+            "text": "**Tieni il re vicino ai pedoni**: il re difende f2 e g3 e non si allontana.",
             "source": "theory"
            },
            {
-            "text": "**Controlla la torre nera**: se entra in seconda traversa, cacciala subito con la tua torre.",
+            "text": "**Se il Nero entra in a2 con la torre, non inseguirla**: rispondi con scacchi di torre o spingi i pedoni.",
             "source": "theory"
            },
            {
-            "text": "**Non avere fretta**: in un finale pari come questo, ogni mossa ragionevole mantiene l'equilibrio. Gioca con calma e cerca piccoli miglioramenti.",
+            "text": "**Non cambiare piano**: qualsiasi mossa sensata di torre mantiene la patta, quindi gioca con calma.",
             "source": "theory"
            }
           ]
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C3}} la linea tipica è {{pv:PV3:6}}: torre in settima, re in h3, torre in d6. Il piano è semplice: attività massima delle torri e re attivo.",
-          "source": "engine"
          }
         ]
        },
@@ -465,69 +359,52 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Questo è un finale di torri e pedoni con materiale perfettamente simmetrico: sette pezzi per parte, un pedone ciascuno oltre ai re e alle torri. Il motore valuta la posizione esattamente pari ({{ev:N1}}), con {{pct:root.draw}} di patte secondo Stockfish. Non c'è un piano vincente per nessuno dei due: l'obiettivo realistico è giocare bene e non commettere errori.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N1",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}: il Nero spinge il pedone g, tu porti il re in h3, poi la torre in d6 e in f4. La posizione resta pari fino alla fine della linea. Con {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}: torre in d6, re in h3, pedone f spinto.",
+          "text": "Questo è un finale di torre e pedoni con materiale pari: torre e tre pedoni contro torre e tre pedoni, con una sola isola di pedoni per parte. Il motore valuta {{ev:N1}} e l'esito secondo Stockfish è {{pct:root.draw}} di patte: non c'è un piano di vittoria per nessuno dei due. La linea principale dopo la mossa consigliata è {{pv:PV3:8}}, e dopo {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}: in entrambi i casi le torri si scambiano scacchi e i pedoni restano bloccati.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "La tecnica in questo finale è semplice: mantieni la torre attiva, porta il re verso il centro, spingi il pedone f quando puoi creare un pedone passato. Se il Nero spinge il pedone g, rispondi simmetricamente con il tuo pedone g o con il pedone f. Non ci sono posizioni di stallo o trappole: è un finale di pura manovra.",
+          "text": "La tecnica qui è semplice: **attiva la torre, difendi i pedoni con il re, evita di perdere materiale**. Se il Nero entra in a2 con la torre, non cercare di catturarla: rispondi con scacchi di torre o spingi i pedoni. Nella linea del motore dopo {{mv:C6}} il Nero gioca {{m:g5@N17}} e poi spinge i pedoni, ma resta tutto pari. Il pedone f7 e il pedone g6 neri sono i suoi punti da difendere: se la tua torre arriva in settima traversa, li attacca e lo costringe a difendere passivamente.",
+          "source": "mixed"
+         },
+         {
+          "type": "p",
+          "text": "Se il Nero sbaglia e ti lascia entrare in settima traversa con la torre, puoi guadagnare un pedone, ma non basta per vincere: il finale di torre e pedone contro torre è quasi sempre patta se il re difende. La regola pratica è: **non dare mai la torre**, **non lasciare il re lontano dai pedoni**, **non cambiare piano**. Con queste tre regole la patta è garantita.",
           "source": "theory"
          },
          {
           "type": "p",
-          "text": "Secondo Maia-2, i giocatori del tuo livello scelgono {{mv:C3}} il {{pct:C3.p_user}} delle volte, {{mv:C9}} il {{pct:C9.p_user}} e {{mv:C6}} il {{pct:C6.p_user}}. La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: tutte le mosse di torre attiva portano allo stesso risultato.",
+          "text": "Secondo Maia-2, il Nero a questo livello sceglie spesso {{m:Kf6@N3}} o {{m:g5@N5}}, mosse naturali che non cambiano la valutazione. Non aspettarti trappole: aspettati che spinga i pedoni e cerchi scacchi di torre. Se mantieni la calma e giochi mosse sensate, la partita finisce in patta.",
           "source": "maia"
-         },
-         {
-          "type": "p",
-          "text": "Se il Nero gioca {{m:g5@N2}}, la tua risposta migliore è portare il re in h3 o spingere il pedone f. Se il Nero gioca {{m:Kf6@N2}}, porta la torre in d6 o in d7 per limitare il re. In ogni caso la posizione resta pari: non ci sono mosse che cambiano la valutazione.",
-          "source": "engine"
-         },
-         {
-          "type": "p",
-          "text": "Il consiglio pratico è: gioca una mossa di torre attiva, poi migliora la posizione del re e del pedone f. Non cercare di forzare nulla: in un finale pari come questo, la pazienza e la precisione contano più dell'aggressività. Se entrambi giocano bene, la partita finisce in patta.",
-          "source": "theory"
          }
         ]
        }
       ],
       "notes": [
-       "Il pacchetto segnala maia.confidence low: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.",
-       "Tutte le candidate hanno loss_cp pari a zero e valutazione identica: la raccomandazione C3 è 'weak' con no_unique_best vero, coerente con una posizione di finale perfettamente pari.",
-       "Nessuna linea filtrata presente: la sezione S09 è stata omessa dal programma con motivo no_invisible_line."
+       "Il pacchetto segnala maia.confidence basso: le probabilità umane sono poco affidabili e le ho usate solo come indicazione di frequenza, non come base del giudizio.",
+       "La categoria practical_complexity ha tranquillità sotto la soglia di allerta ma consiglio monitor: la posizione è pari e non c'è nulla di concreto da temere.",
+       "Le sezioni S03, S04, S05, S09, S11 e S13 sono state omesse dal programma e non le ho scritte."
       ]
      }
     }
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 42410,
-    "completion_tokens": 4413,
-    "total_tokens": 46823,
-    "cost": 0.015083304,
+    "prompt_tokens": 42651,
+    "completion_tokens": 3902,
+    "total_tokens": 46553,
+    "cost": 0.01446714,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 9984,
+     "cached_tokens": 10240,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.015083304,
-     "upstream_inference_prompt_cost": 0.009787704,
-     "upstream_inference_completions_cost": 0.0052956
+     "upstream_inference_cost": 0.01446714,
+     "upstream_inference_prompt_cost": 0.00978474,
+     "upstream_inference_completions_cost": 0.0046824
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -536,9 +413,9 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791138816-Uk86Xr2m6ShYVfjYIaYv",
+    "id": "gen-1791143291-9Bj3UlmLjr30S4Uch3Yh",
     "object": "chat.completion",
-    "created": 1791138816,
+    "created": 1791143291,
     "model": "deepseek/deepseek-v4.1-flash",
     "provider": "Together",
     "system_fingerprint": "default",
@@ -558,10 +435,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "call_01a1083169607318b5d7d1bf",
+         "id": "call_01a10875b85674d6ba8843c4",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Posizione di finale assolutamente pari: il motore dà {{ev:N1}} con la mossa migliore, e l'esito secondo Stockfish è {{pct:root.win}} di vittorie, {{pct:root.draw}} di patte e {{pct:root.loss}} di sconfitte. Sette pezzi per parte, un pedone ciascuno in più oltre ai re e alle torri, nessuno può forzare nulla.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Tutte le mosse spiegate valgono esattamente lo stesso: dalla prima all'ultima la perdita è {{loss:C11}}, cioè zero. Non c'è una mossa migliore da trovare, c'è solo da scegliere una torre attiva e giocarla bene. Anche se passassi la mossa, il Nero otterrebbe solo {{ev:N2}}: il tuo vantaggio è puramente il tratto.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]}]},{\"id\":\"S02\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T4\",\"text_cells\":{\"piece_activity\":{\"nota\":{\"text\":\"Pesa più di tutto: le torri sono già su colonne aperte\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"rook_open_file\",\"side\":\"w\",\"squares\":[\"d1\"]},{\"kind\":\"feature\",\"key\":\"rook_open_file\",\"side\":\"b\",\"squares\":[\"a5\"]},{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"}]}},\"practical_complexity\":{\"nota\":{\"text\":\"Molte mosse equivalenti, nessuna unica\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"}]}},\"king_safety\":{\"nota\":{\"text\":\"Arrocco perduto da entrambi, ma nessuna colonna aperta sul re\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"castling_lost\",\"side\":\"w\",\"squares\":[\"g2\"]},{\"kind\":\"feature\",\"key\":\"castling_lost\",\"side\":\"b\",\"squares\":[\"g7\"]},{\"kind\":\"category_advice\",\"id\":\"king_safety\",\"advice\":\"no_worry\"}]}},\"pawn_structure\":{\"nota\":{\"text\":\"Un'isola di pedoni per parte, struttura simmetrica e stabile\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"w\",\"squares\":[]},{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"b\",\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"pawn_structure\",\"advice\":\"no_worry\"}]}},\"threats_dynamics\":{\"nota\":{\"text\":\"Nessuna linea filtrata: non ci sono tattiche in giro\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"threats_dynamics\",\"advice\":\"no_worry\"}]}},\"space_center\":{\"nota\":{\"text\":\"Controllo centrale pari, due case per parte\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"central_control\",\"side\":null,\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"space_center\",\"advice\":\"no_worry\"}]}},\"initiative_tempo\":{\"nota\":{\"text\":\"Nessuno ha l'iniziativa: è un finale statico\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"initiative_tempo\",\"advice\":\"no_worry\"}]}},\"material\":{\"nota\":{\"text\":\"Materiale identico, bilanciato\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"material_balance\",\"side\":null,\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"material\",\"advice\":\"no_worry\"}]}},\"transition_plans\":{\"nota\":{\"text\":\"Nessuna transizione: si resta in finale di torri\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"transition_plans\",\"advice\":\"no_worry\"}]}}}},{\"type\":\"p\",\"text\":\"Nessuna categoria preoccupa. La tranquillità più bassa è la complessità pratica ({{sc:practical_complexity.T}}), perché quasi ogni mossa di torre vale lo stesso. La più rilevante è l'attività dei pezzi ({{sc:piece_activity.R}}): entrambe le torri stanno già su colonne aperte, la tua in d1 e quella nera in a5.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"},{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero non ha colpi pronti. Se passassi la mossa, la sua migliore sarebbe {{m:g5@N2}} con la posizione ancora pari ({{ev:N2}}): spinge il pedone per guadagnare spazio sul lato di re, ma non crea minacce concrete.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Dopo la mossa consigliata {{mv:C3}} il Nero ha tre risposte principali, tutte equivalenti per il motore: {{m:Ra3@N8}}, {{m:Ra4@N9}} e {{m:Kf6@N10}}. La torre nera cerca la tua seconda traversa o la colonna a, il re viene verso il centro. Contro {{m:Ra3@N8}} la tua risposta più naturale è {{m:Rb7@N8}}, che tiene la torre attiva dietro il pedone nero.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Dopo {{mv:C4}} il Nero può giocare {{m:Rb5@N11}}, {{m:Ra3@N12}} o {{m:Ra4@N13}}: la torre cerca di attaccare il tuo pedone f2 o di entrare in settima. Contro {{m:Rb5@N11}} la mossa più solida è {{m:g4@N11}}, che guadagna spazio e prepara la spinta del pedone f.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Dopo {{mv:C6}} il Nero ha {{m:Ra7@N14}}, {{m:Ra2@N15}}, {{m:Ra3@N16}} e {{m:g5@N17}}. La spinta {{m:g5@N17}} è la più frequente a questo livello: secondo Maia-2 la sceglie il {{pct:g5@N17}} dei giocatori del tuo Elo. Contro {{m:Ra2@N15}} la torre nera entra in seconda e va cacciata con {{m:Rb5@N15}}.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"maia_band\",\"ref\":\"g5@N17\",\"band\":\"frequent\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C9}} il Nero risponde di solito {{m:Ra2@N6}} o {{m:g5@N6}}, mentre dopo {{mv:C11}} la scelta più comune è {{m:Kh6@N7}} o {{m:Ra2@N7}}. In tutti i casi la torre nera cerca la seconda traversa per attaccare i pedoni, ma il tuo re è ben difeso e non ci sono punti deboli reali.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Il piano tipico del Nero in questo finale è attivare la torre, spingere il pedone g per creare un pedone passato e portare il re verso il centro. La tua risposta è simmetrica: torre attiva, re verso il centro, pedone f spinto al momento giusto. Non ci sono trappole nascoste: è un finale di pura tecnica.\",\"source\":\"theory\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C3\":{\"idea\":{\"text\":\"Torre in settima: la più naturale a questo livello ({{pct:C3.p_user}}), attacca il pedone f7 e limita il re nero\",\"source\":\"mixed\"}},\"C4\":{\"idea\":{\"text\":\"Torre in sesta: controlla la colonna d e tiene il re nero lontano dal centro\",\"source\":\"engine\"}},\"C6\":{\"idea\":{\"text\":\"Torre in b1: si sposta sul lato di donna e prepara l'ingresso in settima\",\"source\":\"engine\"}},\"C9\":{\"idea\":{\"text\":\"Torre in d4: centrale e attiva, pronta a cambiare colonna\",\"source\":\"engine\"}},\"C11\":{\"idea\":{\"text\":\"Torre in d8: la più aggressiva, va dietro le linee nemiche ma il re nero la caccia subito\",\"source\":\"engine\"}}}},{\"type\":\"p\",\"text\":\"Tutte le candidate valgono esattamente {{ev:C3}}: la perdita è {{loss:C3}}, {{loss:C4}}, {{loss:C6}}, {{loss:C9}} e {{loss:C11}}, cioè zero per tutte. Il motore non vede alcuna differenza: la scelta è puramente pratica.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: {{mv:C3}} e {{mv:C4}} sono intercambiabili, {{mv:C6}} e {{mv:C9}} portano a posizioni equivalenti. Scegli quella che ti sembra più comoda da giocare.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La linea principale dopo {{mv:C3}} è {{pv:PV3:6}}: il Nero spinge il pedone g, tu porti il re in h3 e poi la torre in d6. Con {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:6}}. Nessuna delle due linee contiene mosse obbligate.\",\"source\":\"engine\"}]},{\"id\":\"S08\",\"blocks\":[{\"type\":\"p\",\"text\":\"Le mosse di re {{mv:C1}}, {{mv:C2}}, {{mv:C7}}, {{mv:C14}} e {{mv:C15}} sono tutte equivalenti per il motore ({{ev:C1}}, {{ev:C2}}), ma a questo livello sono mosse difficili: spostare il re senza un piano chiaro non migliora nulla. Meglio una mossa di torre.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C1\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C2\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C7\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C14\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C15\",\"category\":\"hard_move\"}]},{\"type\":\"p\",\"text\":\"Anche {{mv:C5}}, {{mv:C8}}, {{mv:C10}}, {{mv:C13}}, {{mv:C16}} e {{mv:C18}} valgono lo stesso ({{loss:C5}}, {{loss:C8}}, {{loss:C10}}, {{loss:C13}}, {{loss:C16}}, {{loss:C18}}), ma sono mosse passive: la torre resta inattiva. Non sono errori, semplicemente non fanno progredire nulla.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C5\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C8\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C10\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C13\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C16\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C18\",\"category\":\"hard_move\"}]},{\"type\":\"p\",\"text\":\"Non ci sono trappole naturali in questa posizione: nessuna mossa perde materiale, nessuna permette al Nero di forzare qualcosa. L'unico errore di principio sarebbe cedere la torre in cambio di nulla, ma nessuna delle mosse elencate lo fa.\",\"source\":\"theory\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Scegli una torre attiva**: in settima, in sesta o in quarta. Tutte valgono lo stesso.\",\"source\":\"theory\"},{\"text\":\"**Porta il re verso il centro** quando la torre è sistemata: il re in f3 o g3 è più utile che in g2.\",\"source\":\"theory\"},{\"text\":\"**Spingi il pedone f** al momento giusto per creare un pedone passato o aprire linee per la torre.\",\"source\":\"theory\"},{\"text\":\"**Controlla la torre nera**: se entra in seconda traversa, cacciala subito con la tua torre.\",\"source\":\"theory\"},{\"text\":\"**Non avere fretta**: in un finale pari come questo, ogni mossa ragionevole mantiene l'equilibrio. Gioca con calma e cerca piccoli miglioramenti.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C3}} la linea tipica è {{pv:PV3:6}}: torre in settima, re in h3, torre in d6. Il piano è semplice: attività massima delle torri e re attivo.\",\"source\":\"engine\"}]},{\"id\":\"S12\",\"blocks\":[{\"type\":\"p\",\"text\":\"Questo è un finale di torri e pedoni con materiale perfettamente simmetrico: sette pezzi per parte, un pedone ciascuno oltre ai re e alle torri. Il motore valuta la posizione esattamente pari ({{ev:N1}}), con {{pct:root.draw}} di patte secondo Stockfish. Non c'è un piano vincente per nessuno dei due: l'obiettivo realistico è giocare bene e non commettere errori.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}: il Nero spinge il pedone g, tu porti il re in h3, poi la torre in d6 e in f4. La posizione resta pari fino alla fine della linea. Con {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}: torre in d6, re in h3, pedone f spinto.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La tecnica in questo finale è semplice: mantieni la torre attiva, porta il re verso il centro, spingi il pedone f quando puoi creare un pedone passato. Se il Nero spinge il pedone g, rispondi simmetricamente con il tuo pedone g o con il pedone f. Non ci sono posizioni di stallo o trappole: è un finale di pura manovra.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, i giocatori del tuo livello scelgono {{mv:C3}} il {{pct:C3.p_user}} delle volte, {{mv:C9}} il {{pct:C9.p_user}} e {{mv:C6}} il {{pct:C6.p_user}}. La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: tutte le mosse di torre attiva portano allo stesso risultato.\",\"source\":\"maia\"},{\"type\":\"p\",\"text\":\"Se il Nero gioca {{m:g5@N2}}, la tua risposta migliore è portare il re in h3 o spingere il pedone f. Se il Nero gioca {{m:Kf6@N2}}, porta la torre in d6 o in d7 per limitare il re. In ogni caso la posizione resta pari: non ci sono mosse che cambiano la valutazione.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Il consiglio pratico è: gioca una mossa di torre attiva, poi migliora la posizione del re e del pedone f. Non cercare di forzare nulla: in un finale pari come questo, la pazienza e la precisione contano più dell'aggressività. Se entrambi giocano bene, la partita finisce in patta.\",\"source\":\"theory\"}]}],\"notes\":[\"Il pacchetto segnala maia.confidence low: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.\",\"Tutte le candidate hanno loss_cp pari a zero e valutazione identica: la raccomandazione C3 è 'weak' con no_unique_best vero, coerente con una posizione di finale perfettamente pari.\",\"Nessuna linea filtrata presente: la sezione S09 è stata omessa dal programma con motivo no_invisible_line.\"]}"
+          "arguments": "{\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Posizione di finale completamente pari: il motore dà {{ev:N1}} con la mossa migliore, e l'esito secondo Stockfish è {{pct:root.draw}} di patta. Tutte le candidate spiegate valgono lo stesso, {{ev:C3}} e {{ev:C4}}, e nessuna perde nulla: {{loss:C3}} e {{loss:C4}} sono nulli. Anche se passassi la mossa, il Nero otterrebbe solo {{ev:N2}}. Non c'è nulla da vincere: c'è da non rovinare. Il tuo vantaggio pratico è minimo, {{pct:root.win}} di vittorie secondo il motore, e Maia-2 stima per te un punteggio atteso di poco sopra la metà.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"equal\"}]}]},{\"id\":\"S02\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T4\",\"text_cells\":{\"piece_activity\":{\"nota\":{\"text\":\"Le due torri hanno la stessa mobilità e la stessa colonna aperta\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"piece_mobility\",\"side\":\"w\",\"squares\":[\"d1\"]},{\"kind\":\"feature\",\"key\":\"piece_mobility\",\"side\":\"b\",\"squares\":[\"a5\"]},{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"}]}},\"practical_complexity\":{\"nota\":{\"text\":\"Molte mosse equivalenti, nessuna unica\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"}]}},\"king_safety\":{\"nota\":{\"text\":\"Arrocco perduto da entrambi, ma nessuna linea filtrata tocca i re\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"castling_lost\",\"side\":\"w\",\"squares\":[\"g2\"]},{\"kind\":\"feature\",\"key\":\"castling_lost\",\"side\":\"b\",\"squares\":[\"g7\"]},{\"kind\":\"category_advice\",\"id\":\"king_safety\",\"advice\":\"no_worry\"}]}},\"pawn_structure\":{\"nota\":{\"text\":\"Un'isola di pedoni per parte, nessun pedone debole\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"w\",\"squares\":[]},{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"b\",\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"pawn_structure\",\"advice\":\"no_worry\"}]}},\"threats_dynamics\":{\"nota\":{\"text\":\"Nessuna minaccia supera la soglia del tuo livello\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"threats_dynamics\",\"advice\":\"no_worry\"}]}},\"space_center\":{\"nota\":{\"text\":\"Controllo centrale identico\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"central_control\",\"side\":null,\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"space_center\",\"advice\":\"no_worry\"}]}},\"initiative_tempo\":{\"nota\":{\"text\":\"Nessuno dei due può forzare\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"initiative_tempo\",\"advice\":\"no_worry\"}]}},\"material\":{\"nota\":{\"text\":\"Materiale pari: torre e pedoni contro torre e pedoni\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"material_balance\",\"side\":null,\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"material\",\"advice\":\"no_worry\"}]}},\"transition_plans\":{\"nota\":{\"text\":\"Nessuna transizione rilevante\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"transition_plans\",\"advice\":\"no_worry\"}]}}}},{\"type\":\"p\",\"text\":\"Nessuna categoria preoccupa. La tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché quasi ogni mossa di torre o di re mantiene la patta. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): le due torri hanno la stessa mobilità e ciascuna occupa una colonna aperta, la tua in d e quella nera in a. Il re è al sicuro da entrambe le parti, con l'arrocco perduto ma nessuna linea filtrata che lo tocchi. La struttura è simmetrica, con una sola isola di pedoni per parte, e il controllo centrale è identico. Le categorie tattiche hanno rilevanza quasi nulla: qui decide la tecnica, non il calcolo.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"},{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero non ha un piano di vittoria: la sua torre in a5 sta sulla colonna aperta e cerca di entrare nella tua metà, di solito in a2 o in a3, per dare scacco e guadagnare tempo. Se passassi la mossa, la sua prima scelta sarebbe la spinta del pedone in g5, che vale {{ev:N2}}: non è una minaccia, è solo spazio.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Dopo le tue candidate le sue risposte sono tutte equivalenti. Contro {{mv:C3}} il motore preferisce {{m:Ra3@N3}} e {{m:Ra4@N3}}, entrambe con valutazione pari; contro {{mv:C4}} la prima scelta è {{m:Rb5@N4}}, che mette la torre davanti al tuo re in modo fastidioso ma innocuo; contro {{mv:C6}} la sua idea è {{m:Ra7@N5}}, per poi scendere in a2; contro {{mv:C9}} e {{mv:C11}} cerca ancora la seconda traversa con {{m:Ra2@N6}} e {{m:Kh6@N7}}. In nessun caso la valutazione si muove da zero.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Il vero tema del Nero è la **torre attiva sulla colonna a**: se la lasci entrare in a2, ti costringe a difendere il pedone f2 con il re, e ogni tempo speso a difendere è un tempo che non usi per migliorare la tua torre. La contromisura è semplice: tieni la tua torre sulla colonna d, dove è attiva, e usa il re per sostenere i pedoni. Non cercare di cacciare la torre nera: non puoi, e non serve.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Attenzione a una sola cosa concreta: se la tua torre si allontana dalla prima traversa e il re si sposta, la torre nera in a2 può diventare scomoda. Nella linea del motore dopo {{mv:C6}} il Nero gioca {{m:g5@N17}} e poi spinge i pedoni, ma resta tutto pari. Il pedone f7 e il pedone g6 neri sono i suoi punti da difendere: se la tua torre arriva in settima traversa, li attacca e lo costringe a difendere passivamente.\",\"source\":\"mixed\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, contro {{mv:C3}} il Nero sceglie {{m:Kf6@N3}} con una frequenza vicina a quella delle altre mosse di torre, e contro {{mv:C6}} la spinta {{m:g5@N5}} è la più gettonata: sono mosse naturali, non piani. A questo livello il Nero non calcola linee lunghe, quindi non aspettarti trappole: aspettati che spinga i pedoni e cerchi scacchi di torre.\",\"source\":\"maia\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C3\":{\"idea\":{\"text\":\"La mossa consigliata: la torre in settima traversa attacca f7 e g6 e resta attiva; il Nero deve difendere\",\"source\":\"engine\"}},\"C4\":{\"idea\":{\"text\":\"La torre in sesta traversa controlla la colonna e prepara l'avanzata dei pedoni; il Nero risponde {{m:Rb5@N4}}\",\"source\":\"engine\"}},\"C6\":{\"idea\":{\"text\":\"La torre in b1 cerca la settima traversa passando dal lato; il Nero gioca {{m:Ra7@N5}}\",\"source\":\"engine\"}},\"C9\":{\"idea\":{\"text\":\"La torre in d4 centralizza e sostiene la spinta del pedone f; il Nero risponde {{m:Ra2@N6}}\",\"source\":\"engine\"}},\"C11\":{\"idea\":{\"text\":\"La torre in d8 va in fondo per attaccare i pedoni; il Nero risponde {{m:Kh6@N7}}\",\"source\":\"engine\"}}}},{\"type\":\"p\",\"text\":\"Il motore non vede alcuna differenza tra queste mosse: tutte valgono {{ev:C3}}, {{ev:C4}}, {{ev:C6}}, {{ev:C9}} e {{ev:C11}}, con perdita nulla. La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: puoi scegliere tra sistemi diversi. La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}, e dopo {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Come scegliere: se ti piace la torre attiva in settima traversa, gioca {{mv:C3}}; se preferisci tenere la torre al centro e spingere i pedoni, {{mv:C4}} o {{mv:C9}}; se vuoi attaccare i pedoni neri dal fondo, {{mv:C11}}. Sono tutte equivalenti, quindi scegli quella che capisci meglio e non cambiarla a metà strada.\",\"source\":\"mixed\"}]},{\"id\":\"S08\",\"blocks\":[{\"type\":\"p\",\"text\":\"Le mosse di re e di pedone sono tutte innocue: {{mv:C1}}, {{mv:C2}}, {{mv:C5}}, {{mv:C7}}, {{mv:C8}}, {{mv:C13}}, {{mv:C14}}, {{mv:C15}}, {{mv:C16}} e {{mv:C18}} mantengono la patta con perdita nulla, e nessuna è una trappola. Sono mosse difficili solo perché sembrano passive: a questo livello è facile sceglierle per abitudine invece di migliorare la torre.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"L'unico errore di principio da evitare è dare la torre: se la tua torre finisce su una casa dove il re nero o la torre nera possono catturarla senza compenso, perdi subito. Nella linea del motore dopo {{mv:C6}} {{m:Ra7@N5}} {{m:f3@N24}} il Nero gioca {{m:Ra2+@N24}} e ti dà scacco: rispondi con il re, non con la torre. Il resto è tecnica.\",\"source\":\"theory\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Riconosci che è patta**: nessuna mossa vince, quindi il tuo obiettivo è non perdere.\",\"source\":\"theory\"},{\"text\":\"**Attiva la torre**: mettila su una colonna aperta o in settima traversa, come in {{mv:C3}}.\",\"source\":\"theory\"},{\"text\":\"**Tieni il re vicino ai pedoni**: il re difende f2 e g3 e non si allontana.\",\"source\":\"theory\"},{\"text\":\"**Se il Nero entra in a2 con la torre, non inseguirla**: rispondi con scacchi di torre o spingi i pedoni.\",\"source\":\"theory\"},{\"text\":\"**Non cambiare piano**: qualsiasi mossa sensata di torre mantiene la patta, quindi gioca con calma.\",\"source\":\"theory\"}]}]},{\"id\":\"S12\",\"blocks\":[{\"type\":\"p\",\"text\":\"Questo è un finale di torre e pedoni con materiale pari: torre e tre pedoni contro torre e tre pedoni, con una sola isola di pedoni per parte. Il motore valuta {{ev:N1}} e l'esito secondo Stockfish è {{pct:root.draw}} di patte: non c'è un piano di vittoria per nessuno dei due. La linea principale dopo la mossa consigliata è {{pv:PV3:8}}, e dopo {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}: in entrambi i casi le torri si scambiano scacchi e i pedoni restano bloccati.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La tecnica qui è semplice: **attiva la torre, difendi i pedoni con il re, evita di perdere materiale**. Se il Nero entra in a2 con la torre, non cercare di catturarla: rispondi con scacchi di torre o spingi i pedoni. Nella linea del motore dopo {{mv:C6}} il Nero gioca {{m:g5@N17}} e poi spinge i pedoni, ma resta tutto pari. Il pedone f7 e il pedone g6 neri sono i suoi punti da difendere: se la tua torre arriva in settima traversa, li attacca e lo costringe a difendere passivamente.\",\"source\":\"mixed\"},{\"type\":\"p\",\"text\":\"Se il Nero sbaglia e ti lascia entrare in settima traversa con la torre, puoi guadagnare un pedone, ma non basta per vincere: il finale di torre e pedone contro torre è quasi sempre patta se il re difende. La regola pratica è: **non dare mai la torre**, **non lasciare il re lontano dai pedoni**, **non cambiare piano**. Con queste tre regole la patta è garantita.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, il Nero a questo livello sceglie spesso {{m:Kf6@N3}} o {{m:g5@N5}}, mosse naturali che non cambiano la valutazione. Non aspettarti trappole: aspettati che spinga i pedoni e cerchi scacchi di torre. Se mantieni la calma e giochi mosse sensate, la partita finisce in patta.\",\"source\":\"maia\"}]}],\"notes\":[\"Il pacchetto segnala maia.confidence basso: le probabilità umane sono poco affidabili e le ho usate solo come indicazione di frequenza, non come base del giudizio.\",\"La categoria practical_complexity ha tranquillità sotto la soglia di allerta ma consiglio monitor: la posizione è pari e non c'è nulla di concreto da temere.\",\"Le sezioni S03, S04, S05, S09, S11 e S13 sono state omesse dal programma e non le ho scritte.\"]}"
          }
         }
        ]
@@ -569,21 +446,21 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 42410,
-     "completion_tokens": 4413,
-     "total_tokens": 46823,
-     "cost": 0.015083304,
+     "prompt_tokens": 42651,
+     "completion_tokens": 3902,
+     "total_tokens": 46553,
+     "cost": 0.01446714,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 9984,
+      "cached_tokens": 10240,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.015083304,
-      "upstream_inference_prompt_cost": 0.009787704,
-      "upstream_inference_completions_cost": 0.0052956
+      "upstream_inference_cost": 0.01446714,
+      "upstream_inference_prompt_cost": 0.00978474,
+      "upstream_inference_completions_cost": 0.0046824
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,
@@ -598,7 +475,7 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "call_01a10831b5e273da99675769",
+     "id": "call_01a10875ed04729aa389b8d8",
      "name": "submit_analysis",
      "input": {
       "schema_version": "1",
@@ -608,24 +485,12 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Posizione di finale assolutamente pari: il motore dà {{ev:N1}} con la mossa migliore, e l'esito secondo Stockfish è {{pct:root.win}} di vittorie, {{pct:root.draw}} di patte e {{pct:root.loss}} di sconfitte. Sette pezzi per parte, un pedone ciascuno oltre ai re e alle torri, nessuno può forzare nulla.",
+          "text": "Posizione di finale completamente pari: il motore dà {{ev:N1}} con la mossa migliore, e l'esito secondo Stockfish è {{pct:root.draw}} di patta. Tutte le candidate spiegate valgono lo stesso, {{ev:C3}} e {{ev:C4}}, e nessuna perde nulla: {{loss:C3}} e {{loss:C4}} sono nulli. Anche se passassi la mossa, il Nero otterrebbe solo {{ev:N2}}. Non c'è nulla da vincere: c'è da non rovinare. Il tuo vantaggio pratico è minimo, {{pct:root.win}} di vittorie secondo il motore, e Maia-2 stima per te un punteggio atteso di poco sopra la metà.",
           "source": "engine",
           "assertions": [
            {
             "kind": "eval_band",
             "ref": "N1",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Tutte le mosse spiegate valgono esattamente lo stesso: dalla prima all'ultima la perdita è {{loss:C11}}, cioè zero. Non c'è una mossa migliore da trovare, c'è solo da scegliere una torre attiva e giocarla bene. Anche se passassi la mossa, il Nero otterrebbe solo {{ev:N2}}: il tuo vantaggio è puramente il tratto.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N2",
             "band": "equal"
            }
           ]
@@ -641,12 +506,12 @@
           "text_cells": {
            "piece_activity": {
             "nota": {
-             "text": "Pesa più di tutto: le torri sono già su colonne aperte",
+             "text": "Le due torri hanno la stessa mobilità e la stessa colonna aperta",
              "source": "feature",
              "assertions": [
               {
                "kind": "feature",
-               "key": "rook_open_file",
+               "key": "piece_mobility",
                "side": "w",
                "squares": [
                 "d1"
@@ -654,7 +519,7 @@
               },
               {
                "kind": "feature",
-               "key": "rook_open_file",
+               "key": "piece_mobility",
                "side": "b",
                "squares": [
                 "a5"
@@ -683,7 +548,7 @@
            },
            "king_safety": {
             "nota": {
-             "text": "Arrocco perduto da entrambi, ma nessuna colonna aperta sul re",
+             "text": "Arrocco perduto da entrambi, ma nessuna linea filtrata tocca i re",
              "source": "feature",
              "assertions": [
               {
@@ -712,7 +577,7 @@
            },
            "pawn_structure": {
             "nota": {
-             "text": "Un'isola di pedoni per parte, struttura simmetrica e stabile",
+             "text": "Un'isola di pedoni per parte, nessun pedone debole",
              "source": "feature",
              "assertions": [
               {
@@ -737,7 +602,7 @@
            },
            "threats_dynamics": {
             "nota": {
-             "text": "Nessuna linea filtrata: non ci sono tattiche in giro",
+             "text": "Nessuna minaccia supera la soglia del tuo livello",
              "source": "mixed",
              "assertions": [
               {
@@ -750,7 +615,7 @@
            },
            "space_center": {
             "nota": {
-             "text": "Controllo centrale pari, due case per parte",
+             "text": "Controllo centrale identico",
              "source": "feature",
              "assertions": [
               {
@@ -769,7 +634,7 @@
            },
            "initiative_tempo": {
             "nota": {
-             "text": "Nessuno ha l'iniziativa: è un finale statico",
+             "text": "Nessuno dei due può forzare",
              "source": "mixed",
              "assertions": [
               {
@@ -782,7 +647,7 @@
            },
            "material": {
             "nota": {
-             "text": "Materiale identico, bilanciato",
+             "text": "Materiale pari: torre e pedoni contro torre e pedoni",
              "source": "feature",
              "assertions": [
               {
@@ -801,7 +666,7 @@
            },
            "transition_plans": {
             "nota": {
-             "text": "Nessuna transizione: si resta in finale di torri",
+             "text": "Nessuna transizione rilevante",
              "source": "mixed",
              "assertions": [
               {
@@ -816,7 +681,7 @@
          },
          {
           "type": "p",
-          "text": "Nessuna categoria preoccupa. La tranquillità più bassa è la complessità pratica ({{sc:practical_complexity.T}}), perché quasi ogni mossa di torre vale lo stesso. La più rilevante è l'attività dei pezzi ({{sc:piece_activity.R}}): entrambe le torri stanno già su colonne aperte.",
+          "text": "Nessuna categoria preoccupa. La tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché quasi ogni mossa di torre o di re mantiene la patta. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): le due torri hanno la stessa mobilità e ciascuna occupa una colonna aperta, la tua in d e quella nera in a. Il re è al sicuro da entrambe le parti, con l'arrocco perduto ma nessuna linea filtrata che lo tocchi. La struttura è simmetrica, con una sola isola di pedoni per parte, e il controllo centrale è identico. Le categorie tattiche hanno rilevanza quasi nulla: qui decide la tecnica, non il calcolo.",
           "source": "mixed",
           "assertions": [
            {
@@ -838,68 +703,28 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Il Nero non ha colpi pronti. Se passassi la mossa, la sua migliore sarebbe {{m:g5@N2}} con la posizione ancora pari ({{ev:N2}}): spinge il pedone per guadagnare spazio sul lato di re, ma non crea minacce concrete.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N2",
-            "band": "equal"
-           }
-          ]
+          "text": "Il Nero non ha un piano di vittoria: la sua torre in a5 sta sulla colonna aperta e cerca di entrare nella tua metà, di solito in a2 o in a3, per dare scacco e guadagnare tempo. Se passassi la mossa, la sua prima scelta sarebbe la spinta del pedone in g5, che vale {{ev:N2}}: non è una minaccia, è solo spazio.",
+          "source": "engine"
          },
          {
           "type": "p",
-          "text": "Dopo la mossa consigliata {{mv:C3}} il Nero ha tre risposte principali, tutte equivalenti per il motore: {{m:Ra3@N3}}, {{m:Ra4@N3}} e {{m:Kf6@N3}}. La torre nera cerca la tua seconda traversa o la colonna a, il re viene verso il centro. Contro {{m:Ra3@N3}} la tua risposta più naturale è {{m:Rb7@N8}}, che tiene la torre attiva dietro il pedone nero.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N3",
-            "band": "equal"
-           }
-          ]
+          "text": "Dopo le tue candidate le sue risposte sono tutte equivalenti. Contro {{mv:C3}} il motore preferisce {{m:Ra3@N3}} e {{m:Ra4@N3}}, entrambe con valutazione pari; contro {{mv:C4}} la prima scelta è {{m:Rb5@N4}}, che mette la torre davanti al tuo re in modo fastidioso ma innocuo; contro {{mv:C6}} la sua idea è {{m:Ra7@N5}}, per poi scendere in a2; contro {{mv:C9}} e {{mv:C11}} cerca ancora la seconda traversa con {{m:Ra2@N6}} e {{m:Kh6@N7}}. In nessun caso la valutazione si muove da zero.",
+          "source": "engine"
          },
          {
           "type": "p",
-          "text": "Dopo {{mv:C4}} il Nero può giocare {{m:Rb5@N4}}, {{m:Ra3@N4}} o {{m:Ra4@N4}}: la torre cerca di attaccare il tuo pedone f2 o di entrare in settima. Contro {{m:Rb5@N4}} la mossa più solida è {{m:g4@N11}}, che guadagna spazio e prepara la spinta del pedone f.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N4",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C6}} il Nero ha {{m:Ra7@N5}}, {{m:Ra2@N5}}, {{m:Ra3@N5}} e {{m:g5@N5}}. La spinta del pedone g è la più frequente a questo livello: secondo Maia-2 la sceglie il {{pct:g5@N5}} dei giocatori del tuo Elo. Contro {{m:Ra2@N5}} la torre nera entra in seconda e va cacciata con {{m:Rb5@N15}}.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "maia_band",
-            "ref": "g5@N5",
-            "band": "frequent"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C9}} il Nero risponde di solito {{m:Ra2@N6}} o {{m:g5@N6}}, mentre dopo {{mv:C11}} la scelta più comune è {{m:Kh6@N7}} o {{m:Ra2@N7}}. In tutti i casi la torre nera cerca la seconda traversa per attaccare i pedoni, ma il tuo re è ben difeso e non ci sono punti deboli reali.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N6",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Il piano tipico del Nero in questo finale è attivare la torre, spingere il pedone g per creare un pedone passato e portare il re verso il centro. La tua risposta è simmetrica: torre attiva, re verso il centro, pedone f spinto al momento giusto. Non ci sono trappole nascoste: è un finale di pura tecnica.",
+          "text": "Il vero tema del Nero è la **torre attiva sulla colonna a**: se la lasci entrare in a2, ti costringe a difendere il pedone f2 con il re, e ogni tempo speso a difendere è un tempo che non usi per migliorare la tua torre. La contromisura è semplice: tieni la tua torre sulla colonna d, dove è attiva, e usa il re per sostenere i pedoni. Non cercare di cacciare la torre nera: non puoi, e non serve.",
           "source": "theory"
+         },
+         {
+          "type": "p",
+          "text": "Attenzione a una sola cosa concreta: se la tua torre si allontana dalla prima traversa e il re si sposta, la torre nera in a2 può diventare scomoda. Nella linea del motore dopo {{mv:C6}} il Nero gioca {{m:g5@N17}} e poi spinge i pedoni, ma resta tutto pari. Il pedone f7 e il pedone g6 neri sono i suoi punti da difendere: se la tua torre arriva in settima traversa, li attacca e lo costringe a difendere passivamente.",
+          "source": "mixed"
+         },
+         {
+          "type": "p",
+          "text": "Secondo Maia-2, contro {{mv:C3}} il Nero sceglie {{m:Kf6@N3}} con una frequenza vicina a quella delle altre mosse di torre, e contro {{mv:C6}} la spinta {{m:g5@N5}} è la più gettonata: sono mosse naturali, non piani. A questo livello il Nero non calcola linee lunghe, quindi non aspettarti trappole: aspettati che spinga i pedoni e cerchi scacchi di torre.",
+          "source": "maia"
          }
         ]
        },
@@ -912,57 +737,45 @@
           "text_cells": {
            "C3": {
             "idea": {
-             "text": "Torre in settima: la più naturale a questo livello ({{pct:C3.p_user}}), attacca il pedone f7 e limita il re nero",
-             "source": "mixed"
+             "text": "La mossa consigliata: la torre in settima traversa attacca f7 e g6 e resta attiva; il Nero deve difendere",
+             "source": "engine"
             }
            },
            "C4": {
             "idea": {
-             "text": "Torre in sesta: controlla la colonna d e tiene il re nero lontano dal centro",
-             "source": "theory"
+             "text": "La torre in sesta traversa controlla la colonna e prepara l'avanzata dei pedoni; il Nero risponde {{m:Rb5@N4}}",
+             "source": "engine"
             }
            },
            "C6": {
             "idea": {
-             "text": "Torre in b1: si sposta sul lato di donna e prepara l'ingresso in settima",
-             "source": "theory"
+             "text": "La torre in b1 cerca la settima traversa passando dal lato; il Nero gioca {{m:Ra7@N5}}",
+             "source": "engine"
             }
            },
            "C9": {
             "idea": {
-             "text": "Torre in d4: centrale e attiva, pronta a cambiare colonna",
-             "source": "theory"
+             "text": "La torre in d4 centralizza e sostiene la spinta del pedone f; il Nero risponde {{m:Ra2@N6}}",
+             "source": "engine"
             }
            },
            "C11": {
             "idea": {
-             "text": "Torre in d8: la più aggressiva, va dietro le linee nemiche ma il re nero la caccia subito",
-             "source": "theory"
+             "text": "La torre in d8 va in fondo per attaccare i pedoni; il Nero risponde {{m:Kh6@N7}}",
+             "source": "engine"
             }
            }
           }
          },
          {
           "type": "p",
-          "text": "Tutte le candidate valgono esattamente {{ev:C3}}: la perdita è {{loss:C3}}, {{loss:C4}}, {{loss:C6}}, {{loss:C9}} e {{loss:C11}}, cioè zero per tutte. Il motore non vede alcuna differenza: la scelta è puramente pratica.",
+          "text": "Il motore non vede alcuna differenza tra queste mosse: tutte valgono {{ev:C3}}, {{ev:C4}}, {{ev:C6}}, {{ev:C9}} e {{ev:C11}}, con perdita nulla. La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: puoi scegliere tra sistemi diversi. La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}, e dopo {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: {{mv:C3}} e {{mv:C4}} sono intercambiabili, {{mv:C6}} e {{mv:C9}} portano a posizioni equivalenti. Scegli quella che ti sembra più comoda da giocare.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "C3",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "La linea principale dopo {{mv:C3}} è {{pv:PV3:6}}: il Nero spinge il pedone g, tu porti il re in h3 e poi la torre in d6. Con {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:6}}. Nessuna delle due linee contiene mosse obbligate.",
-          "source": "engine"
+          "text": "Come scegliere: se ti piace la torre attiva in settima traversa, gioca {{mv:C3}}; se preferisci tenere la torre al centro e spingere i pedoni, {{mv:C4}} o {{mv:C9}}; se vuoi attaccare i pedoni neri dal fondo, {{mv:C11}}. Sono tutte equivalenti, quindi scegli quella che capisci meglio e non cambiarla a metà strada.",
+          "source": "mixed"
          }
         ]
        },
@@ -971,84 +784,13 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Le mosse di re {{mv:C1}}, {{mv:C2}}, {{mv:C7}}, {{mv:C14}} e {{mv:C15}} sono tutte equivalenti per il motore ({{ev:C1}}, {{ev:C2}}), ma a questo livello sono mosse difficili: spostare il re senza un piano chiaro non migliora nulla. Meglio una mossa di torre.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "classification",
-            "ref": "C1",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C2",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C7",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C14",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C15",
-            "category": "hard_move"
-           }
-          ]
+          "text": "Le mosse di re e di pedone sono tutte innocue: {{mv:C1}}, {{mv:C2}}, {{mv:C5}}, {{mv:C7}}, {{mv:C8}}, {{mv:C13}}, {{mv:C14}}, {{mv:C15}}, {{mv:C16}} e {{mv:C18}} mantengono la patta con perdita nulla, e nessuna è una trappola. Sono mosse difficili solo perché sembrano passive: a questo livello è facile sceglierle per abitudine invece di migliorare la torre.",
+          "source": "engine"
          },
          {
           "type": "p",
-          "text": "Anche {{mv:C5}}, {{mv:C8}}, {{mv:C10}}, {{mv:C13}}, {{mv:C16}} e {{mv:C18}} valgono lo stesso ({{loss:C5}}, {{loss:C8}}, {{loss:C10}}, {{loss:C13}}, {{loss:C16}}, {{loss:C18}}), ma sono mosse passive: la torre resta inattiva. Non sono errori, semplicemente non fanno progredire nulla.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "classification",
-            "ref": "C5",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C8",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C10",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C13",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C16",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C18",
-            "category": "hard_move"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Non ci sono trappole naturali in questa posizione: nessuna mossa perde materiale, nessuna permette al Nero di forzare qualcosa. L'unico errore di principio sarebbe cedere la torre in cambio di nulla, ma nessuna delle mosse elencate lo fa.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "C1",
-            "band": "equal"
-           }
-          ]
+          "text": "L'unico errore di principio da evitare è dare la torre: se la tua torre finisce su una casa dove il re nero o la torre nera possono catturarla senza compenso, perdi subito. Nella linea del motore dopo {{mv:C6}} {{m:Ra7@N5}} {{m:f3@N24}} il Nero gioca {{m:Ra2+@N24}} e ti dà scacco: rispondi con il re, non con la torre. Il resto è tecnica.",
+          "source": "theory"
          }
         ]
        },
@@ -1059,31 +801,26 @@
           "type": "ol",
           "items": [
            {
-            "text": "**Scegli una torre attiva**: in settima, in sesta o in quarta. Tutte valgono lo stesso.",
+            "text": "**Riconosci che è patta**: nessuna mossa vince, quindi il tuo obiettivo è non perdere.",
             "source": "theory"
            },
            {
-            "text": "**Porta il re verso il centro** quando la torre è sistemata: il re in f3 o g3 è più utile che in g2.",
+            "text": "**Attiva la torre**: mettila su una colonna aperta o in settima traversa, come in {{mv:C3}}.",
             "source": "theory"
            },
            {
-            "text": "**Spingi il pedone f** al momento giusto per creare un pedone passato o aprire linee per la torre.",
+            "text": "**Tieni il re vicino ai pedoni**: il re difende f2 e g3 e non si allontana.",
             "source": "theory"
            },
            {
-            "text": "**Controlla la torre nera**: se entra in seconda traversa, cacciala subito con la tua torre.",
+            "text": "**Se il Nero entra in a2 con la torre, non inseguirla**: rispondi con scacchi di torre o spingi i pedoni.",
             "source": "theory"
            },
            {
-            "text": "**Non avere fretta**: in un finale pari come questo, ogni mossa ragionevole mantiene l'equilibrio. Gioca con calma e cerca piccoli miglioramenti.",
+            "text": "**Non cambiare piano**: qualsiasi mossa sensata di torre mantiene la patta, quindi gioca con calma.",
             "source": "theory"
            }
           ]
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C3}} la linea tipica è {{pv:PV3:6}}: torre in settima, re in h3, torre in d6. Il piano è semplice: attività massima delle torri e re attivo.",
-          "source": "engine"
          }
         ]
        },
@@ -1092,76 +829,52 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Questo è un finale di torri e pedoni con materiale perfettamente simmetrico: sette pezzi per parte, un pedone ciascuno oltre ai re e alle torri. Il motore valuta la posizione esattamente pari ({{ev:N1}}), con {{pct:root.draw}} di patte secondo Stockfish. Non c'è un piano vincente per nessuno dei due: l'obiettivo realistico è giocare bene e non commettere errori.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N1",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}: il Nero spinge il pedone g, tu porti il re in h3, poi la torre in d6 e in f4. La posizione resta pari fino alla fine della linea. Con {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}: torre in d6, re in h3, pedone f spinto.",
+          "text": "Questo è un finale di torre e pedoni con materiale pari: torre e tre pedoni contro torre e tre pedoni, con una sola isola di pedoni per parte. Il motore valuta {{ev:N1}} e l'esito secondo Stockfish è {{pct:root.draw}} di patte: non c'è un piano di vittoria per nessuno dei due. La linea principale dopo la mossa consigliata è {{pv:PV3:8}}, e dopo {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}: in entrambi i casi le torri si scambiano scacchi e i pedoni restano bloccati.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "La tecnica in questo finale è semplice: mantieni la torre attiva, porta il re verso il centro, spingi il pedone f quando puoi creare un pedone passato. Se il Nero spinge il pedone g, rispondi simmetricamente con il tuo pedone g o con il pedone f. Non ci sono posizioni di stallo o trappole: è un finale di pura manovra.",
+          "text": "La tecnica qui è semplice: **attiva la torre, difendi i pedoni con il re, evita di perdere materiale**. Se il Nero entra in a2 con la torre, non cercare di catturarla: rispondi con scacchi di torre o spingi i pedoni. Nella linea del motore dopo {{mv:C6}} il Nero gioca {{m:g5@N17}} e poi spinge i pedoni, ma resta tutto pari. Il pedone f7 e il pedone g6 neri sono i suoi punti da difendere: se la tua torre arriva in settima traversa, li attacca e lo costringe a difendere passivamente.",
+          "source": "mixed"
+         },
+         {
+          "type": "p",
+          "text": "Se il Nero sbaglia e ti lascia entrare in settima traversa con la torre, puoi guadagnare un pedone, ma non basta per vincere: il finale di torre e pedone contro torre è quasi sempre patta se il re difende. La regola pratica è: **non dare mai la torre**, **non lasciare il re lontano dai pedoni**, **non cambiare piano**. Con queste tre regole la patta è garantita.",
           "source": "theory"
          },
          {
           "type": "p",
-          "text": "Secondo Maia-2, i giocatori del tuo livello scelgono {{mv:C3}} il {{pct:C3.p_user}} delle volte, {{mv:C9}} il {{pct:C9.p_user}} e {{mv:C6}} il {{pct:C6.p_user}}. La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: tutte le mosse di torre attiva portano allo stesso risultato.",
+          "text": "Secondo Maia-2, il Nero a questo livello sceglie spesso {{m:Kf6@N3}} o {{m:g5@N5}}, mosse naturali che non cambiano la valutazione. Non aspettarti trappole: aspettati che spinga i pedoni e cerchi scacchi di torre. Se mantieni la calma e giochi mosse sensate, la partita finisce in patta.",
           "source": "maia"
-         },
-         {
-          "type": "p",
-          "text": "Se il Nero gioca {{m:g5@N2}}, la tua risposta migliore è portare il re in h3 o spingere il pedone f. Se il Nero gioca {{m:Kf6@N2}}, porta la torre in d6 o in d7 per limitare il re. In ogni caso la posizione resta pari: non ci sono mosse che cambiano la valutazione.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N2",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Il consiglio pratico è: gioca una mossa di torre attiva, poi migliora la posizione del re e del pedone f. Non cercare di forzare nulla: in un finale pari come questo, la pazienza e la precisione contano più dell'aggressività. Se entrambi giocano bene, la partita finisce in patta.",
-          "source": "theory"
          }
         ]
        }
       ],
       "notes": [
-       "Il pacchetto segnala maia.confidence low: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.",
-       "Tutte le candidate hanno loss_cp pari a zero e valutazione identica: la raccomandazione C3 è 'weak' con no_unique_best vero, coerente con una posizione di finale perfettamente pari.",
-       "Nessuna linea filtrata presente: la sezione S09 è stata omessa dal programma con motivo no_invisible_line."
+       "Il pacchetto segnala maia.confidence basso: le probabilità umane sono poco affidabili e le ho usate solo come indicazione di frequenza, non come base del giudizio.",
+       "La categoria practical_complexity ha tranquillità sotto la soglia di allerta ma consiglio monitor: la posizione è pari e non c'è nulla di concreto da temere.",
+       "Le sezioni S03, S04, S05, S09, S11 e S13 sono state omesse dal programma e non le ho scritte."
       ]
      }
     }
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 48615,
-    "completion_tokens": 4560,
-    "total_tokens": 53175,
-    "cost": 0.00632082,
+    "prompt_tokens": 46652,
+    "completion_tokens": 3919,
+    "total_tokens": 50571,
+    "cost": 0.005037984,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 46720,
+     "cached_tokens": 46464,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.00632082,
-     "upstream_inference_prompt_cost": 0.00084882,
-     "upstream_inference_completions_cost": 0.005472
+     "upstream_inference_cost": 0.005037984,
+     "upstream_inference_prompt_cost": 0.000335184,
+     "upstream_inference_completions_cost": 0.0047028
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -1170,9 +883,9 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791138835-tmZGbmmMYYKnorwKCsZO",
+    "id": "gen-1791143305-4Id56ZOLocduzlnz6mTw",
     "object": "chat.completion",
-    "created": 1791138835,
+    "created": 1791143305,
     "model": "deepseek/deepseek-v4.1-flash",
     "provider": "Together",
     "system_fingerprint": "default",
@@ -1192,10 +905,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "call_01a10831b5e273da99675769",
+         "id": "call_01a10875ed04729aa389b8d8",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Posizione di finale assolutamente pari: il motore dà {{ev:N1}} con la mossa migliore, e l'esito secondo Stockfish è {{pct:root.win}} di vittorie, {{pct:root.draw}} di patte e {{pct:root.loss}} di sconfitte. Sette pezzi per parte, un pedone ciascuno oltre ai re e alle torri, nessuno può forzare nulla.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Tutte le mosse spiegate valgono esattamente lo stesso: dalla prima all'ultima la perdita è {{loss:C11}}, cioè zero. Non c'è una mossa migliore da trovare, c'è solo da scegliere una torre attiva e giocarla bene. Anche se passassi la mossa, il Nero otterrebbe solo {{ev:N2}}: il tuo vantaggio è puramente il tratto.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]}]},{\"id\":\"S02\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T4\",\"text_cells\":{\"piece_activity\":{\"nota\":{\"text\":\"Pesa più di tutto: le torri sono già su colonne aperte\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"rook_open_file\",\"side\":\"w\",\"squares\":[\"d1\"]},{\"kind\":\"feature\",\"key\":\"rook_open_file\",\"side\":\"b\",\"squares\":[\"a5\"]},{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"}]}},\"practical_complexity\":{\"nota\":{\"text\":\"Molte mosse equivalenti, nessuna unica\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"}]}},\"king_safety\":{\"nota\":{\"text\":\"Arrocco perduto da entrambi, ma nessuna colonna aperta sul re\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"castling_lost\",\"side\":\"w\",\"squares\":[\"g2\"]},{\"kind\":\"feature\",\"key\":\"castling_lost\",\"side\":\"b\",\"squares\":[\"g7\"]},{\"kind\":\"category_advice\",\"id\":\"king_safety\",\"advice\":\"no_worry\"}]}},\"pawn_structure\":{\"nota\":{\"text\":\"Un'isola di pedoni per parte, struttura simmetrica e stabile\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"w\",\"squares\":[]},{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"b\",\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"pawn_structure\",\"advice\":\"no_worry\"}]}},\"threats_dynamics\":{\"nota\":{\"text\":\"Nessuna linea filtrata: non ci sono tattiche in giro\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"threats_dynamics\",\"advice\":\"no_worry\"}]}},\"space_center\":{\"nota\":{\"text\":\"Controllo centrale pari, due case per parte\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"central_control\",\"side\":null,\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"space_center\",\"advice\":\"no_worry\"}]}},\"initiative_tempo\":{\"nota\":{\"text\":\"Nessuno ha l'iniziativa: è un finale statico\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"initiative_tempo\",\"advice\":\"no_worry\"}]}},\"material\":{\"nota\":{\"text\":\"Materiale identico, bilanciato\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"material_balance\",\"side\":null,\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"material\",\"advice\":\"no_worry\"}]}},\"transition_plans\":{\"nota\":{\"text\":\"Nessuna transizione: si resta in finale di torri\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"transition_plans\",\"advice\":\"no_worry\"}]}}}},{\"type\":\"p\",\"text\":\"Nessuna categoria preoccupa. La tranquillità più bassa è la complessità pratica ({{sc:practical_complexity.T}}), perché quasi ogni mossa di torre vale lo stesso. La più rilevante è l'attività dei pezzi ({{sc:piece_activity.R}}): entrambe le torri stanno già su colonne aperte.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"},{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero non ha colpi pronti. Se passassi la mossa, la sua migliore sarebbe {{m:g5@N2}} con la posizione ancora pari ({{ev:N2}}): spinge il pedone per guadagnare spazio sul lato di re, ma non crea minacce concrete.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Dopo la mossa consigliata {{mv:C3}} il Nero ha tre risposte principali, tutte equivalenti per il motore: {{m:Ra3@N3}}, {{m:Ra4@N3}} e {{m:Kf6@N3}}. La torre nera cerca la tua seconda traversa o la colonna a, il re viene verso il centro. Contro {{m:Ra3@N3}} la tua risposta più naturale è {{m:Rb7@N8}}, che tiene la torre attiva dietro il pedone nero.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N3\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C4}} il Nero può giocare {{m:Rb5@N4}}, {{m:Ra3@N4}} o {{m:Ra4@N4}}: la torre cerca di attaccare il tuo pedone f2 o di entrare in settima. Contro {{m:Rb5@N4}} la mossa più solida è {{m:g4@N11}}, che guadagna spazio e prepara la spinta del pedone f.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N4\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C6}} il Nero ha {{m:Ra7@N5}}, {{m:Ra2@N5}}, {{m:Ra3@N5}} e {{m:g5@N5}}. La spinta del pedone g è la più frequente a questo livello: secondo Maia-2 la sceglie il {{pct:g5@N5}} dei giocatori del tuo Elo. Contro {{m:Ra2@N5}} la torre nera entra in seconda e va cacciata con {{m:Rb5@N15}}.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"maia_band\",\"ref\":\"g5@N5\",\"band\":\"frequent\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C9}} il Nero risponde di solito {{m:Ra2@N6}} o {{m:g5@N6}}, mentre dopo {{mv:C11}} la scelta più comune è {{m:Kh6@N7}} o {{m:Ra2@N7}}. In tutti i casi la torre nera cerca la seconda traversa per attaccare i pedoni, ma il tuo re è ben difeso e non ci sono punti deboli reali.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N6\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Il piano tipico del Nero in questo finale è attivare la torre, spingere il pedone g per creare un pedone passato e portare il re verso il centro. La tua risposta è simmetrica: torre attiva, re verso il centro, pedone f spinto al momento giusto. Non ci sono trappole nascoste: è un finale di pura tecnica.\",\"source\":\"theory\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C3\":{\"idea\":{\"text\":\"Torre in settima: la più naturale a questo livello ({{pct:C3.p_user}}), attacca il pedone f7 e limita il re nero\",\"source\":\"mixed\"}},\"C4\":{\"idea\":{\"text\":\"Torre in sesta: controlla la colonna d e tiene il re nero lontano dal centro\",\"source\":\"theory\"}},\"C6\":{\"idea\":{\"text\":\"Torre in b1: si sposta sul lato di donna e prepara l'ingresso in settima\",\"source\":\"theory\"}},\"C9\":{\"idea\":{\"text\":\"Torre in d4: centrale e attiva, pronta a cambiare colonna\",\"source\":\"theory\"}},\"C11\":{\"idea\":{\"text\":\"Torre in d8: la più aggressiva, va dietro le linee nemiche ma il re nero la caccia subito\",\"source\":\"theory\"}}}},{\"type\":\"p\",\"text\":\"Tutte le candidate valgono esattamente {{ev:C3}}: la perdita è {{loss:C3}}, {{loss:C4}}, {{loss:C6}}, {{loss:C9}} e {{loss:C11}}, cioè zero per tutte. Il motore non vede alcuna differenza: la scelta è puramente pratica.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: {{mv:C3}} e {{mv:C4}} sono intercambiabili, {{mv:C6}} e {{mv:C9}} portano a posizioni equivalenti. Scegli quella che ti sembra più comoda da giocare.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"C3\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"La linea principale dopo {{mv:C3}} è {{pv:PV3:6}}: il Nero spinge il pedone g, tu porti il re in h3 e poi la torre in d6. Con {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:6}}. Nessuna delle due linee contiene mosse obbligate.\",\"source\":\"engine\"}]},{\"id\":\"S08\",\"blocks\":[{\"type\":\"p\",\"text\":\"Le mosse di re {{mv:C1}}, {{mv:C2}}, {{mv:C7}}, {{mv:C14}} e {{mv:C15}} sono tutte equivalenti per il motore ({{ev:C1}}, {{ev:C2}}), ma a questo livello sono mosse difficili: spostare il re senza un piano chiaro non migliora nulla. Meglio una mossa di torre.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C1\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C2\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C7\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C14\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C15\",\"category\":\"hard_move\"}]},{\"type\":\"p\",\"text\":\"Anche {{mv:C5}}, {{mv:C8}}, {{mv:C10}}, {{mv:C13}}, {{mv:C16}} e {{mv:C18}} valgono lo stesso ({{loss:C5}}, {{loss:C8}}, {{loss:C10}}, {{loss:C13}}, {{loss:C16}}, {{loss:C18}}), ma sono mosse passive: la torre resta inattiva. Non sono errori, semplicemente non fanno progredire nulla.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C5\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C8\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C10\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C13\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C16\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C18\",\"category\":\"hard_move\"}]},{\"type\":\"p\",\"text\":\"Non ci sono trappole naturali in questa posizione: nessuna mossa perde materiale, nessuna permette al Nero di forzare qualcosa. L'unico errore di principio sarebbe cedere la torre in cambio di nulla, ma nessuna delle mosse elencate lo fa.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"C1\",\"band\":\"equal\"}]}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Scegli una torre attiva**: in settima, in sesta o in quarta. Tutte valgono lo stesso.\",\"source\":\"theory\"},{\"text\":\"**Porta il re verso il centro** quando la torre è sistemata: il re in f3 o g3 è più utile che in g2.\",\"source\":\"theory\"},{\"text\":\"**Spingi il pedone f** al momento giusto per creare un pedone passato o aprire linee per la torre.\",\"source\":\"theory\"},{\"text\":\"**Controlla la torre nera**: se entra in seconda traversa, cacciala subito con la tua torre.\",\"source\":\"theory\"},{\"text\":\"**Non avere fretta**: in un finale pari come questo, ogni mossa ragionevole mantiene l'equilibrio. Gioca con calma e cerca piccoli miglioramenti.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C3}} la linea tipica è {{pv:PV3:6}}: torre in settima, re in h3, torre in d6. Il piano è semplice: attività massima delle torri e re attivo.\",\"source\":\"engine\"}]},{\"id\":\"S12\",\"blocks\":[{\"type\":\"p\",\"text\":\"Questo è un finale di torri e pedoni con materiale perfettamente simmetrico: sette pezzi per parte, un pedone ciascuno oltre ai re e alle torri. Il motore valuta la posizione esattamente pari ({{ev:N1}}), con {{pct:root.draw}} di patte secondo Stockfish. Non c'è un piano vincente per nessuno dei due: l'obiettivo realistico è giocare bene e non commettere errori.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}: il Nero spinge il pedone g, tu porti il re in h3, poi la torre in d6 e in f4. La posizione resta pari fino alla fine della linea. Con {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}: torre in d6, re in h3, pedone f spinto.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La tecnica in questo finale è semplice: mantieni la torre attiva, porta il re verso il centro, spingi il pedone f quando puoi creare un pedone passato. Se il Nero spinge il pedone g, rispondi simmetricamente con il tuo pedone g o con il pedone f. Non ci sono posizioni di stallo o trappole: è un finale di pura manovra.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, i giocatori del tuo livello scelgono {{mv:C3}} il {{pct:C3.p_user}} delle volte, {{mv:C9}} il {{pct:C9.p_user}} e {{mv:C6}} il {{pct:C6.p_user}}. La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: tutte le mosse di torre attiva portano allo stesso risultato.\",\"source\":\"maia\"},{\"type\":\"p\",\"text\":\"Se il Nero gioca {{m:g5@N2}}, la tua risposta migliore è portare il re in h3 o spingere il pedone f. Se il Nero gioca {{m:Kf6@N2}}, porta la torre in d6 o in d7 per limitare il re. In ogni caso la posizione resta pari: non ci sono mosse che cambiano la valutazione.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Il consiglio pratico è: gioca una mossa di torre attiva, poi migliora la posizione del re e del pedone f. Non cercare di forzare nulla: in un finale pari come questo, la pazienza e la precisione contano più dell'aggressività. Se entrambi giocano bene, la partita finisce in patta.\",\"source\":\"theory\"}]}],\"notes\":[\"Il pacchetto segnala maia.confidence low: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.\",\"Tutte le candidate hanno loss_cp pari a zero e valutazione identica: la raccomandazione C3 è 'weak' con no_unique_best vero, coerente con una posizione di finale perfettamente pari.\",\"Nessuna linea filtrata presente: la sezione S09 è stata omessa dal programma con motivo no_invisible_line.\"]}"
+          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Posizione di finale completamente pari: il motore dà {{ev:N1}} con la mossa migliore, e l'esito secondo Stockfish è {{pct:root.draw}} di patta. Tutte le candidate spiegate valgono lo stesso, {{ev:C3}} e {{ev:C4}}, e nessuna perde nulla: {{loss:C3}} e {{loss:C4}} sono nulli. Anche se passassi la mossa, il Nero otterrebbe solo {{ev:N2}}. Non c'è nulla da vincere: c'è da non rovinare. Il tuo vantaggio pratico è minimo, {{pct:root.win}} di vittorie secondo il motore, e Maia-2 stima per te un punteggio atteso di poco sopra la metà.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"equal\"}]}]},{\"id\":\"S02\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T4\",\"text_cells\":{\"piece_activity\":{\"nota\":{\"text\":\"Le due torri hanno la stessa mobilità e la stessa colonna aperta\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"piece_mobility\",\"side\":\"w\",\"squares\":[\"d1\"]},{\"kind\":\"feature\",\"key\":\"piece_mobility\",\"side\":\"b\",\"squares\":[\"a5\"]},{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"}]}},\"practical_complexity\":{\"nota\":{\"text\":\"Molte mosse equivalenti, nessuna unica\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"}]}},\"king_safety\":{\"nota\":{\"text\":\"Arrocco perduto da entrambi, ma nessuna linea filtrata tocca i re\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"castling_lost\",\"side\":\"w\",\"squares\":[\"g2\"]},{\"kind\":\"feature\",\"key\":\"castling_lost\",\"side\":\"b\",\"squares\":[\"g7\"]},{\"kind\":\"category_advice\",\"id\":\"king_safety\",\"advice\":\"no_worry\"}]}},\"pawn_structure\":{\"nota\":{\"text\":\"Un'isola di pedoni per parte, nessun pedone debole\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"w\",\"squares\":[]},{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"b\",\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"pawn_structure\",\"advice\":\"no_worry\"}]}},\"threats_dynamics\":{\"nota\":{\"text\":\"Nessuna minaccia supera la soglia del tuo livello\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"threats_dynamics\",\"advice\":\"no_worry\"}]}},\"space_center\":{\"nota\":{\"text\":\"Controllo centrale identico\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"central_control\",\"side\":null,\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"space_center\",\"advice\":\"no_worry\"}]}},\"initiative_tempo\":{\"nota\":{\"text\":\"Nessuno dei due può forzare\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"initiative_tempo\",\"advice\":\"no_worry\"}]}},\"material\":{\"nota\":{\"text\":\"Materiale pari: torre e pedoni contro torre e pedoni\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"material_balance\",\"side\":null,\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"material\",\"advice\":\"no_worry\"}]}},\"transition_plans\":{\"nota\":{\"text\":\"Nessuna transizione rilevante\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"transition_plans\",\"advice\":\"no_worry\"}]}}}},{\"type\":\"p\",\"text\":\"Nessuna categoria preoccupa. La tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché quasi ogni mossa di torre o di re mantiene la patta. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): le due torri hanno la stessa mobilità e ciascuna occupa una colonna aperta, la tua in d e quella nera in a. Il re è al sicuro da entrambe le parti, con l'arrocco perduto ma nessuna linea filtrata che lo tocchi. La struttura è simmetrica, con una sola isola di pedoni per parte, e il controllo centrale è identico. Le categorie tattiche hanno rilevanza quasi nulla: qui decide la tecnica, non il calcolo.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"},{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero non ha un piano di vittoria: la sua torre in a5 sta sulla colonna aperta e cerca di entrare nella tua metà, di solito in a2 o in a3, per dare scacco e guadagnare tempo. Se passassi la mossa, la sua prima scelta sarebbe la spinta del pedone in g5, che vale {{ev:N2}}: non è una minaccia, è solo spazio.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Dopo le tue candidate le sue risposte sono tutte equivalenti. Contro {{mv:C3}} il motore preferisce {{m:Ra3@N3}} e {{m:Ra4@N3}}, entrambe con valutazione pari; contro {{mv:C4}} la prima scelta è {{m:Rb5@N4}}, che mette la torre davanti al tuo re in modo fastidioso ma innocuo; contro {{mv:C6}} la sua idea è {{m:Ra7@N5}}, per poi scendere in a2; contro {{mv:C9}} e {{mv:C11}} cerca ancora la seconda traversa con {{m:Ra2@N6}} e {{m:Kh6@N7}}. In nessun caso la valutazione si muove da zero.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Il vero tema del Nero è la **torre attiva sulla colonna a**: se la lasci entrare in a2, ti costringe a difendere il pedone f2 con il re, e ogni tempo speso a difendere è un tempo che non usi per migliorare la tua torre. La contromisura è semplice: tieni la tua torre sulla colonna d, dove è attiva, e usa il re per sostenere i pedoni. Non cercare di cacciare la torre nera: non puoi, e non serve.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Attenzione a una sola cosa concreta: se la tua torre si allontana dalla prima traversa e il re si sposta, la torre nera in a2 può diventare scomoda. Nella linea del motore dopo {{mv:C6}} il Nero gioca {{m:g5@N17}} e poi spinge i pedoni, ma resta tutto pari. Il pedone f7 e il pedone g6 neri sono i suoi punti da difendere: se la tua torre arriva in settima traversa, li attacca e lo costringe a difendere passivamente.\",\"source\":\"mixed\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, contro {{mv:C3}} il Nero sceglie {{m:Kf6@N3}} con una frequenza vicina a quella delle altre mosse di torre, e contro {{mv:C6}} la spinta {{m:g5@N5}} è la più gettonata: sono mosse naturali, non piani. A questo livello il Nero non calcola linee lunghe, quindi non aspettarti trappole: aspettati che spinga i pedoni e cerchi scacchi di torre.\",\"source\":\"maia\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C3\":{\"idea\":{\"text\":\"La mossa consigliata: la torre in settima traversa attacca f7 e g6 e resta attiva; il Nero deve difendere\",\"source\":\"engine\"}},\"C4\":{\"idea\":{\"text\":\"La torre in sesta traversa controlla la colonna e prepara l'avanzata dei pedoni; il Nero risponde {{m:Rb5@N4}}\",\"source\":\"engine\"}},\"C6\":{\"idea\":{\"text\":\"La torre in b1 cerca la settima traversa passando dal lato; il Nero gioca {{m:Ra7@N5}}\",\"source\":\"engine\"}},\"C9\":{\"idea\":{\"text\":\"La torre in d4 centralizza e sostiene la spinta del pedone f; il Nero risponde {{m:Ra2@N6}}\",\"source\":\"engine\"}},\"C11\":{\"idea\":{\"text\":\"La torre in d8 va in fondo per attaccare i pedoni; il Nero risponde {{m:Kh6@N7}}\",\"source\":\"engine\"}}}},{\"type\":\"p\",\"text\":\"Il motore non vede alcuna differenza tra queste mosse: tutte valgono {{ev:C3}}, {{ev:C4}}, {{ev:C6}}, {{ev:C9}} e {{ev:C11}}, con perdita nulla. La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: puoi scegliere tra sistemi diversi. La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}, e dopo {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Come scegliere: se ti piace la torre attiva in settima traversa, gioca {{mv:C3}}; se preferisci tenere la torre al centro e spingere i pedoni, {{mv:C4}} o {{mv:C9}}; se vuoi attaccare i pedoni neri dal fondo, {{mv:C11}}. Sono tutte equivalenti, quindi scegli quella che capisci meglio e non cambiarla a metà strada.\",\"source\":\"mixed\"}]},{\"id\":\"S08\",\"blocks\":[{\"type\":\"p\",\"text\":\"Le mosse di re e di pedone sono tutte innocue: {{mv:C1}}, {{mv:C2}}, {{mv:C5}}, {{mv:C7}}, {{mv:C8}}, {{mv:C13}}, {{mv:C14}}, {{mv:C15}}, {{mv:C16}} e {{mv:C18}} mantengono la patta con perdita nulla, e nessuna è una trappola. Sono mosse difficili solo perché sembrano passive: a questo livello è facile sceglierle per abitudine invece di migliorare la torre.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"L'unico errore di principio da evitare è dare la torre: se la tua torre finisce su una casa dove il re nero o la torre nera possono catturarla senza compenso, perdi subito. Nella linea del motore dopo {{mv:C6}} {{m:Ra7@N5}} {{m:f3@N24}} il Nero gioca {{m:Ra2+@N24}} e ti dà scacco: rispondi con il re, non con la torre. Il resto è tecnica.\",\"source\":\"theory\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Riconosci che è patta**: nessuna mossa vince, quindi il tuo obiettivo è non perdere.\",\"source\":\"theory\"},{\"text\":\"**Attiva la torre**: mettila su una colonna aperta o in settima traversa, come in {{mv:C3}}.\",\"source\":\"theory\"},{\"text\":\"**Tieni il re vicino ai pedoni**: il re difende f2 e g3 e non si allontana.\",\"source\":\"theory\"},{\"text\":\"**Se il Nero entra in a2 con la torre, non inseguirla**: rispondi con scacchi di torre o spingi i pedoni.\",\"source\":\"theory\"},{\"text\":\"**Non cambiare piano**: qualsiasi mossa sensata di torre mantiene la patta, quindi gioca con calma.\",\"source\":\"theory\"}]}]},{\"id\":\"S12\",\"blocks\":[{\"type\":\"p\",\"text\":\"Questo è un finale di torre e pedoni con materiale pari: torre e tre pedoni contro torre e tre pedoni, con una sola isola di pedoni per parte. Il motore valuta {{ev:N1}} e l'esito secondo Stockfish è {{pct:root.draw}} di patte: non c'è un piano di vittoria per nessuno dei due. La linea principale dopo la mossa consigliata è {{pv:PV3:8}}, e dopo {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}: in entrambi i casi le torri si scambiano scacchi e i pedoni restano bloccati.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La tecnica qui è semplice: **attiva la torre, difendi i pedoni con il re, evita di perdere materiale**. Se il Nero entra in a2 con la torre, non cercare di catturarla: rispondi con scacchi di torre o spingi i pedoni. Nella linea del motore dopo {{mv:C6}} il Nero gioca {{m:g5@N17}} e poi spinge i pedoni, ma resta tutto pari. Il pedone f7 e il pedone g6 neri sono i suoi punti da difendere: se la tua torre arriva in settima traversa, li attacca e lo costringe a difendere passivamente.\",\"source\":\"mixed\"},{\"type\":\"p\",\"text\":\"Se il Nero sbaglia e ti lascia entrare in settima traversa con la torre, puoi guadagnare un pedone, ma non basta per vincere: il finale di torre e pedone contro torre è quasi sempre patta se il re difende. La regola pratica è: **non dare mai la torre**, **non lasciare il re lontano dai pedoni**, **non cambiare piano**. Con queste tre regole la patta è garantita.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, il Nero a questo livello sceglie spesso {{m:Kf6@N3}} o {{m:g5@N5}}, mosse naturali che non cambiano la valutazione. Non aspettarti trappole: aspettati che spinga i pedoni e cerchi scacchi di torre. Se mantieni la calma e giochi mosse sensate, la partita finisce in patta.\",\"source\":\"maia\"}]}],\"notes\":[\"Il pacchetto segnala maia.confidence basso: le probabilità umane sono poco affidabili e le ho usate solo come indicazione di frequenza, non come base del giudizio.\",\"La categoria practical_complexity ha tranquillità sotto la soglia di allerta ma consiglio monitor: la posizione è pari e non c'è nulla di concreto da temere.\",\"Le sezioni S03, S04, S05, S09, S11 e S13 sono state omesse dal programma e non le ho scritte.\"]}"
          }
         }
        ]
@@ -1203,21 +916,21 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 48615,
-     "completion_tokens": 4560,
-     "total_tokens": 53175,
-     "cost": 0.00632082,
+     "prompt_tokens": 46652,
+     "completion_tokens": 3919,
+     "total_tokens": 50571,
+     "cost": 0.005037984,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 46720,
+      "cached_tokens": 46464,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.00632082,
-      "upstream_inference_prompt_cost": 0.00084882,
-      "upstream_inference_completions_cost": 0.005472
+      "upstream_inference_cost": 0.005037984,
+      "upstream_inference_prompt_cost": 0.000335184,
+      "upstream_inference_completions_cost": 0.0047028
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,
@@ -1232,7 +945,7 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "call_01a10831ef9a75c6b255784d",
+     "id": "call_01a108760ccd7395af330029",
      "name": "submit_analysis",
      "input": {
       "schema_version": "1",
@@ -1242,24 +955,12 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Posizione di finale assolutamente pari: il motore dà {{ev:N1}} con la mossa migliore, e l'esito secondo Stockfish è {{pct:root.win}} di vittorie, {{pct:root.draw}} di patte e {{pct:root.loss}} di sconfitte. Sette pezzi per parte, un pedone ciascuno oltre ai re e alle torri, nessuno può forzare nulla.",
+          "text": "Posizione di finale completamente pari: il motore dà {{ev:N1}} con la mossa migliore, e l'esito secondo Stockfish è {{pct:root.draw}} di patta. Tutte le candidate spiegate valgono lo stesso, {{ev:C3}} e {{ev:C4}}, e nessuna perde nulla: {{loss:C3}} e {{loss:C4}} sono nulli. Anche se passassi la mossa, il Nero otterrebbe solo {{ev:N2}}. Non c'è nulla da vincere: c'è da non rovinare. Il tuo vantaggio pratico è minimo, {{pct:root.win}} di vittorie secondo il motore, e Maia-2 stima per te un punteggio atteso di poco sopra la metà. La linea principale dopo la mossa consigliata è {{pv:PV3:8}}.",
           "source": "engine",
           "assertions": [
            {
             "kind": "eval_band",
             "ref": "N1",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Tutte le mosse spiegate valgono esattamente lo stesso: dalla prima all'ultima la perdita è {{loss:C11}}, cioè nulla. Non c'è una mossa migliore da trovare, c'è solo da scegliere una torre attiva e giocarla bene. Anche se passassi la mossa, il Nero otterrebbe solo {{ev:N2}}: il tuo vantaggio è puramente il tratto.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N2",
             "band": "equal"
            }
           ]
@@ -1275,12 +976,12 @@
           "text_cells": {
            "piece_activity": {
             "nota": {
-             "text": "Pesa più di tutto: le torri sono già su colonne aperte",
+             "text": "Le due torri hanno la stessa mobilità e la stessa colonna aperta",
              "source": "feature",
              "assertions": [
               {
                "kind": "feature",
-               "key": "rook_open_file",
+               "key": "piece_mobility",
                "side": "w",
                "squares": [
                 "d1"
@@ -1288,7 +989,7 @@
               },
               {
                "kind": "feature",
-               "key": "rook_open_file",
+               "key": "piece_mobility",
                "side": "b",
                "squares": [
                 "a5"
@@ -1317,7 +1018,7 @@
            },
            "king_safety": {
             "nota": {
-             "text": "Arrocco perduto da entrambi, ma nessuna colonna aperta sul re",
+             "text": "Arrocco perduto da entrambi, ma nessuna linea filtrata tocca i re",
              "source": "feature",
              "assertions": [
               {
@@ -1346,7 +1047,7 @@
            },
            "pawn_structure": {
             "nota": {
-             "text": "Un'isola di pedoni per parte, struttura simmetrica e stabile",
+             "text": "Un'isola di pedoni per parte, nessun pedone debole",
              "source": "feature",
              "assertions": [
               {
@@ -1371,7 +1072,7 @@
            },
            "threats_dynamics": {
             "nota": {
-             "text": "Nessuna linea filtrata: non ci sono tattiche in giro",
+             "text": "Nessuna minaccia supera la soglia del tuo livello",
              "source": "mixed",
              "assertions": [
               {
@@ -1384,7 +1085,7 @@
            },
            "space_center": {
             "nota": {
-             "text": "Controllo centrale pari, due case per parte",
+             "text": "Controllo centrale identico",
              "source": "feature",
              "assertions": [
               {
@@ -1403,7 +1104,7 @@
            },
            "initiative_tempo": {
             "nota": {
-             "text": "Nessuno ha l'iniziativa: è un finale statico",
+             "text": "Nessuno dei due può forzare",
              "source": "mixed",
              "assertions": [
               {
@@ -1416,7 +1117,7 @@
            },
            "material": {
             "nota": {
-             "text": "Materiale identico, bilanciato",
+             "text": "Materiale pari: torre e pedoni contro torre e pedoni",
              "source": "feature",
              "assertions": [
               {
@@ -1435,7 +1136,7 @@
            },
            "transition_plans": {
             "nota": {
-             "text": "Nessuna transizione: si resta in finale di torri",
+             "text": "Nessuna transizione rilevante",
              "source": "mixed",
              "assertions": [
               {
@@ -1450,7 +1151,7 @@
          },
          {
           "type": "p",
-          "text": "Nessuna categoria preoccupa. La tranquillità più bassa è la complessità pratica ({{sc:practical_complexity.T}}), perché quasi ogni mossa di torre vale lo stesso. La più rilevante è l'attività dei pezzi ({{sc:piece_activity.R}}): entrambe le torri stanno già su colonne aperte.",
+          "text": "Nessuna categoria preoccupa. La tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché quasi ogni mossa di torre o di re mantiene la patta. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): le due torri hanno la stessa mobilità e ciascuna occupa una colonna aperta, la tua in d e quella nera in a. Il re è al sicuro da entrambe le parti, con l'arrocco perduto ma nessuna linea filtrata che lo tocchi. La struttura è simmetrica, con una sola isola di pedoni per parte, e il controllo centrale è identico. Le categorie tattiche hanno rilevanza quasi nulla: qui decide la tecnica, non il calcolo.",
           "source": "mixed",
           "assertions": [
            {
@@ -1472,73 +1173,28 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Il Nero non ha colpi pronti. Se passassi la mossa, la sua migliore sarebbe {{m:g5@N2}} con la posizione ancora pari ({{ev:N2}}): spinge il pedone per guadagnare spazio sul lato di re, ma non crea minacce concrete.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N2",
-            "band": "equal"
-           }
-          ]
+          "text": "Il Nero non ha un piano di vittoria: la sua torre in a5 sta sulla colonna aperta e cerca di entrare nella tua metà, di solito in a2 o in a3, per dare scacco e guadagnare tempo. Se passassi la mossa, la sua prima scelta sarebbe la spinta del pedone in g5, che vale {{ev:N2}}: non è una minaccia, è solo spazio.",
+          "source": "engine"
          },
          {
           "type": "p",
-          "text": "Dopo la mossa consigliata {{mv:C3}} il Nero ha tre risposte principali, tutte equivalenti per il motore: {{m:Ra3@N3}}, {{m:Ra4@N3}} e {{m:Kf6@N3}}. La torre nera cerca la tua seconda traversa o la colonna a, il re viene verso il centro. Contro {{m:Ra3@N3}} la tua risposta più naturale è {{m:Rb7@N8}}, che tiene la torre attiva dietro il pedone nero.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N3",
-            "band": "equal"
-           }
-          ]
+          "text": "Dopo le tue candidate le sue risposte sono tutte equivalenti. Contro {{mv:C3}} il motore preferisce {{m:Ra3@N3}} e {{m:Ra4@N3}}, entrambe con valutazione pari; contro {{mv:C4}} la prima scelta è {{m:Rb5@N4}}, che mette la torre davanti al tuo re in modo fastidioso ma innocuo; contro {{mv:C6}} la sua idea è {{m:Ra7@N5}}, per poi scendere in a2; contro {{mv:C9}} e {{mv:C11}} cerca ancora la seconda traversa con {{m:Ra2@N6}} e {{m:Kh6@N7}}. In nessun caso la valutazione si muove da zero.",
+          "source": "engine"
          },
          {
           "type": "p",
-          "text": "Dopo {{mv:C4}} il Nero può giocare {{m:Rb5@N4}}, {{m:Ra3@N4}} o {{m:Ra4@N4}}: la torre cerca di attaccare il tuo pedone f2 o di entrare in settima. Contro {{m:Rb5@N4}} la mossa più solida è {{m:g4@N11}}, che guadagna spazio e prepara la spinta del pedone f.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N4",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C6}} il Nero ha {{m:Ra7@N5}}, {{m:Ra2@N5}}, {{m:Ra3@N5}} e {{m:g5@N5}}. La spinta del pedone g è la più frequente a questo livello: secondo Maia-2 la sceglie il {{pct:g5@N5}} dei giocatori del tuo Elo. Contro {{m:Ra2@N5}} la torre nera entra in seconda e va cacciata con {{m:Rb5@N15}}.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "maia_band",
-            "ref": "g5@N5",
-            "band": "possible"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C9}} il Nero risponde di solito {{m:Ra2@N6}} o {{m:g5@N6}}, mentre dopo {{mv:C11}} la scelta più comune è {{m:Kh6@N7}} o {{m:Ra2@N7}}. In tutti i casi la torre nera cerca la seconda traversa per attaccare i pedoni, ma il tuo re è ben difeso e non ci sono punti deboli reali.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N6",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Il piano tipico del Nero in questo finale è attivare la torre, spingere il pedone g per creare un pedone passato e portare il re verso il centro. La tua risposta è simmetrica: torre attiva, re verso il centro, pedone f spinto al momento giusto. Non ci sono trappole nascoste: è un finale di pura tecnica.",
+          "text": "Il vero tema del Nero è la **torre attiva sulla colonna a**: se la lasci entrare in a2, ti costringe a difendere il pedone f2 con il re, e ogni tempo speso a difendere è un tempo che non usi per migliorare la tua torre. La contromisura è semplice: tieni la tua torre sulla colonna d, dove è attiva, e usa il re per sostenere i pedoni. Non cercare di cacciare la torre nera: non puoi, e non serve.",
           "source": "theory"
          },
          {
           "type": "p",
-          "text": "In pratica il Nero non ha un piano che ti metta in difficoltà: la sua torre può entrare in seconda traversa, ma il tuo re e i tuoi pedoni sono ben difesi. La spinta del pedone g è l'unica idea concreta, e anche quella non crea problemi reali se rispondi con calma. Puoi giocare senza preoccupazioni e concentrarti sul miglioramento della tua posizione.",
-          "source": "theory"
+          "text": "Attenzione a una sola cosa concreta: se la tua torre si allontana dalla prima traversa e il re si sposta, la torre nera in a2 può diventare scomoda. Nella linea del motore dopo {{mv:C6}} il Nero gioca {{m:g5@N5}} e poi spinge i pedoni, ma resta tutto pari. Il pedone f7 e il pedone g6 neri sono i suoi punti da difendere: se la tua torre arriva in settima traversa, li attacca e lo costringe a difendere passivamente.",
+          "source": "engine"
+         },
+         {
+          "type": "p",
+          "text": "Secondo Maia-2, contro {{mv:C3}} il Nero sceglie {{m:Kf6@N3}} con una frequenza vicina a quella delle altre mosse di torre, e contro {{mv:C6}} la spinta {{m:g5@N5}} è la più gettonata: sono mosse naturali, non piani. A questo livello il Nero non calcola linee lunghe, quindi non aspettarti trappole: aspettati che spinga i pedoni e cerchi scacchi di torre.",
+          "source": "maia"
          }
         ]
        },
@@ -1551,84 +1207,44 @@
           "text_cells": {
            "C3": {
             "idea": {
-             "text": "Torre in settima: la più naturale a questo livello ({{pct:C3.p_user}}), attacca il pedone f7 e limita il re nero",
-             "source": "mixed"
+             "text": "La mossa consigliata: la torre in settima traversa attacca f7 e g6 e resta attiva; il Nero deve difendere, {{ev:C3}}",
+             "source": "engine"
             }
            },
            "C4": {
             "idea": {
-             "text": "Torre in sesta: controlla la colonna d e tiene il re nero lontano dal centro",
-             "source": "mixed",
-             "assertions": [
-              {
-               "kind": "eval_band",
-               "ref": "C4",
-               "band": "equal"
-              }
-             ]
+             "text": "La torre in sesta traversa controlla la colonna e prepara l'avanzata dei pedoni; il Nero risponde {{m:Rb5@N4}}, {{ev:C4}}",
+             "source": "engine"
             }
            },
            "C6": {
             "idea": {
-             "text": "Torre in b1: si sposta sul lato di donna e prepara l'ingresso in settima",
-             "source": "mixed",
-             "assertions": [
-              {
-               "kind": "eval_band",
-               "ref": "C6",
-               "band": "equal"
-              }
-             ]
+             "text": "La torre in b1 cerca la settima traversa passando dal lato; il Nero gioca {{m:Ra7@N5}}, {{ev:C6}}",
+             "source": "engine"
             }
            },
            "C9": {
             "idea": {
-             "text": "Torre in d4: centrale e attiva, pronta a cambiare colonna",
-             "source": "mixed",
-             "assertions": [
-              {
-               "kind": "eval_band",
-               "ref": "C9",
-               "band": "equal"
-              }
-             ]
+             "text": "La torre in d4 centralizza e sostiene la spinta del pedone f; il Nero risponde {{m:Ra2@N6}}, {{ev:C9}}",
+             "source": "engine"
             }
            },
            "C11": {
             "idea": {
-             "text": "Torre in d8: la più aggressiva, va dietro le linee nemiche ma il re nero la caccia subito",
-             "source": "mixed",
-             "assertions": [
-              {
-               "kind": "eval_band",
-               "ref": "C11",
-               "band": "equal"
-              }
-             ]
+             "text": "La torre in d8 va in fondo per attaccare i pedoni; il Nero risponde {{m:Kh6@N7}}, {{ev:C11}}",
+             "source": "engine"
             }
            }
           }
          },
          {
           "type": "p",
-          "text": "Tutte le candidate valgono esattamente {{ev:C3}}: la perdita è {{loss:C3}}, {{loss:C4}}, {{loss:C6}}, {{loss:C9}} e {{loss:C11}}, cioè nulla per tutte. Il motore non vede alcuna differenza: la scelta è puramente pratica.",
+          "text": "Il motore non vede alcuna differenza tra queste mosse: tutte valgono {{ev:C3}}, {{ev:C4}}, {{ev:C6}}, {{ev:C9}} e {{ev:C11}}, con perdita nulla. La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: puoi scegliere tra sistemi diversi. La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}, e dopo {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: {{mv:C3}} e {{mv:C4}} sono intercambiabili, {{mv:C6}} e {{mv:C9}} portano a posizioni equivalenti. Scegli quella che ti sembra più comoda da giocare.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "C3",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "La linea principale dopo {{mv:C3}} è {{pv:PV3:6}}: il Nero spinge il pedone g, tu porti il re in h3 e poi la torre in d6. Con {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:6}}. Nessuna delle due linee contiene mosse obbligate.",
+          "text": "Come scegliere: se ti piace la torre attiva in settima traversa, gioca {{mv:C3}} ({{ev:C3}}); se preferisci tenere la torre al centro e spingere i pedoni, {{mv:C4}} ({{ev:C4}}) o {{mv:C9}} ({{ev:C9}}); se vuoi attaccare i pedoni neri dal fondo, {{mv:C11}} ({{ev:C11}}). Sono tutte equivalenti, quindi scegli quella che capisci meglio e non cambiarla a metà strada.",
           "source": "engine"
          }
         ]
@@ -1638,84 +1254,13 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Le mosse di re {{mv:C1}}, {{mv:C2}}, {{mv:C7}}, {{mv:C14}} e {{mv:C15}} sono tutte equivalenti per il motore ({{ev:C1}}, {{ev:C2}}), ma a questo livello sono mosse difficili: spostare il re senza un piano chiaro non migliora nulla. Meglio una mossa di torre.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "classification",
-            "ref": "C1",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C2",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C7",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C14",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C15",
-            "category": "hard_move"
-           }
-          ]
+          "text": "Le mosse di re e di pedone sono tutte innocue: {{mv:C1}}, {{mv:C2}}, {{mv:C5}}, {{mv:C7}}, {{mv:C8}}, {{mv:C10}}, {{mv:C13}}, {{mv:C14}}, {{mv:C15}}, {{mv:C16}} e {{mv:C18}} mantengono la patta con perdita nulla, e nessuna è una trappola. Sono mosse difficili solo perché sembrano passive: a questo livello è facile sceglierle per abitudine invece di migliorare la torre.",
+          "source": "engine"
          },
          {
           "type": "p",
-          "text": "Anche {{mv:C5}}, {{mv:C8}}, {{mv:C10}}, {{mv:C13}}, {{mv:C16}} e {{mv:C18}} valgono lo stesso ({{loss:C5}}, {{loss:C8}}, {{loss:C10}}, {{loss:C13}}, {{loss:C16}}, {{loss:C18}}), ma sono mosse passive: la torre resta inattiva. Non sono errori, semplicemente non fanno progredire nulla.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "classification",
-            "ref": "C5",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C8",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C10",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C13",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C16",
-            "category": "hard_move"
-           },
-           {
-            "kind": "classification",
-            "ref": "C18",
-            "category": "hard_move"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Non ci sono trappole naturali in questa posizione: nessuna mossa perde materiale, nessuna permette al Nero di forzare qualcosa. L'unico errore di principio sarebbe cedere la torre in cambio di nulla, ma nessuna delle mosse elencate lo fa.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "C1",
-            "band": "equal"
-           }
-          ]
+          "text": "L'unico errore da evitare è dare la torre: se la tua torre finisce su una casa dove il re nero o la torre nera possono catturarla senza compenso, perdi subito. Nella linea del motore dopo {{mv:C6}} {{m:Ra7@N5}} il Nero gioca {{m:Ra2+@N24}} e ti dà scacco: rispondi con il re, non con la torre. Il resto è tecnica.",
+          "source": "engine"
          }
         ]
        },
@@ -1726,31 +1271,34 @@
           "type": "ol",
           "items": [
            {
-            "text": "**Scegli una torre attiva**: in settima, in sesta o in quarta. Tutte valgono lo stesso.",
+            "text": "**Riconosci che è patta**: nessuna mossa vince, quindi il tuo obiettivo è non perdere.",
             "source": "theory"
            },
            {
-            "text": "**Porta il re verso il centro** quando la torre è sistemata: il re in f3 o g3 è più utile che in g2.",
+            "text": "**Attiva la torre**: mettila su una colonna aperta o in settima traversa, come in {{mv:C3}}.",
             "source": "theory"
            },
            {
-            "text": "**Spingi il pedone f** al momento giusto per creare un pedone passato o aprire linee per la torre.",
+            "text": "**Tieni il re vicino ai pedoni**: il re difende f2 e g3 e non si allontana.",
             "source": "theory"
            },
            {
-            "text": "**Controlla la torre nera**: se entra in seconda traversa, cacciala subito con la tua torre.",
+            "text": "**Se il Nero entra in a2 con la torre, non inseguirla**: rispondi con scacchi di torre o spingi i pedoni.",
             "source": "theory"
            },
            {
-            "text": "**Non avere fretta**: in un finale pari come questo, ogni mossa ragionevole mantiene l'equilibrio. Gioca con calma e cerca piccoli miglioramenti.",
+            "text": "**Non cambiare piano**: qualsiasi mossa sensata di torre mantiene la patta, quindi gioca con calma.",
+            "source": "theory"
+           },
+           {
+            "text": "**Controlla la linea del motore** dopo la mossa consigliata: {{pv:PV3:8}}.",
+            "source": "engine"
+           },
+           {
+            "text": "**Se il Nero spinge i pedoni**, non reagire d'istinto: confronta le mosse di torre prima di muovere.",
             "source": "theory"
            }
           ]
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C3}} la linea tipica è {{pv:PV3:6}}: torre in settima, re in h3, torre in d6. Il piano è semplice: attività massima delle torri e re attivo.",
-          "source": "engine"
          }
         ]
        },
@@ -1759,81 +1307,57 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Questo è un finale di torri e pedoni con materiale perfettamente simmetrico: sette pezzi per parte, un pedone ciascuno oltre ai re e alle torri. Il motore valuta la posizione esattamente pari ({{ev:N1}}), con {{pct:root.draw}} di patte secondo Stockfish. Non c'è un piano vincente per nessuno dei due: l'obiettivo realistico è giocare bene e non commettere errori.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N1",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}: il Nero spinge il pedone g, tu porti il re in h3, poi la torre in d6 e in f4. La posizione resta pari fino alla fine della linea. Con {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}: torre in d6, re in h3, pedone f spinto.",
+          "text": "Questo è un finale di torre e pedoni con materiale pari: torre e tre pedoni contro torre e tre pedoni, con una sola isola di pedoni per parte. Il motore valuta {{ev:N1}} e l'esito secondo Stockfish è {{pct:root.draw}} di patte: non c'è un piano di vittoria per nessuno dei due. La linea principale dopo la mossa consigliata è {{pv:PV3:8}}, e dopo {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}: in entrambi i casi le torri si scambiano scacchi e i pedoni restano bloccati.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "La tecnica in questo finale è semplice: mantieni la torre attiva, porta il re verso il centro, spingi il pedone f quando puoi creare un pedone passato. Se il Nero spinge il pedone g, rispondi simmetricamente con il tuo pedone g o con il pedone f. Non ci sono posizioni di stallo o trappole: è un finale di pura manovra.",
+          "text": "La tecnica qui è semplice: **attiva la torre, difendi i pedoni con il re, evita di perdere materiale**. Se il Nero entra in a2 con la torre, non cercare di catturarla: rispondi con scacchi di torre o spingi i pedoni. Nella linea del motore dopo {{mv:C6}} il Nero gioca {{m:g5@N5}} e poi spinge i pedoni, ma resta tutto pari. Il pedone f7 e il pedone g6 neri sono i suoi punti da difendere: se la tua torre arriva in settima traversa, li attacca e lo costringe a difendere passivamente.",
+          "source": "engine"
+         },
+         {
+          "type": "p",
+          "text": "Se il Nero sbaglia e ti lascia entrare in settima traversa con la torre, puoi guadagnare un pedone, ma non basta per vincere: il finale di torre e pedone contro torre è quasi sempre patta se il re difende. La regola pratica è: **non dare mai la torre**, **non lasciare il re lontano dai pedoni**, **non cambiare piano**. Con queste tre regole la patta è garantita.",
           "source": "theory"
          },
          {
           "type": "p",
-          "text": "Secondo Maia-2, i giocatori del tuo livello scelgono {{mv:C3}} il {{pct:C3.p_user}} delle volte, {{mv:C9}} il {{pct:C9.p_user}} e {{mv:C6}} il {{pct:C6.p_user}}. La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: tutte le mosse di torre attiva portano allo stesso risultato.",
+          "text": "Secondo Maia-2, il Nero a questo livello sceglie spesso {{m:Kf6@N3}} o {{m:g5@N5}}, mosse naturali che non cambiano la valutazione. Non aspettarti trappole: aspettati che spinga i pedoni e cerchi scacchi di torre. Se mantieni la calma e giochi mosse sensate, la partita finisce in patta.",
           "source": "maia"
          },
          {
           "type": "p",
-          "text": "Se il Nero gioca {{m:g5@N2}}, la tua risposta migliore è portare il re in h3 o spingere il pedone f. Se il Nero gioca {{m:Kf6@N2}}, porta la torre in d6 o in d7 per limitare il re. In ogni caso la posizione resta pari: non ci sono mosse che cambiano la valutazione.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N2",
-            "band": "equal"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Il consiglio pratico è: gioca una mossa di torre attiva, poi migliora la posizione del re e del pedone f. Non cercare di forzare nulla: in un finale pari come questo, la pazienza e la precisione contano più dell'aggressività. Se entrambi giocano bene, la partita finisce in patta.",
-          "source": "theory"
-         },
-         {
-          "type": "p",
-          "text": "Se la partita continua con manovre di torre, il risultato più probabile resta la patta. Non ci sono posizioni di stallo o trappole nascoste: è un finale di pura tecnica in cui conta la precisione, non l'aggressività. Gioca con calma, mantieni la torre attiva e non commettere errori: il pareggio è il risultato naturale di questa posizione.",
-          "source": "theory"
+          "text": "Un'ultima nota tecnica: se la tua torre resta sulla colonna d e il re difende i pedoni, il Nero non ha modo di creare un pedone passato. Il motore conferma che ogni linea sensata porta a {{ev:N1}}, quindi non c'è nulla da calcolare: gioca con calma e non rischiare.",
+          "source": "engine"
          }
         ]
        }
       ],
       "notes": [
-       "Il pacchetto segnala maia.confidence low: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.",
-       "Tutte le candidate hanno loss_cp pari a zero e valutazione identica: la raccomandazione C3 è 'weak' con no_unique_best vero, coerente con una posizione di finale perfettamente pari.",
-       "Nessuna linea filtrata presente: la sezione S09 è stata omessa dal programma con motivo no_invisible_line."
+       "Il pacchetto segnala maia.confidence basso: le probabilità umane sono poco affidabili e le ho usate solo come indicazione di frequenza, non come base del giudizio.",
+       "La categoria practical_complexity ha tranquillità sotto la soglia di allerta ma consiglio monitor: la posizione è pari e non c'è nulla di concreto da temere.",
+       "Le sezioni S03, S04, S05, S09, S11 e S13 sono state omesse dal programma e non le ho scritte."
       ]
      }
     }
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 53796,
-    "completion_tokens": 4890,
-    "total_tokens": 58686,
-    "cost": 0.00638952,
+    "prompt_tokens": 52411,
+    "completion_tokens": 4158,
+    "total_tokens": 56569,
+    "cost": 0.00584826,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 53120,
+     "cached_tokens": 50560,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.00638952,
-     "upstream_inference_prompt_cost": 0.00052152,
-     "upstream_inference_completions_cost": 0.005868
+     "upstream_inference_cost": 0.00584826,
+     "upstream_inference_prompt_cost": 0.00085866,
+     "upstream_inference_completions_cost": 0.0049896
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -1842,9 +1366,9 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791138851-1qzPB014q3fCWgK6jDPp",
+    "id": "gen-1791143313-2Ez6yy4pgaz1hTOK7z0k",
     "object": "chat.completion",
-    "created": 1791138851,
+    "created": 1791143313,
     "model": "deepseek/deepseek-v4.1-flash",
     "provider": "Together",
     "system_fingerprint": "default",
@@ -1864,10 +1388,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "call_01a10831ef9a75c6b255784d",
+         "id": "call_01a108760ccd7395af330029",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Posizione di finale assolutamente pari: il motore dà {{ev:N1}} con la mossa migliore, e l'esito secondo Stockfish è {{pct:root.win}} di vittorie, {{pct:root.draw}} di patte e {{pct:root.loss}} di sconfitte. Sette pezzi per parte, un pedone ciascuno oltre ai re e alle torri, nessuno può forzare nulla.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Tutte le mosse spiegate valgono esattamente lo stesso: dalla prima all'ultima la perdita è {{loss:C11}}, cioè nulla. Non c'è una mossa migliore da trovare, c'è solo da scegliere una torre attiva e giocarla bene. Anche se passassi la mossa, il Nero otterrebbe solo {{ev:N2}}: il tuo vantaggio è puramente il tratto.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]}]},{\"id\":\"S02\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T4\",\"text_cells\":{\"piece_activity\":{\"nota\":{\"text\":\"Pesa più di tutto: le torri sono già su colonne aperte\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"rook_open_file\",\"side\":\"w\",\"squares\":[\"d1\"]},{\"kind\":\"feature\",\"key\":\"rook_open_file\",\"side\":\"b\",\"squares\":[\"a5\"]},{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"}]}},\"practical_complexity\":{\"nota\":{\"text\":\"Molte mosse equivalenti, nessuna unica\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"}]}},\"king_safety\":{\"nota\":{\"text\":\"Arrocco perduto da entrambi, ma nessuna colonna aperta sul re\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"castling_lost\",\"side\":\"w\",\"squares\":[\"g2\"]},{\"kind\":\"feature\",\"key\":\"castling_lost\",\"side\":\"b\",\"squares\":[\"g7\"]},{\"kind\":\"category_advice\",\"id\":\"king_safety\",\"advice\":\"no_worry\"}]}},\"pawn_structure\":{\"nota\":{\"text\":\"Un'isola di pedoni per parte, struttura simmetrica e stabile\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"w\",\"squares\":[]},{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"b\",\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"pawn_structure\",\"advice\":\"no_worry\"}]}},\"threats_dynamics\":{\"nota\":{\"text\":\"Nessuna linea filtrata: non ci sono tattiche in giro\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"threats_dynamics\",\"advice\":\"no_worry\"}]}},\"space_center\":{\"nota\":{\"text\":\"Controllo centrale pari, due case per parte\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"central_control\",\"side\":null,\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"space_center\",\"advice\":\"no_worry\"}]}},\"initiative_tempo\":{\"nota\":{\"text\":\"Nessuno ha l'iniziativa: è un finale statico\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"initiative_tempo\",\"advice\":\"no_worry\"}]}},\"material\":{\"nota\":{\"text\":\"Materiale identico, bilanciato\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"material_balance\",\"side\":null,\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"material\",\"advice\":\"no_worry\"}]}},\"transition_plans\":{\"nota\":{\"text\":\"Nessuna transizione: si resta in finale di torri\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"transition_plans\",\"advice\":\"no_worry\"}]}}}},{\"type\":\"p\",\"text\":\"Nessuna categoria preoccupa. La tranquillità più bassa è la complessità pratica ({{sc:practical_complexity.T}}), perché quasi ogni mossa di torre vale lo stesso. La più rilevante è l'attività dei pezzi ({{sc:piece_activity.R}}): entrambe le torri stanno già su colonne aperte.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"},{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero non ha colpi pronti. Se passassi la mossa, la sua migliore sarebbe {{m:g5@N2}} con la posizione ancora pari ({{ev:N2}}): spinge il pedone per guadagnare spazio sul lato di re, ma non crea minacce concrete.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Dopo la mossa consigliata {{mv:C3}} il Nero ha tre risposte principali, tutte equivalenti per il motore: {{m:Ra3@N3}}, {{m:Ra4@N3}} e {{m:Kf6@N3}}. La torre nera cerca la tua seconda traversa o la colonna a, il re viene verso il centro. Contro {{m:Ra3@N3}} la tua risposta più naturale è {{m:Rb7@N8}}, che tiene la torre attiva dietro il pedone nero.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N3\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C4}} il Nero può giocare {{m:Rb5@N4}}, {{m:Ra3@N4}} o {{m:Ra4@N4}}: la torre cerca di attaccare il tuo pedone f2 o di entrare in settima. Contro {{m:Rb5@N4}} la mossa più solida è {{m:g4@N11}}, che guadagna spazio e prepara la spinta del pedone f.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N4\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C6}} il Nero ha {{m:Ra7@N5}}, {{m:Ra2@N5}}, {{m:Ra3@N5}} e {{m:g5@N5}}. La spinta del pedone g è la più frequente a questo livello: secondo Maia-2 la sceglie il {{pct:g5@N5}} dei giocatori del tuo Elo. Contro {{m:Ra2@N5}} la torre nera entra in seconda e va cacciata con {{m:Rb5@N15}}.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"maia_band\",\"ref\":\"g5@N5\",\"band\":\"possible\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C9}} il Nero risponde di solito {{m:Ra2@N6}} o {{m:g5@N6}}, mentre dopo {{mv:C11}} la scelta più comune è {{m:Kh6@N7}} o {{m:Ra2@N7}}. In tutti i casi la torre nera cerca la seconda traversa per attaccare i pedoni, ma il tuo re è ben difeso e non ci sono punti deboli reali.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N6\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Il piano tipico del Nero in questo finale è attivare la torre, spingere il pedone g per creare un pedone passato e portare il re verso il centro. La tua risposta è simmetrica: torre attiva, re verso il centro, pedone f spinto al momento giusto. Non ci sono trappole nascoste: è un finale di pura tecnica.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"In pratica il Nero non ha un piano che ti metta in difficoltà: la sua torre può entrare in seconda traversa, ma il tuo re e i tuoi pedoni sono ben difesi. La spinta del pedone g è l'unica idea concreta, e anche quella non crea problemi reali se rispondi con calma. Puoi giocare senza preoccupazioni e concentrarti sul miglioramento della tua posizione.\",\"source\":\"theory\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C3\":{\"idea\":{\"text\":\"Torre in settima: la più naturale a questo livello ({{pct:C3.p_user}}), attacca il pedone f7 e limita il re nero\",\"source\":\"mixed\"}},\"C4\":{\"idea\":{\"text\":\"Torre in sesta: controlla la colonna d e tiene il re nero lontano dal centro\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"C4\",\"band\":\"equal\"}]}},\"C6\":{\"idea\":{\"text\":\"Torre in b1: si sposta sul lato di donna e prepara l'ingresso in settima\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"C6\",\"band\":\"equal\"}]}},\"C9\":{\"idea\":{\"text\":\"Torre in d4: centrale e attiva, pronta a cambiare colonna\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"C9\",\"band\":\"equal\"}]}},\"C11\":{\"idea\":{\"text\":\"Torre in d8: la più aggressiva, va dietro le linee nemiche ma il re nero la caccia subito\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"C11\",\"band\":\"equal\"}]}}}},{\"type\":\"p\",\"text\":\"Tutte le candidate valgono esattamente {{ev:C3}}: la perdita è {{loss:C3}}, {{loss:C4}}, {{loss:C6}}, {{loss:C9}} e {{loss:C11}}, cioè nulla per tutte. Il motore non vede alcuna differenza: la scelta è puramente pratica.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: {{mv:C3}} e {{mv:C4}} sono intercambiabili, {{mv:C6}} e {{mv:C9}} portano a posizioni equivalenti. Scegli quella che ti sembra più comoda da giocare.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"C3\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"La linea principale dopo {{mv:C3}} è {{pv:PV3:6}}: il Nero spinge il pedone g, tu porti il re in h3 e poi la torre in d6. Con {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:6}}. Nessuna delle due linee contiene mosse obbligate.\",\"source\":\"engine\"}]},{\"id\":\"S08\",\"blocks\":[{\"type\":\"p\",\"text\":\"Le mosse di re {{mv:C1}}, {{mv:C2}}, {{mv:C7}}, {{mv:C14}} e {{mv:C15}} sono tutte equivalenti per il motore ({{ev:C1}}, {{ev:C2}}), ma a questo livello sono mosse difficili: spostare il re senza un piano chiaro non migliora nulla. Meglio una mossa di torre.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C1\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C2\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C7\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C14\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C15\",\"category\":\"hard_move\"}]},{\"type\":\"p\",\"text\":\"Anche {{mv:C5}}, {{mv:C8}}, {{mv:C10}}, {{mv:C13}}, {{mv:C16}} e {{mv:C18}} valgono lo stesso ({{loss:C5}}, {{loss:C8}}, {{loss:C10}}, {{loss:C13}}, {{loss:C16}}, {{loss:C18}}), ma sono mosse passive: la torre resta inattiva. Non sono errori, semplicemente non fanno progredire nulla.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C5\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C8\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C10\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C13\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C16\",\"category\":\"hard_move\"},{\"kind\":\"classification\",\"ref\":\"C18\",\"category\":\"hard_move\"}]},{\"type\":\"p\",\"text\":\"Non ci sono trappole naturali in questa posizione: nessuna mossa perde materiale, nessuna permette al Nero di forzare qualcosa. L'unico errore di principio sarebbe cedere la torre in cambio di nulla, ma nessuna delle mosse elencate lo fa.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"C1\",\"band\":\"equal\"}]}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Scegli una torre attiva**: in settima, in sesta o in quarta. Tutte valgono lo stesso.\",\"source\":\"theory\"},{\"text\":\"**Porta il re verso il centro** quando la torre è sistemata: il re in f3 o g3 è più utile che in g2.\",\"source\":\"theory\"},{\"text\":\"**Spingi il pedone f** al momento giusto per creare un pedone passato o aprire linee per la torre.\",\"source\":\"theory\"},{\"text\":\"**Controlla la torre nera**: se entra in seconda traversa, cacciala subito con la tua torre.\",\"source\":\"theory\"},{\"text\":\"**Non avere fretta**: in un finale pari come questo, ogni mossa ragionevole mantiene l'equilibrio. Gioca con calma e cerca piccoli miglioramenti.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C3}} la linea tipica è {{pv:PV3:6}}: torre in settima, re in h3, torre in d6. Il piano è semplice: attività massima delle torri e re attivo.\",\"source\":\"engine\"}]},{\"id\":\"S12\",\"blocks\":[{\"type\":\"p\",\"text\":\"Questo è un finale di torri e pedoni con materiale perfettamente simmetrico: sette pezzi per parte, un pedone ciascuno oltre ai re e alle torri. Il motore valuta la posizione esattamente pari ({{ev:N1}}), con {{pct:root.draw}} di patte secondo Stockfish. Non c'è un piano vincente per nessuno dei due: l'obiettivo realistico è giocare bene e non commettere errori.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}: il Nero spinge il pedone g, tu porti il re in h3, poi la torre in d6 e in f4. La posizione resta pari fino alla fine della linea. Con {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}: torre in d6, re in h3, pedone f spinto.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La tecnica in questo finale è semplice: mantieni la torre attiva, porta il re verso il centro, spingi il pedone f quando puoi creare un pedone passato. Se il Nero spinge il pedone g, rispondi simmetricamente con il tuo pedone g o con il pedone f. Non ci sono posizioni di stallo o trappole: è un finale di pura manovra.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, i giocatori del tuo livello scelgono {{mv:C3}} il {{pct:C3.p_user}} delle volte, {{mv:C9}} il {{pct:C9.p_user}} e {{mv:C6}} il {{pct:C6.p_user}}. La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: tutte le mosse di torre attiva portano allo stesso risultato.\",\"source\":\"maia\"},{\"type\":\"p\",\"text\":\"Se il Nero gioca {{m:g5@N2}}, la tua risposta migliore è portare il re in h3 o spingere il pedone f. Se il Nero gioca {{m:Kf6@N2}}, porta la torre in d6 o in d7 per limitare il re. In ogni caso la posizione resta pari: non ci sono mosse che cambiano la valutazione.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]},{\"type\":\"p\",\"text\":\"Il consiglio pratico è: gioca una mossa di torre attiva, poi migliora la posizione del re e del pedone f. Non cercare di forzare nulla: in un finale pari come questo, la pazienza e la precisione contano più dell'aggressività. Se entrambi giocano bene, la partita finisce in patta.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Se la partita continua con manovre di torre, il risultato più probabile resta la patta. Non ci sono posizioni di stallo o trappole nascoste: è un finale di pura tecnica in cui conta la precisione, non l'aggressività. Gioca con calma, mantieni la torre attiva e non commettere errori: il pareggio è il risultato naturale di questa posizione.\",\"source\":\"theory\"}]}],\"notes\":[\"Il pacchetto segnala maia.confidence low: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.\",\"Tutte le candidate hanno loss_cp pari a zero e valutazione identica: la raccomandazione C3 è 'weak' con no_unique_best vero, coerente con una posizione di finale perfettamente pari.\",\"Nessuna linea filtrata presente: la sezione S09 è stata omessa dal programma con motivo no_invisible_line.\"]}"
+          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Posizione di finale completamente pari: il motore dà {{ev:N1}} con la mossa migliore, e l'esito secondo Stockfish è {{pct:root.draw}} di patta. Tutte le candidate spiegate valgono lo stesso, {{ev:C3}} e {{ev:C4}}, e nessuna perde nulla: {{loss:C3}} e {{loss:C4}} sono nulli. Anche se passassi la mossa, il Nero otterrebbe solo {{ev:N2}}. Non c'è nulla da vincere: c'è da non rovinare. Il tuo vantaggio pratico è minimo, {{pct:root.win}} di vittorie secondo il motore, e Maia-2 stima per te un punteggio atteso di poco sopra la metà. La linea principale dopo la mossa consigliata è {{pv:PV3:8}}.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"equal\"}]}]},{\"id\":\"S02\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T4\",\"text_cells\":{\"piece_activity\":{\"nota\":{\"text\":\"Le due torri hanno la stessa mobilità e la stessa colonna aperta\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"piece_mobility\",\"side\":\"w\",\"squares\":[\"d1\"]},{\"kind\":\"feature\",\"key\":\"piece_mobility\",\"side\":\"b\",\"squares\":[\"a5\"]},{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"}]}},\"practical_complexity\":{\"nota\":{\"text\":\"Molte mosse equivalenti, nessuna unica\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"}]}},\"king_safety\":{\"nota\":{\"text\":\"Arrocco perduto da entrambi, ma nessuna linea filtrata tocca i re\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"castling_lost\",\"side\":\"w\",\"squares\":[\"g2\"]},{\"kind\":\"feature\",\"key\":\"castling_lost\",\"side\":\"b\",\"squares\":[\"g7\"]},{\"kind\":\"category_advice\",\"id\":\"king_safety\",\"advice\":\"no_worry\"}]}},\"pawn_structure\":{\"nota\":{\"text\":\"Un'isola di pedoni per parte, nessun pedone debole\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"w\",\"squares\":[]},{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"b\",\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"pawn_structure\",\"advice\":\"no_worry\"}]}},\"threats_dynamics\":{\"nota\":{\"text\":\"Nessuna minaccia supera la soglia del tuo livello\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"threats_dynamics\",\"advice\":\"no_worry\"}]}},\"space_center\":{\"nota\":{\"text\":\"Controllo centrale identico\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"central_control\",\"side\":null,\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"space_center\",\"advice\":\"no_worry\"}]}},\"initiative_tempo\":{\"nota\":{\"text\":\"Nessuno dei due può forzare\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"initiative_tempo\",\"advice\":\"no_worry\"}]}},\"material\":{\"nota\":{\"text\":\"Materiale pari: torre e pedoni contro torre e pedoni\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"material_balance\",\"side\":null,\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"material\",\"advice\":\"no_worry\"}]}},\"transition_plans\":{\"nota\":{\"text\":\"Nessuna transizione rilevante\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"transition_plans\",\"advice\":\"no_worry\"}]}}}},{\"type\":\"p\",\"text\":\"Nessuna categoria preoccupa. La tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché quasi ogni mossa di torre o di re mantiene la patta. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): le due torri hanno la stessa mobilità e ciascuna occupa una colonna aperta, la tua in d e quella nera in a. Il re è al sicuro da entrambe le parti, con l'arrocco perduto ma nessuna linea filtrata che lo tocchi. La struttura è simmetrica, con una sola isola di pedoni per parte, e il controllo centrale è identico. Le categorie tattiche hanno rilevanza quasi nulla: qui decide la tecnica, non il calcolo.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"},{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero non ha un piano di vittoria: la sua torre in a5 sta sulla colonna aperta e cerca di entrare nella tua metà, di solito in a2 o in a3, per dare scacco e guadagnare tempo. Se passassi la mossa, la sua prima scelta sarebbe la spinta del pedone in g5, che vale {{ev:N2}}: non è una minaccia, è solo spazio.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Dopo le tue candidate le sue risposte sono tutte equivalenti. Contro {{mv:C3}} il motore preferisce {{m:Ra3@N3}} e {{m:Ra4@N3}}, entrambe con valutazione pari; contro {{mv:C4}} la prima scelta è {{m:Rb5@N4}}, che mette la torre davanti al tuo re in modo fastidioso ma innocuo; contro {{mv:C6}} la sua idea è {{m:Ra7@N5}}, per poi scendere in a2; contro {{mv:C9}} e {{mv:C11}} cerca ancora la seconda traversa con {{m:Ra2@N6}} e {{m:Kh6@N7}}. In nessun caso la valutazione si muove da zero.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Il vero tema del Nero è la **torre attiva sulla colonna a**: se la lasci entrare in a2, ti costringe a difendere il pedone f2 con il re, e ogni tempo speso a difendere è un tempo che non usi per migliorare la tua torre. La contromisura è semplice: tieni la tua torre sulla colonna d, dove è attiva, e usa il re per sostenere i pedoni. Non cercare di cacciare la torre nera: non puoi, e non serve.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Attenzione a una sola cosa concreta: se la tua torre si allontana dalla prima traversa e il re si sposta, la torre nera in a2 può diventare scomoda. Nella linea del motore dopo {{mv:C6}} il Nero gioca {{m:g5@N5}} e poi spinge i pedoni, ma resta tutto pari. Il pedone f7 e il pedone g6 neri sono i suoi punti da difendere: se la tua torre arriva in settima traversa, li attacca e lo costringe a difendere passivamente.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, contro {{mv:C3}} il Nero sceglie {{m:Kf6@N3}} con una frequenza vicina a quella delle altre mosse di torre, e contro {{mv:C6}} la spinta {{m:g5@N5}} è la più gettonata: sono mosse naturali, non piani. A questo livello il Nero non calcola linee lunghe, quindi non aspettarti trappole: aspettati che spinga i pedoni e cerchi scacchi di torre.\",\"source\":\"maia\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C3\":{\"idea\":{\"text\":\"La mossa consigliata: la torre in settima traversa attacca f7 e g6 e resta attiva; il Nero deve difendere, {{ev:C3}}\",\"source\":\"engine\"}},\"C4\":{\"idea\":{\"text\":\"La torre in sesta traversa controlla la colonna e prepara l'avanzata dei pedoni; il Nero risponde {{m:Rb5@N4}}, {{ev:C4}}\",\"source\":\"engine\"}},\"C6\":{\"idea\":{\"text\":\"La torre in b1 cerca la settima traversa passando dal lato; il Nero gioca {{m:Ra7@N5}}, {{ev:C6}}\",\"source\":\"engine\"}},\"C9\":{\"idea\":{\"text\":\"La torre in d4 centralizza e sostiene la spinta del pedone f; il Nero risponde {{m:Ra2@N6}}, {{ev:C9}}\",\"source\":\"engine\"}},\"C11\":{\"idea\":{\"text\":\"La torre in d8 va in fondo per attaccare i pedoni; il Nero risponde {{m:Kh6@N7}}, {{ev:C11}}\",\"source\":\"engine\"}}}},{\"type\":\"p\",\"text\":\"Il motore non vede alcuna differenza tra queste mosse: tutte valgono {{ev:C3}}, {{ev:C4}}, {{ev:C6}}, {{ev:C9}} e {{ev:C11}}, con perdita nulla. La mossa consigliata è {{mv:C3}}, ma **non esiste una mossa unica migliore**: puoi scegliere tra sistemi diversi. La linea principale dopo {{mv:C3}} è {{pv:PV3:8}}, e dopo {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Come scegliere: se ti piace la torre attiva in settima traversa, gioca {{mv:C3}} ({{ev:C3}}); se preferisci tenere la torre al centro e spingere i pedoni, {{mv:C4}} ({{ev:C4}}) o {{mv:C9}} ({{ev:C9}}); se vuoi attaccare i pedoni neri dal fondo, {{mv:C11}} ({{ev:C11}}). Sono tutte equivalenti, quindi scegli quella che capisci meglio e non cambiarla a metà strada.\",\"source\":\"engine\"}]},{\"id\":\"S08\",\"blocks\":[{\"type\":\"p\",\"text\":\"Le mosse di re e di pedone sono tutte innocue: {{mv:C1}}, {{mv:C2}}, {{mv:C5}}, {{mv:C7}}, {{mv:C8}}, {{mv:C10}}, {{mv:C13}}, {{mv:C14}}, {{mv:C15}}, {{mv:C16}} e {{mv:C18}} mantengono la patta con perdita nulla, e nessuna è una trappola. Sono mosse difficili solo perché sembrano passive: a questo livello è facile sceglierle per abitudine invece di migliorare la torre.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"L'unico errore da evitare è dare la torre: se la tua torre finisce su una casa dove il re nero o la torre nera possono catturarla senza compenso, perdi subito. Nella linea del motore dopo {{mv:C6}} {{m:Ra7@N5}} il Nero gioca {{m:Ra2+@N24}} e ti dà scacco: rispondi con il re, non con la torre. Il resto è tecnica.\",\"source\":\"engine\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Riconosci che è patta**: nessuna mossa vince, quindi il tuo obiettivo è non perdere.\",\"source\":\"theory\"},{\"text\":\"**Attiva la torre**: mettila su una colonna aperta o in settima traversa, come in {{mv:C3}}.\",\"source\":\"theory\"},{\"text\":\"**Tieni il re vicino ai pedoni**: il re difende f2 e g3 e non si allontana.\",\"source\":\"theory\"},{\"text\":\"**Se il Nero entra in a2 con la torre, non inseguirla**: rispondi con scacchi di torre o spingi i pedoni.\",\"source\":\"theory\"},{\"text\":\"**Non cambiare piano**: qualsiasi mossa sensata di torre mantiene la patta, quindi gioca con calma.\",\"source\":\"theory\"},{\"text\":\"**Controlla la linea del motore** dopo la mossa consigliata: {{pv:PV3:8}}.\",\"source\":\"engine\"},{\"text\":\"**Se il Nero spinge i pedoni**, non reagire d'istinto: confronta le mosse di torre prima di muovere.\",\"source\":\"theory\"}]}]},{\"id\":\"S12\",\"blocks\":[{\"type\":\"p\",\"text\":\"Questo è un finale di torre e pedoni con materiale pari: torre e tre pedoni contro torre e tre pedoni, con una sola isola di pedoni per parte. Il motore valuta {{ev:N1}} e l'esito secondo Stockfish è {{pct:root.draw}} di patte: non c'è un piano di vittoria per nessuno dei due. La linea principale dopo la mossa consigliata è {{pv:PV3:8}}, e dopo {{mv:C4}} si arriva a una posizione simile con {{pv:PV4:8}}: in entrambi i casi le torri si scambiano scacchi e i pedoni restano bloccati.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"La tecnica qui è semplice: **attiva la torre, difendi i pedoni con il re, evita di perdere materiale**. Se il Nero entra in a2 con la torre, non cercare di catturarla: rispondi con scacchi di torre o spingi i pedoni. Nella linea del motore dopo {{mv:C6}} il Nero gioca {{m:g5@N5}} e poi spinge i pedoni, ma resta tutto pari. Il pedone f7 e il pedone g6 neri sono i suoi punti da difendere: se la tua torre arriva in settima traversa, li attacca e lo costringe a difendere passivamente.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Se il Nero sbaglia e ti lascia entrare in settima traversa con la torre, puoi guadagnare un pedone, ma non basta per vincere: il finale di torre e pedone contro torre è quasi sempre patta se il re difende. La regola pratica è: **non dare mai la torre**, **non lasciare il re lontano dai pedoni**, **non cambiare piano**. Con queste tre regole la patta è garantita.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, il Nero a questo livello sceglie spesso {{m:Kf6@N3}} o {{m:g5@N5}}, mosse naturali che non cambiano la valutazione. Non aspettarti trappole: aspettati che spinga i pedoni e cerchi scacchi di torre. Se mantieni la calma e giochi mosse sensate, la partita finisce in patta.\",\"source\":\"maia\"},{\"type\":\"p\",\"text\":\"Un'ultima nota tecnica: se la tua torre resta sulla colonna d e il re difende i pedoni, il Nero non ha modo di creare un pedone passato. Il motore conferma che ogni linea sensata porta a {{ev:N1}}, quindi non c'è nulla da calcolare: gioca con calma e non rischiare.\",\"source\":\"engine\"}]}],\"notes\":[\"Il pacchetto segnala maia.confidence basso: le probabilità umane sono poco affidabili e le ho usate solo come indicazione di frequenza, non come base del giudizio.\",\"La categoria practical_complexity ha tranquillità sotto la soglia di allerta ma consiglio monitor: la posizione è pari e non c'è nulla di concreto da temere.\",\"Le sezioni S03, S04, S05, S09, S11 e S13 sono state omesse dal programma e non le ho scritte.\"]}"
          }
         }
        ]
@@ -1875,21 +1399,21 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 53796,
-     "completion_tokens": 4890,
-     "total_tokens": 58686,
-     "cost": 0.00638952,
+     "prompt_tokens": 52411,
+     "completion_tokens": 4158,
+     "total_tokens": 56569,
+     "cost": 0.00584826,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 53120,
+      "cached_tokens": 50560,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.00638952,
-      "upstream_inference_prompt_cost": 0.00052152,
-      "upstream_inference_completions_cost": 0.005868
+      "upstream_inference_cost": 0.00584826,
+      "upstream_inference_prompt_cost": 0.00085866,
+      "upstream_inference_completions_cost": 0.0049896
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,

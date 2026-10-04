@@ -29,7 +29,77 @@
     {
      "type": "table",
      "ref": "T4",
-     "text_cells": {}
+     "text_cells": {
+      "piece_activity": {
+       "nota": {
+        "text": "Quattro pezzi neri ancora chiusi",
+        "source": "feature",
+        "assertions": [
+         {
+          "kind": "feature",
+          "key": "inactive_piece",
+          "side": "b",
+          "squares": [
+           "f8"
+          ]
+         }
+        ]
+       }
+      },
+      "pawn_structure": {
+       "nota": {
+        "text": "Si decide con la spinta del pedone e del Nero",
+        "source": "mixed",
+        "assertions": [
+         {
+          "kind": "category_advice",
+          "id": "pawn_structure",
+          "advice": "no_worry"
+         }
+        ]
+       }
+      },
+      "space_center": {
+       "nota": {
+        "text": "Leggera prevalenza bianca al centro",
+        "source": "feature",
+        "assertions": [
+         {
+          "kind": "feature",
+          "key": "central_control",
+          "side": null,
+          "squares": []
+         }
+        ]
+       }
+      },
+      "practical_complexity": {
+       "nota": {
+        "text": "Più mosse giocabili per entrambi",
+        "source": "mixed",
+        "assertions": [
+         {
+          "kind": "category_advice",
+          "id": "practical_complexity",
+          "advice": "monitor"
+         }
+        ]
+       }
+      },
+      "king_safety": {
+       "nota": {
+        "text": "Nessun attacco: i re non sono ancora arroccati",
+        "source": "mixed",
+        "assertions": [
+         {
+          "kind": "category_advice",
+          "id": "king_safety",
+          "advice": "no_worry"
+         }
+        ]
+       }
+      }
+     }
     },
     {
      "type": "p",

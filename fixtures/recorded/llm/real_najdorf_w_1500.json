@@ -6,7 +6,7 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "chatcmpl-tool-b6a091b4ee881375",
+     "id": "call_01a108730b02765dbb914ef7",
      "name": "submit_analysis",
      "input": {
       "schema_version": "1",
@@ -16,7 +16,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "La posizione è pari: il motore dà al Bianco un vantaggio minimo ({{ev:N1}}), e senza il tratto sarebbe pari ({{ev:N2}}). Stai bene, ma il vantaggio è solo il tratto: gioca in modo ordinato e non regalare nulla.",
+          "text": "La posizione è equilibrata: il motore dà al Bianco un vantaggio minimo ({{ev:N1}}), quindi **stai leggermente meglio, ma senza forzature**. Se toccasse al Nero sarebbe quasi pari ({{ev:N2}}): il tuo piccolo margine è il tratto. Siamo in apertura, con i pezzi ancora quasi tutti a casa.",
           "source": "engine",
           "assertions": [
            {
@@ -42,13 +42,30 @@
           "text_cells": {
            "piece_activity": {
             "nota": {
-             "text": "Qui conta di più: hai ancora due pezzi a casa ({{sc:piece_activity.R}}).",
-             "source": "mixed"
+             "text": "Il Nero ha più pezzi ancora chiusi dei tuoi",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "undeveloped_pieces",
+               "side": "b",
+               "squares": [
+                "b8",
+                "c8",
+                "f8"
+               ]
+              },
+              {
+               "kind": "category_advice",
+               "id": "piece_activity",
+               "advice": "no_worry"
+              }
+             ]
             }
            },
            "pawn_structure": {
             "nota": {
-             "text": "Struttura sana da entrambe le parti, due isole di pedoni per lato.",
+             "text": "Due isole di pedoni per parte: struttura sana",
              "source": "feature",
              "assertions": [
               {
@@ -56,13 +73,18 @@
                "key": "pawn_island_count",
                "side": "w",
                "squares": []
+              },
+              {
+               "kind": "category_advice",
+               "id": "pawn_structure",
+               "advice": "no_worry"
               }
              ]
             }
            },
            "space_center": {
             "nota": {
-             "text": "Piccolo vantaggio di centro per te.",
+             "text": "Hai più controllo centrale del Nero",
              "source": "feature",
              "assertions": [
               {
@@ -70,20 +92,32 @@
                "key": "central_control",
                "side": null,
                "squares": []
+              },
+              {
+               "kind": "category_advice",
+               "id": "space_center",
+               "advice": "no_worry"
               }
              ]
             }
            },
            "practical_complexity": {
             "nota": {
-             "text": "Tante mosse giocabili: scegli con calma ({{sc:practical_complexity.T}}).",
-             "source": "mixed"
+             "text": "Tante mosse giocabili, nessuna unica",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "practical_complexity",
+               "advice": "monitor"
+              }
+             ]
             }
            },
            "king_safety": {
             "nota": {
-             "text": "Nessun pericolo per i re.",
-             "source": "feature",
+             "text": "Nessuna linea minaccia il re",
+             "source": "mixed",
              "assertions": [
               {
                "kind": "category_advice",
@@ -97,7 +131,7 @@
          },
          {
           "type": "p",
-          "text": "Nessuna categoria è da attenzione: sviluppa i pezzi e scegli con calma tra le tante mosse giocabili.",
+          "text": "Quasi tutte le categorie sono tranquille. Conta di più attivare i pezzi (rilevanza {{sc:piece_activity.R}}): il Nero ne ha ancora tre chiusi. L'unica cosa da monitorare è la scelta tra tante mosse giocabili ({{sc:practical_complexity.T}}).",
           "source": "mixed",
           "assertions": [
            {
@@ -109,6 +143,16 @@
             "kind": "category_advice",
             "id": "practical_complexity",
             "advice": "monitor"
+           },
+           {
+            "kind": "feature",
+            "key": "undeveloped_pieces",
+            "side": "b",
+            "squares": [
+             "b8",
+             "c8",
+             "f8"
+            ]
            }
           ]
          }
@@ -121,22 +165,22 @@
           "type": "ol",
           "items": [
            {
-            "text": "**Sviluppa i pezzi**: alfiere e cavallo fermi non aiutano.",
+            "text": "**Sviluppa i pezzi**: prima gli alfieri, poi la donna se serve.",
             "source": "theory"
            },
            {
-            "text": "**Scegli il lato dell'arrocco** in base al sistema.",
+            "text": "**Arrocca presto**: il lato dipende dal sistema che scegli.",
             "source": "theory"
            },
            {
-            "text": "**Tieni protetto il pedone e4.**",
+            "text": "**Tieni protetto il pedone in e4.**",
             "source": "theory"
            }
           ]
          },
          {
           "type": "p",
-          "text": "**La mossa consigliata: {{mv:C1}}.** Il motore la valuta {{ev:C1}} e non esiste una mossa unica: anche {{mv:C2}} ({{ev:C2}}) va benissimo. Con questi sistemi il re va **a sinistra, con l'arrocco lungo**.",
+          "text": "**La mossa consigliata: {{mv:C1}}.** Il motore la valuta {{ev:C1}}, ma non c'è una mossa unica migliore: anche {{mv:C2}} ({{ev:C2}}) va benissimo e porta allo stesso piano. Con questi due sistemi il re va di solito **a sinistra, con l'arrocco lungo**.",
           "source": "mixed",
           "assertions": [
            {
@@ -148,8 +192,13 @@
          },
          {
           "type": "p",
-          "text": "**Piano semplice:** {{plan:w:f3,Be3,Qd2,O-O-O@N1}}, poi spingi i pedoni del lato di re.",
+          "text": "**Piano semplice:** {{plan:w:f3,Be3,Qd2,O-O-O@N1}}, poi spingi i pedoni del lato di re contro l'arrocco nero.",
           "source": "theory"
+         },
+         {
+          "type": "p",
+          "text": "Se preferisci arroccare **corto** e stare più tranquillo, {{mv:C6}} costa solo {{loss:C6}}: poi {{plan:w:Be2,Be3,O-O@N1}}.",
+          "source": "mixed"
          }
         ]
        },
@@ -160,19 +209,19 @@
           "type": "ul",
           "items": [
            {
-            "text": "**Cavallo d4:** sta bene al centro. Se il Nero spinge in e5, **ritiralo in b3** ({{m:Nb3@N6}}), non lasciarlo catturare.",
+            "text": "**Cavallo in d4:** sta bene al centro. Se il Nero spinge il pedone in e5 il cavallo è attaccato: **ritiralo in b3** ({{m:Nb3@N6}}), non lasciarlo catturare.",
             "source": "theory"
            },
            {
-            "text": "**Cavallo c3:** protegge e4 e controlla d5: dopo la spinta nera in e5 la casa **d5** diventa il tuo obiettivo.",
+            "text": "**Cavallo in c3:** protegge il pedone in e4 e controlla d5. Dopo la spinta nera in e5, la casa **d5** diventa un buon punto d'appoggio.",
             "source": "theory"
            },
            {
-            "text": "**Alfiere c1:** va in e3, dietro al cavallo d4.",
+            "text": "**Alfiere in c1:** va in e3, dietro al cavallo in d4.",
             "source": "theory"
            },
            {
-            "text": "**Alfiere f1:** va in e2 se arrocchi corto; con l'arrocco lungo può aspettare.",
+            "text": "**Alfiere in f1:** va in e2 se arrocchi corto; con l'arrocco lungo può aspettare.",
             "source": "theory"
            },
            {
@@ -206,7 +255,7 @@
           "type": "ul",
           "items": [
            {
-            "text": "Il Nero spinge spesso in e5 per prendersi il centro: è la risposta più frequente ({{pct:e5@N3}} contro {{mv:C1}}).",
+            "text": "Gioca {{m:e5@N3}} per prendersi il centro: è la risposta più frequente ({{pct:e5@N3}} contro {{mv:C1}}).",
             "source": "maia",
             "assertions": [
              {
@@ -217,11 +266,7 @@
             ]
            },
            {
-            "text": "Oppure gioca in e6, più elastico.",
-            "source": "theory"
-           },
-           {
-            "text": "Spesso spinge in b5 sul lato di donna per attaccare il cavallo c3.",
+            "text": "Oppure {{m:e6@N3}}, più elastico.",
             "source": "theory"
            },
            {
@@ -246,19 +291,19 @@
           "text_cells": {
            "C1": {
             "per_chi": {
-             "text": "Consigliata: piano semplice e chiaro, anche se a questo livello è poco giocata ({{pct:C1.p_user}}).",
+             "text": "Consigliata: piano semplice e chiaro, anche se a questo livello è poco giocata ({{pct:C1.p_user}})",
              "source": "maia"
             }
            },
            "C2": {
             "per_chi": {
-             "text": "Stesso piano; la sceglie il {{pct:C2.p_user}} dei giocatori del tuo livello.",
+             "text": "Stesso piano; la sceglie il {{pct:C2.p_user}} dei giocatori del tuo livello",
              "source": "maia"
             }
            },
            "C11": {
             "per_chi": {
-             "text": "La più giocata ({{pct:C11.p_user}}), ma molto teorica: meglio più avanti.",
+             "text": "La più giocata ({{pct:C11.p_user}}), ma porta a linee molto teoriche: meglio più avanti",
              "source": "maia"
             }
            }
@@ -278,7 +323,7 @@
           "type": "ul",
           "items": [
            {
-            "text": "Dopo la spinta nera in e5, **non lasciare il cavallo d4** dove il pedone può catturarlo.",
+            "text": "Dopo {{m:e5@N3}}, **non lasciare il cavallo in d4** dove il pedone può catturarlo.",
             "source": "theory"
            },
            {
@@ -286,7 +331,7 @@
             "source": "engine"
            },
            {
-            "text": "Non lasciare **e4 senza protezione**: il cavallo nero in f6 può catturarlo.",
+            "text": "Non lasciare **il pedone in e4 senza protezione**: il cavallo nero in f6 può catturarlo.",
             "source": "theory"
            },
            {
@@ -298,7 +343,7 @@
             "source": "theory"
            },
            {
-            "text": "{{mv:C11}} è la mossa più giocata al tuo livello ({{pct:C11.p_user}}): costa {{loss:C11}} rispetto alla migliore, ma è un'**alternativa pratica**, senza mosse difficili da trovare. Se la giochi, studia la risposta in e6.",
+            "text": "{{mv:C11}} è la mossa più giocata al tuo livello ({{pct:C11.p_user}}): costa {{loss:C11}} rispetto alla migliore, ma è un'**alternativa pratica**, senza mosse difficili da trovare. Se la giochi, studia la risposta {{m:e6@N5}}.",
             "source": "mixed",
             "assertions": [
              {
@@ -352,7 +397,7 @@
             "source": "theory"
            },
            {
-            "text": "Il pedone e4 è ancora protetto?",
+            "text": "Il pedone in e4 è ancora protetto?",
             "source": "theory"
            }
           ]
@@ -366,10 +411,10 @@
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 38251,
-    "completion_tokens": 2297,
-    "total_tokens": 40548,
-    "cost": 0.00631988,
+    "prompt_tokens": 38501,
+    "completion_tokens": 2616,
+    "total_tokens": 41117,
+    "cost": 0.0146895,
     "is_byok": false,
     "prompt_tokens_details": {
      "cached_tokens": 0,
@@ -378,9 +423,9 @@
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.00631988,
-     "upstream_inference_prompt_cost": 0.00535514,
-     "upstream_inference_completions_cost": 0.00096474
+     "upstream_inference_cost": 0.0146895,
+     "upstream_inference_prompt_cost": 0.0115503,
+     "upstream_inference_completions_cost": 0.0031392
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -389,266 +434,9 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791138617-WxQKQfWPWbjWt5AKc1kp",
+    "id": "gen-1791143119-Si9Id6xwQ0UT1sAylV8U",
     "object": "chat.completion",
-    "created": 1791138617,
-    "model": "deepseek/deepseek-v4.1-flash",
-    "provider": "DeepInfra",
-    "system_fingerprint": null,
-    "service_tier": "default",
-    "choices": [
-     {
-      "index": 0,
-      "logprobs": null,
-      "finish_reason": "tool_calls",
-      "native_finish_reason": "tool_calls",
-      "message": {
-       "role": "assistant",
-       "content": null,
-       "refusal": null,
-       "reasoning": null,
-       "tool_calls": [
-        {
-         "type": "function",
-         "index": 0,
-         "id": "chatcmpl-tool-b6a091b4ee881375",
-         "function": {
-          "name": "submit_analysis",
-          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"La posizione è pari: il motore dà al Bianco un vantaggio minimo ({{ev:N1}}), e senza il tratto sarebbe pari ({{ev:N2}}). Stai bene, ma il vantaggio è solo il tratto: gioca in modo ordinato e non regalare nulla.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"slight_plus\"}, {\"kind\": \"eval_band\", \"ref\": \"N2\", \"band\": \"equal\"}]}]}, {\"id\": \"S02\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T4\", \"text_cells\": {\"piece_activity\": {\"nota\": {\"text\": \"Qui conta di più: hai ancora due pezzi a casa ({{sc:piece_activity.R}}).\", \"source\": \"mixed\"}}, \"pawn_structure\": {\"nota\": {\"text\": \"Struttura sana da entrambe le parti, due isole di pedoni per lato.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"pawn_island_count\", \"side\": \"w\", \"squares\": []}]}}, \"space_center\": {\"nota\": {\"text\": \"Piccolo vantaggio di centro per te.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"central_control\", \"side\": null, \"squares\": []}]}}, \"practical_complexity\": {\"nota\": {\"text\": \"Tante mosse giocabili: scegli con calma ({{sc:practical_complexity.T}}).\", \"source\": \"mixed\"}}, \"king_safety\": {\"nota\": {\"text\": \"Nessun pericolo per i re.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"king_safety\", \"advice\": \"no_worry\"}]}}}}, {\"type\": \"p\", \"text\": \"Nessuna categoria è da attenzione: sviluppa i pezzi e scegli con calma tra le tante mosse giocabili.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"no_worry\"}, {\"kind\": \"category_advice\", \"id\": \"practical_complexity\", \"advice\": \"monitor\"}]}]}, {\"id\": \"S03\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"**Sviluppa i pezzi**: alfiere e cavallo fermi non aiutano.\", \"source\": \"theory\"}, {\"text\": \"**Scegli il lato dell'arrocco** in base al sistema.\", \"source\": \"theory\"}, {\"text\": \"**Tieni protetto il pedone e4.**\", \"source\": \"theory\"}]}, {\"type\": \"p\", \"text\": \"**La mossa consigliata: {{mv:C1}}.** Il motore la valuta {{ev:C1}} e non esiste una mossa unica: anche {{mv:C2}} ({{ev:C2}}) va benissimo. Con questi sistemi il re va **a sinistra, con l'arrocco lungo**.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"C1\", \"band\": \"slight_plus\"}]}, {\"type\": \"p\", \"text\": \"**Piano semplice:** {{plan:w:f3,Be3,Qd2,O-O-O@N1}}, poi spingi i pedoni del lato di re.\", \"source\": \"theory\"}]}, {\"id\": \"S05\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Cavallo d4:** sta bene al centro. Se il Nero spinge in e5, **ritiralo in b3** ({{m:Nb3@N6}}), non lasciarlo catturare.\", \"source\": \"theory\"}, {\"text\": \"**Cavallo c3:** protegge e4 e controlla d5: dopo la spinta nera in e5 la casa **d5** diventa il tuo obiettivo.\", \"source\": \"theory\"}, {\"text\": \"**Alfiere c1:** va in e3, dietro al cavallo d4.\", \"source\": \"theory\"}, {\"text\": \"**Alfiere f1:** va in e2 se arrocchi corto; con l'arrocco lungo può aspettare.\", \"source\": \"theory\"}, {\"text\": \"**Re:** arrocca appena possibile, dal lato del tuo sistema.\", \"source\": \"theory\"}]}, {\"type\": \"p\", \"text\": \"Oggi i tuoi due alfieri sono ancora a casa: sviluppali prima di tutto il resto.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"c1\", \"f1\"]}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"Il Nero spinge spesso in e5 per prendersi il centro: è la risposta più frequente ({{pct:e5@N3}} contro {{mv:C1}}).\", \"source\": \"maia\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"e5@N3\", \"band\": \"very_frequent\"}]}, {\"text\": \"Oppure gioca in e6, più elastico.\", \"source\": \"theory\"}, {\"text\": \"Spesso spinge in b5 sul lato di donna per attaccare il cavallo c3.\", \"source\": \"theory\"}, {\"text\": \"Contro {{mv:C2}} può saltare con il cavallo: {{m:Ng4@N4}} attacca l'alfiere ({{ev:Ng4@N4}}).\", \"source\": \"engine\"}]}, {\"type\": \"p\", \"text\": \"Quasi sempre il Nero arrocca corto: se tu arrocchi lungo, la partita diventa una corsa tra gli attacchi di pedoni sui due lati.\", \"source\": \"theory\"}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C1\": {\"per_chi\": {\"text\": \"Consigliata: piano semplice e chiaro, anche se a questo livello è poco giocata ({{pct:C1.p_user}}).\", \"source\": \"maia\"}}, \"C2\": {\"per_chi\": {\"text\": \"Stesso piano; la sceglie il {{pct:C2.p_user}} dei giocatori del tuo livello.\", \"source\": \"maia\"}}, \"C11\": {\"per_chi\": {\"text\": \"La più giocata ({{pct:C11.p_user}}), ma molto teorica: meglio più avanti.\", \"source\": \"maia\"}}}}, {\"type\": \"p\", \"text\": \"Le mosse del motore sono vicinissime: tra {{mv:C1}} e {{mv:C11}} si perdono solo {{loss:C11}}. Scegli quella di cui capisci il piano.\", \"source\": \"engine\"}]}, {\"id\": \"S08\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"Dopo la spinta nera in e5, **non lasciare il cavallo d4** dove il pedone può catturarlo.\", \"source\": \"theory\"}, {\"text\": \"La ritirata giusta è in b3: {{m:Nf5@N6}} sembra attivo ma perde {{loss:Nf5@N6}}.\", \"source\": \"engine\"}, {\"text\": \"Non lasciare **e4 senza protezione**: il cavallo nero in f6 può catturarlo.\", \"source\": \"theory\"}, {\"text\": \"Non mandare la donna a mangiare pedoni lontani: è il modo più comune di perdere tempo e pezzi.\", \"source\": \"theory\"}, {\"text\": \"Non lanciare attacchi di pedoni **prima di aver sviluppato i pezzi**.\", \"source\": \"theory\"}, {\"text\": \"{{mv:C11}} è la mossa più giocata al tuo livello ({{pct:C11.p_user}}): costa {{loss:C11}} rispetto alla migliore, ma è un'**alternativa pratica**, senza mosse difficili da trovare. Se la giochi, studia la risposta in e6.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"classification\", \"ref\": \"C11\", \"category\": \"practical_alt\"}]}]}]}, {\"id\": \"S09\", \"blocks\": [{\"type\": \"p\", \"text\": \"Nessuna minaccia nascosta: nessuna linea del motore è pericolosa al tuo livello. Anche con una mossa in più il Nero otterrebbe solo {{ev:N2}}: puoi pensare con calma al tuo piano.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N2\", \"band\": \"equal\"}]}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Cosa minaccia l'avversario con la sua ultima mossa?\", \"source\": \"theory\"}, {\"text\": \"Tutti i miei pezzi sono protetti?\", \"source\": \"theory\"}, {\"text\": \"Posso sviluppare un pezzo o arroccare?\", \"source\": \"theory\"}, {\"text\": \"C'è una cattura o uno scacco che mi conviene?\", \"source\": \"theory\"}, {\"text\": \"Il pedone e4 è ancora protetto?\", \"source\": \"theory\"}]}]}], \"notes\": []}"
-         }
-        }
-       ]
-      }
-     }
-    ],
-    "usage": {
-     "prompt_tokens": 38251,
-     "completion_tokens": 2297,
-     "total_tokens": 40548,
-     "cost": 0.00631988,
-     "is_byok": false,
-     "prompt_tokens_details": {
-      "cached_tokens": 0,
-      "cache_write_tokens": 0,
-      "audio_tokens": 0,
-      "video_tokens": 0
-     },
-     "cost_details": {
-      "upstream_inference_cost": 0.00631988,
-      "upstream_inference_prompt_cost": 0.00535514,
-      "upstream_inference_completions_cost": 0.00096474
-     },
-     "completion_tokens_details": {
-      "reasoning_tokens": 0,
-      "image_tokens": 0,
-      "audio_tokens": 0
-     }
-    }
-   }
-  },
-  {
-   "stop_reason": "tool_use",
-   "content": [
-    {
-     "type": "tool_use",
-     "id": "call_01a1082e92c8700291ddf8f0",
-     "name": "submit_analysis",
-     "input": {
-      "schema_version": "1",
-      "sections": [
-       {
-        "id": "S01",
-        "blocks": [
-         {
-          "type": "p",
-          "text": "La posizione è pari: il motore dà al Bianco un vantaggio minimo ({{ev:N1}}), e senza il tratto sarebbe pari ({{ev:N2}}). Stai bene, ma il vantaggio è solo il tratto: gioca in modo ordinato e non regalare nulla.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N1",
-            "band": "slight_plus"
-           },
-           {
-            "kind": "eval_band",
-            "ref": "N2",
-            "band": "equal"
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "id": "S02",
-        "blocks": [
-         {
-          "type": "table",
-          "ref": "T4",
-          "text_cells": {
-           "piece_activity": {
-            "nota": {
-             "text": "Qui conta di più: hai ancora due pezzi a casa ({{sc:piece_activity.R}}).",
-             "source": "mixed"
-            }
-           },
-           "pawn_structure": {
-            "nota": {
-             "text": "Struttura sana da entrambe le parti.",
-             "source": "feature",
-             "assertions": [
-              {
-               "kind": "feature",
-               "key": "pawn_island_count",
-               "side": "w",
-               "squares": []
-              }
-             ]
-            }
-           },
-           "space_center": {
-            "nota": {
-             "text": "Piccolo vantaggio di centro per te.",
-             "source": "feature",
-             "assertions": [
-              {
-               "kind": "feature",
-               "key": "central_control",
-               "side": null,
-               "squares": []
-              }
-             ]
-            }
-           },
-           "practical_complexity": {
-            "nota": {
-             "text": "Tante mosse giocabili: scegli con calma ({{sc:practical_complexity.T}}).",
-             "source": "mixed"
-            }
-           },
-           "king_safety": {
-            "nota": {
-             "text": "Nessun pericolo per i re.",
-             "source": "feature",
-             "assertions": [
-              {
-               "kind": "feature",
-               "key": "king_zone_defenders",
-               "side": "w",
-               "squares": [
-                "c1",
-                "c3",
-                "d1",
-                "d4",
-                "f1",
-                "h1"
-               ]
-              },
-              {
-               "kind": "category_advice",
-               "id": "king_safety",
-               "advice": "no_worry"
-              }
-             ]
-            }
-           }
-          }
-         },
-         {
-          "type": "p",
-          "text": "Nessuna categoria è da attenzione: sviluppa i pezzi e scegli con calma.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "category_advice",
-            "id": "piece_activity",
-            "advice": "no_worry"
-           },
-           {
-            "kind": "category_advice",
-            "id": "practical_complexity",
-            "advice": "monitor"
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "id": "S03",
-        "blocks": [
-         {
-          "type": "ol",
-          "items": [
-           {
-            "text": "**Sviluppa i pezzi**: alfiere e cavallo fermi non aiutano.",
-            "source": "theory"
-           },
-           {
-            "text": "**Scegli il lato dell'arrocco** in base al sistema.",
-            "source": "theory"
-           },
-           {
-            "text": "**Tieni protetto il pedone e4.**",
-            "source": "theory"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "**La mossa consigliata: {{mv:C1}}.** Il motore la valuta {{ev:C1}} e non esiste una mossa unica: anche {{mv:C2}} ({{ev:C2}}) va benissimo. Con questi sistemi il re va **a sinistra, con l'arrocco lungo**.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "C1",
-            "band": "slight_plus"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "**Piano semplice:** {{plan:w:f3,Be3,Qd2,O-O-O@N1}}, poi spingi i pedoni del lato di re contro l'arrocco nero. Se preferisci una posizione tranquilla, {{mv:C6}} costa solo {{loss:C6}} e puoi arroccare corto.",
-          "source": "mixed"
-         }
-        ]
-       },
-       {
-        "type": "p",
-        "text": "**Sviluppa prima i pezzi minori, poi decidi dove mettere il re.**",
-        "source": "theory"
-       }
-      ],
-      "notes": []
-     }
-    }
-   ],
-   "model": "deepseek/deepseek-v4.1-flash",
-   "usage": {
-    "prompt_tokens": 40786,
-    "completion_tokens": 1027,
-    "total_tokens": 41813,
-    "cost": 0.0134682,
-    "is_byok": false,
-    "prompt_tokens_details": {
-     "cached_tokens": 0,
-     "cache_write_tokens": 0,
-     "audio_tokens": 0,
-     "video_tokens": 0
-    },
-    "cost_details": {
-     "upstream_inference_cost": 0.0134682,
-     "upstream_inference_prompt_cost": 0.0122358,
-     "upstream_inference_completions_cost": 0.0012324
-    },
-    "completion_tokens_details": {
-     "reasoning_tokens": 0,
-     "image_tokens": 0,
-     "audio_tokens": 0
-    }
-   },
-   "provider_response": {
-    "id": "gen-1791138632-1aDmw37fxubwCJY2KAD7",
-    "object": "chat.completion",
-    "created": 1791138632,
+    "created": 1791143119,
     "model": "deepseek/deepseek-v4.1-flash",
     "provider": "Together",
     "system_fingerprint": "default",
@@ -668,10 +456,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "call_01a1082e92c8700291ddf8f0",
+         "id": "call_01a108730b02765dbb914ef7",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"La posizione è pari: il motore dà al Bianco un vantaggio minimo ({{ev:N1}}), e senza il tratto sarebbe pari ({{ev:N2}}). Stai bene, ma il vantaggio è solo il tratto: gioca in modo ordinato e non regalare nulla.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"},{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]}]},{\"id\":\"S02\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T4\",\"text_cells\":{\"piece_activity\":{\"nota\":{\"text\":\"Qui conta di più: hai ancora due pezzi a casa ({{sc:piece_activity.R}}).\",\"source\":\"mixed\"}},\"pawn_structure\":{\"nota\":{\"text\":\"Struttura sana da entrambe le parti.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"w\",\"squares\":[]}]}},\"space_center\":{\"nota\":{\"text\":\"Piccolo vantaggio di centro per te.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"central_control\",\"side\":null,\"squares\":[]}]}},\"practical_complexity\":{\"nota\":{\"text\":\"Tante mosse giocabili: scegli con calma ({{sc:practical_complexity.T}}).\",\"source\":\"mixed\"}},\"king_safety\":{\"nota\":{\"text\":\"Nessun pericolo per i re.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"king_zone_defenders\",\"side\":\"w\",\"squares\":[\"c1\",\"c3\",\"d1\",\"d4\",\"f1\",\"h1\"]},{\"kind\":\"category_advice\",\"id\":\"king_safety\",\"advice\":\"no_worry\"}]}}}},{\"type\":\"p\",\"text\":\"Nessuna categoria è da attenzione: sviluppa i pezzi e scegli con calma.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"},{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"}]}]},{\"id\":\"S03\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Sviluppa i pezzi**: alfiere e cavallo fermi non aiutano.\",\"source\":\"theory\"},{\"text\":\"**Scegli il lato dell'arrocco** in base al sistema.\",\"source\":\"theory\"},{\"text\":\"**Tieni protetto il pedone e4.**\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"**La mossa consigliata: {{mv:C1}}.** Il motore la valuta {{ev:C1}} e non esiste una mossa unica: anche {{mv:C2}} ({{ev:C2}}) va benissimo. Con questi sistemi il re va **a sinistra, con l'arrocco lungo**.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"C1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"**Piano semplice:** {{plan:w:f3,Be3,Qd2,O-O-O@N1}}, poi spingi i pedoni del lato di re contro l'arrocco nero. Se preferisci una posizione tranquilla, {{mv:C6}} costa solo {{loss:C6}} e puoi arroccare corto.\",\"source\":\"mixed\"}]},{\"type\":\"p\",\"text\":\"**Sviluppa prima i pezzi minori, poi decidi dove mettere il re.**\",\"source\":\"theory\"}],\"notes\":[]}"
+          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"La posizione è equilibrata: il motore dà al Bianco un vantaggio minimo ({{ev:N1}}), quindi **stai leggermente meglio, ma senza forzature**. Se toccasse al Nero sarebbe quasi pari ({{ev:N2}}): il tuo piccolo margine è il tratto. Siamo in apertura, con i pezzi ancora quasi tutti a casa.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"},{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]}]},{\"id\":\"S02\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T4\",\"text_cells\":{\"piece_activity\":{\"nota\":{\"text\":\"Il Nero ha più pezzi ancora chiusi dei tuoi\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]},{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"}]}},\"pawn_structure\":{\"nota\":{\"text\":\"Due isole di pedoni per parte: struttura sana\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"pawn_island_count\",\"side\":\"w\",\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"pawn_structure\",\"advice\":\"no_worry\"}]}},\"space_center\":{\"nota\":{\"text\":\"Hai più controllo centrale del Nero\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"central_control\",\"side\":null,\"squares\":[]},{\"kind\":\"category_advice\",\"id\":\"space_center\",\"advice\":\"no_worry\"}]}},\"practical_complexity\":{\"nota\":{\"text\":\"Tante mosse giocabili, nessuna unica\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"}]}},\"king_safety\":{\"nota\":{\"text\":\"Nessuna linea minaccia il re\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"king_safety\",\"advice\":\"no_worry\"}]}}}},{\"type\":\"p\",\"text\":\"Quasi tutte le categorie sono tranquille. Conta di più attivare i pezzi (rilevanza {{sc:piece_activity.R}}): il Nero ne ha ancora tre chiusi. L'unica cosa da monitorare è la scelta tra tante mosse giocabili ({{sc:practical_complexity.T}}).\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"category_advice\",\"id\":\"piece_activity\",\"advice\":\"no_worry\"},{\"kind\":\"category_advice\",\"id\":\"practical_complexity\",\"advice\":\"monitor\"},{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]}]}]},{\"id\":\"S03\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Sviluppa i pezzi**: prima gli alfieri, poi la donna se serve.\",\"source\":\"theory\"},{\"text\":\"**Arrocca presto**: il lato dipende dal sistema che scegli.\",\"source\":\"theory\"},{\"text\":\"**Tieni protetto il pedone in e4.**\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"**La mossa consigliata: {{mv:C1}}.** Il motore la valuta {{ev:C1}}, ma non c'è una mossa unica migliore: anche {{mv:C2}} ({{ev:C2}}) va benissimo e porta allo stesso piano. Con questi due sistemi il re va di solito **a sinistra, con l'arrocco lungo**.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"C1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"**Piano semplice:** {{plan:w:f3,Be3,Qd2,O-O-O@N1}}, poi spingi i pedoni del lato di re contro l'arrocco nero.\",\"source\":\"theory\"},{\"type\":\"p\",\"text\":\"Se preferisci arroccare **corto** e stare più tranquillo, {{mv:C6}} costa solo {{loss:C6}}: poi {{plan:w:Be2,Be3,O-O@N1}}.\",\"source\":\"mixed\"}]},{\"id\":\"S05\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"**Cavallo in d4:** sta bene al centro. Se il Nero spinge il pedone in e5 il cavallo è attaccato: **ritiralo in b3** ({{m:Nb3@N6}}), non lasciarlo catturare.\",\"source\":\"theory\"},{\"text\":\"**Cavallo in c3:** protegge il pedone in e4 e controlla d5. Dopo la spinta nera in e5, la casa **d5** diventa un buon punto d'appoggio.\",\"source\":\"theory\"},{\"text\":\"**Alfiere in c1:** va in e3, dietro al cavallo in d4.\",\"source\":\"theory\"},{\"text\":\"**Alfiere in f1:** va in e2 se arrocchi corto; con l'arrocco lungo può aspettare.\",\"source\":\"theory\"},{\"text\":\"**Re:** arrocca appena possibile, dal lato del tuo sistema.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Oggi i tuoi due alfieri sono ancora a casa: sviluppali prima di tutto il resto.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"w\",\"squares\":[\"c1\",\"f1\"]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"Gioca {{m:e5@N3}} per prendersi il centro: è la risposta più frequente ({{pct:e5@N3}} contro {{mv:C1}}).\",\"source\":\"maia\",\"assertions\":[{\"kind\":\"maia_band\",\"ref\":\"e5@N3\",\"band\":\"very_frequent\"}]},{\"text\":\"Oppure {{m:e6@N3}}, più elastico.\",\"source\":\"theory\"},{\"text\":\"Contro {{mv:C2}} può saltare con il cavallo: {{m:Ng4@N4}} attacca l'alfiere ({{ev:Ng4@N4}}).\",\"source\":\"engine\"}]},{\"type\":\"p\",\"text\":\"Quasi sempre il Nero arrocca corto: se tu arrocchi lungo, la partita diventa una corsa tra gli attacchi di pedoni sui due lati.\",\"source\":\"theory\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C1\":{\"per_chi\":{\"text\":\"Consigliata: piano semplice e chiaro, anche se a questo livello è poco giocata ({{pct:C1.p_user}})\",\"source\":\"maia\"}},\"C2\":{\"per_chi\":{\"text\":\"Stesso piano; la sceglie il {{pct:C2.p_user}} dei giocatori del tuo livello\",\"source\":\"maia\"}},\"C11\":{\"per_chi\":{\"text\":\"La più giocata ({{pct:C11.p_user}}), ma porta a linee molto teoriche: meglio più avanti\",\"source\":\"maia\"}}}},{\"type\":\"p\",\"text\":\"Le mosse del motore sono vicinissime: tra {{mv:C1}} e {{mv:C11}} si perdono solo {{loss:C11}}. Scegli quella di cui capisci il piano.\",\"source\":\"engine\"}]},{\"id\":\"S08\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"Dopo {{m:e5@N3}}, **non lasciare il cavallo in d4** dove il pedone può catturarlo.\",\"source\":\"theory\"},{\"text\":\"La ritirata giusta è in b3: {{m:Nf5@N6}} sembra attivo ma perde {{loss:Nf5@N6}}.\",\"source\":\"engine\"},{\"text\":\"Non lasciare **il pedone in e4 senza protezione**: il cavallo nero in f6 può catturarlo.\",\"source\":\"theory\"},{\"text\":\"Non mandare la donna a mangiare pedoni lontani: è il modo più comune di perdere tempo e pezzi.\",\"source\":\"theory\"},{\"text\":\"Non lanciare attacchi di pedoni **prima di aver sviluppato i pezzi**.\",\"source\":\"theory\"},{\"text\":\"{{mv:C11}} è la mossa più giocata al tuo livello ({{pct:C11.p_user}}): costa {{loss:C11}} rispetto alla migliore, ma è un'**alternativa pratica**, senza mosse difficili da trovare. Se la giochi, studia la risposta {{m:e6@N5}}.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C11\",\"category\":\"practical_alt\"}]}]}]},{\"id\":\"S09\",\"blocks\":[{\"type\":\"p\",\"text\":\"Nessuna minaccia nascosta: nessuna linea del motore è pericolosa al tuo livello. Anche con una mossa in più il Nero otterrebbe solo {{ev:N2}}: puoi pensare con calma al tuo piano.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"Cosa minaccia l'avversario con la sua ultima mossa?\",\"source\":\"theory\"},{\"text\":\"Tutti i miei pezzi sono protetti?\",\"source\":\"theory\"},{\"text\":\"Posso sviluppare un pezzo o arroccare?\",\"source\":\"theory\"},{\"text\":\"C'è una cattura o uno scacco che mi conviene?\",\"source\":\"theory\"},{\"text\":\"Il pedone in e4 è ancora protetto?\",\"source\":\"theory\"}]}]}],\"notes\":[]}"
          }
         }
        ]
@@ -679,10 +467,10 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 40786,
-     "completion_tokens": 1027,
-     "total_tokens": 41813,
-     "cost": 0.0134682,
+     "prompt_tokens": 38501,
+     "completion_tokens": 2616,
+     "total_tokens": 41117,
+     "cost": 0.0146895,
      "is_byok": false,
      "prompt_tokens_details": {
       "cached_tokens": 0,
@@ -691,9 +479,9 @@
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.0134682,
-      "upstream_inference_prompt_cost": 0.0122358,
-      "upstream_inference_completions_cost": 0.0012324
+      "upstream_inference_cost": 0.0146895,
+      "upstream_inference_prompt_cost": 0.0115503,
+      "upstream_inference_completions_cost": 0.0031392
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,
@@ -708,399 +496,426 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "chatcmpl-tool-96b8f8a9f79755a7",
+     "id": "chatcmpl-tool-b6674604d56c6af8",
      "name": "submit_analysis",
      "input": {
+      "notes": [],
       "schema_version": "1",
       "sections": [
        {
-        "id": "S01",
         "blocks": [
          {
-          "type": "p",
-          "text": "La posizione è pari: il motore dà al Bianco un vantaggio minimo ({{ev:N1}}), e senza il tratto sarebbe pari ({{ev:N2}}). Stai bene, ma il vantaggio è solo il tratto: gioca in modo ordinato e non regalare nulla.",
-          "source": "engine",
           "assertions": [
            {
+            "band": "slight_plus",
             "kind": "eval_band",
-            "ref": "N1",
-            "band": "slight_plus"
+            "ref": "N1"
            },
            {
+            "band": "equal",
             "kind": "eval_band",
-            "ref": "N2",
-            "band": "equal"
+            "ref": "N2"
            }
-          ]
+          ],
+          "source": "engine",
+          "text": "La posizione è equilibrata: il motore dà al Bianco un vantaggio minimo ({{ev:N1}}), quindi **stai leggermente meglio, ma senza forzature**. Se toccasse al Nero sarebbe quasi pari ({{ev:N2}}): il tuo piccolo margine è il tratto. Siamo in apertura, con i pezzi ancora quasi tutti a casa.",
+          "type": "p"
          }
-        ]
+        ],
+        "id": "S01"
        },
        {
-        "id": "S02",
         "blocks": [
          {
-          "type": "table",
           "ref": "T4",
           "text_cells": {
-           "piece_activity": {
+           "king_safety": {
             "nota": {
-             "text": "Qui conta di più: hai ancora due pezzi a casa ({{sc:piece_activity.R}}).",
-             "source": "mixed"
+             "assertions": [
+              {
+               "advice": "no_worry",
+               "id": "king_safety",
+               "kind": "category_advice"
+              }
+             ],
+             "source": "mixed",
+             "text": "Nessuna linea minaccia il re"
             }
            },
            "pawn_structure": {
             "nota": {
-             "text": "Struttura sana da entrambe le parti.",
-             "source": "feature",
              "assertions": [
               {
-               "kind": "feature",
                "key": "pawn_island_count",
+               "kind": "feature",
                "side": "w",
                "squares": []
+              },
+              {
+               "advice": "no_worry",
+               "id": "pawn_structure",
+               "kind": "category_advice"
               }
-             ]
+             ],
+             "source": "feature",
+             "text": "Due isole di pedoni per parte: struttura sana"
             }
            },
-           "space_center": {
+           "piece_activity": {
             "nota": {
-             "text": "Piccolo vantaggio di centro per te.",
-             "source": "feature",
              "assertions": [
               {
+               "key": "undeveloped_pieces",
                "kind": "feature",
-               "key": "central_control",
-               "side": null,
-               "squares": []
+               "side": "b",
+               "squares": [
+                "b8",
+                "c8",
+                "f8"
+               ]
+              },
+              {
+               "advice": "no_worry",
+               "id": "piece_activity",
+               "kind": "category_advice"
               }
-             ]
+             ],
+             "source": "feature",
+             "text": "Il Nero ha più pezzi ancora chiusi dei tuoi"
             }
            },
            "practical_complexity": {
             "nota": {
-             "text": "Tante mosse giocabili: scegli con calma ({{sc:practical_complexity.T}}).",
-             "source": "mixed"
-            }
-           },
-           "king_safety": {
-            "nota": {
-             "text": "Nessun pericolo per i re.",
-             "source": "feature",
              "assertions": [
               {
+               "advice": "monitor",
+               "id": "practical_complexity",
+               "kind": "category_advice"
+              }
+             ],
+             "source": "mixed",
+             "text": "Tante mosse giocabili, nessuna unica"
+            }
+           },
+           "space_center": {
+            "nota": {
+             "assertions": [
+              {
+               "key": "central_control",
                "kind": "feature",
-               "key": "king_zone_defenders",
-               "side": "w",
-               "squares": [
-                "c1",
-                "c3",
-                "d1",
-                "d4",
-                "f1",
-                "h1"
-               ]
+               "side": null,
+               "squares": []
               },
               {
-               "kind": "category_advice",
-               "id": "king_safety",
-               "advice": "no_worry"
+               "advice": "no_worry",
+               "id": "space_center",
+               "kind": "category_advice"
               }
-             ]
+             ],
+             "source": "feature",
+             "text": "Hai più controllo centrale del Nero"
             }
            }
-          }
+          },
+          "type": "table"
          },
          {
-          "type": "p",
-          "text": "Nessuna categoria è da attenzione: sviluppa i pezzi e scegli con calma.",
-          "source": "mixed",
           "assertions": [
            {
-            "kind": "category_advice",
+            "advice": "no_worry",
             "id": "piece_activity",
-            "advice": "no_worry"
+            "kind": "category_advice"
            },
            {
-            "kind": "category_advice",
+            "advice": "monitor",
             "id": "practical_complexity",
-            "advice": "monitor"
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "id": "S03",
-        "blocks": [
-         {
-          "type": "ol",
-          "items": [
-           {
-            "text": "**Sviluppa i pezzi**: alfiere e cavallo fermi non aiutano.",
-            "source": "theory"
+            "kind": "category_advice"
            },
            {
-            "text": "**Scegli il lato dell'arrocco** in base al sistema.",
-            "source": "theory"
-           },
-           {
-            "text": "**Tieni protetto il pedone e4.**",
-            "source": "theory"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "**La mossa consigliata: {{mv:C1}}.** Il motore la valuta {{ev:C1}} e non esiste una mossa unica: anche {{mv:C2}} ({{ev:C2}}) va benissimo. Con questi sistemi il re va **a sinistra, con l'arrocco lungo**.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "C1",
-            "band": "slight_plus"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "**Piano semplice:** {{plan:w:f3,Be3,Qd2,O-O-O@N1}}, poi spingi i pedoni del lato di re contro l'arrocco nero. Se preferisci una posizione tranquilla, {{mv:C6}} costa solo {{loss:C6}} e puoi arroccare corto.",
-          "source": "mixed"
-         },
-         {
-          "type": "p",
-          "text": "**Sviluppa prima i pezzi minori, poi decidi dove mettere il re.**",
-          "source": "theory"
-         }
-        ]
-       },
-       {
-        "id": "S05",
-        "blocks": [
-         {
-          "type": "ul",
-          "items": [
-           {
-            "text": "**Cavallo d4:** sta bene al centro. Se il Nero spinge in e5, **ritiralo in b3** ({{m:Nb3@N6}}), non lasciarlo catturare.",
-            "source": "theory"
-           },
-           {
-            "text": "**Cavallo c3:** protegge e4 e controlla d5: dopo la spinta nera in e5 la casa **d5** diventa il tuo obiettivo.",
-            "source": "theory"
-           },
-           {
-            "text": "**Alfiere c1:** va in e3, dietro al cavallo d4.",
-            "source": "theory"
-           },
-           {
-            "text": "**Alfiere f1:** va in e2 se arrocchi corto; con l'arrocco lungo può aspettare.",
-            "source": "theory"
-           },
-           {
-            "text": "**Re:** arrocca appena possibile, dal lato del tuo sistema.",
-            "source": "theory"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Oggi i tuoi due alfieri sono ancora a casa: sviluppali prima di tutto il resto.",
-          "source": "feature",
-          "assertions": [
-           {
-            "kind": "feature",
             "key": "undeveloped_pieces",
+            "kind": "feature",
+            "side": "b",
+            "squares": [
+             "b8",
+             "c8",
+             "f8"
+            ]
+           }
+          ],
+          "source": "mixed",
+          "text": "Quasi tutte le categorie sono tranquille. Conta di più attivare i pezzi (rilevanza {{sc:piece_activity.R}}): il Nero ne ha ancora tre chiusi. L'unica cosa da monitorare è la scelta tra tante mosse giocabili ({{sc:practical_complexity.T}}).",
+          "type": "p"
+         }
+        ],
+        "id": "S02"
+       },
+       {
+        "blocks": [
+         {
+          "items": [
+           {
+            "source": "theory",
+            "text": "**Sviluppa i pezzi**: prima gli alfieri, poi la donna se serve."
+           },
+           {
+            "source": "theory",
+            "text": "**Arrocca presto**: il lato dipende dal sistema che scegli."
+           },
+           {
+            "source": "theory",
+            "text": "**Tieni protetto il pedone in e4.**"
+           }
+          ],
+          "type": "ol"
+         },
+         {
+          "assertions": [
+           {
+            "band": "slight_plus",
+            "kind": "eval_band",
+            "ref": "C1"
+           }
+          ],
+          "source": "mixed",
+          "text": "**La mossa consigliata: {{mv:C1}}.** Il motore la valuta {{ev:C1}}, ma non c'è una mossa unica migliore: anche {{mv:C2}} ({{ev:C2}}) va benissimo e porta allo stesso piano. Con questi due sistemi il re va di solito **a sinistra, con l'arrocco lungo**.",
+          "type": "p"
+         },
+         {
+          "source": "theory",
+          "text": "**Piano semplice:** {{plan:w:f3,Be3,Qd2,O-O-O@N1}}, poi spingi i pedoni del lato di re contro l'arrocco nero.",
+          "type": "p"
+         },
+         {
+          "source": "mixed",
+          "text": "Se preferisci arroccare **corto** e stare più tranquillo, {{mv:C6}} costa solo {{loss:C6}}: poi {{plan:w:Be2,Be3,O-O@N1}}.",
+          "type": "p"
+         }
+        ],
+        "id": "S03"
+       },
+       {
+        "blocks": [
+         {
+          "items": [
+           {
+            "source": "theory",
+            "text": "**Cavallo in d4:** sta bene al centro. Se il Nero spinge il pedone in e5 il cavallo è attaccato: **ritiralo in b3** ({{m:Nb3@N6}}), non lasciarlo catturare."
+           },
+           {
+            "source": "theory",
+            "text": "**Cavallo in c3:** protegge il pedone in e4 e controlla d5. Dopo la spinta nera in e5, la casa **d5** diventa un buon punto d'appoggio."
+           },
+           {
+            "source": "theory",
+            "text": "**Alfiere in c1:** va in e3, dietro al cavallo in d4."
+           },
+           {
+            "source": "theory",
+            "text": "**Alfiere in f1:** va in e2 se arrochi corto; con l'arrocco lungo può aspettare."
+           },
+           {
+            "source": "theory",
+            "text": "**Re:** arrocca appena possibile, dal lato del tuo sistema."
+           }
+          ],
+          "type": "ul"
+         },
+         {
+          "assertions": [
+           {
+            "key": "undeveloped_pieces",
+            "kind": "feature",
             "side": "w",
             "squares": [
              "c1",
              "f1"
             ]
            }
-          ]
+          ],
+          "source": "feature",
+          "text": "Oggi i tuoi due alfieri sono ancora a casa: sviluppali prima di tutto il resto.",
+          "type": "p"
          }
-        ]
+        ],
+        "id": "S05"
        },
        {
-        "id": "S06",
         "blocks": [
          {
-          "type": "ul",
           "items": [
            {
-            "text": "Il Nero spinge spesso in e5 per prendersi il centro: è la risposta più frequente ({{pct:e5@N3}} contro {{mv:C1}}).",
-            "source": "maia",
             "assertions": [
              {
+              "band": "very_frequent",
               "kind": "maia_band",
-              "ref": "e5@N3",
-              "band": "very_frequent"
+              "ref": "e5@N3"
              }
-            ]
+            ],
+            "source": "maia",
+            "text": "Gioca {{m:e5@N3}} per prendersi il centro: è la risposta più frequente ({{pct:e5@N3}} contro {{mv:C1}})."
            },
            {
-            "text": "Oppure gioca in e6, più elastico.",
-            "source": "theory"
+            "source": "theory",
+            "text": "Oppure {{m:e6@N3}}, più elastico."
            },
            {
-            "text": "Spesso spinge in b5 sul lato di donna per attaccare il cavallo c3.",
-            "source": "theory"
-           },
-           {
-            "text": "Contro {{mv:C2}} può saltare con il cavallo: {{m:Ng4@N4}} attacca l'alfiere ({{ev:Ng4@N4}}).",
-            "source": "engine"
+            "source": "engine",
+            "text": "Contro {{mv:C2}} può saltare con il cavallo: {{m:Ng4@N4}} attacca l'alfiere ({{ev:Ng4@N4}})."
            }
-          ]
+          ],
+          "type": "ul"
          },
          {
-          "type": "p",
-          "text": "Quasi sempre il Nero arrocca corto: se tu arrocchi lungo, la partita diventa una corsa tra gli attacchi di pedoni sui due lati.",
-          "source": "theory"
+          "source": "theory",
+          "text": "Quasi sempre il Nero arrocca corto: se tu arrochi lungo, la partita diventa una corsa tra gli attacchi di pedoni sui due lati.",
+          "type": "p"
          }
-        ]
+        ],
+        "id": "S06"
        },
        {
-        "id": "S07",
         "blocks": [
          {
-          "type": "table",
           "ref": "T1",
           "text_cells": {
            "C1": {
             "per_chi": {
-             "text": "Consigliata: piano semplice e chiaro, anche se a questo livello è poco giocata ({{pct:C1.p_user}}).",
-             "source": "maia"
-            }
-           },
-           "C2": {
-            "per_chi": {
-             "text": "Stesso piano; la sceglie il {{pct:C2.p_user}} dei giocatori del tuo livello.",
-             "source": "maia"
+             "source": "maia",
+             "text": "Consigliata: piano semplice e chiaro, anche se a questo livello è poco giocata ({{pct:C1.p_user}})"
             }
            },
            "C11": {
             "per_chi": {
-             "text": "La più giocata ({{pct:C11.p_user}}), ma molto teorica: meglio più avanti.",
-             "source": "maia"
+             "source": "maia",
+             "text": "La più giocata ({{pct:C11.p_user}}), ma porta a linee molto teoriche: meglio più avanti"
+            }
+           },
+           "C2": {
+            "per_chi": {
+             "source": "maia",
+             "text": "Stesso piano; la sceglie il {{pct:C2.p_user}} dei giocatori del tuo livello"
             }
            }
-          }
+          },
+          "type": "table"
          },
          {
-          "type": "p",
+          "source": "engine",
           "text": "Le mosse del motore sono vicinissime: tra {{mv:C1}} e {{mv:C11}} si perdono solo {{loss:C11}}. Scegli quella di cui capisci il piano.",
-          "source": "engine"
+          "type": "p"
          }
-        ]
+        ],
+        "id": "S07"
        },
        {
-        "id": "S08",
         "blocks": [
          {
-          "type": "ul",
           "items": [
            {
-            "text": "Dopo la spinta nera in e5, **non lasciare il cavallo d4** dove il pedone può catturarlo.",
-            "source": "theory"
+            "source": "theory",
+            "text": "Dopo {{m:e5@N3}}, **non lasciare il cavallo in d4** dove il pedone può catturarlo."
            },
            {
-            "text": "La ritirata giusta è in b3: {{m:Nf5@N6}} sembra attivo ma perde {{loss:Nf5@N6}}.",
-            "source": "engine"
+            "source": "engine",
+            "text": "La ritirata giusta è in b3: {{m:Nf5@N6}} sembra attivo ma perde {{loss:Nf5@N6}}."
            },
            {
-            "text": "Non lasciare **e4 senza protezione**: il cavallo nero in f6 può catturarlo.",
-            "source": "theory"
+            "source": "theory",
+            "text": "Non lasciare **il pedone in e4 senza protezione**: il cavallo nero in f6 può catturarlo."
            },
            {
-            "text": "Non mandare la donna a mangiare pedoni lontani: è il modo più comune di perdere tempo e pezzi.",
-            "source": "theory"
+            "source": "theory",
+            "text": "Non mandare la donna a mangiare pedoni lontani: è il modo più comune di perdere tempo e pezzi."
            },
            {
-            "text": "Non lanciare attacchi di pedoni **prima di aver sviluppato i pezzi**.",
-            "source": "theory"
+            "source": "theory",
+            "text": "Non lanciare attacchi di pedoni **prima di aver sviluppato i pezzi**."
            },
            {
-            "text": "{{mv:C11}} è la più giocata al tuo livello ({{pct:C11.p_user}}): costa {{loss:C11}}, ma è un'**alternativa pratica**. Se la giochi, studia la risposta in e6.",
-            "source": "mixed",
             "assertions": [
              {
+              "category": "practical_alt",
               "kind": "classification",
-              "ref": "C11",
-              "category": "practical_alt"
+              "ref": "C11"
              }
-            ]
+            ],
+            "source": "mixed",
+            "text": "{{mv:C11}} è la mossa più giocata al tuo livello ({{pct:C11.p_user}}): costa {{loss:C11}} rispetto alla migliore, ma è un'**alternativa pratica**. Se la giochi, studia la risposta {{m:e6@N5}}."
            }
-          ]
+          ],
+          "type": "ul"
          }
-        ]
+        ],
+        "id": "S08"
        },
        {
-        "id": "S09",
         "blocks": [
          {
-          "type": "p",
-          "text": "Nessuna minaccia nascosta: nessuna linea del motore è pericolosa al tuo livello. Anche con una mossa in più il Nero otterrebbe solo {{ev:N2}}: puoi pensare con calma al tuo piano.",
-          "source": "engine",
           "assertions": [
            {
+            "band": "equal",
             "kind": "eval_band",
-            "ref": "N2",
-            "band": "equal"
+            "ref": "N2"
            }
-          ]
+          ],
+          "source": "engine",
+          "text": "Nessuna minaccia nascosta: nessuna linea del motore è pericolosa al tuo livello. Anche con una mossa in più il Nero otterrebbe solo {{ev:N2}}: puoi pensare con calma al tuo piano.",
+          "type": "p"
          }
-        ]
+        ],
+        "id": "S09"
        },
        {
-        "id": "S10",
         "blocks": [
          {
-          "type": "ol",
           "items": [
            {
-            "text": "Cosa minaccia l'avversario con la sua ultima mossa?",
-            "source": "theory"
+            "source": "theory",
+            "text": "Cosa minaccia l'avversario con la sua ultima mossa?"
            },
            {
-            "text": "Tutti i miei pezzi sono protetti?",
-            "source": "theory"
+            "source": "theory",
+            "text": "Tutti i miei pezzi sono protetti?"
            },
            {
-            "text": "Posso sviluppare un pezzo o arroccare?",
-            "source": "theory"
+            "source": "theory",
+            "text": "Posso sviluppare un pezzo o arroccare?"
            },
            {
-            "text": "C'è una cattura o uno scacco che mi conviene?",
-            "source": "theory"
+            "source": "theory",
+            "text": "C'è una cattura o uno scacco che mi conviene?"
            },
            {
-            "text": "Il pedone e4 è ancora protetto?",
-            "source": "theory"
+            "source": "theory",
+            "text": "Il pedone in e4 è ancora protetto?"
            }
-          ]
+          ],
+          "type": "ol"
          }
-        ]
+        ],
+        "id": "S10"
        }
-      ],
-      "notes": []
+      ]
      }
     }
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 42102,
-    "completion_tokens": 2390,
-    "total_tokens": 44492,
-    "cost": 0.01411604,
+    "prompt_tokens": 41203,
+    "completion_tokens": 2615,
+    "total_tokens": 43818,
+    "cost": 0.006692896,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 0,
+     "cached_tokens": 1280,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.01411604,
-     "upstream_inference_prompt_cost": 0.01136754,
-     "upstream_inference_completions_cost": 0.0027485
+     "upstream_inference_cost": 0.006692896,
+     "upstream_inference_prompt_cost": 0.005594596,
+     "upstream_inference_completions_cost": 0.0010983
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -1109,19 +924,19 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791138636-ihlJY4idEe0FQqL2cv7o",
+    "id": "gen-1791143126-0BHP2FkrJwMNIutIkHTW",
     "object": "chat.completion",
-    "created": 1791138636,
+    "created": 1791143126,
     "model": "deepseek/deepseek-v4.1-flash",
-    "provider": "Makora",
+    "provider": "DeepInfra",
     "system_fingerprint": null,
-    "service_tier": null,
+    "service_tier": "default",
     "choices": [
      {
       "index": 0,
       "logprobs": null,
       "finish_reason": "tool_calls",
-      "native_finish_reason": "stop",
+      "native_finish_reason": "tool_calls",
       "message": {
        "role": "assistant",
        "content": null,
@@ -1131,10 +946,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "chatcmpl-tool-96b8f8a9f79755a7",
+         "id": "chatcmpl-tool-b6674604d56c6af8",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"La posizione è pari: il motore dà al Bianco un vantaggio minimo ({{ev:N1}}), e senza il tratto sarebbe pari ({{ev:N2}}). Stai bene, ma il vantaggio è solo il tratto: gioca in modo ordinato e non regalare nulla.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"slight_plus\"}, {\"kind\": \"eval_band\", \"ref\": \"N2\", \"band\": \"equal\"}]}]}, {\"id\": \"S02\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T4\", \"text_cells\": {\"piece_activity\": {\"nota\": {\"text\": \"Qui conta di più: hai ancora due pezzi a casa ({{sc:piece_activity.R}}).\", \"source\": \"mixed\"}}, \"pawn_structure\": {\"nota\": {\"text\": \"Struttura sana da entrambe le parti.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"pawn_island_count\", \"side\": \"w\", \"squares\": []}]}}, \"space_center\": {\"nota\": {\"text\": \"Piccolo vantaggio di centro per te.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"central_control\", \"side\": null, \"squares\": []}]}}, \"practical_complexity\": {\"nota\": {\"text\": \"Tante mosse giocabili: scegli con calma ({{sc:practical_complexity.T}}).\", \"source\": \"mixed\"}}, \"king_safety\": {\"nota\": {\"text\": \"Nessun pericolo per i re.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"king_zone_defenders\", \"side\": \"w\", \"squares\": [\"c1\", \"c3\", \"d1\", \"d4\", \"f1\", \"h1\"]}, {\"kind\": \"category_advice\", \"id\": \"king_safety\", \"advice\": \"no_worry\"}]}}}}, {\"type\": \"p\", \"text\": \"Nessuna categoria è da attenzione: sviluppa i pezzi e scegli con calma.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"no_worry\"}, {\"kind\": \"category_advice\", \"id\": \"practical_complexity\", \"advice\": \"monitor\"}]}]}, {\"id\": \"S03\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"**Sviluppa i pezzi**: alfiere e cavallo fermi non aiutano.\", \"source\": \"theory\"}, {\"text\": \"**Scegli il lato dell'arrocco** in base al sistema.\", \"source\": \"theory\"}, {\"text\": \"**Tieni protetto il pedone e4.**\", \"source\": \"theory\"}]}, {\"type\": \"p\", \"text\": \"**La mossa consigliata: {{mv:C1}}.** Il motore la valuta {{ev:C1}} e non esiste una mossa unica: anche {{mv:C2}} ({{ev:C2}}) va benissimo. Con questi sistemi il re va **a sinistra, con l'arrocco lungo**.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"C1\", \"band\": \"slight_plus\"}]}, {\"type\": \"p\", \"text\": \"**Piano semplice:** {{plan:w:f3,Be3,Qd2,O-O-O@N1}}, poi spingi i pedoni del lato di re contro l'arrocco nero. Se preferisci una posizione tranquilla, {{mv:C6}} costa solo {{loss:C6}} e puoi arroccare corto.\", \"source\": \"mixed\"}, {\"type\": \"p\", \"text\": \"**Sviluppa prima i pezzi minori, poi decidi dove mettere il re.**\", \"source\": \"theory\"}]}, {\"id\": \"S05\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Cavallo d4:** sta bene al centro. Se il Nero spinge in e5, **ritiralo in b3** ({{m:Nb3@N6}}), non lasciarlo catturare.\", \"source\": \"theory\"}, {\"text\": \"**Cavallo c3:** protegge e4 e controlla d5: dopo la spinta nera in e5 la casa **d5** diventa il tuo obiettivo.\", \"source\": \"theory\"}, {\"text\": \"**Alfiere c1:** va in e3, dietro al cavallo d4.\", \"source\": \"theory\"}, {\"text\": \"**Alfiere f1:** va in e2 se arrocchi corto; con l'arrocco lungo può aspettare.\", \"source\": \"theory\"}, {\"text\": \"**Re:** arrocca appena possibile, dal lato del tuo sistema.\", \"source\": \"theory\"}]}, {\"type\": \"p\", \"text\": \"Oggi i tuoi due alfieri sono ancora a casa: sviluppali prima di tutto il resto.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"c1\", \"f1\"]}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"Il Nero spinge spesso in e5 per prendersi il centro: è la risposta più frequente ({{pct:e5@N3}} contro {{mv:C1}}).\", \"source\": \"maia\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"e5@N3\", \"band\": \"very_frequent\"}]}, {\"text\": \"Oppure gioca in e6, più elastico.\", \"source\": \"theory\"}, {\"text\": \"Spesso spinge in b5 sul lato di donna per attaccare il cavallo c3.\", \"source\": \"theory\"}, {\"text\": \"Contro {{mv:C2}} può saltare con il cavallo: {{m:Ng4@N4}} attacca l'alfiere ({{ev:Ng4@N4}}).\", \"source\": \"engine\"}]}, {\"type\": \"p\", \"text\": \"Quasi sempre il Nero arrocca corto: se tu arrocchi lungo, la partita diventa una corsa tra gli attacchi di pedoni sui due lati.\", \"source\": \"theory\"}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C1\": {\"per_chi\": {\"text\": \"Consigliata: piano semplice e chiaro, anche se a questo livello è poco giocata ({{pct:C1.p_user}}).\", \"source\": \"maia\"}}, \"C2\": {\"per_chi\": {\"text\": \"Stesso piano; la sceglie il {{pct:C2.p_user}} dei giocatori del tuo livello.\", \"source\": \"maia\"}}, \"C11\": {\"per_chi\": {\"text\": \"La più giocata ({{pct:C11.p_user}}), ma molto teorica: meglio più avanti.\", \"source\": \"maia\"}}}}, {\"type\": \"p\", \"text\": \"Le mosse del motore sono vicinissime: tra {{mv:C1}} e {{mv:C11}} si perdono solo {{loss:C11}}. Scegli quella di cui capisci il piano.\", \"source\": \"engine\"}]}, {\"id\": \"S08\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"Dopo la spinta nera in e5, **non lasciare il cavallo d4** dove il pedone può catturarlo.\", \"source\": \"theory\"}, {\"text\": \"La ritirata giusta è in b3: {{m:Nf5@N6}} sembra attivo ma perde {{loss:Nf5@N6}}.\", \"source\": \"engine\"}, {\"text\": \"Non lasciare **e4 senza protezione**: il cavallo nero in f6 può catturarlo.\", \"source\": \"theory\"}, {\"text\": \"Non mandare la donna a mangiare pedoni lontani: è il modo più comune di perdere tempo e pezzi.\", \"source\": \"theory\"}, {\"text\": \"Non lanciare attacchi di pedoni **prima di aver sviluppato i pezzi**.\", \"source\": \"theory\"}, {\"text\": \"{{mv:C11}} è la più giocata al tuo livello ({{pct:C11.p_user}}): costa {{loss:C11}}, ma è un'**alternativa pratica**. Se la giochi, studia la risposta in e6.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"classification\", \"ref\": \"C11\", \"category\": \"practical_alt\"}]}]}]}, {\"id\": \"S09\", \"blocks\": [{\"type\": \"p\", \"text\": \"Nessuna minaccia nascosta: nessuna linea del motore è pericolosa al tuo livello. Anche con una mossa in più il Nero otterrebbe solo {{ev:N2}}: puoi pensare con calma al tuo piano.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N2\", \"band\": \"equal\"}]}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Cosa minaccia l'avversario con la sua ultima mossa?\", \"source\": \"theory\"}, {\"text\": \"Tutti i miei pezzi sono protetti?\", \"source\": \"theory\"}, {\"text\": \"Posso sviluppare un pezzo o arroccare?\", \"source\": \"theory\"}, {\"text\": \"C'è una cattura o uno scacco che mi conviene?\", \"source\": \"theory\"}, {\"text\": \"Il pedone e4 è ancora protetto?\", \"source\": \"theory\"}]}]}], \"notes\": []}"
+          "arguments": "{\"notes\": [], \"schema_version\": \"1\", \"sections\": [{\"blocks\": [{\"assertions\": [{\"band\": \"slight_plus\", \"kind\": \"eval_band\", \"ref\": \"N1\"}, {\"band\": \"equal\", \"kind\": \"eval_band\", \"ref\": \"N2\"}], \"source\": \"engine\", \"text\": \"La posizione è equilibrata: il motore dà al Bianco un vantaggio minimo ({{ev:N1}}), quindi **stai leggermente meglio, ma senza forzature**. Se toccasse al Nero sarebbe quasi pari ({{ev:N2}}): il tuo piccolo margine è il tratto. Siamo in apertura, con i pezzi ancora quasi tutti a casa.\", \"type\": \"p\"}], \"id\": \"S01\"}, {\"blocks\": [{\"ref\": \"T4\", \"text_cells\": {\"king_safety\": {\"nota\": {\"assertions\": [{\"advice\": \"no_worry\", \"id\": \"king_safety\", \"kind\": \"category_advice\"}], \"source\": \"mixed\", \"text\": \"Nessuna linea minaccia il re\"}}, \"pawn_structure\": {\"nota\": {\"assertions\": [{\"key\": \"pawn_island_count\", \"kind\": \"feature\", \"side\": \"w\", \"squares\": []}, {\"advice\": \"no_worry\", \"id\": \"pawn_structure\", \"kind\": \"category_advice\"}], \"source\": \"feature\", \"text\": \"Due isole di pedoni per parte: struttura sana\"}}, \"piece_activity\": {\"nota\": {\"assertions\": [{\"key\": \"undeveloped_pieces\", \"kind\": \"feature\", \"side\": \"b\", \"squares\": [\"b8\", \"c8\", \"f8\"]}, {\"advice\": \"no_worry\", \"id\": \"piece_activity\", \"kind\": \"category_advice\"}], \"source\": \"feature\", \"text\": \"Il Nero ha più pezzi ancora chiusi dei tuoi\"}}, \"practical_complexity\": {\"nota\": {\"assertions\": [{\"advice\": \"monitor\", \"id\": \"practical_complexity\", \"kind\": \"category_advice\"}], \"source\": \"mixed\", \"text\": \"Tante mosse giocabili, nessuna unica\"}}, \"space_center\": {\"nota\": {\"assertions\": [{\"key\": \"central_control\", \"kind\": \"feature\", \"side\": null, \"squares\": []}, {\"advice\": \"no_worry\", \"id\": \"space_center\", \"kind\": \"category_advice\"}], \"source\": \"feature\", \"text\": \"Hai più controllo centrale del Nero\"}}}, \"type\": \"table\"}, {\"assertions\": [{\"advice\": \"no_worry\", \"id\": \"piece_activity\", \"kind\": \"category_advice\"}, {\"advice\": \"monitor\", \"id\": \"practical_complexity\", \"kind\": \"category_advice\"}, {\"key\": \"undeveloped_pieces\", \"kind\": \"feature\", \"side\": \"b\", \"squares\": [\"b8\", \"c8\", \"f8\"]}], \"source\": \"mixed\", \"text\": \"Quasi tutte le categorie sono tranquille. Conta di più attivare i pezzi (rilevanza {{sc:piece_activity.R}}): il Nero ne ha ancora tre chiusi. L'unica cosa da monitorare è la scelta tra tante mosse giocabili ({{sc:practical_complexity.T}}).\", \"type\": \"p\"}], \"id\": \"S02\"}, {\"blocks\": [{\"items\": [{\"source\": \"theory\", \"text\": \"**Sviluppa i pezzi**: prima gli alfieri, poi la donna se serve.\"}, {\"source\": \"theory\", \"text\": \"**Arrocca presto**: il lato dipende dal sistema che scegli.\"}, {\"source\": \"theory\", \"text\": \"**Tieni protetto il pedone in e4.**\"}], \"type\": \"ol\"}, {\"assertions\": [{\"band\": \"slight_plus\", \"kind\": \"eval_band\", \"ref\": \"C1\"}], \"source\": \"mixed\", \"text\": \"**La mossa consigliata: {{mv:C1}}.** Il motore la valuta {{ev:C1}}, ma non c'è una mossa unica migliore: anche {{mv:C2}} ({{ev:C2}}) va benissimo e porta allo stesso piano. Con questi due sistemi il re va di solito **a sinistra, con l'arrocco lungo**.\", \"type\": \"p\"}, {\"source\": \"theory\", \"text\": \"**Piano semplice:** {{plan:w:f3,Be3,Qd2,O-O-O@N1}}, poi spingi i pedoni del lato di re contro l'arrocco nero.\", \"type\": \"p\"}, {\"source\": \"mixed\", \"text\": \"Se preferisci arroccare **corto** e stare più tranquillo, {{mv:C6}} costa solo {{loss:C6}}: poi {{plan:w:Be2,Be3,O-O@N1}}.\", \"type\": \"p\"}], \"id\": \"S03\"}, {\"blocks\": [{\"items\": [{\"source\": \"theory\", \"text\": \"**Cavallo in d4:** sta bene al centro. Se il Nero spinge il pedone in e5 il cavallo è attaccato: **ritiralo in b3** ({{m:Nb3@N6}}), non lasciarlo catturare.\"}, {\"source\": \"theory\", \"text\": \"**Cavallo in c3:** protegge il pedone in e4 e controlla d5. Dopo la spinta nera in e5, la casa **d5** diventa un buon punto d'appoggio.\"}, {\"source\": \"theory\", \"text\": \"**Alfiere in c1:** va in e3, dietro al cavallo in d4.\"}, {\"source\": \"theory\", \"text\": \"**Alfiere in f1:** va in e2 se arrochi corto; con l'arrocco lungo può aspettare.\"}, {\"source\": \"theory\", \"text\": \"**Re:** arrocca appena possibile, dal lato del tuo sistema.\"}], \"type\": \"ul\"}, {\"assertions\": [{\"key\": \"undeveloped_pieces\", \"kind\": \"feature\", \"side\": \"w\", \"squares\": [\"c1\", \"f1\"]}], \"source\": \"feature\", \"text\": \"Oggi i tuoi due alfieri sono ancora a casa: sviluppali prima di tutto il resto.\", \"type\": \"p\"}], \"id\": \"S05\"}, {\"blocks\": [{\"items\": [{\"assertions\": [{\"band\": \"very_frequent\", \"kind\": \"maia_band\", \"ref\": \"e5@N3\"}], \"source\": \"maia\", \"text\": \"Gioca {{m:e5@N3}} per prendersi il centro: è la risposta più frequente ({{pct:e5@N3}} contro {{mv:C1}}).\"}, {\"source\": \"theory\", \"text\": \"Oppure {{m:e6@N3}}, più elastico.\"}, {\"source\": \"engine\", \"text\": \"Contro {{mv:C2}} può saltare con il cavallo: {{m:Ng4@N4}} attacca l'alfiere ({{ev:Ng4@N4}}).\"}], \"type\": \"ul\"}, {\"source\": \"theory\", \"text\": \"Quasi sempre il Nero arrocca corto: se tu arrochi lungo, la partita diventa una corsa tra gli attacchi di pedoni sui due lati.\", \"type\": \"p\"}], \"id\": \"S06\"}, {\"blocks\": [{\"ref\": \"T1\", \"text_cells\": {\"C1\": {\"per_chi\": {\"source\": \"maia\", \"text\": \"Consigliata: piano semplice e chiaro, anche se a questo livello è poco giocata ({{pct:C1.p_user}})\"}}, \"C11\": {\"per_chi\": {\"source\": \"maia\", \"text\": \"La più giocata ({{pct:C11.p_user}}), ma porta a linee molto teoriche: meglio più avanti\"}}, \"C2\": {\"per_chi\": {\"source\": \"maia\", \"text\": \"Stesso piano; la sceglie il {{pct:C2.p_user}} dei giocatori del tuo livello\"}}}, \"type\": \"table\"}, {\"source\": \"engine\", \"text\": \"Le mosse del motore sono vicinissime: tra {{mv:C1}} e {{mv:C11}} si perdono solo {{loss:C11}}. Scegli quella di cui capisci il piano.\", \"type\": \"p\"}], \"id\": \"S07\"}, {\"blocks\": [{\"items\": [{\"source\": \"theory\", \"text\": \"Dopo {{m:e5@N3}}, **non lasciare il cavallo in d4** dove il pedone può catturarlo.\"}, {\"source\": \"engine\", \"text\": \"La ritirata giusta è in b3: {{m:Nf5@N6}} sembra attivo ma perde {{loss:Nf5@N6}}.\"}, {\"source\": \"theory\", \"text\": \"Non lasciare **il pedone in e4 senza protezione**: il cavallo nero in f6 può catturarlo.\"}, {\"source\": \"theory\", \"text\": \"Non mandare la donna a mangiare pedoni lontani: è il modo più comune di perdere tempo e pezzi.\"}, {\"source\": \"theory\", \"text\": \"Non lanciare attacchi di pedoni **prima di aver sviluppato i pezzi**.\"}, {\"assertions\": [{\"category\": \"practical_alt\", \"kind\": \"classification\", \"ref\": \"C11\"}], \"source\": \"mixed\", \"text\": \"{{mv:C11}} è la mossa più giocata al tuo livello ({{pct:C11.p_user}}): costa {{loss:C11}} rispetto alla migliore, ma è un'**alternativa pratica**. Se la giochi, studia la risposta {{m:e6@N5}}.\"}], \"type\": \"ul\"}], \"id\": \"S08\"}, {\"blocks\": [{\"assertions\": [{\"band\": \"equal\", \"kind\": \"eval_band\", \"ref\": \"N2\"}], \"source\": \"engine\", \"text\": \"Nessuna minaccia nascosta: nessuna linea del motore è pericolosa al tuo livello. Anche con una mossa in più il Nero otterrebbe solo {{ev:N2}}: puoi pensare con calma al tuo piano.\", \"type\": \"p\"}], \"id\": \"S09\"}, {\"blocks\": [{\"items\": [{\"source\": \"theory\", \"text\": \"Cosa minaccia l'avversario con la sua ultima mossa?\"}, {\"source\": \"theory\", \"text\": \"Tutti i miei pezzi sono protetti?\"}, {\"source\": \"theory\", \"text\": \"Posso sviluppare un pezzo o arroccare?\"}, {\"source\": \"theory\", \"text\": \"C'è una cattura o uno scacco che mi conviene?\"}, {\"source\": \"theory\", \"text\": \"Il pedone in e4 è ancora protetto?\"}], \"type\": \"ol\"}], \"id\": \"S10\"}]}"
          }
         }
        ]
@@ -1142,21 +957,21 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 42102,
-     "completion_tokens": 2390,
-     "total_tokens": 44492,
-     "cost": 0.01411604,
+     "prompt_tokens": 41203,
+     "completion_tokens": 2615,
+     "total_tokens": 43818,
+     "cost": 0.006692896,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 0,
+      "cached_tokens": 1280,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.01411604,
-      "upstream_inference_prompt_cost": 0.01136754,
-      "upstream_inference_completions_cost": 0.0027485
+      "upstream_inference_cost": 0.006692896,
+      "upstream_inference_prompt_cost": 0.005594596,
+      "upstream_inference_completions_cost": 0.0010983
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,

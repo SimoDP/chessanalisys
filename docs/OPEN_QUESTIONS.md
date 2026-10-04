@@ -513,3 +513,18 @@ La vista ridotta per il modello manda solo la T dell'utente (O-5), senza compone
 risposte mancanti si aggiungono rigiocando le ricerche registrate, senza Stockfish:
 `CHESSANALYST_RECORD_MAIA_ONLY=1 pytest -m engines --record` (`golden/record.py: record_maia`). Le ricerche di
 Stockfish e gli ID dei pacchetti congelati non cambiano.
+
+### OQ-M3-9 · Budget di S02 e note in lettere (RISOLTA: decisione dell'utente)
+**Problema.**
+- DeepSeek scriveva una nota per ogni riga di T4 e superava il budget di S02 (V07 d): 47–81 parole su 30 a 1500,
+  102–108 su 70 a 1900.
+- La regola 12 chiede di segnalare in `notes` i punteggi incoerenti. Il modello li commentava con le cifre e le note
+  venivano rimosse (V03, OQ-M1c-10).
+
+**Decisione dell'utente:** alzare il budget di S02 e chiedere le note in lettere.
+- `section_budget.yaml`, peso di S02: 1500 da 0,06 a 0,12, 1900 da 0,05 a 0,08, 2400 da 0,06 a 0,10.
+- `prose_words` aumenta di pari passo (1200_1600 590, 1600_2000 1600, ge2400 720), così le altre sezioni tengono
+  il loro budget.
+- La regola 12 del prompt aggiunge: «Anche nelle notes valgono le regole del testo libero: niente token, mosse o
+  cifre; i numeri in lettere».
+- Nei fewshot S02 è allungata con le note della tabella T4.

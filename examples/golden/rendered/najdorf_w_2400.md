@@ -18,11 +18,11 @@ Fattori decisivi: la corsa g4 → g5 contro ...b5 → ...b4 con gli arrocchi opp
 
 | Categoria | T (tu)* | R | Nota |
 | --- | --- | --- | --- |
-| Attività dei pezzi | 100 | 26 | — |
-| Struttura pedonale | 100 | 12 | — |
-| Spazio e centro | 100 | 7 | — |
-| Complessità pratica | 80 | 7 | — |
-| Sicurezza del re | 98 | 1 | — |
+| Attività dei pezzi | 100 | 26 | Quattro pezzi neri ancora chiusi |
+| Struttura pedonale | 100 | 12 | Si decide con la spinta del pedone e del Nero |
+| Spazio e centro | 100 | 7 | Leggera prevalenza bianca al centro |
+| Complessità pratica | 80 | 7 | Più mosse giocabili per entrambi |
+| Sicurezza del re | 98 | 1 | Nessun attacco: i re non sono ancora arroccati |
 
 * Punteggi poco affidabili: Maia-2 poco affidabile a questo livello o valutazioni instabili.
 
@@ -136,7 +136,7 @@ Nessuna linea supera la soglia di rischio, che a questo livello è la più bassa
 - Elo dichiarato 2400 FIDE · Elo Maia-2 2400 · fascia ge2400 · ancora 2400 · confidenza di Maia-2 bassa
 - Sezioni omesse: S05 (band_2400), S08 (no_classified_move), S10 (band_2400), S11 (milestone), S12 (matrix), S13 (matrix) · assorbite: S04 in S03
 - Fasi omesse: nessuna · nodi omessi: nessuno
-- Contenuto teorico: 3 blocchi, 16% delle parole
+- Contenuto teorico: 3 blocchi, 15% delle parole
 - Controlli: V01 superato · V02 superato · V03 superato · V04 superato · V05 superato · V06 superato · V07 superato · V08 superato · V09 superato · V10 superato · V11 superato
 - Retry: 0
 - Rimossi in modalità degradata: nessuno

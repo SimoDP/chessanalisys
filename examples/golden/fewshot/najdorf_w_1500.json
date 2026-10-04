@@ -29,7 +29,63 @@
     {
      "type": "table",
      "ref": "T4",
-     "text_cells": {}
+     "text_cells": {
+      "piece_activity": {
+       "nota": {
+        "text": "Il Nero ha più pezzi ancora chiusi di te",
+        "source": "feature",
+        "assertions": [
+         {
+          "kind": "feature",
+          "key": "inactive_piece",
+          "side": "b",
+          "squares": [
+           "b8"
+          ]
+         }
+        ]
+       }
+      },
+      "pawn_structure": {
+       "nota": {
+        "text": "Cambia nelle linee di {{mv:C1}} e {{mv:C2}}",
+        "source": "mixed",
+        "assertions": [
+         {
+          "kind": "category_advice",
+          "id": "pawn_structure",
+          "advice": "no_worry"
+         }
+        ]
+       }
+      },
+      "practical_complexity": {
+       "nota": {
+        "text": "Tante mosse giocabili, nessuna unica",
+        "source": "mixed",
+        "assertions": [
+         {
+          "kind": "category_advice",
+          "id": "practical_complexity",
+          "advice": "monitor"
+         }
+        ]
+       }
+      },
+      "king_safety": {
+       "nota": {
+        "text": "Nessuna linea minaccia il re",
+        "source": "mixed",
+        "assertions": [
+         {
+          "kind": "category_advice",
+          "id": "king_safety",
+          "advice": "no_worry"
+         }
+        ]
+       }
+      }
+     }
     },
     {
      "type": "p",

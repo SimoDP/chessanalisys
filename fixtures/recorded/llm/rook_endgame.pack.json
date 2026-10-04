@@ -2,7 +2,7 @@
  "schema_version": "0.9",
  "app_version": "0.1.0",
  "created_utc": "2026-01-01T00:00:00+00:00",
- "config_hash": "bc1f0e396adedab04654492eefe2ebf3d6ea6d12",
+ "config_hash": "ba69976fa1c15a01cd275d5011b743c32d9e3112",
  "position": {
   "fen": "8/5pk1/6p1/r7/8/6P1/5PK1/3R4 w - - 0 40",
   "epd": "8/5pk1/6p1/r7/8/6P1/5PK1/3R4 w - -",
@@ -9362,7 +9362,7 @@
    "required": true,
    "absorbed_into": null,
    "omitted": null,
-   "word_budget": 90,
+   "word_budget": 140,
    "max_pv_plies": 8,
    "theory_allowed": false,
    "tables": [
@@ -9517,7 +9517,7 @@
    "required": true,
    "absorbed_into": null,
    "omitted": null,
-   "word_budget": 440,
+   "word_budget": 430,
    "max_pv_plies": 8,
    "theory_allowed": true,
    "tables": [],

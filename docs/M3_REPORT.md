@@ -77,49 +77,47 @@ Nella Najdorf il radar è tranquillo, come la posizione. Nella Fried Liver mette
   OQ-M3-8): sedici in tutto.
 - I tre fewshot hanno S02 e S09 scritte sui dati del pacchetto; `needs_review` le elenca e `rendered` è
   rigenerato.
-- `prose_words` è aggiornato in modo che le altre sezioni tengano il loro budget (OQ-M3-7).
+- `prose_words` è aggiornato in modo che le altre sezioni tengano il loro budget (OQ-M3-7, OQ-M3-9).
 - Le risposte difettose di G.6 sono rigenerate dal fewshot 1900.
 
 ## Il modello di sviluppo (DeepSeek, D-67)
 
-Risposte registrate di nuovo con `pytest -m llm --record` (prompt M3): sette pacchetti, tre risposte ciascuno.
+Risposte registrate con il prompt M3 dopo la decisione dell'utente su S02 e note (OQ-M3-9): budget di S02 più
+ampio, note in lettere. Il ciclo si ferma alla prima risposta senza errori.
 
-| Pacchetto | Errori per tentativo | Esito |
-| --- | --- | --- |
-| Najdorf 1500 | 4, 5, 1 | degradata, 0 rimozioni |
-| Najdorf 1900 | 9, 8, 8 | degradata, 2 rimozioni |
-| Najdorf 2400 | 1, 20, 3 | degradata, 1 rimozione |
-| Najdorf dopo `6.Be3` | 29, 9, 9 | degradata, 3 rimozioni |
-| Fried Liver 1500 | 1, 24, 21 | degradata, 4 rimozioni |
-| Finale di torri 1900 | 32, 10, 3 | degradata, 2 rimozioni |
-| Lucena 1900 | 40, 12, 8 | degradata, 4 rimozioni |
+| Pacchetto | Errori per tentativo | Parole di S02 (budget) | Esito |
+| --- | --- | --- | --- |
+| Najdorf 1500 | 1, 0 | 67 (60) | **completo** |
+| Najdorf 1900 | 2, 0 | 120 (110) | **completo** |
+| Najdorf 2400 | 4, 2, 0 | 55 (70) | **completo** |
+| Najdorf dopo `6.Be3` | 10, 0 | 127 (140) | **completo** |
+| Fried Liver 1500 | 1, 9, 1 | 52 (50) | degradata, nessuna rimozione |
+| Finale di torri 1900 | 1, 32, 19 | 172 (140) | degradata, 8 rimozioni (7 blocchi per V10, 1 nota) |
+| Lucena 1900 | 15, 5, 4 | — (colonna 4) | degradata, nessuna rimozione |
 
-Errori legati a M3:
-- **S02 troppo lunga (V07 d):** DeepSeek riempie la nota di ogni riga di T4 e supera il budget di S02 (30 parole a
-  1500, 70 a 1900, 40 a 2400). È il solo errore frequente su S02 e S09;
-- **giudizi corretti:** le asserzioni `category_advice` e i token `sc`/`L<n>` sono quasi sempre giusti. Ci sono un
-  solo V06 (banda di `ev:N2` in S09) e un solo V10 in S02;
-- **note:** la regola 12 ora chiede di segnalare in `notes` i punteggi incoerenti (§5-bis.5). DeepSeek commenta
-  i punteggi con le cifre («T=29, R=63») e nelle note i V03 aumentano (OQ-M1c-10: le note con cifre vengono
-  rimosse).
-- **primo tentativo:** nella prima registrazione della Fried Liver tutti e tre i tentativi mancavano del campo
-  `notes` (V01) e il ciclo è finito senza risposta. Nella seconda registrazione è andata come in tabella. Il
-  modello di sviluppo non è affidabile su questo: il ciclo lo segnala con il codice di uscita previsto.
+Prima della decisione nessun pacchetto arrivava a una risposta senza errori: S02 superava sempre il budget e le
+note con le cifre venivano rimosse. Ora quattro pacchetti su sette sono completi. Nelle risposte finali c'è una sola
+nota con cifre (finale di torri) e nessun errore su S02 e S09 oltre a qualche sforamento di parole. Il finale di
+torri resta la posizione più difficile per il modello di sviluppo, come in M2.
 
-Checklist: la Fried Liver ora cita anche l'errore tipico `d3`. Mancano ancora «costruire il ponte» (Lucena) e lo
-scambio delle torri (finale di torri). Restano misure di qualità (decisione dell'utente in M2).
+Due cose sono andate meglio:
+- la Fried Liver ora cita anche l'errore tipico `d3`;
+- nella Fried Liver DeepSeek usa il radar come previsto: «Minacce e dinamica» critica per il cavallo in g5 e le
+  linee L1 e L2 in S09.
 
-Prompt, esempi e budget **non** sono stati cambiati dopo aver letto le risposte. Due interventi possibili, da
-decidere:
-- alzare il peso di S02 in `section_budget.yaml`, oppure scrivere nel prompt che la Nota di T4 è facoltativa;
-- dire nel prompt che le note vanno scritte in lettere.
+Checklist ancora incomplete, che restano misure di qualità (decisione dell'utente in M2):
+- Lucena: manca «costruire il ponte»;
+- finale di torri: mancano «torre passiva» e lo scambio delle torri.
+
+In una registrazione precedente la Fried Liver aveva dato tre risposte senza il campo `notes` (V01) e il ciclo era
+finito senza risposta: il modello di sviluppo non è sempre affidabile sullo schema, e il ciclo lo segnala.
 
 ## Stato
 
 **M3 chiusa.** I criteri di uscita sono superati e la suite è verde. Restano:
 - le costanti di §5-bis, ipotesi iniziali da calibrare in M5;
 - i fewshot da validare (§8-bis.5), ora con S02 e S09;
-- la lunghezza di S02 nelle risposte di DeepSeek, da decidere.
+- la scelta del modello di produzione (D-67).
 
 ## Uso
 
@@ -130,4 +128,4 @@ CHESSANALYST_RECORD_MAIA_ONLY=1 .venv/bin/pytest -m engines --record    # solo l
 .venv/bin/pytest -m llm --record                                         # risposte del modello reale
 ```
 
-Scelte e default: `docs/OPEN_QUESTIONS.md` (OQ-M3-1…8).
+Scelte e default: `docs/OPEN_QUESTIONS.md` (OQ-M3-1…9).

@@ -15,11 +15,11 @@ La posizione è equilibrata: vince chi sviluppa meglio e non regala materiale. I
 
 | Categoria | T (tu) | R | Nota |
 | --- | --- | --- | --- |
-| Attività dei pezzi | 100 | 30 | — |
-| Struttura pedonale | 100 | 13 | — |
+| Attività dei pezzi | 100 | 30 | Il Nero ha più pezzi ancora chiusi di te |
+| Struttura pedonale | 100 | 13 | Cambia nelle linee di 6.f3 e 6.Be3 |
 | Spazio e centro | 100 | 11 | — |
-| Complessità pratica | 77 | 8 | — |
-| Sicurezza del re | 98 | 1 | — |
+| Complessità pratica | 77 | 8 | Tante mosse giocabili, nessuna unica |
+| Sicurezza del re | 98 | 1 | Nessuna linea minaccia il re |
 
 Nessuna categoria è da attenzione. Conta di più sviluppare i pezzi (rilevanza 30): il Nero ne ha ancora quattro chiusi. Più delicata è la scelta tra tante mosse giocabili (77).
 
@@ -97,7 +97,7 @@ Nessuna minaccia nascosta: nessuna linea del motore è pericolosa al tuo livello
 - Elo dichiarato 1500 FIDE · Elo Maia-2 1700 · fascia 1200_1600 · ancora 1500 · confidenza di Maia-2 normale
 - Sezioni omesse: S11 (elo<2000), S12 (matrix), S13 (matrix) · assorbite: S04 in S03
 - Fasi omesse: nessuna · nodi omessi: nessuno
-- Contenuto teorico: 21 blocchi, 43% delle parole
+- Contenuto teorico: 21 blocchi, 42% delle parole
 - Controlli: V01 superato · V02 superato · V03 superato · V04 superato · V05 superato · V06 superato · V07 superato · V08 superato · V09 superato · V10 superato · V11 superato
 - Retry: 0
 - Rimossi in modalità degradata: nessuno

@@ -3,7 +3,7 @@
   il registro decisioni (§0.3, D-01…D-63) prevale e non si riapre; tra due decisioni vale l'ID più alto.
 - Decisioni dell'utente successive al congelamento: docs/DECISIONI_POST_CONGELAMENTO.md (D-64…); prevalgono
   sui punti della v0.9.1 che modificano (D-64 fornitore OpenRouter/Anthropic, D-65 costanti, D-66 Stockfish, D-67 modello di sviluppo, D-68 mossa di contesto).
-- M3 (Category Scoring Engine): scelte e default in docs/OPEN_QUESTIONS.md (OQ-M3-1…8), costanti in thresholds.yaml: scoring.
+- M3 (Category Scoring Engine): scelte e default in docs/OPEN_QUESTIONS.md (OQ-M3-1…9), costanti in thresholds.yaml: scoring.
 - Le Appendici D–G sono normative: i file di config/ partono esattamente da quei contenuti.
 - Lavora per milestone nell'ordine M0, M1a, M1b, M1c, M2… (§13). Non implementare funzioni di milestone
   successive. Opzioni non ancora disponibili: rifiuto esplicito, codice di uscita 2 (D-30).

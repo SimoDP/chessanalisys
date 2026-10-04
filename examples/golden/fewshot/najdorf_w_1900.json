@@ -86,12 +86,63 @@
          }
         ]
        }
+      },
+      "space_center": {
+       "nota": {
+        "text": "Il centro è leggermente tuo",
+        "source": "feature",
+        "assertions": [
+         {
+          "kind": "feature",
+          "key": "central_control",
+          "side": null,
+          "squares": []
+         }
+        ]
+       }
+      },
+      "king_safety": {
+       "nota": {
+        "text": "Entrambi possono ancora arroccare dai due lati",
+        "source": "feature",
+        "assertions": [
+         {
+          "kind": "feature",
+          "key": "can_castle_long",
+          "side": "b",
+          "squares": [
+           "e8"
+          ]
+         },
+         {
+          "kind": "feature",
+          "key": "can_castle_short",
+          "side": "w",
+          "squares": [
+           "e1"
+          ]
+         }
+        ]
+       }
+      },
+      "threats_dynamics": {
+       "nota": {
+        "text": "Nessuna minaccia supera la soglia del tuo livello",
+        "source": "mixed",
+        "assertions": [
+         {
+          "kind": "category_advice",
+          "id": "threats_dynamics",
+          "advice": "no_worry"
+         }
+        ]
+       }
       }
      }
     },
     {
      "type": "p",
-     "text": "Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché quasi ovunque ci sono più mosse giocabili. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): il Nero ha quattro pezzi chiusi, tu solo le torri. Nessuna linea filtrata tocca il re.",
+     "text": "Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché quasi ovunque ci sono più mosse giocabili. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): il Nero ha quattro pezzi chiusi, tu solo le torri. Nessuna linea filtrata tocca il re. Le categorie tattiche hanno rilevanza quasi nulla: qui decide il piano, non il calcolo.",
      "source": "mixed",
      "assertions": [
       {

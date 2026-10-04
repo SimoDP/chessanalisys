@@ -20,17 +20,17 @@ Posizione teorica e molto equilibrata: il motore dà al Bianco un vantaggio mini
 | --- | --- | --- | --- |
 | Attività dei pezzi | 100 | 26 | Il Nero ha più pezzi ancora chiusi |
 | Struttura pedonale | 100 | 12 | Cambia nelle linee di 6.f3 e 6.Be3 |
-| Spazio e centro | 100 | 7 | — |
+| Spazio e centro | 100 | 7 | Il centro è leggermente tuo |
 | Complessità pratica | 80 | 7 | Molte mosse giocabili, nessuna unica |
-| Sicurezza del re | 98 | 1 | — |
-| Minacce e dinamica | 100 | 1 | — |
+| Sicurezza del re | 98 | 1 | Entrambi possono ancora arroccare dai due lati |
+| Minacce e dinamica | 100 | 1 | Nessuna minaccia supera la soglia del tuo livello |
 | Iniziativa e tempi | 100 | 0 | — |
 | Materiale | 100 | 0 | — |
 | Transizioni e piani | 100 | 0 | — |
 
 * Punteggi poco affidabili: Maia-2 poco affidabile a questo livello o valutazioni instabili.
 
-Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica (80), perché quasi ovunque ci sono più mosse giocabili. Pesa di più l'attività dei pezzi (26): il Nero ha quattro pezzi chiusi, tu solo le torri. Nessuna linea filtrata tocca il re.
+Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica (80), perché quasi ovunque ci sono più mosse giocabili. Pesa di più l'attività dei pezzi (26): il Nero ha quattro pezzi chiusi, tu solo le torri. Nessuna linea filtrata tocca il re. Le categorie tattiche hanno rilevanza quasi nulla: qui decide il piano, non il calcolo.
 
 ## I sistemi che puoi scegliere
 
@@ -165,7 +165,7 @@ Anche la candidata più lontana dal motore, 6.Bg5, cede appena 0,30, e nessuna l
 - Elo dichiarato 1900 FIDE · Elo Maia-2 2025 · fascia 1600_2000 · ancora 1900 · confidenza di Maia-2 bassa
 - Sezioni omesse: S11 (elo<2000), S12 (matrix), S13 (matrix) · assorbite: nessuna
 - Fasi omesse: nessuna · nodi omessi: nessuno
-- Contenuto teorico: 56 blocchi, 37% delle parole
+- Contenuto teorico: 56 blocchi, 36% delle parole
 - Controlli: V01 superato · V02 superato · V03 superato · V04 superato · V05 superato · V06 superato · V07 superato · V08 superato · V09 superato · V10 superato · V11 superato
 - Retry: 0
 - Rimossi in modalità degradata: nessuno
