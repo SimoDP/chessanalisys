@@ -8,10 +8,10 @@ token, vista ridotta del pacchetto, retry di verifica e di rete, `rerun`.
 | AC | Esito | Test |
 | --- | --- | --- |
 | AC-01 | Superato: esempio, `FakeEngine`, `FakeMaia`, `FakeLLM` con `good_najdorf_1900.json` → `analysis.md`, `pack.json`, `llm_raw.json`, `verification.json`, `run.log`, codice 0; il pacchetto coincide con quello congelato e la verifica non trova errori | `test_ac01_full_run.py` |
-| AC-10 (risposta del modello reale) | **In attesa**: serve una risposta registrata con la chiave API (`pytest -m llm --record`); il test c'è ed è saltato finché la registrazione manca | `test_ac10_najdorf_sections.py` |
+| AC-10 (risposta del modello reale) | Superato con le risposte registrate di DeepSeek (1500 e 1900): vedi «Registrazione del modello reale» | `test_ac10_najdorf_sections.py` |
 | AC-15 | Superato: `rerun` senza motori, `pack.json` invariato, file precedenti in `*.prev.*`, avviso se `config_hash` differisce | `test_ac15_rerun.py` |
 | AC-16 (ciclo completo) | Superato: per ogni risposta difettosa retry con `tool_result` `is_error` e correzione; dopo i retry rimozione o marcatura registrata; V07(d) da solo al massimo un retry; nessuna risposta valida → codice 5 | `test_ac16_fault_injection.py` |
-| AC-21 (modello) | **In attesa** come AC-10 | `test_ac21_opponent_to_move.py` |
+| AC-21 (modello) | **Fallito**: la risposta finale di DeepSeek ha un token nelle `notes`, il render si ferma su V11 (OQ-M1c-10) | `test_ac21_opponent_to_move.py` |
 | AC-35 | Superato: nessun nodo `citable: false`, nessuna tabella, al massimo 5 righe per nodo (PV di 6 semimosse, 5 mosse di Maia-2) | `test_ac35_llm_view.py` |
 
 Altri test: system prompt identico all'Appendice E.1; schema generato equivalente all'Appendice F (accetta e
@@ -52,6 +52,30 @@ italiano, chiave mai scritta nei log). Il modello quindi non ha ancora risposto 
 verifica di DeepSeek da esaminare; prompt ed esempi non sono stati toccati. La suite senza rete resta a
 474 superati e 3 saltati. Per chiudere serve una chiave OpenRouter valida (impostata come variabile
 d'ambiente dell'ambiente cloud, oppure in locale) e i due comandi qui sopra.
+
+### Registrazione del modello reale, 4 ottobre 2026 (terzo tentativo)
+
+La variabile `OPENROUTER_API_KEY` adesso arriva a OpenRouter e la registrazione funziona. I primi due
+tentativi erano falliti con un 401: il proxy dell'ambiente cloud sostituiva la chiave con una credenziale vuota.
+Modello `deepseek/deepseek-v4.1-flash`, tre risposte (due retry) per ogni pacchetto:
+
+| Pacchetto | Tentativo 1 | Tentativo 2 | Tentativo 3 | Esito |
+| --- | --- | --- | --- | --- |
+| `najdorf_w_1500` | V01: manca un campo obbligatorio | V04 piano `f3,…@N3` (f3 già giocato in N3), V07(d) | nessun errore | documento completo |
+| `najdorf_w_1900` | V04 su due piani (mossa già giocata nel nodo), V07(d) | V04 piano `Be3,…@N4` | V04 piano `O-O-O@N4` (donna ancora in d1) | degradata: rimosso S03 · blocco 1 |
+| `najdorf_after_be3_w_1900` (AC-21) | V02 nodi inesistenti N8 e N11, V04 mosse già giocate nei nodi N3–N5, V06 banda di N2, V07(d), V09 «Scheveningen» | solo V07(d) | solo V07(d) (S06 troppo corta) | **interrotta**: token nelle `notes` → V11 |
+
+Errori ricorrenti del modello:
+- Confonde il nodo da cui parte una mossa con il nodo che si ottiene dopo averla giocata (V04).
+- Copia ID dei nodi che il pacchetto non ha (V02).
+- Scrive testi più corti del budget (V07(d)).
+
+I retry li correggono quasi sempre. Il caso di AC-21 invece rivela un buco della verifica: V01–V10 non
+controllano le `notes`, e un token scritto lì blocca il render (OQ-M1c-10, serve una decisione dell'utente).
+Prompt ed esempi non sono stati toccati.
+
+Suite: `pytest` → 476 superati, 1 fallito (AC-21 «modello»). M1c **resta aperta** finché OQ-M1c-10 non è
+decisa e corretta.
 
 ## Uso
 

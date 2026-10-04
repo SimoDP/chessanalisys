@@ -252,3 +252,14 @@ sistema (caching dei modelli Claude via OpenRouter). `finish_reason`: `tool_call
 `max_tokens`. Argomenti non in JSON valido → V01. Un errore riportato dentro una risposta 200 è trattato con il
 suo codice. `llm_raw.json` conserva anche la risposta originale (`provider_response`). Verificato in rete con
 una chiave volutamente non valida: 401 → «Chiave API non valida o non autorizzata».
+
+### OQ-M1c-10 · Token dentro `notes` (APERTA, decisione dell'utente)
+**Problema.** La v0.9.1 non dice come si verifica il campo `notes`: §10.1 non lo nomina e il rapporto (§9.4)
+lo copia così com'è. V11 invece vieta qualunque `{{…}}` nel documento finale.
+**Prova.** Registrazione reale `real_najdorf_after_be3_w_1900.json` (DeepSeek, 4 ottobre 2026): l'ultima
+risposta passa V01–V10 a parte V07(d), ma una nota contiene `{{pct:root.draw}}`. Il render la copia nel rapporto
+e V11 solleva `RenderBug`: l'analisi si interrompe e AC-21 («modello») fallisce. Le note contengono anche
+`C1, C2` in chiaro, che nessun controllo vede.
+**Proposta.** Si estende V03 a `notes`: niente token, mosse, cifre o catene in chiaro, come nel testo. Una nota
+che viola V03 provoca un retry. In modalità degradata la nota viene tolta e la rimozione finisce nel rapporto.
+Poi `bad_notes_token.json` diventa un test di fault injection (G.6). Prompt ed esempi non cambiano.
