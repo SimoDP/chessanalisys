@@ -38,6 +38,7 @@ EXPECTED: dict[str, tuple[str, set[str]]] = {
     "bad_assertion.json": ("najdorf_w_1900", {"V06"}),
     "bad_long_line.json": ("najdorf_w_1900", {"V05"}),
     "max_tokens.json": ("najdorf_w_1900", {"V01"}),
+    "bad_notes_token.json": ("najdorf_w_1900", {"V03"}),    # OQ-M1c-10 (real DeepSeek response)
 }
 
 
@@ -128,6 +129,10 @@ def build(rook_pack: dict) -> dict[str, dict]:
     para = next(b for b in _section(feat, "S04")["blocks"] if b["type"] == "p")
     para["assertions"].append({"kind": "feature", "key": "backward_pawn", "side": "w", "squares": ["d4"]})
     out["bad_assertion.json"] = envelope(feat)
+
+    notes = copy.deepcopy(good)
+    notes["notes"] = ["La patta vale {{pct:root.draw}}: le candidate C1 e C2 sono vicine."]
+    out["bad_notes_token.json"] = envelope(notes)
 
     out["bad_contamination.json"] = envelope(rook_endgame_response(rook_pack))
     return out

@@ -20,6 +20,7 @@ from chessanalyst.verify.scan import Scanner
 from chessanalyst.verify.tokens import TokenSyntaxError, find_tokens, parse_token
 from chessanalyst.verify.wordcount import count_words, tolerance
 
+NOTE_CELL = "nota"                  # cell of an error in ``notes`` (section and block are None)
 CODES = ("V01", "V02", "V03", "V04", "V05", "V06", "V07", "V08", "V09", "V10")
 THEORY_FORBIDDEN = {"ev", "loss", "pct_maia", "pct_root", "pv", "sc"}
 SOURCE_RULES = {   # §10.1, V10: (needs one of, may not contain)
@@ -53,6 +54,8 @@ class VError:
             parts.append(self.section)
         if self.block is not None:
             parts.append(f"blocco {self.block}" + (f", {self.cell}" if self.cell else ""))
+        elif self.cell and self.cell.startswith(NOTE_CELL + " "):
+            parts.append(self.cell)
         parts.append(f"«{self.text}»")
         if self.detail:
             parts.append(self.detail)
@@ -187,6 +190,7 @@ class Checker:
                 theory_words += n
                 res.theory_blocks.append({"section": u.section, "block": u.block, "cell": u.cell,
                                           "text": u.text, "words": n})
+        errors += self._check_notes(out)
         errors += self._check_lines(out)
         errors += self._check_tables(out)
         errors += self._check_structure(out, sec_cites, words, res)
@@ -251,6 +255,19 @@ class Checker:
         bad = sorted(have & forbid)
         if bad:
             errs.append(E("V10", u.text[:60], f"source {u.source} con " + ", ".join(bad)))
+        return errs
+
+    def _check_notes(self, out: dict) -> list[VError]:
+        """V03 on ``notes`` (OQ-M1c-10): they are copied into the report as written, so no
+        token (not even a valid one), move, digit or chain in clear."""
+        errs = []
+        for k, note in enumerate(out["notes"], 1):
+            cell = f"{NOTE_CELL} {k}"
+            if "{{" in note or "}}" in note:
+                shown = ", ".join(find_tokens(note)) or note[:60]
+                errs.append(VError("V03", None, None, cell, shown, "nelle note niente token: scrivi a parole"))
+            for hit in self.scanner.v03_hits(note):
+                errs.append(VError("V03", None, None, cell, hit))
         return errs
 
     def _check_lines(self, out: dict) -> list[VError]:

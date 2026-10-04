@@ -253,7 +253,7 @@ sistema (caching dei modelli Claude via OpenRouter). `finish_reason`: `tool_call
 suo codice. `llm_raw.json` conserva anche la risposta originale (`provider_response`). Verificato in rete con
 una chiave volutamente non valida: 401 → «Chiave API non valida o non autorizzata».
 
-### OQ-M1c-10 · Token dentro `notes` (APERTA, decisione dell'utente)
+### OQ-M1c-10 · Token dentro `notes` (RISOLTA: proposta approvata dall'utente il 4 ottobre 2026)
 **Problema.** La v0.9.1 non dice come si verifica il campo `notes`: §10.1 non lo nomina e il rapporto (§9.4)
 lo copia così com'è. V11 invece vieta qualunque `{{…}}` nel documento finale.
 **Prova.** Registrazione reale `real_najdorf_after_be3_w_1900.json` (DeepSeek, 4 ottobre 2026): l'ultima
@@ -263,3 +263,7 @@ e V11 solleva `RenderBug`: l'analisi si interrompe e AC-21 («modello») fallisc
 **Proposta.** Si estende V03 a `notes`: niente token, mosse, cifre o catene in chiaro, come nel testo. Una nota
 che viola V03 provoca un retry. In modalità degradata la nota viene tolta e la rimozione finisce nel rapporto.
 Poi `bad_notes_token.json` diventa un test di fault injection (G.6). Prompt ed esempi non cambiano.
+**Implementazione.** `Checker._check_notes` applica V03 a ogni nota, con errore nella cella «nota k» e senza
+sezione né blocco. Il messaggio di retry dice al modello quale nota correggere. `degrade` toglie la nota in
+entrambe le modalità (`mark` e `drop`) e la elenca in «Rimossi in modalità degradata» («nota k del modello
+(V03)»). Test: `bad_notes_token.json` (G.6) e due test in `test_ac16_fault_injection.py`.

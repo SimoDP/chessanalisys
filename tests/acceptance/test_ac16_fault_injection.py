@@ -31,6 +31,24 @@ def test_contamination_names_the_term(cfg):
     assert {e.text for e in res.errors if e.code == "V09"} == {"Najdorf"}
 
 
+def test_notes_token_and_digits(cfg):
+    # OQ-M1c-10: notes are copied into the report, so V03 applies to them too
+    res = check_recorded(cfg, "bad_notes_token.json")
+    lines = [e.line({}) for e in res.errors]
+    assert any("nota 1 · «{{pct:root.draw}}»" in x for x in lines)
+    assert any("digit: 1" in x for x in lines) and all(e.section is None for e in res.errors)
+
+
+def test_notes_removed_in_both_modes(cfg):
+    res = check_recorded(cfg, "bad_notes_token.json")
+    pack = pack_for(cfg, "bad_notes_token.json")
+    for mode in ("mark", "drop"):
+        d = degrade(pack, res.output, res.errors, on_fail=mode)
+        assert d.output["notes"] == [] and d.removed == ["nota 1 del modello (V03)"]
+        doc = render_markdown(cfg, pack, d.output, RenderInfo(removed=d.removed))     # V11 passes
+        assert "{{" not in doc and "nota 1 del modello (V03)" in doc
+
+
 def test_v09_skipped_on_the_example_position(cfg):
     # the Najdorf names are allowed when the analysed EPD is the example's (D-52)
     assert check_recorded(cfg, "good_najdorf_1900.json").errors == []

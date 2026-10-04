@@ -4,7 +4,8 @@
 V08/V09/V10 errors are removed; V06 blocks are kept with the «non verificato»
 mark; V07 (a) missing sections get the fixed text, extra ones are dropped and
 the order follows the plan; (b) a missing table is appended, a duplicate is
-dropped; (c), (d) and the theory share become warnings.
+dropped; (c), (d) and the theory share become warnings. A note with V03 is
+removed in both modes (OQ-M1c-10).
 ``drop``: every section with an error is replaced by the fixed text.
 Every removal or mark is listed: nothing is ever dropped silently.
 """
@@ -14,7 +15,7 @@ from __future__ import annotations
 import copy
 from dataclasses import dataclass, field
 
-from chessanalyst.verify.checker import VError
+from chessanalyst.verify.checker import NOTE_CELL, VError
 
 REMOVE = {"V01", "V02", "V03", "V04", "V05", "V08", "V09", "V10"}
 
@@ -38,6 +39,11 @@ def degrade(pack: dict, output: dict, errors: list[VError], on_fail: str = "mark
     by_id: dict[str, dict] = {}
     for s in out["sections"]:
         by_id.setdefault(s["id"], s)          # a duplicated section: the first one is kept
+
+    bad_notes = {e.cell for e in errors if e.section is None and (e.cell or "").startswith(NOTE_CELL + " ")}
+    if bad_notes:                         # in both modes: a note with V03 is never copied into the report
+        out["notes"] = [n for k, n in enumerate(out["notes"], 1) if f"{NOTE_CELL} {k}" not in bad_notes]
+        d.removed += [f"{c} del modello (V03)" for c in sorted(bad_notes, key=lambda c: int(c.split()[-1]))]
 
     if on_fail == "drop":
         bad = {e.section for e in errors if e.section and not (e.code == "V07" and e.sub in ("c", "d"))}

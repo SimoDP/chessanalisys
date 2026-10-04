@@ -6,17 +6,16 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "call_01a106ed6d25711eb2c418b6",
+     "id": "call_01a106f426227642aff28bf0",
      "name": "submit_analysis",
      "input": {
-      "schema_version": "1",
       "sections": [
        {
         "id": "S01",
         "blocks": [
          {
           "type": "p",
-          "text": "Posizione di Najdorf molto equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}} con la mossa migliore, e quasi solo patta secondo Stockfish ({{pct:root.draw}}). Siamo ancora in apertura, in teoria, e la mossa consigliata è {{mv:C1}}, ma la raccomandazione è debole: **non esiste una mossa unica migliore**.",
+          "text": "La posizione è in equilibrio: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta e pochissime possibilità di sconfitta. Siamo in una Najdorf, {{opening:name}} ({{opening:eco}}), e il Nero ha appena giocato il pedone in a6.",
           "source": "engine",
           "assertions": [
            {
@@ -28,7 +27,7 @@
          },
          {
           "type": "p",
-          "text": "Se toccasse al Nero la posizione sarebbe praticamente pari ({{ev:N2}}): il tuo vantaggio è quasi solo il tratto. Le candidate spiegate stanno tutte in un intervallo piccolissimo, quindi conta più il sistema che scegli che la singola mossa.",
+          "text": "Se toccasse al Nero la valutazione sarebbe {{ev:N2}}: il tuo vantaggio è quasi solo il tratto. Le mosse spiegate stanno tutte in un intervallo piccolissimo, quindi **non devi cercare la mossa migliore, ma scegliere un sistema e giocarlo bene**.",
           "source": "engine",
           "assertions": [
            {
@@ -44,23 +43,108 @@
         "id": "S03",
         "blocks": [
          {
-          "type": "p",
-          "text": "Puoi raggruppare le candidate in tre sistemi. Il primo è quello con la spinta del pedone f e l'arrocco lungo: {{mv:C1}} ({{ev:C1}}) o {{mv:C2}} ({{ev:C2}}), con l'idea {{plan:w:f3,Be3,Qd2,O-O-O@N3}} e poi la spinta del pedone g. È il sistema più ambizioso, adatto a chi vuole attaccare con i pedoni e accetta arrocchi opposti.",
-          "source": "mixed"
+          "type": "text_table",
+          "columns": [
+           "Sistema",
+           "Prima mossa",
+           "Arrocco",
+           "Idea",
+           "Per chi"
+          ],
+          "rows": [
+           [
+            {
+             "text": "**Attacco inglese con f3**",
+             "source": "theory"
+            },
+            {
+             "text": "{{mv:C1}} ({{ev:C1}})",
+             "source": "engine"
+            },
+            {
+             "text": "**Lungo**",
+             "source": "theory"
+            },
+            {
+             "text": "{{plan:w:f3,Be3,Qd2,O-O-O@N3}}, poi spinta del pedone g",
+             "source": "theory"
+            },
+            {
+             "text": "Chi vuole attaccare con i pedoni e conosce la teoria",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "**Attacco inglese diretto**",
+             "source": "theory"
+            },
+            {
+             "text": "{{mv:C2}} ({{ev:C2}})",
+             "source": "engine"
+            },
+            {
+             "text": "**Lungo**",
+             "source": "theory"
+            },
+            {
+             "text": "{{plan:w:Be3,Qd2,O-O-O@N4}}, poi spinta del pedone g",
+             "source": "theory"
+            },
+            {
+             "text": "Chi vuole la stessa struttura senza perdere tempo con f3",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "**Preparazione tranquilla**",
+             "source": "theory"
+            },
+            {
+             "text": "{{mv:C3}} ({{ev:C3}}) o {{mv:C4}} ({{ev:C4}})",
+             "source": "engine"
+            },
+            {
+             "text": "**Corto**",
+             "source": "theory"
+            },
+            {
+             "text": "Sviluppo, arrocco corto, poi manovra centrale",
+             "source": "theory"
+            },
+            {
+             "text": "Chi preferisce il re al sicuro e piani posizionali",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "**Pressione sull'alfiere**",
+             "source": "theory"
+            },
+            {
+             "text": "{{mv:C10}} ({{ev:C10}})",
+             "source": "engine"
+            },
+            {
+             "text": "Varia",
+             "source": "theory"
+            },
+            {
+             "text": "Attacca il cavallo f6 e prepara la spinta del pedone f",
+             "source": "theory"
+            },
+            {
+             "text": "Chi conosce bene la teoria della linea con la donna in b6",
+             "source": "theory"
+            }
+           ]
+          ]
          },
          {
           "type": "p",
-          "text": "Il secondo è lo sviluppo tranquillo con arrocco corto: {{mv:C4}} ({{ev:C4}}), con l'idea {{plan:w:Bd3,O-O@N6}}. È per chi preferisce una posizione solida e piani posizionali, senza teoria pesante.",
-          "source": "mixed"
-         },
-         {
-          "type": "p",
-          "text": "Il terzo è la mossa con l'alfiere in g5, {{mv:C10}} ({{ev:C10}}), che mette pressione sul cavallo f6 ma richiede una preparazione specifica: è la più giocata a questo livello secondo Maia-2 ({{pct:C10.p_user}}), ma il motore la mette solo decima. La mossa {{mv:C3}} ({{ev:C3}}) prepara la spinta del pedone g senza impegnare subito l'alfiere.",
-          "source": "mixed"
-         },
-         {
-          "type": "p",
-          "text": "Il motore preferisce di pochissimo {{mv:C1}}, ma la differenza con {{mv:C2}} è solo {{loss:C2}} e con {{mv:C4}} appena {{loss:C4}}: **scegli il sistema che conosci meglio**, non la mossa con la valutazione più alta.",
+          "text": "Il motore preferisce di pochissimo {{mv:C1}}, la mossa consigliata, ma **non esiste una mossa unica migliore**: {{mv:C1}} e {{mv:C2}} portano di solito alla stessa struttura e la differenza tra loro è {{loss:C2}}. Se vuoi una posizione più tranquilla, {{mv:C4}} costa solo {{loss:C4}}.",
           "source": "engine"
          }
         ]
@@ -72,22 +156,22 @@
           "type": "ul",
           "items": [
            {
-            "text": "**Sistema con la spinta del pedone f: arrocco lungo.** Il re va in c1 e la torre in d1; poi la spinta del pedone g attacca il re nero, che di solito sta corto. È una corsa: il Nero contrattacca sul lato di donna.",
+            "text": "**Con f3 e alfiere in e3 si arrocca lungo.** Poi la spinta del pedone g contro il re nero, che di solito arrocca corto.",
             "source": "theory"
            },
            {
-            "text": "**Sistema tranquillo: arrocco corto.** Con l'alfiere in d3 e il re in g1 la posizione è solida; le torri vanno al centro e si gioca sulla colonna d.",
+            "text": "**Con l'alfiere in d3 o in e2 si arrocca corto.** Il re è al sicuro, poi torri al centro e manovra.",
             "source": "theory"
            },
            {
-            "text": "**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il cavallo in d4, la donna nera può arrivare in b6 e attaccare il pedone b2: se il cavallo si muove, l'alfiere resta scoperto.",
+            "text": "**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il cavallo in d4, la donna nera in b6 può attaccare il pedone b2: se il cavallo si muove, l'alfiere va difeso.",
             "source": "theory"
            }
           ]
          },
          {
           "type": "p",
-          "text": "Entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato è libera e dipende solo dal sistema che giochi.",
+          "text": "Oggi entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato dipende solo dal sistema. La colonna d è aperta davanti al tuo re, quindi l'arrocco viene prima di tutto.",
           "source": "feature",
           "assertions": [
            {
@@ -104,6 +188,14 @@
             "kind": "feature",
             "key": "can_castle_short",
             "side": "b"
+           },
+           {
+            "kind": "feature",
+            "key": "open_file_to_king",
+            "side": "w",
+            "squares": [
+             "e1"
+            ]
            }
           ]
          }
@@ -126,11 +218,11 @@
              "source": "theory"
             },
             {
-             "text": "Va protetto: dal cavallo c3, con la spinta del pedone f o con l'alfiere",
+             "text": "Va protetto: dal cavallo c3, con il pedone in f3 o con l'alfiere",
              "source": "theory"
             },
             {
-             "text": "La presa del cavallo f6 in e4 se il cavallo c3 è sovraccarico",
+             "text": "La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico",
              "source": "theory"
             }
            ],
@@ -140,7 +232,7 @@
              "source": "theory"
             },
             {
-             "text": "Domina il centro; dopo la spinta del Nero in e5 si ritira in b3: {{m:Nb3@N8}} vale {{ev:Nb3@N8}}",
+             "text": "Centro; dopo la spinta in e5 si ritira in **b3**: {{m:Nb3@N8}} vale {{ev:Nb3@N8}}",
              "source": "engine"
             },
             {
@@ -154,7 +246,7 @@
              "source": "theory"
             },
             {
-             "text": "Difende e4 e controlla d5; dopo la spinta del Nero in e5 il sogno è il salto in d5",
+             "text": "Difende e4 e controlla d5; dopo la spinta del Nero in e5 il sogno è il salto in **d5**",
              "source": "theory"
             },
             {
@@ -168,7 +260,7 @@
              "source": "theory"
             },
             {
-             "text": "In e3 è flessibile, in g5 mette pressione sul cavallo f6",
+             "text": "**e3** (flessibile) o **g5** (pressione sul cavallo f6)",
              "source": "theory"
             },
             {
@@ -182,7 +274,7 @@
              "source": "theory"
             },
             {
-             "text": "In d3 è solido e punta verso il re nero",
+             "text": "**d3** o **e2** (solido), **c4** (aggressivo)",
              "source": "theory"
             },
             {
@@ -196,7 +288,7 @@
              "source": "theory"
             },
             {
-             "text": "In d2 con l'arrocco lungo, in e2 con l'arrocco corto",
+             "text": "**d2** con l'arrocco lungo, **e2** con l'arrocco corto",
              "source": "theory"
             },
             {
@@ -210,7 +302,7 @@
              "source": "theory"
             },
             {
-             "text": "Arrocco corto: in f1 e d1. Arrocco lungo: la torre in d1 sostiene il centro",
+             "text": "Arrocco corto: in f1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g",
              "source": "theory"
             },
             {
@@ -224,11 +316,11 @@
              "source": "theory"
             },
             {
-             "text": "La spinta del pedone f sostiene e4; la spinta del pedone g attacca nell'arrocco lungo",
+             "text": "Pedone in f3 a sostegno di e4; spinta del pedone g nell'attacco inglese",
              "source": "theory"
             },
             {
-             "text": "La spinta del pedone f indebolisce la diagonale {{diag:a7-g1}}",
+             "text": "La spinta in f3 indebolisce la diagonale {{diag:a7-g1}}",
              "source": "theory"
             }
            ]
@@ -236,7 +328,7 @@
          },
          {
           "type": "p",
-          "text": "Oggi hai ancora due pezzi minori a casa (alfieri in c1 e f1) e il Nero tre (cavallo b8, alfiere c8, alfiere f8): sviluppo e arrocco vengono prima di tutto. La colonna d è aperta davanti al tuo re, quindi non aprire il centro prima di aver arroccato.",
+          "text": "Oggi i tuoi due alfieri sono ancora a casa, come tre pezzi minori neri: sviluppo e arrocco vengono prima di tutto.",
           "source": "feature",
           "assertions": [
            {
@@ -257,14 +349,6 @@
              "c8",
              "f8"
             ]
-           },
-           {
-            "kind": "feature",
-            "key": "open_file_to_king",
-            "side": "w",
-            "squares": [
-             "e1"
-            ]
            }
           ]
          }
@@ -277,32 +361,78 @@
           "type": "ul",
           "items": [
            {
-            "text": "La spinta del pedone in e5 è la risposta più naturale contro quasi tutti i sistemi: contro {{mv:C1}} Maia-2 la dà al {{pct:e5@N3}} dei giocatori del tuo livello. Occupa il centro, ma lascia d5 come buco e il pedone d6 arretrato.",
-            "source": "maia",
-            "assertions": [
-             {
-              "kind": "maia_band",
-              "ref": "e5@N3",
-              "band": "very_frequent"
-             }
-            ]
-           },
-           {
-            "text": "La spinta del pedone in e6 porta alla struttura Scheveningen: più elastica, prepara lo sviluppo con l'alfiere in e7 e la donna in c7, e talvolta la spinta in d5.",
+            "text": "La spinta del pedone in e5 è la risposta più naturale contro quasi tutti i sistemi: occupa il centro, ma lascia **d5 come buco** e il pedone d6 arretrato.",
             "source": "theory"
            },
            {
-            "text": "Contro {{mv:C2}} la risposta migliore per il motore è il salto del cavallo in g4 ({{ev:Ng4@N4}}), alla pari con la spinta in e5 ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo al Bianco.",
-            "source": "engine"
-           },
-           {
-            "text": "La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il contrattacco tipico quando il Bianco arrocca lungo.",
+            "text": "La spinta del pedone in e6 porta alla struttura **Scheveningen**: più elastica, prepara il fianchetto dell'alfiere e talvolta la spinta in d5.",
             "source": "theory"
            },
            {
-            "text": "Dopo {{mv:C10}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV10:6}} il Nero prende il pedone b2, il Pedone Avvelenato.",
+            "text": "Contro {{mv:C2}} la risposta migliore per il motore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), alla pari con {{m:e5@N4}} ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo.",
             "source": "engine"
+           },
+           {
+            "text": "La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4.",
+            "source": "theory"
+           },
+           {
+            "text": "Dopo {{mv:C10}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV10:6}} il Nero prende il pedone b2, il **Pedone Avvelenato**.",
+            "source": "engine"
+           },
+           {
+            "text": "Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del **Dragon**.",
+            "source": "theory"
            }
+          ]
+         },
+         {
+          "type": "text_table",
+          "columns": [
+           "Pezzo nero",
+           "Dove va di solito"
+          ],
+          "rows": [
+           [
+            {
+             "text": "Alfiere c8",
+             "source": "theory"
+            },
+            {
+             "text": "**e6** contro d5; con la struttura Scheveningen in b7 o d7",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Cavallo b8",
+             "source": "theory"
+            },
+            {
+             "text": "**d7** a sostegno della spinta del pedone b, oppure **c6** contro il centro",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Alfiere f8",
+             "source": "theory"
+            },
+            {
+             "text": "**e7**, poi arrocco corto",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Donna",
+             "source": "theory"
+            },
+            {
+             "text": "**c7** sulla colonna c, oppure **b6** contro b2 e d4",
+             "source": "theory"
+            }
+           ]
           ]
          },
          {
@@ -311,12 +441,12 @@
          },
          {
           "type": "p",
-          "text": "La tabella mostra quanto costa la spinta in e5 contro ciascun sistema. Contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} è una risposta normale (al massimo {{loss:e5@N6}}), mentre contro {{mv:C10}} è un errore: {{m:e5@N7}} vale {{ev:e5@N7}} invece di {{ev:N7}}, cioè perde {{loss:e5@N7}}. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere {{m:e6@N7}}.",
+          "text": "La tabella mostra quanto costa la spinta del pedone in e5 contro ciascun sistema. Contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} è una risposta normale, mentre contro {{mv:C10}} è un errore: {{m:e5@N7}} vale {{ev:e5@N7}} invece di {{ev:N7}}, cioè perde {{loss:e5@N7}}. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere {{m:e6@N7}}.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "Secondo Maia-2, contro {{mv:C10}} sceglie la spinta in e5 solo il {{pct:e5@N7}} dei giocatori del tuo livello, mentre la risposta corretta raccoglie {{pct:e6@N7}}: è una trappola in cui è facile cadere.",
+          "text": "Secondo Maia-2, contro {{mv:C10}} sceglie la spinta in e5 il {{pct:e5@N7}} dei giocatori del tuo livello, mentre la risposta corretta raccoglie {{pct:e6@N7}}. Contro {{mv:C1}} la spinta in e5 è invece la scelta del {{pct:e5@N3}} dei giocatori.",
           "source": "maia"
          }
         ]
@@ -330,25 +460,25 @@
           "text_cells": {
            "C1": {
             "idea": {
-             "text": "Spinta del pedone f che prepara l'arrocco lungo; contro la spinta in e5 segue la ritirata del cavallo in b3 ({{ev:Nb3@N8}})",
+             "text": "Attacco inglese che evita il salto del cavallo in g4; contro la spinta in e5 segue la ritirata in b3 ({{ev:Nb3@N8}})",
              "source": "engine"
             }
            },
            "C2": {
             "idea": {
-             "text": "Sviluppo dell'alfiere in e3, stesso sistema dell'arrocco lungo; deve fare i conti con il salto del cavallo in g4 ({{ev:Ng4@N4}})",
+             "text": "Attacco inglese diretto; deve fare i conti con {{m:Ng4@N4}} ({{ev:Ng4@N4}})",
              "source": "engine"
             }
            },
            "C3": {
             "idea": {
-             "text": "Prepara la spinta del pedone g senza impegnare l'alfiere; dopo la spinta in e6 segue la spinta in g4 ({{ev:g4@N15}})",
+             "text": "Prepara la spinta del pedone g senza f3; dopo la spinta in e6 segue la spinta del pedone g ({{ev:g4@N15}})",
              "source": "engine"
             }
            },
            "C4": {
             "idea": {
-             "text": "Sviluppo tranquillo con l'alfiere in d3 e arrocco corto; contro la spinta in e5 il cavallo va in e2 ({{ev:e5@N6}})",
+             "text": "Sviluppo tranquillo e arrocco corto; contro la spinta in e5 il cavallo va in e2 ({{ev:e5@N6}})",
              "source": "engine"
             }
            },
@@ -367,7 +497,7 @@
          },
          {
           "type": "p",
-          "text": "A questo livello conta più la conoscenza dei piani che la scelta tra queste mosse: {{mv:C2}} e {{mv:C1}} sono quasi intercambiabili, {{mv:C3}} e {{mv:C4}} sono alternative valide ({{ev:C3}} e {{ev:C4}}).",
+          "text": "A questo livello conta di più la **conoscenza dei piani** che la scelta tra queste mosse: {{mv:C2}} e {{mv:C1}} sono intercambiabili, {{mv:C3}} e {{mv:C4}} sono alternative valide ({{ev:C3}} e {{ev:C4}}).",
           "source": "engine"
          }
         ]
@@ -377,7 +507,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "**{{mv:C3}} è una mossa difficile**: il motore la mette tra le prime tre ({{ev:C3}}, solo {{loss:C3}} dalla migliore), ma a questo livello la sceglie appena il {{pct:C3.p_user}} dei giocatori. È una mossa che richiede di capire il piano prima di giocarla.",
+          "text": "**{{mv:C3}} è una mossa difficile**: il motore la mette tra le prime tre ({{ev:C3}}, solo {{loss:C3}} dalla migliore), ma a questo livello la sceglie appena il {{pct:C3.p_user}} dei giocatori.",
           "source": "mixed",
           "assertions": [
            {
@@ -401,11 +531,11 @@
           "type": "ol",
           "items": [
            {
-            "text": "**Scegli il sistema** (spinta del pedone f con arrocco lungo, oppure sviluppo tranquillo con arrocco corto) e quindi il lato dell'arrocco.",
+            "text": "**Scegli il sistema** (attacco inglese o sviluppo tranquillo) e quindi il lato dell'arrocco.",
             "source": "theory"
            },
            {
-            "text": "**Proteggi e4** prima di ogni mossa non forzata.",
+            "text": "**Proteggi il pedone e4** prima di ogni mossa non forzata.",
             "source": "theory"
            },
            {
@@ -413,7 +543,7 @@
             "source": "theory"
            },
            {
-            "text": "Se il Nero gioca la spinta in e5, ritira il cavallo in b3 ({{ev:Nb3@N8}}) e punta alla casa d5.",
+            "text": "Se il Nero spinge in e5, ritira il cavallo in b3 ({{ev:Nb3@N8}}) e punta alla casa d5.",
             "source": "engine"
            },
            {
@@ -430,9 +560,9 @@
        }
       ],
       "notes": [
-       "Maia-2 è in modalità a bassa confidenza: le probabilità umane sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.",
-       "La raccomandazione è debole e no_unique_best è vero: l'analisi propone sistemi tra cui scegliere invece di una mossa unica.",
-       "Il token p_up non è stato usato perché null nel pacchetto."
+       "Maia-2 è in stato low confidence: le probabilità umane sono state usate solo come indicazione qualitativa, senza costruire ragionamenti su piccole differenze.",
+       "Il nodo N15 è citato per la spinta del pedone g dopo h3 e la spinta in e6; il nodo N6 per la ritirata del cavallo in e2 dopo Bd3 e la spinta in e5.",
+       "La tabella T3 è stata inserita senza colonne di testo, come richiesto."
       ]
      }
     }
@@ -440,20 +570,20 @@
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
     "prompt_tokens": 26491,
-    "completion_tokens": 3842,
-    "total_tokens": 30333,
-    "cost": 0.011541636,
+    "completion_tokens": 4080,
+    "total_tokens": 30571,
+    "cost": 0.005091108,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 3456,
+     "cached_tokens": 26368,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.011541636,
-     "upstream_inference_prompt_cost": 0.006931236,
-     "upstream_inference_completions_cost": 0.0046104
+     "upstream_inference_cost": 0.005091108,
+     "upstream_inference_prompt_cost": 0.000195108,
+     "upstream_inference_completions_cost": 0.004896
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -462,9 +592,9 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791117585-eZP0YnRLbwzeYoWkKiAa",
+    "id": "gen-1791118026-scyI2Mg9OKzMozINyJxE",
     "object": "chat.completion",
-    "created": 1791117585,
+    "created": 1791118026,
     "model": "deepseek/deepseek-v4.1-flash",
     "provider": "Together",
     "system_fingerprint": "default",
@@ -484,10 +614,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "call_01a106ed6d25711eb2c418b6",
+         "id": "call_01a106f426227642aff28bf0",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Posizione di Najdorf molto equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}} con la mossa migliore, e quasi solo patta secondo Stockfish ({{pct:root.draw}}). Siamo ancora in apertura, in teoria, e la mossa consigliata è {{mv:C1}}, ma la raccomandazione è debole: **non esiste una mossa unica migliore**.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Se toccasse al Nero la posizione sarebbe praticamente pari ({{ev:N2}}): il tuo vantaggio è quasi solo il tratto. Le candidate spiegate stanno tutte in un intervallo piccolissimo, quindi conta più il sistema che scegli che la singola mossa.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]}]},{\"id\":\"S03\",\"blocks\":[{\"type\":\"p\",\"text\":\"Puoi raggruppare le candidate in tre sistemi. Il primo è quello con la spinta del pedone f e l'arrocco lungo: {{mv:C1}} ({{ev:C1}}) o {{mv:C2}} ({{ev:C2}}), con l'idea {{plan:w:f3,Be3,Qd2,O-O-O@N3}} e poi la spinta del pedone g. È il sistema più ambizioso, adatto a chi vuole attaccare con i pedoni e accetta arrocchi opposti.\",\"source\":\"mixed\"},{\"type\":\"p\",\"text\":\"Il secondo è lo sviluppo tranquillo con arrocco corto: {{mv:C4}} ({{ev:C4}}), con l'idea {{plan:w:Bd3,O-O@N6}}. È per chi preferisce una posizione solida e piani posizionali, senza teoria pesante.\",\"source\":\"mixed\"},{\"type\":\"p\",\"text\":\"Il terzo è la mossa con l'alfiere in g5, {{mv:C10}} ({{ev:C10}}), che mette pressione sul cavallo f6 ma richiede una preparazione specifica: è la più giocata a questo livello secondo Maia-2 ({{pct:C10.p_user}}), ma il motore la mette solo decima. La mossa {{mv:C3}} ({{ev:C3}}) prepara la spinta del pedone g senza impegnare subito l'alfiere.\",\"source\":\"mixed\"},{\"type\":\"p\",\"text\":\"Il motore preferisce di pochissimo {{mv:C1}}, ma la differenza con {{mv:C2}} è solo {{loss:C2}} e con {{mv:C4}} appena {{loss:C4}}: **scegli il sistema che conosci meglio**, non la mossa con la valutazione più alta.\",\"source\":\"engine\"}]},{\"id\":\"S04\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"**Sistema con la spinta del pedone f: arrocco lungo.** Il re va in c1 e la torre in d1; poi la spinta del pedone g attacca il re nero, che di solito sta corto. È una corsa: il Nero contrattacca sul lato di donna.\",\"source\":\"theory\"},{\"text\":\"**Sistema tranquillo: arrocco corto.** Con l'alfiere in d3 e il re in g1 la posizione è solida; le torri vanno al centro e si gioca sulla colonna d.\",\"source\":\"theory\"},{\"text\":\"**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il cavallo in d4, la donna nera può arrivare in b6 e attaccare il pedone b2: se il cavallo si muove, l'alfiere resta scoperto.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato è libera e dipende solo dal sistema che giochi.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"b\"}]}]},{\"id\":\"S05\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Pezzo\",\"Obiettivo tipico\",\"Attenzione\"],\"rows\":[[{\"text\":\"Pedone e4\",\"source\":\"theory\"},{\"text\":\"Va protetto: dal cavallo c3, con la spinta del pedone f o con l'alfiere\",\"source\":\"theory\"},{\"text\":\"La presa del cavallo f6 in e4 se il cavallo c3 è sovraccarico\",\"source\":\"theory\"}],[{\"text\":\"Cavallo d4\",\"source\":\"theory\"},{\"text\":\"Domina il centro; dopo la spinta del Nero in e5 si ritira in b3: {{m:Nb3@N8}} vale {{ev:Nb3@N8}}\",\"source\":\"engine\"},{\"text\":\"{{m:Nf5@N8}} sembra attivo ma perde {{loss:Nf5@N8}}\",\"source\":\"engine\"}],[{\"text\":\"Cavallo c3\",\"source\":\"theory\"},{\"text\":\"Difende e4 e controlla d5; dopo la spinta del Nero in e5 il sogno è il salto in d5\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone b lo scaccia\",\"source\":\"theory\"}],[{\"text\":\"Alfiere c1\",\"source\":\"theory\"},{\"text\":\"In e3 è flessibile, in g5 mette pressione sul cavallo f6\",\"source\":\"theory\"},{\"text\":\"Non lasciarlo senza difesa sulla diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f1\",\"source\":\"theory\"},{\"text\":\"In d3 è solido e punta verso il re nero\",\"source\":\"theory\"},{\"text\":\"In c4 invita la spinta del pedone b\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"In d2 con l'arrocco lungo, in e2 con l'arrocco corto\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 attacca b2 e il cavallo d4\",\"source\":\"theory\"}],[{\"text\":\"Torri\",\"source\":\"theory\"},{\"text\":\"Arrocco corto: in f1 e d1. Arrocco lungo: la torre in d1 sostiene il centro\",\"source\":\"theory\"},{\"text\":\"Non lasciare la torre a1 senza un piano\",\"source\":\"theory\"}],[{\"text\":\"Pedoni f, g e h\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone f sostiene e4; la spinta del pedone g attacca nell'arrocco lungo\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone f indebolisce la diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Oggi hai ancora due pezzi minori a casa (alfieri in c1 e f1) e il Nero tre (cavallo b8, alfiere c8, alfiere f8): sviluppo e arrocco vengono prima di tutto. La colonna d è aperta davanti al tuo re, quindi non aprire il centro prima di aver arroccato.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"w\",\"squares\":[\"c1\",\"f1\"]},{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]},{\"kind\":\"feature\",\"key\":\"open_file_to_king\",\"side\":\"w\",\"squares\":[\"e1\"]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"La spinta del pedone in e5 è la risposta più naturale contro quasi tutti i sistemi: contro {{mv:C1}} Maia-2 la dà al {{pct:e5@N3}} dei giocatori del tuo livello. Occupa il centro, ma lascia d5 come buco e il pedone d6 arretrato.\",\"source\":\"maia\",\"assertions\":[{\"kind\":\"maia_band\",\"ref\":\"e5@N3\",\"band\":\"very_frequent\"}]},{\"text\":\"La spinta del pedone in e6 porta alla struttura Scheveningen: più elastica, prepara lo sviluppo con l'alfiere in e7 e la donna in c7, e talvolta la spinta in d5.\",\"source\":\"theory\"},{\"text\":\"Contro {{mv:C2}} la risposta migliore per il motore è il salto del cavallo in g4 ({{ev:Ng4@N4}}), alla pari con la spinta in e5 ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo al Bianco.\",\"source\":\"engine\"},{\"text\":\"La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il contrattacco tipico quando il Bianco arrocca lungo.\",\"source\":\"theory\"},{\"text\":\"Dopo {{mv:C10}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV10:6}} il Nero prende il pedone b2, il Pedone Avvelenato.\",\"source\":\"engine\"}]},{\"type\":\"table\",\"ref\":\"T3\"},{\"type\":\"p\",\"text\":\"La tabella mostra quanto costa la spinta in e5 contro ciascun sistema. Contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} è una risposta normale (al massimo {{loss:e5@N6}}), mentre contro {{mv:C10}} è un errore: {{m:e5@N7}} vale {{ev:e5@N7}} invece di {{ev:N7}}, cioè perde {{loss:e5@N7}}. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere {{m:e6@N7}}.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, contro {{mv:C10}} sceglie la spinta in e5 solo il {{pct:e5@N7}} dei giocatori del tuo livello, mentre la risposta corretta raccoglie {{pct:e6@N7}}: è una trappola in cui è facile cadere.\",\"source\":\"maia\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C1\":{\"idea\":{\"text\":\"Spinta del pedone f che prepara l'arrocco lungo; contro la spinta in e5 segue la ritirata del cavallo in b3 ({{ev:Nb3@N8}})\",\"source\":\"engine\"}},\"C2\":{\"idea\":{\"text\":\"Sviluppo dell'alfiere in e3, stesso sistema dell'arrocco lungo; deve fare i conti con il salto del cavallo in g4 ({{ev:Ng4@N4}})\",\"source\":\"engine\"}},\"C3\":{\"idea\":{\"text\":\"Prepara la spinta del pedone g senza impegnare l'alfiere; dopo la spinta in e6 segue la spinta in g4 ({{ev:g4@N15}})\",\"source\":\"engine\"}},\"C4\":{\"idea\":{\"text\":\"Sviluppo tranquillo con l'alfiere in d3 e arrocco corto; contro la spinta in e5 il cavallo va in e2 ({{ev:e5@N6}})\",\"source\":\"engine\"}},\"C10\":{\"idea\":{\"text\":\"La più giocata a questo livello ({{pct:C10.p_user}}); il Nero risponde con la spinta in e6\",\"source\":\"mixed\"}}}},{\"type\":\"p\",\"text\":\"Il motore non vede un vincitore chiaro: tra la prima e l'ultima mossa spiegata ci sono {{loss:C10}} pedoni. La linea principale dopo {{mv:C1}} è {{pv:PV1:8}}: il Bianco ottiene la casa d5 in cambio dell'alfiere nero.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"A questo livello conta più la conoscenza dei piani che la scelta tra queste mosse: {{mv:C2}} e {{mv:C1}} sono quasi intercambiabili, {{mv:C3}} e {{mv:C4}} sono alternative valide ({{ev:C3}} e {{ev:C4}}).\",\"source\":\"engine\"}]},{\"id\":\"S08\",\"blocks\":[{\"type\":\"p\",\"text\":\"**{{mv:C3}} è una mossa difficile**: il motore la mette tra le prime tre ({{ev:C3}}, solo {{loss:C3}} dalla migliore), ma a questo livello la sceglie appena il {{pct:C3.p_user}} dei giocatori. È una mossa che richiede di capire il piano prima di giocarla.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C3\",\"category\":\"hard_move\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C1}} e la spinta in e5 la ritirata del cavallo va scelta bene: {{m:Nb3@N8}} tiene il vantaggio, {{m:Nde2@N8}} costa già {{loss:Nde2@N8}} e la mossa d'attacco {{m:Nf5@N8}}, che sembra la più attiva, perde {{loss:Nf5@N8}}.\",\"source\":\"engine\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Scegli il sistema** (spinta del pedone f con arrocco lungo, oppure sviluppo tranquillo con arrocco corto) e quindi il lato dell'arrocco.\",\"source\":\"theory\"},{\"text\":\"**Proteggi e4** prima di ogni mossa non forzata.\",\"source\":\"theory\"},{\"text\":\"**Prima di muovere, controlla la donna nera in b6 e la presa in e4**: sono le due tattiche che il Nero cerca più spesso.\",\"source\":\"theory\"},{\"text\":\"Se il Nero gioca la spinta in e5, ritira il cavallo in b3 ({{ev:Nb3@N8}}) e punta alla casa d5.\",\"source\":\"engine\"},{\"text\":\"Se il cavallo nero salta in g4, non rispondere d'istinto: confronta le ritirate dell'alfiere prima di muovere.\",\"source\":\"theory\"},{\"text\":\"Non perdere tempi: con il Nero al tratto la posizione sarebbe {{ev:N2}}, il tuo vantaggio è il tratto.\",\"source\":\"engine\"}]}]}],\"notes\":[\"Maia-2 è in modalità a bassa confidenza: le probabilità umane sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.\",\"La raccomandazione è debole e no_unique_best è vero: l'analisi propone sistemi tra cui scegliere invece di una mossa unica.\",\"Il token p_up non è stato usato perché null nel pacchetto.\"]}"
+          "arguments": "{\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"La posizione è in equilibrio: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta e pochissime possibilità di sconfitta. Siamo in una Najdorf, {{opening:name}} ({{opening:eco}}), e il Nero ha appena giocato il pedone in a6.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Se toccasse al Nero la valutazione sarebbe {{ev:N2}}: il tuo vantaggio è quasi solo il tratto. Le mosse spiegate stanno tutte in un intervallo piccolissimo, quindi **non devi cercare la mossa migliore, ma scegliere un sistema e giocarlo bene**.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]}]},{\"id\":\"S03\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Sistema\",\"Prima mossa\",\"Arrocco\",\"Idea\",\"Per chi\"],\"rows\":[[{\"text\":\"**Attacco inglese con f3**\",\"source\":\"theory\"},{\"text\":\"{{mv:C1}} ({{ev:C1}})\",\"source\":\"engine\"},{\"text\":\"**Lungo**\",\"source\":\"theory\"},{\"text\":\"{{plan:w:f3,Be3,Qd2,O-O-O@N3}}, poi spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Chi vuole attaccare con i pedoni e conosce la teoria\",\"source\":\"theory\"}],[{\"text\":\"**Attacco inglese diretto**\",\"source\":\"theory\"},{\"text\":\"{{mv:C2}} ({{ev:C2}})\",\"source\":\"engine\"},{\"text\":\"**Lungo**\",\"source\":\"theory\"},{\"text\":\"{{plan:w:Be3,Qd2,O-O-O@N4}}, poi spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Chi vuole la stessa struttura senza perdere tempo con f3\",\"source\":\"theory\"}],[{\"text\":\"**Preparazione tranquilla**\",\"source\":\"theory\"},{\"text\":\"{{mv:C3}} ({{ev:C3}}) o {{mv:C4}} ({{ev:C4}})\",\"source\":\"engine\"},{\"text\":\"**Corto**\",\"source\":\"theory\"},{\"text\":\"Sviluppo, arrocco corto, poi manovra centrale\",\"source\":\"theory\"},{\"text\":\"Chi preferisce il re al sicuro e piani posizionali\",\"source\":\"theory\"}],[{\"text\":\"**Pressione sull'alfiere**\",\"source\":\"theory\"},{\"text\":\"{{mv:C10}} ({{ev:C10}})\",\"source\":\"engine\"},{\"text\":\"Varia\",\"source\":\"theory\"},{\"text\":\"Attacca il cavallo f6 e prepara la spinta del pedone f\",\"source\":\"theory\"},{\"text\":\"Chi conosce bene la teoria della linea con la donna in b6\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Il motore preferisce di pochissimo {{mv:C1}}, la mossa consigliata, ma **non esiste una mossa unica migliore**: {{mv:C1}} e {{mv:C2}} portano di solito alla stessa struttura e la differenza tra loro è {{loss:C2}}. Se vuoi una posizione più tranquilla, {{mv:C4}} costa solo {{loss:C4}}.\",\"source\":\"engine\"}]},{\"id\":\"S04\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"**Con f3 e alfiere in e3 si arrocca lungo.** Poi la spinta del pedone g contro il re nero, che di solito arrocca corto.\",\"source\":\"theory\"},{\"text\":\"**Con l'alfiere in d3 o in e2 si arrocca corto.** Il re è al sicuro, poi torri al centro e manovra.\",\"source\":\"theory\"},{\"text\":\"**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il cavallo in d4, la donna nera in b6 può attaccare il pedone b2: se il cavallo si muove, l'alfiere va difeso.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Oggi entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato dipende solo dal sistema. La colonna d è aperta davanti al tuo re, quindi l'arrocco viene prima di tutto.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"b\"},{\"kind\":\"feature\",\"key\":\"open_file_to_king\",\"side\":\"w\",\"squares\":[\"e1\"]}]}]},{\"id\":\"S05\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Pezzo\",\"Obiettivo tipico\",\"Attenzione\"],\"rows\":[[{\"text\":\"Pedone e4\",\"source\":\"theory\"},{\"text\":\"Va protetto: dal cavallo c3, con il pedone in f3 o con l'alfiere\",\"source\":\"theory\"},{\"text\":\"La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico\",\"source\":\"theory\"}],[{\"text\":\"Cavallo d4\",\"source\":\"theory\"},{\"text\":\"Centro; dopo la spinta in e5 si ritira in **b3**: {{m:Nb3@N8}} vale {{ev:Nb3@N8}}\",\"source\":\"engine\"},{\"text\":\"{{m:Nf5@N8}} sembra attivo ma perde {{loss:Nf5@N8}}\",\"source\":\"engine\"}],[{\"text\":\"Cavallo c3\",\"source\":\"theory\"},{\"text\":\"Difende e4 e controlla d5; dopo la spinta del Nero in e5 il sogno è il salto in **d5**\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone b lo scaccia\",\"source\":\"theory\"}],[{\"text\":\"Alfiere c1\",\"source\":\"theory\"},{\"text\":\"**e3** (flessibile) o **g5** (pressione sul cavallo f6)\",\"source\":\"theory\"},{\"text\":\"Non lasciarlo senza difesa sulla diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f1\",\"source\":\"theory\"},{\"text\":\"**d3** o **e2** (solido), **c4** (aggressivo)\",\"source\":\"theory\"},{\"text\":\"In c4 invita la spinta del pedone b\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**d2** con l'arrocco lungo, **e2** con l'arrocco corto\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 attacca b2 e il cavallo d4\",\"source\":\"theory\"}],[{\"text\":\"Torri\",\"source\":\"theory\"},{\"text\":\"Arrocco corto: in f1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Non lasciare la torre a1 senza un piano\",\"source\":\"theory\"}],[{\"text\":\"Pedoni f, g e h\",\"source\":\"theory\"},{\"text\":\"Pedone in f3 a sostegno di e4; spinta del pedone g nell'attacco inglese\",\"source\":\"theory\"},{\"text\":\"La spinta in f3 indebolisce la diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Oggi i tuoi due alfieri sono ancora a casa, come tre pezzi minori neri: sviluppo e arrocco vengono prima di tutto.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"w\",\"squares\":[\"c1\",\"f1\"]},{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"La spinta del pedone in e5 è la risposta più naturale contro quasi tutti i sistemi: occupa il centro, ma lascia **d5 come buco** e il pedone d6 arretrato.\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone in e6 porta alla struttura **Scheveningen**: più elastica, prepara il fianchetto dell'alfiere e talvolta la spinta in d5.\",\"source\":\"theory\"},{\"text\":\"Contro {{mv:C2}} la risposta migliore per il motore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), alla pari con {{m:e5@N4}} ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo.\",\"source\":\"engine\"},{\"text\":\"La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4.\",\"source\":\"theory\"},{\"text\":\"Dopo {{mv:C10}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV10:6}} il Nero prende il pedone b2, il **Pedone Avvelenato**.\",\"source\":\"engine\"},{\"text\":\"Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del **Dragon**.\",\"source\":\"theory\"}]},{\"type\":\"text_table\",\"columns\":[\"Pezzo nero\",\"Dove va di solito\"],\"rows\":[[{\"text\":\"Alfiere c8\",\"source\":\"theory\"},{\"text\":\"**e6** contro d5; con la struttura Scheveningen in b7 o d7\",\"source\":\"theory\"}],[{\"text\":\"Cavallo b8\",\"source\":\"theory\"},{\"text\":\"**d7** a sostegno della spinta del pedone b, oppure **c6** contro il centro\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f8\",\"source\":\"theory\"},{\"text\":\"**e7**, poi arrocco corto\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**c7** sulla colonna c, oppure **b6** contro b2 e d4\",\"source\":\"theory\"}]]},{\"type\":\"table\",\"ref\":\"T3\"},{\"type\":\"p\",\"text\":\"La tabella mostra quanto costa la spinta del pedone in e5 contro ciascun sistema. Contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} è una risposta normale, mentre contro {{mv:C10}} è un errore: {{m:e5@N7}} vale {{ev:e5@N7}} invece di {{ev:N7}}, cioè perde {{loss:e5@N7}}. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere {{m:e6@N7}}.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, contro {{mv:C10}} sceglie la spinta in e5 il {{pct:e5@N7}} dei giocatori del tuo livello, mentre la risposta corretta raccoglie {{pct:e6@N7}}. Contro {{mv:C1}} la spinta in e5 è invece la scelta del {{pct:e5@N3}} dei giocatori.\",\"source\":\"maia\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C1\":{\"idea\":{\"text\":\"Attacco inglese che evita il salto del cavallo in g4; contro la spinta in e5 segue la ritirata in b3 ({{ev:Nb3@N8}})\",\"source\":\"engine\"}},\"C2\":{\"idea\":{\"text\":\"Attacco inglese diretto; deve fare i conti con {{m:Ng4@N4}} ({{ev:Ng4@N4}})\",\"source\":\"engine\"}},\"C3\":{\"idea\":{\"text\":\"Prepara la spinta del pedone g senza f3; dopo la spinta in e6 segue la spinta del pedone g ({{ev:g4@N15}})\",\"source\":\"engine\"}},\"C4\":{\"idea\":{\"text\":\"Sviluppo tranquillo e arrocco corto; contro la spinta in e5 il cavallo va in e2 ({{ev:e5@N6}})\",\"source\":\"engine\"}},\"C10\":{\"idea\":{\"text\":\"La più giocata a questo livello ({{pct:C10.p_user}}); il Nero risponde con la spinta in e6\",\"source\":\"mixed\"}}}},{\"type\":\"p\",\"text\":\"Il motore non vede un vincitore chiaro: tra la prima e l'ultima mossa spiegata ci sono {{loss:C10}} pedoni. La linea principale dopo {{mv:C1}} è {{pv:PV1:8}}: il Bianco ottiene la casa d5 in cambio dell'alfiere nero.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"A questo livello conta di più la **conoscenza dei piani** che la scelta tra queste mosse: {{mv:C2}} e {{mv:C1}} sono intercambiabili, {{mv:C3}} e {{mv:C4}} sono alternative valide ({{ev:C3}} e {{ev:C4}}).\",\"source\":\"engine\"}]},{\"id\":\"S08\",\"blocks\":[{\"type\":\"p\",\"text\":\"**{{mv:C3}} è una mossa difficile**: il motore la mette tra le prime tre ({{ev:C3}}, solo {{loss:C3}} dalla migliore), ma a questo livello la sceglie appena il {{pct:C3.p_user}} dei giocatori.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C3\",\"category\":\"hard_move\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C1}} e la spinta in e5 la ritirata del cavallo va scelta bene: {{m:Nb3@N8}} tiene il vantaggio, {{m:Nde2@N8}} costa già {{loss:Nde2@N8}} e la mossa d'attacco {{m:Nf5@N8}}, che sembra la più attiva, perde {{loss:Nf5@N8}}.\",\"source\":\"engine\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Scegli il sistema** (attacco inglese o sviluppo tranquillo) e quindi il lato dell'arrocco.\",\"source\":\"theory\"},{\"text\":\"**Proteggi il pedone e4** prima di ogni mossa non forzata.\",\"source\":\"theory\"},{\"text\":\"**Prima di muovere, controlla la donna nera in b6 e la presa in e4**: sono le due tattiche che il Nero cerca più spesso.\",\"source\":\"theory\"},{\"text\":\"Se il Nero spinge in e5, ritira il cavallo in b3 ({{ev:Nb3@N8}}) e punta alla casa d5.\",\"source\":\"engine\"},{\"text\":\"Se il cavallo nero salta in g4, non rispondere d'istinto: confronta le ritirate dell'alfiere prima di muovere.\",\"source\":\"theory\"},{\"text\":\"Non perdere tempi: con il Nero al tratto la posizione sarebbe {{ev:N2}}, il tuo vantaggio è il tratto.\",\"source\":\"engine\"}]}]}],\"notes\":[\"Maia-2 è in stato low confidence: le probabilità umane sono state usate solo come indicazione qualitativa, senza costruire ragionamenti su piccole differenze.\",\"Il nodo N15 è citato per la spinta del pedone g dopo h3 e la spinta in e6; il nodo N6 per la ritirata del cavallo in e2 dopo Bd3 e la spinta in e5.\",\"La tabella T3 è stata inserita senza colonne di testo, come richiesto.\"]}"
          }
         }
        ]
@@ -496,20 +626,20 @@
     ],
     "usage": {
      "prompt_tokens": 26491,
-     "completion_tokens": 3842,
-     "total_tokens": 30333,
-     "cost": 0.011541636,
+     "completion_tokens": 4080,
+     "total_tokens": 30571,
+     "cost": 0.005091108,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 3456,
+      "cached_tokens": 26368,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.011541636,
-      "upstream_inference_prompt_cost": 0.006931236,
-      "upstream_inference_completions_cost": 0.0046104
+      "upstream_inference_cost": 0.005091108,
+      "upstream_inference_prompt_cost": 0.000195108,
+      "upstream_inference_completions_cost": 0.004896
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,
@@ -524,7 +654,7 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "call_01a106ed9a49710da9efe3e8",
+     "id": "call_01a106f44b0d759ab01f189a",
      "name": "submit_analysis",
      "input": {
       "schema_version": "1",
@@ -534,7 +664,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Posizione di Najdorf molto equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}} con la mossa migliore, e quasi solo patta secondo Stockfish ({{pct:root.draw}}). Siamo ancora in apertura, in teoria, e la mossa consigliata è {{mv:C1}}, ma la raccomandazione è debole: **non esiste una mossa unica migliore**.",
+          "text": "La posizione è in equilibrio: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta e pochissime possibilità di sconfitta. Siamo in una Najdorf, {{opening:name}} ({{opening:eco}}), e il Nero ha appena giocato il pedone in a6.",
           "source": "engine",
           "assertions": [
            {
@@ -546,7 +676,7 @@
          },
          {
           "type": "p",
-          "text": "Se toccasse al Nero la posizione sarebbe praticamente pari ({{ev:N2}}): il tuo vantaggio è quasi solo il tratto. Le candidate spiegate stanno tutte in un intervallo piccolissimo, quindi conta più il sistema che scegli che la singola mossa.",
+          "text": "Se toccasse al Nero la valutazione sarebbe {{ev:N2}}: il tuo vantaggio è quasi solo il tratto. Le mosse spiegate stanno tutte in un intervallo piccolissimo, quindi **non devi cercare la mossa migliore, ma scegliere un sistema e giocarlo bene**.",
           "source": "engine",
           "assertions": [
            {
@@ -562,23 +692,108 @@
         "id": "S03",
         "blocks": [
          {
-          "type": "p",
-          "text": "Puoi raggruppare le candidate in tre sistemi. Il primo è quello con la spinta del pedone f e l'arrocco lungo: {{mv:C1}} ({{ev:C1}}) o {{mv:C2}} ({{ev:C2}}), con l'idea {{plan:w:Be3,Qd2,O-O-O@N4}} e poi la spinta del pedone g. È il sistema più ambizioso, adatto a chi vuole attaccare con i pedoni e accetta arrocchi opposti.",
-          "source": "mixed"
+          "type": "text_table",
+          "columns": [
+           "Sistema",
+           "Prima mossa",
+           "Arrocco",
+           "Idea",
+           "Per chi"
+          ],
+          "rows": [
+           [
+            {
+             "text": "**Attacco inglese con f3**",
+             "source": "theory"
+            },
+            {
+             "text": "{{mv:C1}} ({{ev:C1}})",
+             "source": "engine"
+            },
+            {
+             "text": "**Lungo**",
+             "source": "theory"
+            },
+            {
+             "text": "{{plan:w:f3,Be3,Qd2,O-O-O@N3}}, poi spinta del pedone g",
+             "source": "theory"
+            },
+            {
+             "text": "Chi vuole attaccare con i pedoni e conosce la teoria",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "**Attacco inglese diretto**",
+             "source": "theory"
+            },
+            {
+             "text": "{{mv:C2}} ({{ev:C2}})",
+             "source": "engine"
+            },
+            {
+             "text": "**Lungo**",
+             "source": "theory"
+            },
+            {
+             "text": "{{plan:w:Be3,Qd2,O-O-O@N4}}, poi spinta del pedone g",
+             "source": "theory"
+            },
+            {
+             "text": "Chi vuole la stessa struttura senza perdere tempo con f3",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "**Preparazione tranquilla**",
+             "source": "theory"
+            },
+            {
+             "text": "{{mv:C3}} ({{ev:C3}}) o {{mv:C4}} ({{ev:C4}})",
+             "source": "engine"
+            },
+            {
+             "text": "**Corto**",
+             "source": "theory"
+            },
+            {
+             "text": "Sviluppo, arrocco corto, poi manovra centrale",
+             "source": "theory"
+            },
+            {
+             "text": "Chi preferisce il re al sicuro e piani posizionali",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "**Pressione sull'alfiere**",
+             "source": "theory"
+            },
+            {
+             "text": "{{mv:C10}} ({{ev:C10}})",
+             "source": "engine"
+            },
+            {
+             "text": "Varia",
+             "source": "theory"
+            },
+            {
+             "text": "Attacca il cavallo f6 e prepara la spinta del pedone f",
+             "source": "theory"
+            },
+            {
+             "text": "Chi conosce bene la teoria della linea con la donna in b6",
+             "source": "theory"
+            }
+           ]
+          ]
          },
          {
           "type": "p",
-          "text": "Il secondo è lo sviluppo tranquillo con arrocco corto: {{mv:C4}} ({{ev:C4}}), con l'idea {{plan:w:O-O@N6}}. È per chi preferisce una posizione solida e piani posizionali, senza teoria pesante.",
-          "source": "mixed"
-         },
-         {
-          "type": "p",
-          "text": "Il terzo è la mossa con l'alfiere in g5, {{mv:C10}} ({{ev:C10}}), che mette pressione sul cavallo f6 ma richiede una preparazione specifica: è la più giocata a questo livello secondo Maia-2 ({{pct:C10.p_user}}), ma il motore la mette solo decima. La mossa {{mv:C3}} ({{ev:C3}}) prepara la spinta del pedone g senza impegnare subito l'alfiere.",
-          "source": "mixed"
-         },
-         {
-          "type": "p",
-          "text": "Il motore preferisce di pochissimo {{mv:C1}}, ma la differenza con {{mv:C2}} è solo {{loss:C2}} e con {{mv:C4}} appena {{loss:C4}}: **scegli il sistema che conosci meglio**, non la mossa con la valutazione più alta.",
+          "text": "Il motore preferisce di pochissimo {{mv:C1}}, la mossa consigliata, ma **non esiste una mossa unica migliore**: {{mv:C1}} e {{mv:C2}} portano di solito alla stessa struttura e la differenza tra loro è {{loss:C2}}. Se vuoi una posizione più tranquilla, {{mv:C4}} costa solo {{loss:C4}}.",
           "source": "engine"
          }
         ]
@@ -590,22 +805,22 @@
           "type": "ul",
           "items": [
            {
-            "text": "**Sistema con la spinta del pedone f: arrocco lungo.** Il re va in c1 e la torre in d1; poi la spinta del pedone g attacca il re nero, che di solito sta corto. È una corsa: il Nero contrattacca sul lato di donna.",
+            "text": "**Con f3 e alfiere in e3 si arrocca lungo.** Poi la spinta del pedone g contro il re nero, che di solito arrocca corto.",
             "source": "theory"
            },
            {
-            "text": "**Sistema tranquillo: arrocco corto.** Con l'alfiere in d3 e il re in g1 la posizione è solida; le torri vanno al centro e si gioca sulla colonna d.",
+            "text": "**Con l'alfiere in d3 o in e2 si arrocca corto.** Il re è al sicuro, poi torri al centro e manovra.",
             "source": "theory"
            },
            {
-            "text": "**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il cavallo in d4, la donna nera può arrivare in b6 e attaccare il pedone b2: se il cavallo si muove, l'alfiere resta scoperto.",
+            "text": "**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il cavallo in d4, la donna nera in b6 può attaccare il pedone b2: se il cavallo si muove, l'alfiere va difeso.",
             "source": "theory"
            }
           ]
          },
          {
           "type": "p",
-          "text": "Entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato è libera e dipende solo dal sistema che giochi.",
+          "text": "Oggi entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato dipende solo dal sistema. La colonna d è aperta davanti al tuo re, quindi l'arrocco viene prima di tutto.",
           "source": "feature",
           "assertions": [
            {
@@ -622,6 +837,14 @@
             "kind": "feature",
             "key": "can_castle_short",
             "side": "b"
+           },
+           {
+            "kind": "feature",
+            "key": "open_file_to_king",
+            "side": "w",
+            "squares": [
+             "e1"
+            ]
            }
           ]
          }
@@ -644,11 +867,11 @@
              "source": "theory"
             },
             {
-             "text": "Va protetto: dal cavallo c3, con la spinta del pedone f o con l'alfiere",
+             "text": "Va protetto: dal cavallo c3, con il pedone in f3 o con l'alfiere",
              "source": "theory"
             },
             {
-             "text": "La presa del cavallo f6 in e4 se il cavallo c3 è sovraccarico",
+             "text": "La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico",
              "source": "theory"
             }
            ],
@@ -658,7 +881,7 @@
              "source": "theory"
             },
             {
-             "text": "Domina il centro; dopo la spinta del Nero in e5 si ritira in b3: {{m:Nb3@N8}} vale {{ev:Nb3@N8}}",
+             "text": "Centro; dopo la spinta in e5 si ritira in **b3**: {{m:Nb3@N8}} vale {{ev:Nb3@N8}}",
              "source": "engine"
             },
             {
@@ -672,7 +895,7 @@
              "source": "theory"
             },
             {
-             "text": "Difende e4 e controlla d5; dopo la spinta del Nero in e5 il sogno è il salto in d5",
+             "text": "Difende e4 e controlla d5; dopo la spinta del Nero in e5 il sogno è il salto in **d5**",
              "source": "theory"
             },
             {
@@ -686,7 +909,7 @@
              "source": "theory"
             },
             {
-             "text": "In e3 è flessibile, in g5 mette pressione sul cavallo f6",
+             "text": "**e3** (flessibile) o **g5** (pressione sul cavallo f6)",
              "source": "theory"
             },
             {
@@ -700,7 +923,7 @@
              "source": "theory"
             },
             {
-             "text": "In d3 è solido e punta verso il re nero",
+             "text": "**d3** o **e2** (solido), **c4** (aggressivo)",
              "source": "theory"
             },
             {
@@ -714,7 +937,7 @@
              "source": "theory"
             },
             {
-             "text": "In d2 con l'arrocco lungo, in e2 con l'arrocco corto",
+             "text": "**d2** con l'arrocco lungo, **e2** con l'arrocco corto",
              "source": "theory"
             },
             {
@@ -728,7 +951,7 @@
              "source": "theory"
             },
             {
-             "text": "Arrocco corto: in f1 e d1. Arrocco lungo: la torre in d1 sostiene il centro",
+             "text": "Arrocco corto: in f1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g",
              "source": "theory"
             },
             {
@@ -742,11 +965,11 @@
              "source": "theory"
             },
             {
-             "text": "La spinta del pedone f sostiene e4; la spinta del pedone g attacca nell'arrocco lungo",
+             "text": "Pedone in f3 a sostegno di e4; spinta del pedone g nell'attacco inglese",
              "source": "theory"
             },
             {
-             "text": "La spinta del pedone f indebolisce la diagonale {{diag:a7-g1}}",
+             "text": "La spinta in f3 indebolisce la diagonale {{diag:a7-g1}}",
              "source": "theory"
             }
            ]
@@ -754,7 +977,7 @@
          },
          {
           "type": "p",
-          "text": "Oggi hai ancora due pezzi minori a casa (alfieri in c1 e f1) e il Nero tre (cavallo b8, alfiere c8, alfiere f8): sviluppo e arrocco vengono prima di tutto. La colonna d è aperta davanti al tuo re, quindi non aprire il centro prima di aver arroccato.",
+          "text": "Oggi i tuoi due alfieri sono ancora a casa, come tre pezzi minori neri: sviluppo e arrocco vengono prima di tutto.",
           "source": "feature",
           "assertions": [
            {
@@ -775,14 +998,6 @@
              "c8",
              "f8"
             ]
-           },
-           {
-            "kind": "feature",
-            "key": "open_file_to_king",
-            "side": "w",
-            "squares": [
-             "e1"
-            ]
            }
           ]
          }
@@ -795,36 +1010,78 @@
           "type": "ul",
           "items": [
            {
-            "text": "La spinta del pedone in e5 è la risposta più naturale contro quasi tutti i sistemi: contro {{mv:C1}} Maia-2 la dà al {{pct:e5@N3}} dei giocatori del tuo livello. Occupa il centro, ma lascia d5 come buco e il pedone d6 arretrato.",
-            "source": "maia",
-            "assertions": [
-             {
-              "kind": "maia_band",
-              "ref": "e5@N3",
-              "band": "very_frequent"
-             }
-            ]
-           },
-           {
-            "text": "La spinta del pedone in e6 porta alla struttura Scheveningen: più elastica, prepara lo sviluppo con l'alfiere in e7 e la donna in c7, e talvolta la spinta in d5.",
+            "text": "La spinta del pedone in e5 è la risposta più naturale contro quasi tutti i sistemi: occupa il centro, ma lascia **d5 come buco** e il pedone d6 arretrato.",
             "source": "theory"
            },
            {
-            "text": "Contro {{mv:C2}} la risposta migliore per il motore è il salto del cavallo in g4 ({{ev:Ng4@N4}}), alla pari con la spinta in e5 ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo al Bianco.",
-            "source": "engine"
-           },
-           {
-            "text": "La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il contrattacco tipico quando il Bianco arrocca lungo.",
+            "text": "La spinta del pedone in e6 porta alla struttura **Scheveningen**: più elastica, prepara il fianchetto dell'alfiere e talvolta la spinta in d5.",
             "source": "theory"
            },
            {
-            "text": "Dopo {{mv:C10}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV10:6}} il Nero prende il pedone b2, il Pedone Avvelenato.",
+            "text": "Contro {{mv:C2}} la risposta migliore per il motore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), alla pari con {{m:e5@N4}} ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo.",
             "source": "engine"
            },
            {
-            "text": "Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del Dragon, e qui il Nero lo prepara solo in alcune linee.",
+            "text": "La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4.",
+            "source": "theory"
+           },
+           {
+            "text": "Dopo {{mv:C10}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV10:6}} il Nero prende il pedone b2, il **Pedone Avvelenato**.",
+            "source": "engine"
+           },
+           {
+            "text": "Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del **Dragon**.",
             "source": "theory"
            }
+          ]
+         },
+         {
+          "type": "text_table",
+          "columns": [
+           "Pezzo nero",
+           "Dove va di solito"
+          ],
+          "rows": [
+           [
+            {
+             "text": "Alfiere c8",
+             "source": "theory"
+            },
+            {
+             "text": "**e6** contro d5; con la struttura Scheveningen in b7 o d7",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Cavallo b8",
+             "source": "theory"
+            },
+            {
+             "text": "**d7** a sostegno della spinta del pedone b, oppure **c6** contro il centro",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Alfiere f8",
+             "source": "theory"
+            },
+            {
+             "text": "**e7**, poi arrocco corto",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Donna",
+             "source": "theory"
+            },
+            {
+             "text": "**c7** sulla colonna c, oppure **b6** contro b2 e d4",
+             "source": "theory"
+            }
+           ]
           ]
          },
          {
@@ -833,12 +1090,12 @@
          },
          {
           "type": "p",
-          "text": "La tabella mostra quanto costa la spinta in e5 contro ciascun sistema. Contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} è una risposta normale (al massimo {{loss:e5@N6}}), mentre contro {{mv:C10}} è un errore: {{m:e5@N7}} vale {{ev:e5@N7}} invece di {{ev:N7}}, cioè perde {{loss:e5@N7}}. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere {{m:e6@N7}}.",
+          "text": "La tabella mostra quanto costa la spinta del pedone in e5 contro ciascun sistema. Contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} è una risposta normale, mentre contro {{mv:C10}} è un errore: {{m:e5@N7}} vale {{ev:e5@N7}} invece di {{ev:N7}}, cioè perde {{loss:e5@N7}}. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere {{m:e6@N7}}.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "Secondo Maia-2, contro {{mv:C10}} sceglie la spinta in e5 solo il {{pct:e5@N7}} dei giocatori del tuo livello, mentre la risposta corretta raccoglie {{pct:e6@N7}}: è una trappola in cui è facile cadere. Contro {{mv:C1}} e {{mv:C2}} invece la spinta in e5 è la scelta di gran lunga più frequente, quindi aspettatela.",
+          "text": "Secondo Maia-2, contro {{mv:C10}} sceglie la spinta in e5 il {{pct:e5@N7}} dei giocatori del tuo livello, mentre la risposta corretta raccoglie {{pct:e6@N7}}. Contro {{mv:C1}} la spinta in e5 è invece la scelta del {{pct:e5@N3}} dei giocatori.",
           "source": "maia"
          }
         ]
@@ -852,25 +1109,25 @@
           "text_cells": {
            "C1": {
             "idea": {
-             "text": "Spinta del pedone f che prepara l'arrocco lungo; contro la spinta in e5 segue la ritirata del cavallo in b3 ({{ev:Nb3@N8}})",
+             "text": "Attacco inglese che evita il salto del cavallo in g4; contro la spinta in e5 segue la ritirata in b3 ({{ev:Nb3@N8}})",
              "source": "engine"
             }
            },
            "C2": {
             "idea": {
-             "text": "Sviluppo dell'alfiere in e3, stesso sistema dell'arrocco lungo; deve fare i conti con il salto del cavallo in g4 ({{ev:Ng4@N4}})",
+             "text": "Attacco inglese diretto; deve fare i conti con {{m:Ng4@N4}} ({{ev:Ng4@N4}})",
              "source": "engine"
             }
            },
            "C3": {
             "idea": {
-             "text": "Prepara la spinta del pedone g senza impegnare l'alfiere; dopo la spinta in e6 segue la spinta in g4 ({{ev:g4@N15}})",
+             "text": "Prepara la spinta del pedone g senza f3; dopo la spinta in e6 segue la spinta del pedone g ({{ev:g4@N15}})",
              "source": "engine"
             }
            },
            "C4": {
             "idea": {
-             "text": "Sviluppo tranquillo con l'alfiere in d3 e arrocco corto; contro la spinta in e5 il cavallo va in e2 ({{ev:e5@N6}})",
+             "text": "Sviluppo tranquillo e arrocco corto; contro la spinta in e5 il cavallo va in e2 ({{ev:e5@N6}})",
              "source": "engine"
             }
            },
@@ -889,7 +1146,7 @@
          },
          {
           "type": "p",
-          "text": "A questo livello conta più la conoscenza dei piani che la scelta tra queste mosse: {{mv:C2}} e {{mv:C1}} sono quasi intercambiabili, {{mv:C3}} e {{mv:C4}} sono alternative valide ({{ev:C3}} e {{ev:C4}}).",
+          "text": "A questo livello conta di più la **conoscenza dei piani** che la scelta tra queste mosse: {{mv:C2}} e {{mv:C1}} sono intercambiabili, {{mv:C3}} e {{mv:C4}} sono alternative valide ({{ev:C3}} e {{ev:C4}}).",
           "source": "engine"
          }
         ]
@@ -899,7 +1156,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "**{{mv:C3}} è una mossa difficile**: il motore la mette tra le prime tre ({{ev:C3}}, solo {{loss:C3}} dalla migliore), ma a questo livello la sceglie appena il {{pct:C3.p_user}} dei giocatori. È una mossa che richiede di capire il piano prima di giocarla.",
+          "text": "**{{mv:C3}} è una mossa difficile**: il motore la mette tra le prime tre ({{ev:C3}}, solo {{loss:C3}} dalla migliore), ma a questo livello la sceglie appena il {{pct:C3.p_user}} dei giocatori.",
           "source": "mixed",
           "assertions": [
            {
@@ -923,11 +1180,11 @@
           "type": "ol",
           "items": [
            {
-            "text": "**Scegli il sistema** (spinta del pedone f con arrocco lungo, oppure sviluppo tranquillo con arrocco corto) e quindi il lato dell'arrocco.",
+            "text": "**Scegli il sistema** (attacco inglese o sviluppo tranquillo) e quindi il lato dell'arrocco.",
             "source": "theory"
            },
            {
-            "text": "**Proteggi e4** prima di ogni mossa non forzata.",
+            "text": "**Proteggi il pedone e4** prima di ogni mossa non forzata.",
             "source": "theory"
            },
            {
@@ -935,7 +1192,7 @@
             "source": "theory"
            },
            {
-            "text": "Se il Nero gioca la spinta in e5, ritira il cavallo in b3 ({{ev:Nb3@N8}}) e punta alla casa d5.",
+            "text": "Se il Nero spinge in e5, ritira il cavallo in b3 ({{ev:Nb3@N8}}) e punta alla casa d5.",
             "source": "engine"
            },
            {
@@ -952,31 +1209,30 @@
        }
       ],
       "notes": [
-       "Maia-2 è in modalità a bassa confidenza: le probabilità umane sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.",
-       "La raccomandazione è debole e no_unique_best è vero: l'analisi propone sistemi tra cui scegliere invece di una mossa unica.",
-       "Il token p_up non è stato usato perché null nel pacchetto.",
-       "I piani in S03 sono stati limitati alle mosse legali nei nodi indicati (N4 per il sistema con l'alfiere in e3, N6 per lo sviluppo con arrocco corto)."
+       "Maia-2 è in stato low confidence: le probabilità umane sono state usate solo come indicazione qualitativa, senza costruire ragionamenti su piccole differenze.",
+       "Il nodo N15 è citato per la spinta del pedone g dopo h3 e la spinta in e6; il nodo N6 per la ritirata del cavallo in e2 dopo Bd3 e la spinta in e5.",
+       "La tabella T3 è stata inserita senza colonne di testo, come richiesto."
       ]
      }
     }
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 30535,
-    "completion_tokens": 3970,
-    "total_tokens": 34505,
-    "cost": 0.005043348,
+    "prompt_tokens": 30672,
+    "completion_tokens": 4098,
+    "total_tokens": 34770,
+    "cost": 0.006103584,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 30208,
+     "cached_tokens": 27264,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.005043348,
-     "upstream_inference_prompt_cost": 0.000279348,
-     "upstream_inference_completions_cost": 0.004764
+     "upstream_inference_cost": 0.006103584,
+     "upstream_inference_prompt_cost": 0.001185984,
+     "upstream_inference_completions_cost": 0.0049176
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -985,9 +1241,9 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791117597-nOTtJH1YUcbR6gCoABYL",
+    "id": "gen-1791118035-lY2YwwQOFO4Bkw0P1Etf",
     "object": "chat.completion",
-    "created": 1791117597,
+    "created": 1791118035,
     "model": "deepseek/deepseek-v4.1-flash",
     "provider": "Together",
     "system_fingerprint": "default",
@@ -1007,10 +1263,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "call_01a106ed9a49710da9efe3e8",
+         "id": "call_01a106f44b0d759ab01f189a",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Posizione di Najdorf molto equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}} con la mossa migliore, e quasi solo patta secondo Stockfish ({{pct:root.draw}}). Siamo ancora in apertura, in teoria, e la mossa consigliata è {{mv:C1}}, ma la raccomandazione è debole: **non esiste una mossa unica migliore**.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Se toccasse al Nero la posizione sarebbe praticamente pari ({{ev:N2}}): il tuo vantaggio è quasi solo il tratto. Le candidate spiegate stanno tutte in un intervallo piccolissimo, quindi conta più il sistema che scegli che la singola mossa.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]}]},{\"id\":\"S03\",\"blocks\":[{\"type\":\"p\",\"text\":\"Puoi raggruppare le candidate in tre sistemi. Il primo è quello con la spinta del pedone f e l'arrocco lungo: {{mv:C1}} ({{ev:C1}}) o {{mv:C2}} ({{ev:C2}}), con l'idea {{plan:w:Be3,Qd2,O-O-O@N4}} e poi la spinta del pedone g. È il sistema più ambizioso, adatto a chi vuole attaccare con i pedoni e accetta arrocchi opposti.\",\"source\":\"mixed\"},{\"type\":\"p\",\"text\":\"Il secondo è lo sviluppo tranquillo con arrocco corto: {{mv:C4}} ({{ev:C4}}), con l'idea {{plan:w:O-O@N6}}. È per chi preferisce una posizione solida e piani posizionali, senza teoria pesante.\",\"source\":\"mixed\"},{\"type\":\"p\",\"text\":\"Il terzo è la mossa con l'alfiere in g5, {{mv:C10}} ({{ev:C10}}), che mette pressione sul cavallo f6 ma richiede una preparazione specifica: è la più giocata a questo livello secondo Maia-2 ({{pct:C10.p_user}}), ma il motore la mette solo decima. La mossa {{mv:C3}} ({{ev:C3}}) prepara la spinta del pedone g senza impegnare subito l'alfiere.\",\"source\":\"mixed\"},{\"type\":\"p\",\"text\":\"Il motore preferisce di pochissimo {{mv:C1}}, ma la differenza con {{mv:C2}} è solo {{loss:C2}} e con {{mv:C4}} appena {{loss:C4}}: **scegli il sistema che conosci meglio**, non la mossa con la valutazione più alta.\",\"source\":\"engine\"}]},{\"id\":\"S04\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"**Sistema con la spinta del pedone f: arrocco lungo.** Il re va in c1 e la torre in d1; poi la spinta del pedone g attacca il re nero, che di solito sta corto. È una corsa: il Nero contrattacca sul lato di donna.\",\"source\":\"theory\"},{\"text\":\"**Sistema tranquillo: arrocco corto.** Con l'alfiere in d3 e il re in g1 la posizione è solida; le torri vanno al centro e si gioca sulla colonna d.\",\"source\":\"theory\"},{\"text\":\"**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il cavallo in d4, la donna nera può arrivare in b6 e attaccare il pedone b2: se il cavallo si muove, l'alfiere resta scoperto.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato è libera e dipende solo dal sistema che giochi.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"b\"}]}]},{\"id\":\"S05\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Pezzo\",\"Obiettivo tipico\",\"Attenzione\"],\"rows\":[[{\"text\":\"Pedone e4\",\"source\":\"theory\"},{\"text\":\"Va protetto: dal cavallo c3, con la spinta del pedone f o con l'alfiere\",\"source\":\"theory\"},{\"text\":\"La presa del cavallo f6 in e4 se il cavallo c3 è sovraccarico\",\"source\":\"theory\"}],[{\"text\":\"Cavallo d4\",\"source\":\"theory\"},{\"text\":\"Domina il centro; dopo la spinta del Nero in e5 si ritira in b3: {{m:Nb3@N8}} vale {{ev:Nb3@N8}}\",\"source\":\"engine\"},{\"text\":\"{{m:Nf5@N8}} sembra attivo ma perde {{loss:Nf5@N8}}\",\"source\":\"engine\"}],[{\"text\":\"Cavallo c3\",\"source\":\"theory\"},{\"text\":\"Difende e4 e controlla d5; dopo la spinta del Nero in e5 il sogno è il salto in d5\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone b lo scaccia\",\"source\":\"theory\"}],[{\"text\":\"Alfiere c1\",\"source\":\"theory\"},{\"text\":\"In e3 è flessibile, in g5 mette pressione sul cavallo f6\",\"source\":\"theory\"},{\"text\":\"Non lasciarlo senza difesa sulla diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f1\",\"source\":\"theory\"},{\"text\":\"In d3 è solido e punta verso il re nero\",\"source\":\"theory\"},{\"text\":\"In c4 invita la spinta del pedone b\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"In d2 con l'arrocco lungo, in e2 con l'arrocco corto\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 attacca b2 e il cavallo d4\",\"source\":\"theory\"}],[{\"text\":\"Torri\",\"source\":\"theory\"},{\"text\":\"Arrocco corto: in f1 e d1. Arrocco lungo: la torre in d1 sostiene il centro\",\"source\":\"theory\"},{\"text\":\"Non lasciare la torre a1 senza un piano\",\"source\":\"theory\"}],[{\"text\":\"Pedoni f, g e h\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone f sostiene e4; la spinta del pedone g attacca nell'arrocco lungo\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone f indebolisce la diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Oggi hai ancora due pezzi minori a casa (alfieri in c1 e f1) e il Nero tre (cavallo b8, alfiere c8, alfiere f8): sviluppo e arrocco vengono prima di tutto. La colonna d è aperta davanti al tuo re, quindi non aprire il centro prima di aver arroccato.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"w\",\"squares\":[\"c1\",\"f1\"]},{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]},{\"kind\":\"feature\",\"key\":\"open_file_to_king\",\"side\":\"w\",\"squares\":[\"e1\"]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"La spinta del pedone in e5 è la risposta più naturale contro quasi tutti i sistemi: contro {{mv:C1}} Maia-2 la dà al {{pct:e5@N3}} dei giocatori del tuo livello. Occupa il centro, ma lascia d5 come buco e il pedone d6 arretrato.\",\"source\":\"maia\",\"assertions\":[{\"kind\":\"maia_band\",\"ref\":\"e5@N3\",\"band\":\"very_frequent\"}]},{\"text\":\"La spinta del pedone in e6 porta alla struttura Scheveningen: più elastica, prepara lo sviluppo con l'alfiere in e7 e la donna in c7, e talvolta la spinta in d5.\",\"source\":\"theory\"},{\"text\":\"Contro {{mv:C2}} la risposta migliore per il motore è il salto del cavallo in g4 ({{ev:Ng4@N4}}), alla pari con la spinta in e5 ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo al Bianco.\",\"source\":\"engine\"},{\"text\":\"La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il contrattacco tipico quando il Bianco arrocca lungo.\",\"source\":\"theory\"},{\"text\":\"Dopo {{mv:C10}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV10:6}} il Nero prende il pedone b2, il Pedone Avvelenato.\",\"source\":\"engine\"},{\"text\":\"Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del Dragon, e qui il Nero lo prepara solo in alcune linee.\",\"source\":\"theory\"}]},{\"type\":\"table\",\"ref\":\"T3\"},{\"type\":\"p\",\"text\":\"La tabella mostra quanto costa la spinta in e5 contro ciascun sistema. Contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} è una risposta normale (al massimo {{loss:e5@N6}}), mentre contro {{mv:C10}} è un errore: {{m:e5@N7}} vale {{ev:e5@N7}} invece di {{ev:N7}}, cioè perde {{loss:e5@N7}}. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere {{m:e6@N7}}.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, contro {{mv:C10}} sceglie la spinta in e5 solo il {{pct:e5@N7}} dei giocatori del tuo livello, mentre la risposta corretta raccoglie {{pct:e6@N7}}: è una trappola in cui è facile cadere. Contro {{mv:C1}} e {{mv:C2}} invece la spinta in e5 è la scelta di gran lunga più frequente, quindi aspettatela.\",\"source\":\"maia\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C1\":{\"idea\":{\"text\":\"Spinta del pedone f che prepara l'arrocco lungo; contro la spinta in e5 segue la ritirata del cavallo in b3 ({{ev:Nb3@N8}})\",\"source\":\"engine\"}},\"C2\":{\"idea\":{\"text\":\"Sviluppo dell'alfiere in e3, stesso sistema dell'arrocco lungo; deve fare i conti con il salto del cavallo in g4 ({{ev:Ng4@N4}})\",\"source\":\"engine\"}},\"C3\":{\"idea\":{\"text\":\"Prepara la spinta del pedone g senza impegnare l'alfiere; dopo la spinta in e6 segue la spinta in g4 ({{ev:g4@N15}})\",\"source\":\"engine\"}},\"C4\":{\"idea\":{\"text\":\"Sviluppo tranquillo con l'alfiere in d3 e arrocco corto; contro la spinta in e5 il cavallo va in e2 ({{ev:e5@N6}})\",\"source\":\"engine\"}},\"C10\":{\"idea\":{\"text\":\"La più giocata a questo livello ({{pct:C10.p_user}}); il Nero risponde con la spinta in e6\",\"source\":\"mixed\"}}}},{\"type\":\"p\",\"text\":\"Il motore non vede un vincitore chiaro: tra la prima e l'ultima mossa spiegata ci sono {{loss:C10}} pedoni. La linea principale dopo {{mv:C1}} è {{pv:PV1:8}}: il Bianco ottiene la casa d5 in cambio dell'alfiere nero.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"A questo livello conta più la conoscenza dei piani che la scelta tra queste mosse: {{mv:C2}} e {{mv:C1}} sono quasi intercambiabili, {{mv:C3}} e {{mv:C4}} sono alternative valide ({{ev:C3}} e {{ev:C4}}).\",\"source\":\"engine\"}]},{\"id\":\"S08\",\"blocks\":[{\"type\":\"p\",\"text\":\"**{{mv:C3}} è una mossa difficile**: il motore la mette tra le prime tre ({{ev:C3}}, solo {{loss:C3}} dalla migliore), ma a questo livello la sceglie appena il {{pct:C3.p_user}} dei giocatori. È una mossa che richiede di capire il piano prima di giocarla.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C3\",\"category\":\"hard_move\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C1}} e la spinta in e5 la ritirata del cavallo va scelta bene: {{m:Nb3@N8}} tiene il vantaggio, {{m:Nde2@N8}} costa già {{loss:Nde2@N8}} e la mossa d'attacco {{m:Nf5@N8}}, che sembra la più attiva, perde {{loss:Nf5@N8}}.\",\"source\":\"engine\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Scegli il sistema** (spinta del pedone f con arrocco lungo, oppure sviluppo tranquillo con arrocco corto) e quindi il lato dell'arrocco.\",\"source\":\"theory\"},{\"text\":\"**Proteggi e4** prima di ogni mossa non forzata.\",\"source\":\"theory\"},{\"text\":\"**Prima di muovere, controlla la donna nera in b6 e la presa in e4**: sono le due tattiche che il Nero cerca più spesso.\",\"source\":\"theory\"},{\"text\":\"Se il Nero gioca la spinta in e5, ritira il cavallo in b3 ({{ev:Nb3@N8}}) e punta alla casa d5.\",\"source\":\"engine\"},{\"text\":\"Se il cavallo nero salta in g4, non rispondere d'istinto: confronta le ritirate dell'alfiere prima di muovere.\",\"source\":\"theory\"},{\"text\":\"Non perdere tempi: con il Nero al tratto la posizione sarebbe {{ev:N2}}, il tuo vantaggio è il tratto.\",\"source\":\"engine\"}]}]}],\"notes\":[\"Maia-2 è in modalità a bassa confidenza: le probabilità umane sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.\",\"La raccomandazione è debole e no_unique_best è vero: l'analisi propone sistemi tra cui scegliere invece di una mossa unica.\",\"Il token p_up non è stato usato perché null nel pacchetto.\",\"I piani in S03 sono stati limitati alle mosse legali nei nodi indicati (N4 per il sistema con l'alfiere in e3, N6 per lo sviluppo con arrocco corto).\"]}"
+          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"La posizione è in equilibrio: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta e pochissime possibilità di sconfitta. Siamo in una Najdorf, {{opening:name}} ({{opening:eco}}), e il Nero ha appena giocato il pedone in a6.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Se toccasse al Nero la valutazione sarebbe {{ev:N2}}: il tuo vantaggio è quasi solo il tratto. Le mosse spiegate stanno tutte in un intervallo piccolissimo, quindi **non devi cercare la mossa migliore, ma scegliere un sistema e giocarlo bene**.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]}]},{\"id\":\"S03\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Sistema\",\"Prima mossa\",\"Arrocco\",\"Idea\",\"Per chi\"],\"rows\":[[{\"text\":\"**Attacco inglese con f3**\",\"source\":\"theory\"},{\"text\":\"{{mv:C1}} ({{ev:C1}})\",\"source\":\"engine\"},{\"text\":\"**Lungo**\",\"source\":\"theory\"},{\"text\":\"{{plan:w:f3,Be3,Qd2,O-O-O@N3}}, poi spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Chi vuole attaccare con i pedoni e conosce la teoria\",\"source\":\"theory\"}],[{\"text\":\"**Attacco inglese diretto**\",\"source\":\"theory\"},{\"text\":\"{{mv:C2}} ({{ev:C2}})\",\"source\":\"engine\"},{\"text\":\"**Lungo**\",\"source\":\"theory\"},{\"text\":\"{{plan:w:Be3,Qd2,O-O-O@N4}}, poi spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Chi vuole la stessa struttura senza perdere tempo con f3\",\"source\":\"theory\"}],[{\"text\":\"**Preparazione tranquilla**\",\"source\":\"theory\"},{\"text\":\"{{mv:C3}} ({{ev:C3}}) o {{mv:C4}} ({{ev:C4}})\",\"source\":\"engine\"},{\"text\":\"**Corto**\",\"source\":\"theory\"},{\"text\":\"Sviluppo, arrocco corto, poi manovra centrale\",\"source\":\"theory\"},{\"text\":\"Chi preferisce il re al sicuro e piani posizionali\",\"source\":\"theory\"}],[{\"text\":\"**Pressione sull'alfiere**\",\"source\":\"theory\"},{\"text\":\"{{mv:C10}} ({{ev:C10}})\",\"source\":\"engine\"},{\"text\":\"Varia\",\"source\":\"theory\"},{\"text\":\"Attacca il cavallo f6 e prepara la spinta del pedone f\",\"source\":\"theory\"},{\"text\":\"Chi conosce bene la teoria della linea con la donna in b6\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Il motore preferisce di pochissimo {{mv:C1}}, la mossa consigliata, ma **non esiste una mossa unica migliore**: {{mv:C1}} e {{mv:C2}} portano di solito alla stessa struttura e la differenza tra loro è {{loss:C2}}. Se vuoi una posizione più tranquilla, {{mv:C4}} costa solo {{loss:C4}}.\",\"source\":\"engine\"}]},{\"id\":\"S04\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"**Con f3 e alfiere in e3 si arrocca lungo.** Poi la spinta del pedone g contro il re nero, che di solito arrocca corto.\",\"source\":\"theory\"},{\"text\":\"**Con l'alfiere in d3 o in e2 si arrocca corto.** Il re è al sicuro, poi torri al centro e manovra.\",\"source\":\"theory\"},{\"text\":\"**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il cavallo in d4, la donna nera in b6 può attaccare il pedone b2: se il cavallo si muove, l'alfiere va difeso.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Oggi entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato dipende solo dal sistema. La colonna d è aperta davanti al tuo re, quindi l'arrocco viene prima di tutto.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"b\"},{\"kind\":\"feature\",\"key\":\"open_file_to_king\",\"side\":\"w\",\"squares\":[\"e1\"]}]}]},{\"id\":\"S05\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Pezzo\",\"Obiettivo tipico\",\"Attenzione\"],\"rows\":[[{\"text\":\"Pedone e4\",\"source\":\"theory\"},{\"text\":\"Va protetto: dal cavallo c3, con il pedone in f3 o con l'alfiere\",\"source\":\"theory\"},{\"text\":\"La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico\",\"source\":\"theory\"}],[{\"text\":\"Cavallo d4\",\"source\":\"theory\"},{\"text\":\"Centro; dopo la spinta in e5 si ritira in **b3**: {{m:Nb3@N8}} vale {{ev:Nb3@N8}}\",\"source\":\"engine\"},{\"text\":\"{{m:Nf5@N8}} sembra attivo ma perde {{loss:Nf5@N8}}\",\"source\":\"engine\"}],[{\"text\":\"Cavallo c3\",\"source\":\"theory\"},{\"text\":\"Difende e4 e controlla d5; dopo la spinta del Nero in e5 il sogno è il salto in **d5**\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone b lo scaccia\",\"source\":\"theory\"}],[{\"text\":\"Alfiere c1\",\"source\":\"theory\"},{\"text\":\"**e3** (flessibile) o **g5** (pressione sul cavallo f6)\",\"source\":\"theory\"},{\"text\":\"Non lasciarlo senza difesa sulla diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f1\",\"source\":\"theory\"},{\"text\":\"**d3** o **e2** (solido), **c4** (aggressivo)\",\"source\":\"theory\"},{\"text\":\"In c4 invita la spinta del pedone b\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**d2** con l'arrocco lungo, **e2** con l'arrocco corto\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 attacca b2 e il cavallo d4\",\"source\":\"theory\"}],[{\"text\":\"Torri\",\"source\":\"theory\"},{\"text\":\"Arrocco corto: in f1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Non lasciare la torre a1 senza un piano\",\"source\":\"theory\"}],[{\"text\":\"Pedoni f, g e h\",\"source\":\"theory\"},{\"text\":\"Pedone in f3 a sostegno di e4; spinta del pedone g nell'attacco inglese\",\"source\":\"theory\"},{\"text\":\"La spinta in f3 indebolisce la diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Oggi i tuoi due alfieri sono ancora a casa, come tre pezzi minori neri: sviluppo e arrocco vengono prima di tutto.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"w\",\"squares\":[\"c1\",\"f1\"]},{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"La spinta del pedone in e5 è la risposta più naturale contro quasi tutti i sistemi: occupa il centro, ma lascia **d5 come buco** e il pedone d6 arretrato.\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone in e6 porta alla struttura **Scheveningen**: più elastica, prepara il fianchetto dell'alfiere e talvolta la spinta in d5.\",\"source\":\"theory\"},{\"text\":\"Contro {{mv:C2}} la risposta migliore per il motore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), alla pari con {{m:e5@N4}} ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo.\",\"source\":\"engine\"},{\"text\":\"La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4.\",\"source\":\"theory\"},{\"text\":\"Dopo {{mv:C10}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV10:6}} il Nero prende il pedone b2, il **Pedone Avvelenato**.\",\"source\":\"engine\"},{\"text\":\"Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del **Dragon**.\",\"source\":\"theory\"}]},{\"type\":\"text_table\",\"columns\":[\"Pezzo nero\",\"Dove va di solito\"],\"rows\":[[{\"text\":\"Alfiere c8\",\"source\":\"theory\"},{\"text\":\"**e6** contro d5; con la struttura Scheveningen in b7 o d7\",\"source\":\"theory\"}],[{\"text\":\"Cavallo b8\",\"source\":\"theory\"},{\"text\":\"**d7** a sostegno della spinta del pedone b, oppure **c6** contro il centro\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f8\",\"source\":\"theory\"},{\"text\":\"**e7**, poi arrocco corto\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**c7** sulla colonna c, oppure **b6** contro b2 e d4\",\"source\":\"theory\"}]]},{\"type\":\"table\",\"ref\":\"T3\"},{\"type\":\"p\",\"text\":\"La tabella mostra quanto costa la spinta del pedone in e5 contro ciascun sistema. Contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} è una risposta normale, mentre contro {{mv:C10}} è un errore: {{m:e5@N7}} vale {{ev:e5@N7}} invece di {{ev:N7}}, cioè perde {{loss:e5@N7}}. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere {{m:e6@N7}}.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, contro {{mv:C10}} sceglie la spinta in e5 il {{pct:e5@N7}} dei giocatori del tuo livello, mentre la risposta corretta raccoglie {{pct:e6@N7}}. Contro {{mv:C1}} la spinta in e5 è invece la scelta del {{pct:e5@N3}} dei giocatori.\",\"source\":\"maia\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C1\":{\"idea\":{\"text\":\"Attacco inglese che evita il salto del cavallo in g4; contro la spinta in e5 segue la ritirata in b3 ({{ev:Nb3@N8}})\",\"source\":\"engine\"}},\"C2\":{\"idea\":{\"text\":\"Attacco inglese diretto; deve fare i conti con {{m:Ng4@N4}} ({{ev:Ng4@N4}})\",\"source\":\"engine\"}},\"C3\":{\"idea\":{\"text\":\"Prepara la spinta del pedone g senza f3; dopo la spinta in e6 segue la spinta del pedone g ({{ev:g4@N15}})\",\"source\":\"engine\"}},\"C4\":{\"idea\":{\"text\":\"Sviluppo tranquillo e arrocco corto; contro la spinta in e5 il cavallo va in e2 ({{ev:e5@N6}})\",\"source\":\"engine\"}},\"C10\":{\"idea\":{\"text\":\"La più giocata a questo livello ({{pct:C10.p_user}}); il Nero risponde con la spinta in e6\",\"source\":\"mixed\"}}}},{\"type\":\"p\",\"text\":\"Il motore non vede un vincitore chiaro: tra la prima e l'ultima mossa spiegata ci sono {{loss:C10}} pedoni. La linea principale dopo {{mv:C1}} è {{pv:PV1:8}}: il Bianco ottiene la casa d5 in cambio dell'alfiere nero.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"A questo livello conta di più la **conoscenza dei piani** che la scelta tra queste mosse: {{mv:C2}} e {{mv:C1}} sono intercambiabili, {{mv:C3}} e {{mv:C4}} sono alternative valide ({{ev:C3}} e {{ev:C4}}).\",\"source\":\"engine\"}]},{\"id\":\"S08\",\"blocks\":[{\"type\":\"p\",\"text\":\"**{{mv:C3}} è una mossa difficile**: il motore la mette tra le prime tre ({{ev:C3}}, solo {{loss:C3}} dalla migliore), ma a questo livello la sceglie appena il {{pct:C3.p_user}} dei giocatori.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C3\",\"category\":\"hard_move\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C1}} e la spinta in e5 la ritirata del cavallo va scelta bene: {{m:Nb3@N8}} tiene il vantaggio, {{m:Nde2@N8}} costa già {{loss:Nde2@N8}} e la mossa d'attacco {{m:Nf5@N8}}, che sembra la più attiva, perde {{loss:Nf5@N8}}.\",\"source\":\"engine\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Scegli il sistema** (attacco inglese o sviluppo tranquillo) e quindi il lato dell'arrocco.\",\"source\":\"theory\"},{\"text\":\"**Proteggi il pedone e4** prima di ogni mossa non forzata.\",\"source\":\"theory\"},{\"text\":\"**Prima di muovere, controlla la donna nera in b6 e la presa in e4**: sono le due tattiche che il Nero cerca più spesso.\",\"source\":\"theory\"},{\"text\":\"Se il Nero spinge in e5, ritira il cavallo in b3 ({{ev:Nb3@N8}}) e punta alla casa d5.\",\"source\":\"engine\"},{\"text\":\"Se il cavallo nero salta in g4, non rispondere d'istinto: confronta le ritirate dell'alfiere prima di muovere.\",\"source\":\"theory\"},{\"text\":\"Non perdere tempi: con il Nero al tratto la posizione sarebbe {{ev:N2}}, il tuo vantaggio è il tratto.\",\"source\":\"engine\"}]}]}],\"notes\":[\"Maia-2 è in stato low confidence: le probabilità umane sono state usate solo come indicazione qualitativa, senza costruire ragionamenti su piccole differenze.\",\"Il nodo N15 è citato per la spinta del pedone g dopo h3 e la spinta in e6; il nodo N6 per la ritirata del cavallo in e2 dopo Bd3 e la spinta in e5.\",\"La tabella T3 è stata inserita senza colonne di testo, come richiesto.\"]}"
          }
         }
        ]
@@ -1018,21 +1274,21 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 30535,
-     "completion_tokens": 3970,
-     "total_tokens": 34505,
-     "cost": 0.005043348,
+     "prompt_tokens": 30672,
+     "completion_tokens": 4098,
+     "total_tokens": 34770,
+     "cost": 0.006103584,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 30208,
+      "cached_tokens": 27264,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.005043348,
-      "upstream_inference_prompt_cost": 0.000279348,
-      "upstream_inference_completions_cost": 0.004764
+      "upstream_inference_cost": 0.006103584,
+      "upstream_inference_prompt_cost": 0.001185984,
+      "upstream_inference_completions_cost": 0.0049176
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,
@@ -1047,7 +1303,7 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "call_01a106edc38374e19cfca774",
+     "id": "call_01a106f46c4373cdacc8ad78",
      "name": "submit_analysis",
      "input": {
       "schema_version": "1",
@@ -1057,7 +1313,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Posizione di Najdorf molto equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}} con la mossa migliore, e quasi solo patta secondo Stockfish ({{pct:root.draw}}). Siamo ancora in apertura, in teoria, e la mossa consigliata è {{mv:C1}}, ma la raccomandazione è debole: **non esiste una mossa unica migliore**.",
+          "text": "La posizione è in equilibrio: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta e pochissime possibilità di sconfitta. Siamo in una Najdorf, {{opening:name}} ({{opening:eco}}), e il Nero ha appena giocato il pedone in a6.",
           "source": "engine",
           "assertions": [
            {
@@ -1069,7 +1325,7 @@
          },
          {
           "type": "p",
-          "text": "Se toccasse al Nero la posizione sarebbe praticamente pari ({{ev:N2}}): il tuo vantaggio è quasi solo il tratto. Le candidate spiegate stanno tutte in un intervallo piccolissimo, quindi conta più il sistema che scegli che la singola mossa.",
+          "text": "Se toccasse al Nero la valutazione sarebbe {{ev:N2}}: il tuo vantaggio è quasi solo il tratto. Le mosse spiegate stanno tutte in un intervallo piccolissimo, quindi **non devi cercare la mossa migliore, ma scegliere un sistema e giocarlo bene**.",
           "source": "engine",
           "assertions": [
            {
@@ -1085,23 +1341,108 @@
         "id": "S03",
         "blocks": [
          {
-          "type": "p",
-          "text": "Puoi raggruppare le candidate in tre sistemi. Il primo è quello con la spinta del pedone f e l'arrocco lungo: {{mv:C1}} ({{ev:C1}}) o {{mv:C2}} ({{ev:C2}}), con l'idea {{plan:w:O-O-O@N4}} e poi la spinta del pedone g. È il sistema più ambizioso, adatto a chi vuole attaccare con i pedoni e accetta arrocchi opposti.",
-          "source": "mixed"
+          "type": "text_table",
+          "columns": [
+           "Sistema",
+           "Prima mossa",
+           "Arrocco",
+           "Idea",
+           "Per chi"
+          ],
+          "rows": [
+           [
+            {
+             "text": "**Attacco inglese con f3**",
+             "source": "theory"
+            },
+            {
+             "text": "{{mv:C1}} ({{ev:C1}})",
+             "source": "engine"
+            },
+            {
+             "text": "**Lungo**",
+             "source": "theory"
+            },
+            {
+             "text": "{{plan:w:Be3,Qd2,O-O-O@N3}}, poi spinta del pedone g",
+             "source": "theory"
+            },
+            {
+             "text": "Chi vuole attaccare con i pedoni e conosce la teoria",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "**Attacco inglese diretto**",
+             "source": "theory"
+            },
+            {
+             "text": "{{mv:C2}} ({{ev:C2}})",
+             "source": "engine"
+            },
+            {
+             "text": "**Lungo**",
+             "source": "theory"
+            },
+            {
+             "text": "{{plan:w:Qd2,O-O-O@N4}}, poi spinta del pedone g",
+             "source": "theory"
+            },
+            {
+             "text": "Chi vuole la stessa struttura senza perdere tempo con f3",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "**Preparazione tranquilla**",
+             "source": "theory"
+            },
+            {
+             "text": "{{mv:C3}} ({{ev:C3}}) o {{mv:C4}} ({{ev:C4}})",
+             "source": "engine"
+            },
+            {
+             "text": "**Corto**",
+             "source": "theory"
+            },
+            {
+             "text": "Sviluppo, arrocco corto, poi manovra centrale",
+             "source": "theory"
+            },
+            {
+             "text": "Chi preferisce il re al sicuro e piani posizionali",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "**Pressione sull'alfiere**",
+             "source": "theory"
+            },
+            {
+             "text": "{{mv:C10}} ({{ev:C10}})",
+             "source": "engine"
+            },
+            {
+             "text": "Varia",
+             "source": "theory"
+            },
+            {
+             "text": "Attacca il cavallo f6 e prepara la spinta del pedone f",
+             "source": "theory"
+            },
+            {
+             "text": "Chi conosce bene la teoria della linea con la donna in b6",
+             "source": "theory"
+            }
+           ]
+          ]
          },
          {
           "type": "p",
-          "text": "Il secondo è lo sviluppo tranquillo con arrocco corto: {{mv:C4}} ({{ev:C4}}), con l'idea {{plan:w:O-O@N6}}. È per chi preferisce una posizione solida e piani posizionali, senza teoria pesante.",
-          "source": "mixed"
-         },
-         {
-          "type": "p",
-          "text": "Il terzo è la mossa con l'alfiere in g5, {{mv:C10}} ({{ev:C10}}), che mette pressione sul cavallo f6 ma richiede una preparazione specifica: è la più giocata a questo livello secondo Maia-2 ({{pct:C10.p_user}}), ma il motore la mette solo decima. La mossa {{mv:C3}} ({{ev:C3}}) prepara la spinta del pedone g senza impegnare subito l'alfiere.",
-          "source": "mixed"
-         },
-         {
-          "type": "p",
-          "text": "Il motore preferisce di pochissimo {{mv:C1}}, ma la differenza con {{mv:C2}} è solo {{loss:C2}} e con {{mv:C4}} appena {{loss:C4}}: **scegli il sistema che conosci meglio**, non la mossa con la valutazione più alta.",
+          "text": "Il motore preferisce di pochissimo {{mv:C1}}, la mossa consigliata, ma **non esiste una mossa unica migliore**: {{mv:C1}} e {{mv:C2}} portano di solito alla stessa struttura e la differenza tra loro è {{loss:C2}}. Se vuoi una posizione più tranquilla, {{mv:C4}} costa solo {{loss:C4}}.",
           "source": "engine"
          }
         ]
@@ -1113,22 +1454,22 @@
           "type": "ul",
           "items": [
            {
-            "text": "**Sistema con la spinta del pedone f: arrocco lungo.** Il re va in c1 e la torre in d1; poi la spinta del pedone g attacca il re nero, che di solito sta corto. È una corsa: il Nero contrattacca sul lato di donna.",
+            "text": "**Con f3 e alfiere in e3 si arrocca lungo.** Poi la spinta del pedone g contro il re nero, che di solito arrocca corto.",
             "source": "theory"
            },
            {
-            "text": "**Sistema tranquillo: arrocco corto.** Con l'alfiere in d3 e il re in g1 la posizione è solida; le torri vanno al centro e si gioca sulla colonna d.",
+            "text": "**Con l'alfiere in d3 o in e2 si arrocca corto.** Il re è al sicuro, poi torri al centro e manovra.",
             "source": "theory"
            },
            {
-            "text": "**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il cavallo in d4, la donna nera può arrivare in b6 e attaccare il pedone b2: se il cavallo si muove, l'alfiere resta scoperto.",
+            "text": "**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il cavallo in d4, la donna nera in b6 può attaccare il pedone b2: se il cavallo si muove, l'alfiere va difeso.",
             "source": "theory"
            }
           ]
          },
          {
           "type": "p",
-          "text": "Entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato è libera e dipende solo dal sistema che giochi.",
+          "text": "Oggi entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato dipende solo dal sistema. La colonna d è aperta davanti al tuo re, quindi l'arrocco viene prima di tutto.",
           "source": "feature",
           "assertions": [
            {
@@ -1145,6 +1486,14 @@
             "kind": "feature",
             "key": "can_castle_short",
             "side": "b"
+           },
+           {
+            "kind": "feature",
+            "key": "open_file_to_king",
+            "side": "w",
+            "squares": [
+             "e1"
+            ]
            }
           ]
          }
@@ -1167,11 +1516,11 @@
              "source": "theory"
             },
             {
-             "text": "Va protetto: dal cavallo c3, con la spinta del pedone f o con l'alfiere",
+             "text": "Va protetto: dal cavallo c3, con il pedone in f3 o con l'alfiere",
              "source": "theory"
             },
             {
-             "text": "La presa del cavallo f6 in e4 se il cavallo c3 è sovraccarico",
+             "text": "La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico",
              "source": "theory"
             }
            ],
@@ -1181,7 +1530,7 @@
              "source": "theory"
             },
             {
-             "text": "Domina il centro; dopo la spinta del Nero in e5 si ritira in b3: {{m:Nb3@N8}} vale {{ev:Nb3@N8}}",
+             "text": "Centro; dopo la spinta in e5 si ritira in **b3**: {{m:Nb3@N8}} vale {{ev:Nb3@N8}}",
              "source": "engine"
             },
             {
@@ -1195,7 +1544,7 @@
              "source": "theory"
             },
             {
-             "text": "Difende e4 e controlla d5; dopo la spinta del Nero in e5 il sogno è il salto in d5",
+             "text": "Difende e4 e controlla d5; dopo la spinta del Nero in e5 il sogno è il salto in **d5**",
              "source": "theory"
             },
             {
@@ -1209,7 +1558,7 @@
              "source": "theory"
             },
             {
-             "text": "In e3 è flessibile, in g5 mette pressione sul cavallo f6",
+             "text": "**e3** (flessibile) o **g5** (pressione sul cavallo f6)",
              "source": "theory"
             },
             {
@@ -1223,7 +1572,7 @@
              "source": "theory"
             },
             {
-             "text": "In d3 è solido e punta verso il re nero",
+             "text": "**d3** o **e2** (solido), **c4** (aggressivo)",
              "source": "theory"
             },
             {
@@ -1237,7 +1586,7 @@
              "source": "theory"
             },
             {
-             "text": "In d2 con l'arrocco lungo, in e2 con l'arrocco corto",
+             "text": "**d2** con l'arrocco lungo, **e2** con l'arrocco corto",
              "source": "theory"
             },
             {
@@ -1251,7 +1600,7 @@
              "source": "theory"
             },
             {
-             "text": "Arrocco corto: in f1 e d1. Arrocco lungo: la torre in d1 sostiene il centro",
+             "text": "Arrocco corto: in f1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g",
              "source": "theory"
             },
             {
@@ -1265,11 +1614,11 @@
              "source": "theory"
             },
             {
-             "text": "La spinta del pedone f sostiene e4; la spinta del pedone g attacca nell'arrocco lungo",
+             "text": "Pedone in f3 a sostegno di e4; spinta del pedone g nell'attacco inglese",
              "source": "theory"
             },
             {
-             "text": "La spinta del pedone f indebolisce la diagonale {{diag:a7-g1}}",
+             "text": "La spinta in f3 indebolisce la diagonale {{diag:a7-g1}}",
              "source": "theory"
             }
            ]
@@ -1277,7 +1626,7 @@
          },
          {
           "type": "p",
-          "text": "Oggi hai ancora due pezzi minori a casa (alfieri in c1 e f1) e il Nero tre (cavallo b8, alfiere c8, alfiere f8): sviluppo e arrocco vengono prima di tutto. La colonna d è aperta davanti al tuo re, quindi non aprire il centro prima di aver arroccato.",
+          "text": "Oggi i tuoi due alfieri sono ancora a casa, come tre pezzi minori neri: sviluppo e arrocco vengono prima di tutto.",
           "source": "feature",
           "assertions": [
            {
@@ -1298,14 +1647,6 @@
              "c8",
              "f8"
             ]
-           },
-           {
-            "kind": "feature",
-            "key": "open_file_to_king",
-            "side": "w",
-            "squares": [
-             "e1"
-            ]
            }
           ]
          }
@@ -1318,36 +1659,78 @@
           "type": "ul",
           "items": [
            {
-            "text": "La spinta del pedone in e5 è la risposta più naturale contro quasi tutti i sistemi: contro {{mv:C1}} Maia-2 la dà al {{pct:e5@N3}} dei giocatori del tuo livello. Occupa il centro, ma lascia d5 come buco e il pedone d6 arretrato.",
-            "source": "maia",
-            "assertions": [
-             {
-              "kind": "maia_band",
-              "ref": "e5@N3",
-              "band": "very_frequent"
-             }
-            ]
-           },
-           {
-            "text": "La spinta del pedone in e6 porta alla struttura Scheveningen: più elastica, prepara lo sviluppo con l'alfiere in e7 e la donna in c7, e talvolta la spinta in d5.",
+            "text": "La spinta del pedone in e5 è la risposta più naturale contro quasi tutti i sistemi: occupa il centro, ma lascia **d5 come buco** e il pedone d6 arretrato.",
             "source": "theory"
            },
            {
-            "text": "Contro {{mv:C2}} la risposta migliore per il motore è il salto del cavallo in g4 ({{ev:Ng4@N4}}), alla pari con la spinta in e5 ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo al Bianco.",
-            "source": "engine"
-           },
-           {
-            "text": "La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il contrattacco tipico quando il Bianco arrocca lungo.",
+            "text": "La spinta del pedone in e6 porta alla struttura **Scheveningen**: più elastica, prepara il fianchetto dell'alfiere e talvolta la spinta in d5.",
             "source": "theory"
            },
            {
-            "text": "Dopo {{mv:C10}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV10:6}} il Nero prende il pedone b2, il Pedone Avvelenato.",
+            "text": "Contro {{mv:C2}} la risposta migliore per il motore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), alla pari con {{m:e5@N4}} ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo.",
             "source": "engine"
            },
            {
-            "text": "Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del Dragon, e qui il Nero lo prepara solo in alcune linee.",
+            "text": "La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4.",
+            "source": "theory"
+           },
+           {
+            "text": "Dopo {{mv:C10}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV10:6}} il Nero prende il pedone b2, il **Pedone Avvelenato**.",
+            "source": "engine"
+           },
+           {
+            "text": "Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del **Dragon**.",
             "source": "theory"
            }
+          ]
+         },
+         {
+          "type": "text_table",
+          "columns": [
+           "Pezzo nero",
+           "Dove va di solito"
+          ],
+          "rows": [
+           [
+            {
+             "text": "Alfiere c8",
+             "source": "theory"
+            },
+            {
+             "text": "**e6** contro d5; con la struttura Scheveningen in b7 o d7",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Cavallo b8",
+             "source": "theory"
+            },
+            {
+             "text": "**d7** a sostegno della spinta del pedone b, oppure **c6** contro il centro",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Alfiere f8",
+             "source": "theory"
+            },
+            {
+             "text": "**e7**, poi arrocco corto",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "Donna",
+             "source": "theory"
+            },
+            {
+             "text": "**c7** sulla colonna c, oppure **b6** contro b2 e d4",
+             "source": "theory"
+            }
+           ]
           ]
          },
          {
@@ -1356,12 +1739,12 @@
          },
          {
           "type": "p",
-          "text": "La tabella mostra quanto costa la spinta in e5 contro ciascun sistema. Contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} è una risposta normale (al massimo {{loss:e5@N6}}), mentre contro {{mv:C10}} è un errore: {{m:e5@N7}} vale {{ev:e5@N7}} invece di {{ev:N7}}, cioè perde {{loss:e5@N7}}. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere {{m:e6@N7}}.",
+          "text": "La tabella mostra quanto costa la spinta del pedone in e5 contro ciascun sistema. Contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} è una risposta normale, mentre contro {{mv:C10}} è un errore: {{m:e5@N7}} vale {{ev:e5@N7}} invece di {{ev:N7}}, cioè perde {{loss:e5@N7}}. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere {{m:e6@N7}}.",
           "source": "engine"
          },
          {
           "type": "p",
-          "text": "Secondo Maia-2, contro {{mv:C10}} sceglie la spinta in e5 solo il {{pct:e5@N7}} dei giocatori del tuo livello, mentre la risposta corretta raccoglie {{pct:e6@N7}}: è una trappola in cui è facile cadere. Contro {{mv:C1}} e {{mv:C2}} invece la spinta in e5 è la scelta di gran lunga più frequente, quindi aspettatela.",
+          "text": "Secondo Maia-2, contro {{mv:C10}} sceglie la spinta in e5 il {{pct:e5@N7}} dei giocatori del tuo livello, mentre la risposta corretta raccoglie {{pct:e6@N7}}. Contro {{mv:C1}} la spinta in e5 è invece la scelta del {{pct:e5@N3}} dei giocatori.",
           "source": "maia"
          }
         ]
@@ -1375,25 +1758,25 @@
           "text_cells": {
            "C1": {
             "idea": {
-             "text": "Spinta del pedone f che prepara l'arrocco lungo; contro la spinta in e5 segue la ritirata del cavallo in b3 ({{ev:Nb3@N8}})",
+             "text": "Attacco inglese che evita il salto del cavallo in g4; contro la spinta in e5 segue la ritirata in b3 ({{ev:Nb3@N8}})",
              "source": "engine"
             }
            },
            "C2": {
             "idea": {
-             "text": "Sviluppo dell'alfiere in e3, stesso sistema dell'arrocco lungo; deve fare i conti con il salto del cavallo in g4 ({{ev:Ng4@N4}})",
+             "text": "Attacco inglese diretto; deve fare i conti con {{m:Ng4@N4}} ({{ev:Ng4@N4}})",
              "source": "engine"
             }
            },
            "C3": {
             "idea": {
-             "text": "Prepara la spinta del pedone g senza impegnare l'alfiere; dopo la spinta in e6 segue la spinta in g4 ({{ev:g4@N15}})",
+             "text": "Prepara la spinta del pedone g senza f3; dopo la spinta in e6 segue la spinta del pedone g ({{ev:g4@N15}})",
              "source": "engine"
             }
            },
            "C4": {
             "idea": {
-             "text": "Sviluppo tranquillo con l'alfiere in d3 e arrocco corto; contro la spinta in e5 il cavallo va in e2 ({{ev:e5@N6}})",
+             "text": "Sviluppo tranquillo e arrocco corto; contro la spinta in e5 il cavallo va in e2 ({{ev:e5@N6}})",
              "source": "engine"
             }
            },
@@ -1412,7 +1795,7 @@
          },
          {
           "type": "p",
-          "text": "A questo livello conta più la conoscenza dei piani che la scelta tra queste mosse: {{mv:C2}} e {{mv:C1}} sono quasi intercambiabili, {{mv:C3}} e {{mv:C4}} sono alternative valide ({{ev:C3}} e {{ev:C4}}).",
+          "text": "A questo livello conta di più la **conoscenza dei piani** che la scelta tra queste mosse: {{mv:C2}} e {{mv:C1}} sono intercambiabili, {{mv:C3}} e {{mv:C4}} sono alternative valide ({{ev:C3}} e {{ev:C4}}).",
           "source": "engine"
          }
         ]
@@ -1422,7 +1805,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "**{{mv:C3}} è una mossa difficile**: il motore la mette tra le prime tre ({{ev:C3}}, solo {{loss:C3}} dalla migliore), ma a questo livello la sceglie appena il {{pct:C3.p_user}} dei giocatori. È una mossa che richiede di capire il piano prima di giocarla.",
+          "text": "**{{mv:C3}} è una mossa difficile**: il motore la mette tra le prime tre ({{ev:C3}}, solo {{loss:C3}} dalla migliore), ma a questo livello la sceglie appena il {{pct:C3.p_user}} dei giocatori. Chi non la conosce gioca di solito l'alfiere in e3 o in g5.",
           "source": "mixed",
           "assertions": [
            {
@@ -1434,7 +1817,7 @@
          },
          {
           "type": "p",
-          "text": "Dopo {{mv:C1}} e la spinta in e5 la ritirata del cavallo va scelta bene: {{m:Nb3@N8}} tiene il vantaggio, {{m:Nde2@N8}} costa già {{loss:Nde2@N8}} e la mossa d'attacco {{m:Nf5@N8}}, che sembra la più attiva, perde {{loss:Nf5@N8}}.",
+          "text": "Dopo {{mv:C1}} e la spinta in e5 la ritirata del cavallo va scelta bene: {{m:Nb3@N8}} tiene il vantaggio, {{m:Nde2@N8}} costa già {{loss:Nde2@N8}} e la mossa d'attacco {{m:Nf5@N8}}, che sembra la più attiva, perde {{loss:Nf5@N8}}. Sono le trappole naturali di questa struttura.",
           "source": "engine"
          }
         ]
@@ -1446,11 +1829,11 @@
           "type": "ol",
           "items": [
            {
-            "text": "**Scegli il sistema** (spinta del pedone f con arrocco lungo, oppure sviluppo tranquillo con arrocco corto) e quindi il lato dell'arrocco.",
+            "text": "**Scegli il sistema** (attacco inglese o sviluppo tranquillo) e quindi il lato dell'arrocco.",
             "source": "theory"
            },
            {
-            "text": "**Proteggi e4** prima di ogni mossa non forzata.",
+            "text": "**Proteggi il pedone e4** prima di ogni mossa non forzata.",
             "source": "theory"
            },
            {
@@ -1458,7 +1841,7 @@
             "source": "theory"
            },
            {
-            "text": "Se il Nero gioca la spinta in e5, ritira il cavallo in b3 ({{ev:Nb3@N8}}) e punta alla casa d5.",
+            "text": "Se il Nero spinge in e5, ritira il cavallo in b3 ({{ev:Nb3@N8}}) e punta alla casa d5.",
             "source": "engine"
            },
            {
@@ -1475,31 +1858,30 @@
        }
       ],
       "notes": [
-       "Maia-2 è in modalità a bassa confidenza: le probabilità umane sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.",
-       "La raccomandazione è debole e no_unique_best è vero: l'analisi propone sistemi tra cui scegliere invece di una mossa unica.",
-       "Il token p_up non è stato usato perché null nel pacchetto.",
-       "I piani in S03 sono stati limitati alle mosse legali nei nodi indicati (arrocco lungo in N4, arrocco corto in N6)."
+       "Maia-2 è in stato low confidence: le probabilità umane sono state usate solo come indicazione qualitativa, senza costruire ragionamenti su piccole differenze.",
+       "Il nodo N15 è citato per la spinta del pedone g dopo h3 e la spinta in e6; il nodo N6 per la ritirata del cavallo in e2 dopo la mossa dell'alfiere in d3 e la spinta in e5.",
+       "La tabella T3 è stata inserita senza colonne di testo, come richiesto."
       ]
      }
     }
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 34600,
-    "completion_tokens": 3955,
-    "total_tokens": 38555,
-    "cost": 0.005002992,
+    "prompt_tokens": 35345,
+    "completion_tokens": 4135,
+    "total_tokens": 39480,
+    "cost": 0.005367228,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 34432,
+     "cached_tokens": 34688,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.005002992,
-     "upstream_inference_prompt_cost": 0.000256992,
-     "upstream_inference_completions_cost": 0.004746
+     "upstream_inference_cost": 0.005367228,
+     "upstream_inference_prompt_cost": 0.000405228,
+     "upstream_inference_completions_cost": 0.004962
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -1508,9 +1890,9 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791117607-zw5UWB40IspXjdKQm2Nl",
+    "id": "gen-1791118043-RzZLE7nI0TbgISwXqDXk",
     "object": "chat.completion",
-    "created": 1791117607,
+    "created": 1791118043,
     "model": "deepseek/deepseek-v4.1-flash",
     "provider": "Together",
     "system_fingerprint": "default",
@@ -1530,10 +1912,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "call_01a106edc38374e19cfca774",
+         "id": "call_01a106f46c4373cdacc8ad78",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Posizione di Najdorf molto equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}} con la mossa migliore, e quasi solo patta secondo Stockfish ({{pct:root.draw}}). Siamo ancora in apertura, in teoria, e la mossa consigliata è {{mv:C1}}, ma la raccomandazione è debole: **non esiste una mossa unica migliore**.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Se toccasse al Nero la posizione sarebbe praticamente pari ({{ev:N2}}): il tuo vantaggio è quasi solo il tratto. Le candidate spiegate stanno tutte in un intervallo piccolissimo, quindi conta più il sistema che scegli che la singola mossa.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]}]},{\"id\":\"S03\",\"blocks\":[{\"type\":\"p\",\"text\":\"Puoi raggruppare le candidate in tre sistemi. Il primo è quello con la spinta del pedone f e l'arrocco lungo: {{mv:C1}} ({{ev:C1}}) o {{mv:C2}} ({{ev:C2}}), con l'idea {{plan:w:O-O-O@N4}} e poi la spinta del pedone g. È il sistema più ambizioso, adatto a chi vuole attaccare con i pedoni e accetta arrocchi opposti.\",\"source\":\"mixed\"},{\"type\":\"p\",\"text\":\"Il secondo è lo sviluppo tranquillo con arrocco corto: {{mv:C4}} ({{ev:C4}}), con l'idea {{plan:w:O-O@N6}}. È per chi preferisce una posizione solida e piani posizionali, senza teoria pesante.\",\"source\":\"mixed\"},{\"type\":\"p\",\"text\":\"Il terzo è la mossa con l'alfiere in g5, {{mv:C10}} ({{ev:C10}}), che mette pressione sul cavallo f6 ma richiede una preparazione specifica: è la più giocata a questo livello secondo Maia-2 ({{pct:C10.p_user}}), ma il motore la mette solo decima. La mossa {{mv:C3}} ({{ev:C3}}) prepara la spinta del pedone g senza impegnare subito l'alfiere.\",\"source\":\"mixed\"},{\"type\":\"p\",\"text\":\"Il motore preferisce di pochissimo {{mv:C1}}, ma la differenza con {{mv:C2}} è solo {{loss:C2}} e con {{mv:C4}} appena {{loss:C4}}: **scegli il sistema che conosci meglio**, non la mossa con la valutazione più alta.\",\"source\":\"engine\"}]},{\"id\":\"S04\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"**Sistema con la spinta del pedone f: arrocco lungo.** Il re va in c1 e la torre in d1; poi la spinta del pedone g attacca il re nero, che di solito sta corto. È una corsa: il Nero contrattacca sul lato di donna.\",\"source\":\"theory\"},{\"text\":\"**Sistema tranquillo: arrocco corto.** Con l'alfiere in d3 e il re in g1 la posizione è solida; le torri vanno al centro e si gioca sulla colonna d.\",\"source\":\"theory\"},{\"text\":\"**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il cavallo in d4, la donna nera può arrivare in b6 e attaccare il pedone b2: se il cavallo si muove, l'alfiere resta scoperto.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato è libera e dipende solo dal sistema che giochi.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"b\"}]}]},{\"id\":\"S05\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Pezzo\",\"Obiettivo tipico\",\"Attenzione\"],\"rows\":[[{\"text\":\"Pedone e4\",\"source\":\"theory\"},{\"text\":\"Va protetto: dal cavallo c3, con la spinta del pedone f o con l'alfiere\",\"source\":\"theory\"},{\"text\":\"La presa del cavallo f6 in e4 se il cavallo c3 è sovraccarico\",\"source\":\"theory\"}],[{\"text\":\"Cavallo d4\",\"source\":\"theory\"},{\"text\":\"Domina il centro; dopo la spinta del Nero in e5 si ritira in b3: {{m:Nb3@N8}} vale {{ev:Nb3@N8}}\",\"source\":\"engine\"},{\"text\":\"{{m:Nf5@N8}} sembra attivo ma perde {{loss:Nf5@N8}}\",\"source\":\"engine\"}],[{\"text\":\"Cavallo c3\",\"source\":\"theory\"},{\"text\":\"Difende e4 e controlla d5; dopo la spinta del Nero in e5 il sogno è il salto in d5\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone b lo scaccia\",\"source\":\"theory\"}],[{\"text\":\"Alfiere c1\",\"source\":\"theory\"},{\"text\":\"In e3 è flessibile, in g5 mette pressione sul cavallo f6\",\"source\":\"theory\"},{\"text\":\"Non lasciarlo senza difesa sulla diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f1\",\"source\":\"theory\"},{\"text\":\"In d3 è solido e punta verso il re nero\",\"source\":\"theory\"},{\"text\":\"In c4 invita la spinta del pedone b\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"In d2 con l'arrocco lungo, in e2 con l'arrocco corto\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 attacca b2 e il cavallo d4\",\"source\":\"theory\"}],[{\"text\":\"Torri\",\"source\":\"theory\"},{\"text\":\"Arrocco corto: in f1 e d1. Arrocco lungo: la torre in d1 sostiene il centro\",\"source\":\"theory\"},{\"text\":\"Non lasciare la torre a1 senza un piano\",\"source\":\"theory\"}],[{\"text\":\"Pedoni f, g e h\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone f sostiene e4; la spinta del pedone g attacca nell'arrocco lungo\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone f indebolisce la diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Oggi hai ancora due pezzi minori a casa (alfieri in c1 e f1) e il Nero tre (cavallo b8, alfiere c8, alfiere f8): sviluppo e arrocco vengono prima di tutto. La colonna d è aperta davanti al tuo re, quindi non aprire il centro prima di aver arroccato.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"w\",\"squares\":[\"c1\",\"f1\"]},{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]},{\"kind\":\"feature\",\"key\":\"open_file_to_king\",\"side\":\"w\",\"squares\":[\"e1\"]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"La spinta del pedone in e5 è la risposta più naturale contro quasi tutti i sistemi: contro {{mv:C1}} Maia-2 la dà al {{pct:e5@N3}} dei giocatori del tuo livello. Occupa il centro, ma lascia d5 come buco e il pedone d6 arretrato.\",\"source\":\"maia\",\"assertions\":[{\"kind\":\"maia_band\",\"ref\":\"e5@N3\",\"band\":\"very_frequent\"}]},{\"text\":\"La spinta del pedone in e6 porta alla struttura Scheveningen: più elastica, prepara lo sviluppo con l'alfiere in e7 e la donna in c7, e talvolta la spinta in d5.\",\"source\":\"theory\"},{\"text\":\"Contro {{mv:C2}} la risposta migliore per il motore è il salto del cavallo in g4 ({{ev:Ng4@N4}}), alla pari con la spinta in e5 ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo al Bianco.\",\"source\":\"engine\"},{\"text\":\"La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4: è il contrattacco tipico quando il Bianco arrocca lungo.\",\"source\":\"theory\"},{\"text\":\"Dopo {{mv:C10}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV10:6}} il Nero prende il pedone b2, il Pedone Avvelenato.\",\"source\":\"engine\"},{\"text\":\"Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del Dragon, e qui il Nero lo prepara solo in alcune linee.\",\"source\":\"theory\"}]},{\"type\":\"table\",\"ref\":\"T3\"},{\"type\":\"p\",\"text\":\"La tabella mostra quanto costa la spinta in e5 contro ciascun sistema. Contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} è una risposta normale (al massimo {{loss:e5@N6}}), mentre contro {{mv:C10}} è un errore: {{m:e5@N7}} vale {{ev:e5@N7}} invece di {{ev:N7}}, cioè perde {{loss:e5@N7}}. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere {{m:e6@N7}}.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, contro {{mv:C10}} sceglie la spinta in e5 solo il {{pct:e5@N7}} dei giocatori del tuo livello, mentre la risposta corretta raccoglie {{pct:e6@N7}}: è una trappola in cui è facile cadere. Contro {{mv:C1}} e {{mv:C2}} invece la spinta in e5 è la scelta di gran lunga più frequente, quindi aspettatela.\",\"source\":\"maia\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C1\":{\"idea\":{\"text\":\"Spinta del pedone f che prepara l'arrocco lungo; contro la spinta in e5 segue la ritirata del cavallo in b3 ({{ev:Nb3@N8}})\",\"source\":\"engine\"}},\"C2\":{\"idea\":{\"text\":\"Sviluppo dell'alfiere in e3, stesso sistema dell'arrocco lungo; deve fare i conti con il salto del cavallo in g4 ({{ev:Ng4@N4}})\",\"source\":\"engine\"}},\"C3\":{\"idea\":{\"text\":\"Prepara la spinta del pedone g senza impegnare l'alfiere; dopo la spinta in e6 segue la spinta in g4 ({{ev:g4@N15}})\",\"source\":\"engine\"}},\"C4\":{\"idea\":{\"text\":\"Sviluppo tranquillo con l'alfiere in d3 e arrocco corto; contro la spinta in e5 il cavallo va in e2 ({{ev:e5@N6}})\",\"source\":\"engine\"}},\"C10\":{\"idea\":{\"text\":\"La più giocata a questo livello ({{pct:C10.p_user}}); il Nero risponde con la spinta in e6\",\"source\":\"mixed\"}}}},{\"type\":\"p\",\"text\":\"Il motore non vede un vincitore chiaro: tra la prima e l'ultima mossa spiegata ci sono {{loss:C10}} pedoni. La linea principale dopo {{mv:C1}} è {{pv:PV1:8}}: il Bianco ottiene la casa d5 in cambio dell'alfiere nero.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"A questo livello conta più la conoscenza dei piani che la scelta tra queste mosse: {{mv:C2}} e {{mv:C1}} sono quasi intercambiabili, {{mv:C3}} e {{mv:C4}} sono alternative valide ({{ev:C3}} e {{ev:C4}}).\",\"source\":\"engine\"}]},{\"id\":\"S08\",\"blocks\":[{\"type\":\"p\",\"text\":\"**{{mv:C3}} è una mossa difficile**: il motore la mette tra le prime tre ({{ev:C3}}, solo {{loss:C3}} dalla migliore), ma a questo livello la sceglie appena il {{pct:C3.p_user}} dei giocatori. È una mossa che richiede di capire il piano prima di giocarla.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C3\",\"category\":\"hard_move\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C1}} e la spinta in e5 la ritirata del cavallo va scelta bene: {{m:Nb3@N8}} tiene il vantaggio, {{m:Nde2@N8}} costa già {{loss:Nde2@N8}} e la mossa d'attacco {{m:Nf5@N8}}, che sembra la più attiva, perde {{loss:Nf5@N8}}.\",\"source\":\"engine\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Scegli il sistema** (spinta del pedone f con arrocco lungo, oppure sviluppo tranquillo con arrocco corto) e quindi il lato dell'arrocco.\",\"source\":\"theory\"},{\"text\":\"**Proteggi e4** prima di ogni mossa non forzata.\",\"source\":\"theory\"},{\"text\":\"**Prima di muovere, controlla la donna nera in b6 e la presa in e4**: sono le due tattiche che il Nero cerca più spesso.\",\"source\":\"theory\"},{\"text\":\"Se il Nero gioca la spinta in e5, ritira il cavallo in b3 ({{ev:Nb3@N8}}) e punta alla casa d5.\",\"source\":\"engine\"},{\"text\":\"Se il cavallo nero salta in g4, non rispondere d'istinto: confronta le ritirate dell'alfiere prima di muovere.\",\"source\":\"theory\"},{\"text\":\"Non perdere tempi: con il Nero al tratto la posizione sarebbe {{ev:N2}}, il tuo vantaggio è il tratto.\",\"source\":\"engine\"}]}]}],\"notes\":[\"Maia-2 è in modalità a bassa confidenza: le probabilità umane sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.\",\"La raccomandazione è debole e no_unique_best è vero: l'analisi propone sistemi tra cui scegliere invece di una mossa unica.\",\"Il token p_up non è stato usato perché null nel pacchetto.\",\"I piani in S03 sono stati limitati alle mosse legali nei nodi indicati (arrocco lungo in N4, arrocco corto in N6).\"]}"
+          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"La posizione è in equilibrio: il motore dà al Bianco un vantaggio minimo, {{ev:N1}}, con circa il {{pct:root.draw}} di patta e pochissime possibilità di sconfitta. Siamo in una Najdorf, {{opening:name}} ({{opening:eco}}), e il Nero ha appena giocato il pedone in a6.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Se toccasse al Nero la valutazione sarebbe {{ev:N2}}: il tuo vantaggio è quasi solo il tratto. Le mosse spiegate stanno tutte in un intervallo piccolissimo, quindi **non devi cercare la mossa migliore, ma scegliere un sistema e giocarlo bene**.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"N2\",\"band\":\"equal\"}]}]},{\"id\":\"S03\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Sistema\",\"Prima mossa\",\"Arrocco\",\"Idea\",\"Per chi\"],\"rows\":[[{\"text\":\"**Attacco inglese con f3**\",\"source\":\"theory\"},{\"text\":\"{{mv:C1}} ({{ev:C1}})\",\"source\":\"engine\"},{\"text\":\"**Lungo**\",\"source\":\"theory\"},{\"text\":\"{{plan:w:Be3,Qd2,O-O-O@N3}}, poi spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Chi vuole attaccare con i pedoni e conosce la teoria\",\"source\":\"theory\"}],[{\"text\":\"**Attacco inglese diretto**\",\"source\":\"theory\"},{\"text\":\"{{mv:C2}} ({{ev:C2}})\",\"source\":\"engine\"},{\"text\":\"**Lungo**\",\"source\":\"theory\"},{\"text\":\"{{plan:w:Qd2,O-O-O@N4}}, poi spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Chi vuole la stessa struttura senza perdere tempo con f3\",\"source\":\"theory\"}],[{\"text\":\"**Preparazione tranquilla**\",\"source\":\"theory\"},{\"text\":\"{{mv:C3}} ({{ev:C3}}) o {{mv:C4}} ({{ev:C4}})\",\"source\":\"engine\"},{\"text\":\"**Corto**\",\"source\":\"theory\"},{\"text\":\"Sviluppo, arrocco corto, poi manovra centrale\",\"source\":\"theory\"},{\"text\":\"Chi preferisce il re al sicuro e piani posizionali\",\"source\":\"theory\"}],[{\"text\":\"**Pressione sull'alfiere**\",\"source\":\"theory\"},{\"text\":\"{{mv:C10}} ({{ev:C10}})\",\"source\":\"engine\"},{\"text\":\"Varia\",\"source\":\"theory\"},{\"text\":\"Attacca il cavallo f6 e prepara la spinta del pedone f\",\"source\":\"theory\"},{\"text\":\"Chi conosce bene la teoria della linea con la donna in b6\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Il motore preferisce di pochissimo {{mv:C1}}, la mossa consigliata, ma **non esiste una mossa unica migliore**: {{mv:C1}} e {{mv:C2}} portano di solito alla stessa struttura e la differenza tra loro è {{loss:C2}}. Se vuoi una posizione più tranquilla, {{mv:C4}} costa solo {{loss:C4}}.\",\"source\":\"engine\"}]},{\"id\":\"S04\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"**Con f3 e alfiere in e3 si arrocca lungo.** Poi la spinta del pedone g contro il re nero, che di solito arrocca corto.\",\"source\":\"theory\"},{\"text\":\"**Con l'alfiere in d3 o in e2 si arrocca corto.** Il re è al sicuro, poi torri al centro e manovra.\",\"source\":\"theory\"},{\"text\":\"**Attenzione alla diagonale {{diag:a7-g1}}.** Con l'alfiere in e3 e il cavallo in d4, la donna nera in b6 può attaccare il pedone b2: se il cavallo si muove, l'alfiere va difeso.\",\"source\":\"theory\"}]},{\"type\":\"p\",\"text\":\"Oggi entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del lato dipende solo dal sistema. La colonna d è aperta davanti al tuo re, quindi l'arrocco viene prima di tutto.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_long\",\"side\":\"w\"},{\"kind\":\"feature\",\"key\":\"can_castle_short\",\"side\":\"b\"},{\"kind\":\"feature\",\"key\":\"open_file_to_king\",\"side\":\"w\",\"squares\":[\"e1\"]}]}]},{\"id\":\"S05\",\"blocks\":[{\"type\":\"text_table\",\"columns\":[\"Pezzo\",\"Obiettivo tipico\",\"Attenzione\"],\"rows\":[[{\"text\":\"Pedone e4\",\"source\":\"theory\"},{\"text\":\"Va protetto: dal cavallo c3, con il pedone in f3 o con l'alfiere\",\"source\":\"theory\"},{\"text\":\"La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico\",\"source\":\"theory\"}],[{\"text\":\"Cavallo d4\",\"source\":\"theory\"},{\"text\":\"Centro; dopo la spinta in e5 si ritira in **b3**: {{m:Nb3@N8}} vale {{ev:Nb3@N8}}\",\"source\":\"engine\"},{\"text\":\"{{m:Nf5@N8}} sembra attivo ma perde {{loss:Nf5@N8}}\",\"source\":\"engine\"}],[{\"text\":\"Cavallo c3\",\"source\":\"theory\"},{\"text\":\"Difende e4 e controlla d5; dopo la spinta del Nero in e5 il sogno è il salto in **d5**\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone b lo scaccia\",\"source\":\"theory\"}],[{\"text\":\"Alfiere c1\",\"source\":\"theory\"},{\"text\":\"**e3** (flessibile) o **g5** (pressione sul cavallo f6)\",\"source\":\"theory\"},{\"text\":\"Non lasciarlo senza difesa sulla diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f1\",\"source\":\"theory\"},{\"text\":\"**d3** o **e2** (solido), **c4** (aggressivo)\",\"source\":\"theory\"},{\"text\":\"In c4 invita la spinta del pedone b\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**d2** con l'arrocco lungo, **e2** con l'arrocco corto\",\"source\":\"theory\"},{\"text\":\"La donna nera in b6 attacca b2 e il cavallo d4\",\"source\":\"theory\"}],[{\"text\":\"Torri\",\"source\":\"theory\"},{\"text\":\"Arrocco corto: in f1 e d1. Arrocco lungo: torre in **g1** per sostenere la spinta del pedone g\",\"source\":\"theory\"},{\"text\":\"Non lasciare la torre a1 senza un piano\",\"source\":\"theory\"}],[{\"text\":\"Pedoni f, g e h\",\"source\":\"theory\"},{\"text\":\"Pedone in f3 a sostegno di e4; spinta del pedone g nell'attacco inglese\",\"source\":\"theory\"},{\"text\":\"La spinta in f3 indebolisce la diagonale {{diag:a7-g1}}\",\"source\":\"theory\"}]]},{\"type\":\"p\",\"text\":\"Oggi i tuoi due alfieri sono ancora a casa, come tre pezzi minori neri: sviluppo e arrocco vengono prima di tutto.\",\"source\":\"feature\",\"assertions\":[{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"w\",\"squares\":[\"c1\",\"f1\"]},{\"kind\":\"feature\",\"key\":\"undeveloped_pieces\",\"side\":\"b\",\"squares\":[\"b8\",\"c8\",\"f8\"]}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"La spinta del pedone in e5 è la risposta più naturale contro quasi tutti i sistemi: occupa il centro, ma lascia **d5 come buco** e il pedone d6 arretrato.\",\"source\":\"theory\"},{\"text\":\"La spinta del pedone in e6 porta alla struttura **Scheveningen**: più elastica, prepara il fianchetto dell'alfiere e talvolta la spinta in d5.\",\"source\":\"theory\"},{\"text\":\"Contro {{mv:C2}} la risposta migliore per il motore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), alla pari con {{m:e5@N4}} ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo.\",\"source\":\"engine\"},{\"text\":\"La spinta del pedone b sul lato di donna caccia il cavallo c3 e toglie protezione a e4.\",\"source\":\"theory\"},{\"text\":\"Dopo {{mv:C10}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV10:6}} il Nero prende il pedone b2, il **Pedone Avvelenato**.\",\"source\":\"engine\"},{\"text\":\"Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del **Dragon**.\",\"source\":\"theory\"}]},{\"type\":\"text_table\",\"columns\":[\"Pezzo nero\",\"Dove va di solito\"],\"rows\":[[{\"text\":\"Alfiere c8\",\"source\":\"theory\"},{\"text\":\"**e6** contro d5; con la struttura Scheveningen in b7 o d7\",\"source\":\"theory\"}],[{\"text\":\"Cavallo b8\",\"source\":\"theory\"},{\"text\":\"**d7** a sostegno della spinta del pedone b, oppure **c6** contro il centro\",\"source\":\"theory\"}],[{\"text\":\"Alfiere f8\",\"source\":\"theory\"},{\"text\":\"**e7**, poi arrocco corto\",\"source\":\"theory\"}],[{\"text\":\"Donna\",\"source\":\"theory\"},{\"text\":\"**c7** sulla colonna c, oppure **b6** contro b2 e d4\",\"source\":\"theory\"}]]},{\"type\":\"table\",\"ref\":\"T3\"},{\"type\":\"p\",\"text\":\"La tabella mostra quanto costa la spinta del pedone in e5 contro ciascun sistema. Contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} è una risposta normale, mentre contro {{mv:C10}} è un errore: {{m:e5@N7}} vale {{ev:e5@N7}} invece di {{ev:N7}}, cioè perde {{loss:e5@N7}}. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere {{m:e6@N7}}.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Secondo Maia-2, contro {{mv:C10}} sceglie la spinta in e5 il {{pct:e5@N7}} dei giocatori del tuo livello, mentre la risposta corretta raccoglie {{pct:e6@N7}}. Contro {{mv:C1}} la spinta in e5 è invece la scelta del {{pct:e5@N3}} dei giocatori.\",\"source\":\"maia\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C1\":{\"idea\":{\"text\":\"Attacco inglese che evita il salto del cavallo in g4; contro la spinta in e5 segue la ritirata in b3 ({{ev:Nb3@N8}})\",\"source\":\"engine\"}},\"C2\":{\"idea\":{\"text\":\"Attacco inglese diretto; deve fare i conti con {{m:Ng4@N4}} ({{ev:Ng4@N4}})\",\"source\":\"engine\"}},\"C3\":{\"idea\":{\"text\":\"Prepara la spinta del pedone g senza f3; dopo la spinta in e6 segue la spinta del pedone g ({{ev:g4@N15}})\",\"source\":\"engine\"}},\"C4\":{\"idea\":{\"text\":\"Sviluppo tranquillo e arrocco corto; contro la spinta in e5 il cavallo va in e2 ({{ev:e5@N6}})\",\"source\":\"engine\"}},\"C10\":{\"idea\":{\"text\":\"La più giocata a questo livello ({{pct:C10.p_user}}); il Nero risponde con la spinta in e6\",\"source\":\"mixed\"}}}},{\"type\":\"p\",\"text\":\"Il motore non vede un vincitore chiaro: tra la prima e l'ultima mossa spiegata ci sono {{loss:C10}} pedoni. La linea principale dopo {{mv:C1}} è {{pv:PV1:8}}: il Bianco ottiene la casa d5 in cambio dell'alfiere nero.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"A questo livello conta di più la **conoscenza dei piani** che la scelta tra queste mosse: {{mv:C2}} e {{mv:C1}} sono intercambiabili, {{mv:C3}} e {{mv:C4}} sono alternative valide ({{ev:C3}} e {{ev:C4}}).\",\"source\":\"engine\"}]},{\"id\":\"S08\",\"blocks\":[{\"type\":\"p\",\"text\":\"**{{mv:C3}} è una mossa difficile**: il motore la mette tra le prime tre ({{ev:C3}}, solo {{loss:C3}} dalla migliore), ma a questo livello la sceglie appena il {{pct:C3.p_user}} dei giocatori. Chi non la conosce gioca di solito l'alfiere in e3 o in g5.\",\"source\":\"mixed\",\"assertions\":[{\"kind\":\"classification\",\"ref\":\"C3\",\"category\":\"hard_move\"}]},{\"type\":\"p\",\"text\":\"Dopo {{mv:C1}} e la spinta in e5 la ritirata del cavallo va scelta bene: {{m:Nb3@N8}} tiene il vantaggio, {{m:Nde2@N8}} costa già {{loss:Nde2@N8}} e la mossa d'attacco {{m:Nf5@N8}}, che sembra la più attiva, perde {{loss:Nf5@N8}}. Sono le trappole naturali di questa struttura.\",\"source\":\"engine\"}]},{\"id\":\"S10\",\"blocks\":[{\"type\":\"ol\",\"items\":[{\"text\":\"**Scegli il sistema** (attacco inglese o sviluppo tranquillo) e quindi il lato dell'arrocco.\",\"source\":\"theory\"},{\"text\":\"**Proteggi il pedone e4** prima di ogni mossa non forzata.\",\"source\":\"theory\"},{\"text\":\"**Prima di muovere, controlla la donna nera in b6 e la presa in e4**: sono le due tattiche che il Nero cerca più spesso.\",\"source\":\"theory\"},{\"text\":\"Se il Nero spinge in e5, ritira il cavallo in b3 ({{ev:Nb3@N8}}) e punta alla casa d5.\",\"source\":\"engine\"},{\"text\":\"Se il cavallo nero salta in g4, non rispondere d'istinto: confronta le ritirate dell'alfiere prima di muovere.\",\"source\":\"theory\"},{\"text\":\"Non perdere tempi: con il Nero al tratto la posizione sarebbe {{ev:N2}}, il tuo vantaggio è il tratto.\",\"source\":\"engine\"}]}]}],\"notes\":[\"Maia-2 è in stato low confidence: le probabilità umane sono state usate solo come indicazione qualitativa, senza costruire ragionamenti su piccole differenze.\",\"Il nodo N15 è citato per la spinta del pedone g dopo h3 e la spinta in e6; il nodo N6 per la ritirata del cavallo in e2 dopo la mossa dell'alfiere in d3 e la spinta in e5.\",\"La tabella T3 è stata inserita senza colonne di testo, come richiesto.\"]}"
          }
         }
        ]
@@ -1541,21 +1923,21 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 34600,
-     "completion_tokens": 3955,
-     "total_tokens": 38555,
-     "cost": 0.005002992,
+     "prompt_tokens": 35345,
+     "completion_tokens": 4135,
+     "total_tokens": 39480,
+     "cost": 0.005367228,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 34432,
+      "cached_tokens": 34688,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.005002992,
-      "upstream_inference_prompt_cost": 0.000256992,
-      "upstream_inference_completions_cost": 0.004746
+      "upstream_inference_cost": 0.005367228,
+      "upstream_inference_prompt_cost": 0.000405228,
+      "upstream_inference_completions_cost": 0.004962
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,
