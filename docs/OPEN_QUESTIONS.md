@@ -126,3 +126,11 @@ valutazione è la prima riga del nodo ℓ1 corrispondente; se manca anche quello
 ### OQ-M1a-12 · Testimoni ordinati
 Per `pin` e `unresolved_capture` le case sono una coppia ordinata (inchiodato, inchiodatore; da, a), non in
 ordine alfabetico, come indicano le definizioni di §5.1.
+
+### OQ-M1a-13 · Costanti numeriche rimaste nel codice
+La regola è «nessuna costante numerica nel codice» (istruzione 5). Restano nel codice solo valori che la
+documentazione fissa nel testo normativo e che l'Appendice D non mette in configurazione: `loss_cp ≤ 30`
+della condizione c3 (§8.2, matrice fissa per §0.5), la soglia `p ≥ 0,001` della policy nei nodi (§6.2),
+i 40 caratteri dello slug della cartella (§2-bis.5), le soglie di AC-09 (0,25 pedoni, prime 6) e i limiti di
+formato della scacchiera (colonne c–f, ali). Se si preferisce averli in `config/`, va aggiunta una chiave
+all'Appendice D: è una decisione dell'utente.

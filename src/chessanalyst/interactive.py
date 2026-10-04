@@ -16,7 +16,7 @@ from chessanalyst.inputs.pgn import game_infos, position_from_game, read_games
 from chessanalyst.inputs.position import Position
 from chessanalyst.inputs.load import detect_or_assume
 from chessanalyst.inputs.read_source import read_interactive, read_source
-from chessanalyst.settings import check_elo, effective, parse_color
+from chessanalyst.settings import check_available, check_elo, effective, parse_color
 
 BUDGETS = ("fast", "standard", "deep")
 COLOR_LABEL = {"w": "bianco", "b": "nero"}
@@ -43,6 +43,7 @@ def _retry(io: IO, max_attempts: int, prompt: str, parse: Callable[[str], Any], 
 
 def ask_settings(cfg: Config, io: IO) -> dict[str, Any]:
     v = effective(cfg)
+    check_available(cfg, v)   # values from config/profile of later milestones are refused, never ignored (D-30)
     n = cfg.default.input.max_attempts
     v["color"] = _retry(io, n, f"Colore [bianco/nero, {COLOR_LABEL[v['color']]}]: ",
                         lambda s: v["color"] if not s.strip() else parse_color(s),
@@ -125,7 +126,8 @@ def ask_position(cfg: Config, io: IO) -> Position:
 
 
 def interactive(cfg: Config, io: IO, run: Callable[[Position, dict[str, Any]], int]) -> int:
-    """Return the exit code. ``run`` performs the analysis after confirmation."""
+    """Return the exit code. ``run`` performs the analysis after confirmation.
+    Options not yet available raise UsageError (exit code 2 in ``cli.main``)."""
     from chessanalyst.profile import save_profile
     from chessanalyst.run import load_openings
 

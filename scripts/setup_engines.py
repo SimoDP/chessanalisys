@@ -95,16 +95,15 @@ def stockfish_asset() -> str:
 
 
 def engine_name(path: Path) -> str | None:
-    import chess.engine
+    """Engine name read through the Stockfish adapter (the only module that drives UCI)."""
+    from chessanalyst.engines.stockfish import StockfishEngine
+    from chessanalyst.errors import EnvironmentProblem
 
     try:
-        eng = chess.engine.SimpleEngine.popen_uci(str(path))
-    except (OSError, chess.engine.EngineError):
+        with StockfishEngine(path, hash_mb=16, poll_s=0.05, threads=1) as sf:
+            return sf.version
+    except EnvironmentProblem:
         return None
-    try:
-        return eng.id.get("name")
-    finally:
-        eng.quit()
 
 
 def setup_stockfish(cfg, args) -> Path | None:
@@ -160,9 +159,9 @@ def setup_maia(cfg, args) -> bool:
     if not ask(f"Scaricare i pesi di Maia-2 ({m.model_type}, circa 270 MB) da Google Drive?", args.yes):
         return False
     try:
-        from maia2 import model
+        from chessanalyst.engines.maia2 import Maia2Backend
 
-        model.from_pretrained(type=m.model_type, device="cpu", save_root=str(mdir))
+        Maia2Backend(m.model_type, "cpu", mdir)   # the adapter downloads and checks the weights
     except Exception as e:  # noqa: BLE001
         print(f"Maia-2: download fallito ({e})")
         return False
