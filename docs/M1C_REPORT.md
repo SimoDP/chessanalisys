@@ -42,6 +42,17 @@ salta e nessuna risposta di DeepSeek è stata ancora vista né verificata. Promp
 toccati. Per chiudere basta ripetere i due comandi qui sopra in una sessione in cui la chiave è disponibile
 (variabile d'ambiente dell'ambiente cloud oppure in locale).
 
+### Secondo tentativo, 4 ottobre 2026
+
+Non riuscito, M1c **resta aperta**. Questa volta `OPENROUTER_API_KEY` è impostata nell'ambiente, ma
+OpenRouter rifiuta ogni richiesta con `401 No cookie auth credentials found` (lo stesso errore che dà senza
+chiave): `pytest -m llm --record` → 3 test falliti con `ModelError: Chiave API non valida o non autorizzata`,
+nessuna risposta registrata. Il client gestisce correttamente il caso (401 non ritentato, messaggio in
+italiano, chiave mai scritta nei log). Il modello quindi non ha ancora risposto e non ci sono errori di
+verifica di DeepSeek da esaminare; prompt ed esempi non sono stati toccati. La suite senza rete resta a
+474 superati e 3 saltati. Per chiudere serve una chiave OpenRouter valida (impostata come variabile
+d'ambiente dell'ambiente cloud, oppure in locale) e i due comandi qui sopra.
+
 ## Uso
 
 ```bash
