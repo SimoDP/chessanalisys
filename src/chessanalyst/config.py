@@ -225,6 +225,10 @@ class BandParams(Strict):
 class DetailParams(Strict):
     words: float
     plies_delta: int
+    k: Literal["explained_min", "explained_min_plus_1", "band"]
+    sections: Literal["required", "required_s08", "applicable", "all"]
+    tables: list[str]
+    opp_t: bool = False
 
 
 class NaturalTrap(Strict):
@@ -291,6 +295,7 @@ class ProfileThresholds(Strict):
 
 class EloRules(Strict):
     e3_mandatory_from: int
+    e3_min_detail: int
     s11_from: int
 
 
@@ -397,6 +402,7 @@ class ThresholdsCfg(Strict):
     anchors: dict[str, Range]
     band_params: dict[str, BandParams]
     detail: dict[str, DetailParams]
+    plies_bounds: tuple[int, int]
     classification: Classification
     selection: Selection
     profile: ProfileThresholds
@@ -558,7 +564,7 @@ def load_config(root: Path | None = None) -> Config:
     except ValidationError as e:
         raise ConfigError(f"Configurazione non valida in {cdir}:\n{e}") from e
     _validate_tables(cfg.thresholds, cdir / "thresholds.yaml")
-    unknown_sections = set(cfg.section_titles) - set(SECTION_IDS) - {"S07_alt"}
+    unknown_sections = set(cfg.section_titles) - set(SECTION_IDS) - {"S07_alt", "S05_detail5", "S10_detail5"}
     if unknown_sections:
         raise ConfigError(f"section_titles.yaml: sezioni sconosciute {sorted(unknown_sections)}")
     for anchor in cfg.section_budget:

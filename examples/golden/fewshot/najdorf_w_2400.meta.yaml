@@ -3,7 +3,7 @@ anchor: "2400"
 pack: examples/golden/packs/najdorf_w_2400.pack.json
 raw: examples/golden/raw/najdorf_w_2400.md
 validated: false          # §8-bis.5: da rivedere da un giocatore di circa 2400
-needs_review: [S01, S02, S03, S06, S07, S09]
+needs_review: [S01, S02, S03, S06, S07, S09, S11]
 notes:
   - "M1: E3 solo al primo livello; T2 contiene le righe di ℓ1 (in M2 si aggiungono ℓ2 e ℓ3 e il fewshot va completato)."
   - "S03: aggiunte le strutture con 6.h3 e 6.Bd3 (candidate spiegate del pacchetto)."
@@ -13,3 +13,4 @@ notes:
   - "M2 (Stockfish 19, ℓ1–ℓ3, D-66, D-68): fewshot completato; T2 contiene ℓ1, ℓ2 e ℓ3 (33 righe) con note sulle righe critiche; T3 con la mossa di contesto ...g6."
   - "M2 · S08 omessa (c8: nessuna trappola naturale né mossa difficile a 2400); S03 riscritta su 6.Bd3 e 6.Qd3 (6.h3 e 6.Be2 non sono più spiegate)."
   - "M3 · S02 (fattori decisivi: attività e struttura) e S09 scritte sul pacchetto: nessuna linea supera la soglia più bassa."
+  - "M4 · S11 (Note da maestro, c11) scritta ex novo sul pacchetto: la trasposizione tra 6.f3 e 6.Be3 e la risposta ...Ng4 concessa da 6.Be3, l'unica mossa 7.Nb3 dopo 6.f3 e5, le alternative tranquille 6.Be2 e 6.h3."

@@ -29,7 +29,9 @@ from chessanalyst.run import load_openings
 
 GROUPS = {
     # the standard run (same cache, after deep) records the searches a lighter profile adds (AC-14)
-    "najdorf": ("fixtures/positions/najdorf.fen", [("w", 1500), ("w", 1900), ("w", 2400), ("w", 1900, "standard")]),
+    # M4: 1200 and 2500 for AC-12 (same position at three levels)
+    "najdorf": ("fixtures/positions/najdorf.fen", [("w", 1500), ("w", 1900), ("w", 2400), ("w", 1900, "standard"),
+                                                   ("w", 1200), ("w", 2500)]),
     "najdorf_after_be3": ("fixtures/positions/najdorf_after_be3.fen", [("w", 1900)]),
     "fried_liver": ("fixtures/pgn/fried_liver.pgn", [("w", 1500)]),
     "rook_endgame": ("fixtures/positions/rook_endgame.fen", [("w", 1900)]),

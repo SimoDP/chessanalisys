@@ -128,15 +128,21 @@ Tra la prima e la quinta mossa spiegata ci sono 0,30: la scelta è di sistema, n
 
 Nessuna linea supera la soglia di rischio, che a questo livello è la più bassa: con una mossa in più il Nero otterrebbe -0,07. Nell'albero dei test di move order non c'è una perdita decisiva nascosta.
 
+## Note da maestro
+
+6.f3 e 6.Be3 sono la stessa scelta con un ordine diverso: si incontrano dopo 6.f3 e5 7.Nb3 Be6 8.Be3 Be7 9.Qd2. L'ordine conta per le risposte che concedi: dopo 6.Be3 il Nero ha ...Ng4 (+0,28), dopo 6.f3 no.
+
+Dopo ...e5 regge solo 7.Nb3: 7.Nde2 costa 0,49. Le mosse tranquille 6.Be2 e 6.h3 cedono 0,19 e 0,20: scelte di repertorio, non errori.
+
 ## Rapporto tecnico
 
 - Versioni: Stockfish 19 · Maia-2 0.11.0 (modello rapid, cpu) · modello di linguaggio: nessuno (esempio di riferimento)
 - Profilo deep · tempo dei motori 1483,6 s · nodi analizzati 72 · profondità minima 18 e massima 31
 - Nodi sotto la profondità minima: nessuno
 - Elo dichiarato 2400 FIDE · Elo Maia-2 2400 · fascia ge2400 · ancora 2400 · confidenza di Maia-2 bassa
-- Sezioni omesse: S05 (band_2400), S08 (no_classified_move), S10 (band_2400), S11 (milestone), S12 (matrix), S13 (matrix) · assorbite: S04 in S03
+- Sezioni omesse: S05 (band_2400), S08 (no_classified_move), S10 (band_2400), S12 (matrix), S13 (matrix) · assorbite: S04 in S03
 - Fasi omesse: nessuna · nodi omessi: nessuno
-- Contenuto teorico: 3 blocchi, 15% delle parole
+- Contenuto teorico: 3 blocchi, 14% delle parole
 - Controlli: V01 superato · V02 superato · V03 superato · V04 superato · V05 superato · V06 superato · V07 superato · V08 superato · V09 superato · V10 superato · V11 superato
 - Retry: 0
 - Rimossi in modalità degradata: nessuno

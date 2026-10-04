@@ -42,7 +42,7 @@ def test_analyze_exits_3_without_fallback(fen, message, capsys, tmp_path):
 
 def test_interactive_exits_3_after_max_attempts(cfg, tmp_path, monkeypatch):
     monkeypatch.setenv("CHESSANALYST_CONFIG_DIR", str(tmp_path))
-    answers = iter(["bianco", "1900", "fast", "fen"] + [CASES[2][0]] * cfg.default.input.max_attempts)
+    answers = iter(["bianco", "1900", "fast", "", "fen"] + [CASES[2][0]] * cfg.default.input.max_attempts)
     said: list[str] = []
     ran: list = []
 

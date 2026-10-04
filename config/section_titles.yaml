@@ -12,3 +12,6 @@ S10: {"1500": "Prima di ogni mossa, controlla", "1900": "Come ragionare", "2400"
 S11: {"1500": null, "1900": "Note da maestro", "2400": "Note da maestro"}
 S12: {"1500": "Finale: tecnica e tablebase", "1900": "Finale: tecnica e tablebase", "2400": "Finale: tecnica e tablebase"}
 S13: {"1500": "Tattica forzata", "1900": "Tattica forzata", "2400": "Tattica forzata"}
+# M4 (OQ-M4-1): titoli delle sezioni che l'ancora esclude e il dettaglio 5 riammette (§8.2-bis)
+S05_detail5: {"2400": "Cosa vuole ogni pezzo"}
+S10_detail5: {"2400": "Come ragionare"}

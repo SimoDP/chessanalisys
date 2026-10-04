@@ -34,8 +34,11 @@ def llm_view(pack: dict, view: LlmViewCfg) -> dict:
         nodes.append(n)
     out["nodes"] = nodes
     me = pack["user"]["color"]
+    opp = "b" if me == "w" else "w"
+    five = pack["user"]["detail_level"] == 5            # the opponent's T only at detail 5 (§5-bis.2, O-5)
     out["categories"] = [{"id": c["id"], "T": c["T"][me], "R": c["R"], "balance": c["balance"],
-                          "advice": c["advice"], "confidence": c["confidence"]} for c in pack.get("categories", [])]
+                          "advice": c["advice"], "confidence": c["confidence"],
+                          **({"T_opp": c["T"][opp]} if five else {})} for c in pack.get("categories", [])]
     out["filtered_lines"] = [{k: (v[:view.pv_plies] if k == "plies" else v) for k, v in ln.items()
                               if k in LINE_FIELDS} for ln in pack.get("filtered_lines", [])]
     return out

@@ -17,7 +17,7 @@ EXPECTED = {   # sections after matrix, milestone and §8.2-bis (column 1, user 
     "1900": ["S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10"],
     # 2400: S04 absorbed in S03, S05 and S10 excluded (band_2400); S08 by c8 (natural_trap, hard_move):
     # no such move in the frozen pack (Stockfish 19), so S08 is omitted with «no_classified_move»
-    "2400": ["S01", "S02", "S03", "S06", "S07", "S09"],
+    "2400": ["S01", "S02", "S03", "S06", "S07", "S09", "S11"],   # S11: c11 (M4)
 }
 ANCHORS = ["1500", "1900", "2400"]
 
@@ -42,7 +42,7 @@ def test_rendered_sections(cfg, root, anchor):
         assert "S05 (band_2400)" in report and "S10 (band_2400)" in report
         assert plan["S07"]["tables"] == ["T1", "T2"]              # move order at 2400 (§8.5)
         assert not plan["S08"]["required"] and "S08 (no_classified_move)" in report
-        assert "S11 (milestone)" in report                       # S11 arrives in M4
+        assert "S11" not in [o["id"] for o in pack["omitted_sections"]]   # c11 from M4: 2400 >= 2000
     else:
         assert "assorbite: nessuna" in report
         assert plan["S08"]["required"] == bool(plan["S08"]["must_cover"])    # c8

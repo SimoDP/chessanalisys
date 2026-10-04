@@ -10,7 +10,7 @@ from chessanalyst.errors import UsageError
 from chessanalyst.profile import load_profile
 
 COLOR_WORDS = {"bianco": "w", "b": "w", "w": "w", "white": "w", "nero": "b", "n": "b", "black": "b"}
-NOT_YET_MSG = "Opzione disponibile da M4"
+DETAILS = (1, 2, 3, 4, 5)
 
 
 def parse_color(value: str) -> str | None:
@@ -19,10 +19,12 @@ def parse_color(value: str) -> str | None:
 
 
 def check_available(cfg: Config, values: dict[str, Any]) -> None:
-    if values.get("color") == "both" or values.get("elo_white") is not None or values.get("elo_black") is not None:
-        raise UsageError(NOT_YET_MSG)
-    if values.get("detail") is not None and values["detail"] != 4:
-        raise UsageError(NOT_YET_MSG)
+    """From M4 «entrambi», ``--elo-white``/``--elo-black`` and detail 1–5 are available (D-30); the chess.com
+    scale stays refused while its table is empty."""
+    if values.get("detail") is not None and values["detail"] not in DETAILS:
+        raise UsageError(f"Dettaglio non valido: {values['detail']} (ammesso da 1 a 5)")
+    if (values.get("elo_white") is not None or values.get("elo_black") is not None) and values.get("color") not in (None, "both"):
+        raise UsageError("--elo-white e --elo-black valgono solo con --color both")
     if values.get("elo_scale") == "chesscom" and not cfg.elo_conversion.chesscom_to_lichess:
         raise UsageError("Scala chess.com non ancora configurata")
 

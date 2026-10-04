@@ -11,6 +11,7 @@ import chess
 
 from chessanalyst import __version__
 from chessanalyst.config import Config
+from chessanalyst.detail import plies_max as detail_plies
 from chessanalyst.engines.maia2 import entropy_bits
 from chessanalyst.explore.runner import Exploration, NodeRec
 from chessanalyst.explore.select import transpositions
@@ -174,7 +175,7 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
     color = us.color
     root = pos.board
     bp = cfg.thresholds.band_params[us.band]
-    plies_max = max(2, bp.plies_max + cfg.thresholds.detail[str(us.detail_level)].plies_delta)
+    plies_max = detail_plies(cfg, us.band, us.detail_level)
     opp_name = cfg.wording["colors"]["b" if color == chess.WHITE else "w"]
 
     # -- nodes and canonical IDs -------------------------------------------
@@ -356,7 +357,8 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
     else:
         rb = {r["id"]: exp.r_nodes[r["uci"]].board for r in replies}
         tables["T1"] = T.build_t1_alt(cfg, root, replies, rb, us.opp_elo_declared, sat, tb=tablebase is not None)
-    t4 = build_t4(cfg, us.anchor, categories_out, us.code) if profile["matrix_column"] != 4 else None   # S02 (§8.2)
+    opp_t = cfg.thresholds.detail[str(us.detail_level)].opp_t                 # detail 5 (§7.2, M4)
+    t4 = build_t4(cfg, us.anchor, categories_out, us.code, opp_t) if profile["matrix_column"] != 4 else None
     if t4 is not None:
         tables["T4"] = t4
 

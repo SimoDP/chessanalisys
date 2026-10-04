@@ -1,8 +1,8 @@
 {
   "schema_version": "0.9",
   "app_version": "0.1.0",
-  "created_utc": "2026-10-04T19:44:30+00:00",
-  "config_hash": "ba69976fa1c15a01cd275d5011b743c32d9e3112",
+  "created_utc": "2026-10-04T20:10:35+00:00",
+  "config_hash": "66421c9ac5e41763714469aa623d00c2c701e334",
   "position": {
     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N1B3/PPP2PPP/R2QKB1R b KQkq - 1 6",
     "epd": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N1B3/PPP2PPP/R2QKB1R b KQkq -",

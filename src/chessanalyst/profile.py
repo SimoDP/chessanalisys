@@ -12,7 +12,7 @@ from typing import Any
 import platformdirs
 import yaml
 
-KEYS = ("color", "elo", "elo_scale", "budget")
+KEYS = ("color", "elo", "elo_scale", "budget", "detail")   # detail from M4
 
 
 def profile_path() -> Path:

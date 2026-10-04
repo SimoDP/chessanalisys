@@ -282,6 +282,21 @@
      ]
     }
    ]
+  },
+  {
+   "id": "S11",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "{{mv:C1}} e {{mv:C2}} sono la stessa scelta con un ordine diverso: si incontrano dopo {{pv:PV1:7}}. L'ordine conta per le risposte che concedi: dopo {{mv:C2}} il Nero ha {{m:Ng4@N4}} ({{ev:Ng4@N4}}), dopo {{mv:C1}} no.",
+     "source": "engine"
+    },
+    {
+     "type": "p",
+     "text": "Dopo {{m:e5@N3}} regge solo {{m:Nb3@N8:num}}: {{m:Nde2@N8:num}} costa {{loss:Nde2@N8}}. Le mosse tranquille {{mv:C6}} e {{mv:C7}} cedono {{loss:C6}} e {{loss:C7}}: scelte di repertorio, non errori.",
+     "source": "engine"
+    }
+   ]
   }
  ],
  "notes": []

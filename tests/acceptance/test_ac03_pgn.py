@@ -80,7 +80,7 @@ def test_fen_given_as_pgn(cfg, root):
 
 def test_fen_given_as_pgn_interactive(cfg, root, tmp_path, monkeypatch):
     monkeypatch.setenv("CHESSANALYST_CONFIG_DIR", str(tmp_path))
-    answers = iter(["", "", "", "pgn", str(pgn(root, "fen_as_pgn.txt")), "s", "s"])
+    answers = iter(["", "", "", "", "pgn", str(pgn(root, "fen_as_pgn.txt")), "s", "s"])
     got = []
     code = interactive(cfg, IO(ask=lambda p: next(answers), say=lambda s: None),
                        lambda pos, v: got.append(pos.fen) or 0)

@@ -9,6 +9,7 @@ import math
 from dataclasses import dataclass, field
 
 from chessanalyst.config import Config, SECTION_IDS
+from chessanalyst.detail import plies_max as detail_plies
 
 # Matrix of §8.2: "req" mandatory, "cN" conditional, None omitted, per column 1..4.
 MATRIX: dict[str, tuple] = {
@@ -26,8 +27,8 @@ MATRIX: dict[str, tuple] = {
     "S12": (None, None, "req", "req"),
     "S13": (None, "req", None, None),
 }
-# Sections available in the current milestone (§8.3, M3): S02 and S09 from M3, S11 arrives in M4.
-MILESTONE_SECTIONS = ("S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S12", "S13")
+# Sections available in the current milestone (§8.3, M4): all.
+MILESTONE_SECTIONS = ("S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S11", "S12", "S13")
 THEORY = {"S01": False, "S02": False, "S03": True, "S04": True, "S05": True, "S06": True, "S07": False,
           "S08": False, "S09": False, "S10": True, "S11": True, "S12": True, "S13": False}
 COUNTING_C8 = ("natural_trap", "hard_move", "practical_alt", "improbable_error")
@@ -100,6 +101,13 @@ def build_section_plan(cfg: Config, pi: PlanInput) -> tuple[list[dict], list[dic
             omit(s, "no_invisible_line")
         elif rule == "c11" and not (pi.elo_ref_fide >= cfg.thresholds.elo_rules.s11_from or pi.detail == 5):
             omit(s, "elo<2000")
+    # 1b. detail (§7.2, M4): with 1–2 only the mandatory sections of the matrix, with 3 also S08
+    dp = cfg.thresholds.detail[str(pi.detail)]
+    if dp.sections in ("required", "required_s08"):
+        for s in SECTION_IDS:
+            rule = MATRIX[s][col - 1]
+            if rule not in (None, "req") and not (s == "S08" and dp.sections == "required_s08"):
+                omit(s, "detail")
     # 2. milestone
     for s in SECTION_IDS:
         if s not in MILESTONE_SECTIONS:
@@ -107,7 +115,7 @@ def build_section_plan(cfg: Config, pi: PlanInput) -> tuple[list[dict], list[dic
     # 3. anchor (§8.2-bis)
     if pi.anchor == "1500":
         omit("S11", "band_1500")
-    if pi.anchor == "2400":
+    if pi.anchor == "2400" and dp.sections != "all":      # detail 5 lifts these exclusions (§8.2-bis)
         omit("S05", "band_2400")
         omit("S10", "band_2400")
     if pi.anchor in ("1500", "2400") and status["S04"]["omitted"] is None:
@@ -130,7 +138,7 @@ def build_section_plan(cfg: Config, pi: PlanInput) -> tuple[list[dict], list[dic
          for s in required}
     wsum = sum(w.values()) or 1.0
     titles = cfg.section_titles
-    plies = max(2, bp.plies_max + detail.plies_delta)
+    plies = detail_plies(cfg, pi.band, pi.detail)
 
     plan, omitted = [], []
     for s in SECTION_IDS:
@@ -140,20 +148,24 @@ def build_section_plan(cfg: Config, pi: PlanInput) -> tuple[list[dict], list[dic
         if req:
             key = "S07_alt" if (s == "S07" and not pi.user_to_move) else s
             t = titles[key][pi.anchor]
+            if t is None and f"{s}_detail5" in titles:            # excluded by the anchor, readmitted (M4)
+                t = titles[f"{s}_detail5"][pi.anchor]
             title = fill_opp(t, pi.opp_color_name) if t else t
         tables: list[str] = []
         must: list[str] = []
         t2_anchors = cfg.tables["T2"]["anchors"] + (cfg.tables["T2"]["detail5_anchors"] if pi.detail == 5 else [])
         if req and s == "S07":
-            tables = ["T1"] + (["T2"] if pi.has_t2 and pi.user_to_move and pi.anchor in t2_anchors else [])
+            tables = ["T1"] + (["T2"] if pi.has_t2 and pi.user_to_move and pi.anchor in t2_anchors
+                               and "T2" in dp.tables else [])
             must = list(pi.explained) if pi.user_to_move else list(pi.replies)
-        if req and s == "S06" and pi.has_t3 and pi.user_to_move and pi.anchor in cfg.tables["T3"]["anchors"]:
+        if (req and s == "S06" and pi.has_t3 and pi.user_to_move and pi.anchor in cfg.tables["T3"]["anchors"]
+                and "T3" in dp.tables):
             tables = ["T3"]
         if req and s == "S08":
             must = c8_moves
         if req and s == "S03" and pi.anchor == "1500" and pi.recommendation:
             must = [pi.recommendation]
-        if req and s == "S02" and pi.has_t4:
+        if req and s == "S02" and pi.has_t4 and "T4" in dp.tables:
             tables = ["T4"]
         if req and s == "S09":
             must = list(pi.invisible_lines)

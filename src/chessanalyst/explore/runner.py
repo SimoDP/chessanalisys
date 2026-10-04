@@ -37,8 +37,9 @@ class UserCtx:
     elo_maia: int
     opp_elo_maia: int
     band: str
-    bp: BandParams
+    bp: BandParams                     # with the effective K of the detail level (M4)
     profile_name: str
+    e3: bool = True                    # §7.1: below 2150 only with detail >= 4 (M4)
 
 
 @dataclass
@@ -253,7 +254,8 @@ def _user_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: ches
     sel = select_candidates(e0, e4, policy, BandSel(bp.K, bp.explained_min, bp.listed_max, bp.L_max, bp.A))
     exp.selection = sel
     exp.warnings.extend(sel.warnings)
-    exp.quiet, exp.spread_cp = quiet_spread([r.eval_user_cp for r in e0], bp.K, th.selection.quiet_spread_cp)
+    band_k = th.band_params[user.band].K           # a property of the position: K of the band, not of the detail
+    exp.quiet, exp.spread_cp = quiet_spread([r.eval_user_cp for r in e0], band_k, th.selection.quiet_spread_cp)
 
     # p_up (root only, user to move)
     lim = cfg.maia2_limits
@@ -278,8 +280,12 @@ def _user_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: ches
     levels = min(prof.e3_levels, cfg.exploration.milestone_max_e3_level)
     for lvl in range(levels + 1, prof.e3_levels + 1):
         exp.omitted_phases.append({"phase": f"E3l{lvl}", "reason": "milestone"})
+    e3_levels = levels
+    if not user.e3:
+        exp.omitted_phases.append({"phase": "E3", "reason": "detail"})
+        levels = 0
     e3_items: list[tuple[str, str, Item]] = []
-    for u in sel.explained[: prof.e3_M]:
+    for u in sel.explained[: prof.e3_M] if levels else []:
         n2 = exp.e2[u]
         rset = [ln.uci for ln in n2.result.lines[: prof.e3_R]]
         pol2 = n2.maia["policy"]
@@ -295,7 +301,7 @@ def _user_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: ches
             ref = f"{exp.rows[u].san} {n2.board.san(chess.Move.from_uci(r))}"
             e3_items.append((u, r, Item("E3l1", b, prof.multipv.nodes, prof.dmin.nodes, None, ref)))
     # one t_target for the whole phase E3: ℓ2 and ℓ3 add one node per node of the level above
-    e3_t = budget.t_target("E3l1", (len(e3_items) if e3_items else prof.e3_M * (prof.e3_R + 1)) * levels)
+    e3_t = budget.t_target("E3l1", (len(e3_items) if e3_items else prof.e3_M * (prof.e3_R + 1)) * e3_levels)
     results = budget.run_phase([it for _, _, it in e3_items], True, t_target=e3_t,
                                progress=progress) if e3_items else []
     for k, ((u, r, it), res) in enumerate(zip(e3_items, results)):
@@ -400,7 +406,7 @@ def _opponent_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: 
     rows += [ReplyRow(ln.san, ln.uci, _user_cp(ln.eval_white_cp, opp), None, policy.get(ln.uci, 0.0))
              for ln in e4_lines]
     exp.quiet, exp.spread_cp = quiet_spread([_user_cp(ln.eval_white_cp, opp) for ln in exp.root.result.lines],
-                                            bp.K, th.selection.quiet_spread_cp)
+                                            th.band_params[user.band].K, th.selection.quiet_spread_cp)
     exp.replies = select_replies(rows, bp.K, th.selection.replies_min_p, th.selection.replies_best_sf)
     exp.omitted_phases.append({"phase": "E2b", "reason": "opponent_to_move"})
     exp.omitted_phases.append({"phase": "E3", "reason": "opponent_to_move"})

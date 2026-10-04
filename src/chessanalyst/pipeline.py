@@ -9,6 +9,7 @@ import chess
 
 from chessanalyst import elo
 from chessanalyst.config import Config
+from chessanalyst.detail import e3_active, effective_band
 from chessanalyst.engines.cache import CachedAnalyzer
 from chessanalyst.engines.maia2 import MaiaEngine
 from chessanalyst.engines.openings import OpeningIndex
@@ -42,8 +43,9 @@ def analyse_position(cfg: Config, pos: Position, us: UserSettings, analyzer: Cac
                      openings: OpeningIndex | None, clock: Callable[[], float] = time.monotonic,
                      progress: Callable[[str], None] = lambda s: None, time_scale: float = 1.0,
                      tablebase=None) -> Pack:
-    bp = cfg.thresholds.band_params[us.band]
+    bp = effective_band(cfg, us.band, us.detail_level)                     # K of the detail level (§7.2, M4)
     ctx = UserCtx(color=us.color, elo_maia=us.elo_maia, opp_elo_maia=us.opp_elo_maia, band=us.band, bp=bp,
+                  e3=e3_active(cfg, us.elo_ref_fide, us.detail_level),
                   profile_name=us.budget_profile)
     exp = explore(cfg, pos.board, ctx, analyzer, maia, clock=clock, progress=progress, time_scale=time_scale)
     lines = exp.root.result.lines
@@ -53,7 +55,7 @@ def analyse_position(cfg: Config, pos: Position, us: UserSettings, analyzer: Cac
     in_book = openings is not None and openings.lookup_epd(pos.board) is not None    # §3.3: EPD in the index
     probe = tablebase.probe(pos.board) if tablebase is not None else None       # M2 (§3.3, D-62)
     tb_entry = tablebase_entry(probe, pos.board.turn == us.color) if probe is not None else None
-    profile = compute_profile(pos.board, cfg, lines, bp.K, feats, in_book=in_book,
+    profile = compute_profile(pos.board, cfg, lines, cfg.thresholds.band_params[us.band].K, feats, in_book=in_book,
                               quiet=exp.quiet, spread_cp=exp.spread_cp, tablebase=probe is not None)
     return build_pack(cfg, pos, us, exp, maia.info(), feats, profile, opening,
                       stockfish_info(analyzer.engine, us.budget_profile), maia.bucket, tablebase=tb_entry,

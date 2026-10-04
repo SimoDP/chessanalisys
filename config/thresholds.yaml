@@ -14,13 +14,17 @@ band_params:
   "1200_1600": {plies_max: 4,  explained_min: 2, K: 3, listed_max: 4,  L_max: 40, prose_words: 590,  A: 0.5, B: 1.0}   # M1b: 650 → 500 (fewshot 1500); M3: 560 (S02, S09), 590 (S02 più ampia)
   "1600_2000": {plies_max: 8,  explained_min: 3, K: 5, listed_max: 12, L_max: 35, prose_words: 1600, A: 0.3, B: 0.5}   # M3: 1400 → 1560 (S02, S09), 1600 (S02 più ampia)
   "2000_2400": {plies_max: 10, explained_min: 3, K: 4, listed_max: 12, L_max: 30, prose_words: 1100, A: 0.1, B: 0.2}
-  "ge2400":    {plies_max: 12, explained_min: 4, K: 5, listed_max: 12, L_max: 25, prose_words: 720,  A: 0.0, B: 0.0}   # M1b: 800 → 610 (fewshot 2400); M3: 690 (S02, S09), 720 (S02 più ampia)
-detail:                         # usato da M4
-  "1": {words: 0.35, plies_delta: -2}
-  "2": {words: 0.6,  plies_delta: -1}
-  "3": {words: 0.8,  plies_delta: 0}
-  "4": {words: 1.0,  plies_delta: 0}
-  "5": {words: 1.4,  plies_delta: 2}
+  "ge2400":    {plies_max: 12, explained_min: 4, K: 5, listed_max: 12, L_max: 25, prose_words: 790,  A: 0.0, B: 0.0}   # M1b: 800 → 610 (fewshot 2400); M3: 690 (S02, S09), 720 (S02 più ampia); M4: 790 (S11)
+detail:                         # §7.2, da M4. k: explained_min | explained_min_plus_1 | band (K della fascia)
+  # sections: required = solo le obbligatorie della matrice; required_s08 = + S08; applicable = tutte le
+  # applicabili; all = tutte + S11 + esclusioni dell'ancora 2400 tolte. tables: tabelle ammesse (T4 è il
+  # contenuto di S02 e resta con S02, OQ-M4-2); T2 segue anche tables.yaml (ancore).
+  "1": {words: 0.35, plies_delta: -2, k: explained_min,        sections: required,     tables: [T1, T4]}
+  "2": {words: 0.6,  plies_delta: -1, k: explained_min,        sections: required,     tables: [T1, T4]}
+  "3": {words: 0.8,  plies_delta: 0,  k: explained_min_plus_1, sections: required_s08, tables: [T1, T3, T4]}
+  "4": {words: 1.0,  plies_delta: 0,  k: band,                 sections: applicable,   tables: [T1, T2, T3, T4]}
+  "5": {words: 1.4,  plies_delta: 2,  k: band,                 sections: all,          tables: [T1, T2, T3, T4], opp_t: true}
+plies_bounds: [2, 12]           # §7.2: plies_max con il dettaglio, minimo 2, massimo 12
 classification:
   natural_trap:     {p_user_min: 0.20, loss_min: 80, loss_min_low_bands: 60, low_bands: ["lt1200", "1200_1600"]}
   hard_move:        {p_user_max: 0.05, loss_max: 10}
@@ -45,6 +49,7 @@ profile:
   unresolved_capture_see_min: 3
 elo_rules:
   e3_mandatory_from: 2150
+  e3_min_detail: 4              # §7.1: sotto 2150 E3 è attiva solo con dettaglio >= 4 (M4)
   s11_from: 2000
 theory_max_share: {"1500": 0.70, "1900": 0.50, "2400": 0.35}
 # D-65: valori fissati nel testo della documentazione, spostati in configurazione

@@ -170,10 +170,18 @@ def _finish(outdir) -> None:
 
 
 def _settings_from(cfg, values):
+    """One UserSettings, or two (White, Black) with «entrambi» (M4, D-16): the Elo of each color defaults to
+    ``elo``; in each perspective the other color's Elo is the opponent's."""
     from chessanalyst.pipeline import resolve_settings
 
+    detail = values.get("detail") or 4
+    if values["color"] == "both":
+        ew = values.get("elo_white") or values["elo"]
+        eb = values.get("elo_black") or values["elo"]
+        return [resolve_settings(cfg, "w", ew, values["elo_scale"], eb, values["budget"], detail),
+                resolve_settings(cfg, "b", eb, values["elo_scale"], ew, values["budget"], detail)]
     return resolve_settings(cfg, values["color"], values["elo"], values["elo_scale"], values.get("opp_elo"),
-                            values["budget"], values.get("detail", 4))
+                            values["budget"], detail)
 
 
 def _progress(console):
@@ -215,7 +223,9 @@ def _cmd_analyze(args: argparse.Namespace) -> int:
     check_available(cfg, cli)
     values = effective(cfg, cli)
     check_available(cfg, values)
-    for key in ("elo", "opp_elo"):
+    if values["color"] == "both" and args.opp_elo is not None:
+        raise UsageError("Con --color both usa --elo-white e --elo-black invece di --opp-elo")
+    for key in ("elo", "opp_elo", "elo_white", "elo_black"):
         if values.get(key) is not None and not check_elo(cfg, values[key]):
             r = cfg.thresholds.elo_input
             raise UsageError(f"Elo non valido: {values[key]} (ammesso tra {r.min} e {r.max})")

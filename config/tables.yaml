@@ -27,5 +27,6 @@ headers:
   category: "Categoria"
   T: "T (tu)"
   R: "R"
+  T_opp: "T (avversario)"     # M4: solo con dettaglio 5 (§7.2)
 empty_text_cell: "—"
 recommended_marker: "★"

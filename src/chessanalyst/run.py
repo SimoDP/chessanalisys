@@ -59,6 +59,14 @@ def load_openings(cfg: Config) -> OpeningIndex | None:
 
 
 TEXT_FILES = ("analysis.md", "llm_raw.json", "verification.json")
+# «entrambi» (M4): one pack, one set of responses and one verification per color; one analysis.md
+COLOR_SUFFIX = {"w": "white", "b": "black"}
+BOTH_SEPARATOR = "\n\n---\n\n"
+
+
+def per_color(name: str, color: str) -> str:
+    stem, ext = name.rsplit(".", 1)
+    return f"{stem}_{COLOR_SUFFIX[color]}.{ext}"
 
 
 def _prev_name(name: str) -> str:
@@ -66,9 +74,12 @@ def _prev_name(name: str) -> str:
     return f"{stem}.prev.{ext}"
 
 
-def produce_text(cfg: Config, outdir: Path, pack: dict, client=None, warnings: list[str] | None = None) -> Path:
+def produce_text(cfg: Config, outdir: Path, pack: dict, client=None, warnings: list[str] | None = None,
+                 color: str | None = None) -> Path:
     """Model, verification and render; files written in ``outdir``. ModelError → exit code 5 with the
-    responses received so far in ``llm_raw.json``."""
+    responses received so far in ``llm_raw.json``. With ``color`` («entrambi», M4) the files carry the color
+    (``llm_raw_white.json``, …, ``analysis_white.md``) and :func:`join_both` writes ``analysis.md``."""
+    name = (lambda n: per_color(n, color)) if color else (lambda n: n)
     from chessanalyst.llm.client import make_client
     from chessanalyst.llm.cycle import run_model
 
@@ -81,16 +92,33 @@ def produce_text(cfg: Config, outdir: Path, pack: dict, client=None, warnings: l
     try:
         res = run_model(cfg, pack, client, raw=raw, warnings=warnings)
     except ModelError as e:
-        (outdir / "llm_raw.json").write_text(json.dumps(raw, indent=1, ensure_ascii=False), encoding="utf-8")
+        (outdir / name("llm_raw.json")).write_text(json.dumps(raw, indent=1, ensure_ascii=False), encoding="utf-8")
         raise ModelError(f"{e}; {hint}") from None
     finally:
         log.info("Risposte del modello ricevute: %d", len(raw))
-    (outdir / "llm_raw.json").write_text(json.dumps(raw, indent=1, ensure_ascii=False), encoding="utf-8")
-    (outdir / "verification.json").write_text(json.dumps(res.verification, indent=1, ensure_ascii=False),
-                                              encoding="utf-8")
-    (outdir / "analysis.md").write_text(res.document, encoding="utf-8")
-    log.info("analysis.md scritto (retry %d%s)", res.retries, ", modalità degradata" if res.degraded else "")
+    (outdir / name("llm_raw.json")).write_text(json.dumps(raw, indent=1, ensure_ascii=False), encoding="utf-8")
+    (outdir / name("verification.json")).write_text(json.dumps(res.verification, indent=1, ensure_ascii=False),
+                                                    encoding="utf-8")
+    (outdir / name("analysis.md")).write_text(res.document, encoding="utf-8")
+    log.info("%s scritto (retry %d%s)", name("analysis.md"), res.retries, ", modalità degradata" if res.degraded else "")
+    return outdir / name("analysis.md")
+
+
+def join_both(outdir: Path, order: list[str]) -> Path:
+    """«entrambi» (§2-bis.6): one ``analysis.md`` with the two perspectives, the color to move first."""
+    parts = [(outdir / per_color("analysis.md", c)).read_text(encoding="utf-8").rstrip("\n") for c in order]
+    (outdir / "analysis.md").write_text(BOTH_SEPARATOR.join(parts) + "\n", encoding="utf-8")
+    for c in order:
+        (outdir / per_color("analysis.md", c)).unlink()
     return outdir / "analysis.md"
+
+
+def both_order(pos_board) -> list[str]:
+    """The color to move first (§2-bis.6)."""
+    import chess
+
+    first = "w" if pos_board.turn == chess.WHITE else "b"
+    return [first, "b" if first == "w" else "w"]
 
 
 def rerun(cfg: Config, folder: Path, *, client=None, verbose: bool = False) -> Path:
@@ -100,20 +128,31 @@ def rerun(cfg: Config, folder: Path, *, client=None, verbose: bool = False) -> P
     from chessanalyst.pack.schema import Pack
 
     pack_file = folder / "pack.json"
-    if not pack_file.is_file():
+    both = [c for c in ("w", "b") if (folder / per_color("pack.json", c)).is_file()]   # «entrambi» (M4)
+    if not pack_file.is_file() and len(both) != 2:
         raise UsageError(f"{folder} non contiene pack.json")
-    pack = json.loads(Pack.model_validate_json(pack_file.read_text(encoding="utf-8")).model_dump_json())
+    files = {None: pack_file} if pack_file.is_file() else {c: folder / per_color("pack.json", c) for c in both}
+    packs = {c: json.loads(Pack.model_validate_json(f.read_text(encoding="utf-8")).model_dump_json())
+             for c, f in files.items()}
     handler = attach_run_log(folder / "run.log", verbose)
     try:
         log.info("rerun di %s", folder)
         warnings = []
-        if pack["config_hash"] != cfg.config_hash:
+        if any(p["config_hash"] != cfg.config_hash for p in packs.values()):
             log.warning("config_hash del pacchetto diverso da quello corrente: il pacchetto viene usato così com'è")
             warnings.append("config_hash diverso da quello corrente")
-        for name in TEXT_FILES:
+        names = list(TEXT_FILES) + [per_color(n, c) for n in TEXT_FILES[1:] for c in ("w", "b")]
+        for name in names:
             if (folder / name).exists():
                 (folder / name).replace(folder / _prev_name(name))
-        return produce_text(cfg, folder, pack, client, warnings)
+        if None in packs:
+            return produce_text(cfg, folder, packs[None], client, warnings)
+        import chess
+
+        order = both_order(chess.Board(packs["w"]["position"]["fen"]))
+        for c in order:
+            produce_text(cfg, folder, packs[c], client, list(warnings), color=c)
+        return join_both(folder, order)
     except AnalystError as e:          # expected: message on the console, no trace
         log.info("rerun interrotto: %s", e)
         raise
@@ -125,9 +164,14 @@ def rerun(cfg: Config, folder: Path, *, client=None, verbose: bool = False) -> P
         handler.close()
 
 
-def run_analysis(cfg: Config, pos: Position, us: UserSettings, out_base: Path, *, verbose: bool = False,
-                 engines: Engines | None = None, progress: Callable[[str], None] = lambda s: None,
-                 openings: OpeningIndex | None = None, time_scale: float = 1.0, llm=None) -> Path:
+def run_analysis(cfg: Config, pos: Position, us: UserSettings | list[UserSettings], out_base: Path, *,
+                 verbose: bool = False, engines: Engines | None = None,
+                 progress: Callable[[str], None] = lambda s: None, openings: OpeningIndex | None = None,
+                 time_scale: float = 1.0, llm=None) -> Path:
+    """``us`` is a list of two settings (White, Black) in «entrambi» mode (M4, §2-bis.6): two independent
+    analyses on the same cache, so Stockfish analyses every node once; one ``analysis.md``."""
+    both = isinstance(us, list)
+    settings = us if both else [us]
     openings = openings if openings is not None else load_openings(cfg)
     found = openings.lookup(pos.board) if openings is not None else None
     entry = found[0] if found else None
@@ -136,22 +180,32 @@ def run_analysis(cfg: Config, pos: Position, us: UserSettings, out_base: Path, *
     handler = attach_run_log(outdir / "run.log", verbose)
     own = engines is None
     try:
-        log.info("Analisi di %s (utente %s, Elo %s %s, profilo %s)", pos.fen, us.code, us.elo_declared,
-                 us.elo_scale, us.budget_profile)
+        for u in settings:
+            log.info("Analisi di %s (utente %s, Elo %s %s, profilo %s, dettaglio %s)", pos.fen, u.code, u.elo_declared,
+                     u.elo_scale, u.budget_profile, u.detail_level)
         if pos.source == "pgn" and pos.game is not None:
             (outdir / "game.pgn").write_text(truncated_pgn(pos), encoding="utf-8")
         if own:
             engines = open_engines(cfg)
+        order = both_order(pos.board) if both else [settings[0].code]
+        by_color = {u.code: u for u in settings}
+        packs = {}
         try:
-            pack = analyse_position(cfg, pos, us, engines.analyzer, engines.maia, openings,
-                                    progress=progress, time_scale=time_scale, tablebase=engines.tablebase)
+            for c in order:
+                packs[c] = analyse_position(cfg, pos, by_color[c], engines.analyzer, engines.maia, openings,
+                                            progress=progress, time_scale=time_scale, tablebase=engines.tablebase)
         finally:
             if own:
                 engines.close()
-        (outdir / "pack.json").write_text(pack.model_dump_json(indent=2), encoding="utf-8")
-        log.info("pack.json scritto in %s", outdir)
+        for c in order:
+            name = per_color("pack.json", c) if both else "pack.json"
+            (outdir / name).write_text(packs[c].model_dump_json(indent=2), encoding="utf-8")
+            log.info("%s scritto in %s", name, outdir)
         progress("modello di linguaggio, verifica e render")
-        produce_text(cfg, outdir, json.loads(pack.model_dump_json()), llm)
+        for c in order:
+            produce_text(cfg, outdir, json.loads(packs[c].model_dump_json()), llm, color=c if both else None)
+        if both:
+            join_both(outdir, order)
     except AnalystError as e:          # expected: message on the console, no trace
         log.info("Analisi interrotta: %s", e)
         raise
