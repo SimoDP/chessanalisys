@@ -88,7 +88,8 @@ def build_section_plan(cfg: Config, pi: PlanInput) -> tuple[list[dict], list[dic
             omit(s, "matrix")
         elif rule == "c4" and not any(pi.castling.get(side) in CASTLING_OPEN for side in ("w", "b")):
             omit(s, "matrix")
-        elif rule == "c8" and not c8_moves and pi.anchor != "1500":   # always present at 1500 (D-48)
+        elif rule == "c8" and not c8_moves and pi.anchor != "1500" and pi.user_to_move:
+            # always present at 1500 (D-48); with the opponent to move the reason is opponent_to_move (D-54)
             omit(s, "no_classified_move")
         elif rule == "c11" and not (pi.elo_ref_fide >= cfg.thresholds.elo_rules.s11_from or pi.detail == 5):
             omit(s, "elo<2000")
