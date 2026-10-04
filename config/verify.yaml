@@ -1,0 +1,17 @@
+v03:
+  token: "\\{\\{[^{}]*\\}\\}"
+  pass1:
+    piece_move: "(?<![A-Za-z])[KQRBN][a-h]?[1-8]?x?[a-h][1-8]"
+    pawn_capture: "(?<![A-Za-z])[a-h]x[a-h][1-8]"
+    castling: "\\b[O0]-[O0]"
+    promotion: "=[QRBN]"
+    square_chain: "[a-h][1-8]\\s*[-–—→]\\s*[a-h][1-8]"
+    dots: "(?:\\.\\.\\.|…)\\s*[a-hKQRBNO]"
+    move_number: "(?<![a-h0-9])\\d+\\s*\\.(?!\\d)"
+    cp: "\\bcp\\b"
+    figurine: "[\\u2654-\\u265F]"
+  square: "(?<![A-Za-z])[a-h][1-8](?![0-9])"
+  digit: "\\d"
+v01_markup: ["^\\s*#", "\\]\\(", "`", "<[A-Za-z/]"]
+word: "[A-Za-zÀ-ÖØ-öø-ÿ0-9]+"
+word_tolerance: {relative: 0.25, absolute: 15}

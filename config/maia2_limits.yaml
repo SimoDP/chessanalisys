@@ -1,0 +1,7 @@
+# Verificato in M0 sul codice di maia2 0.11.0 (utils.create_elo_dict, map_to_category): docs/MAIA2_NOTES.md
+elo_max_model: 3000            # clamp di sicurezza per elo_up
+bucket_width: 100
+first_bucket_upper: 1100       # fascia 0 = elo < 1100
+top_bucket_lower: 2000         # fascia più alta = elo >= 2000
+models: [rapid, blitz]
+# bucket(elo) = 0 se elo < 1100; indice_massimo se elo >= 2000; altrimenti 1 + (elo - 1100) // 100

@@ -1,0 +1,31 @@
+T1:
+  "1500": {data: [move, eval, p_user], text: [per_chi]}
+  "1900": {data: [move, eval, p_user, line], text: [idea]}
+  "2400": {data: [move, eval, p_user, line], text: [nota]}
+T1_alt: {data: [reply, p_opp, eval, user_best], text: [prepare]}
+T2: {anchors: ["2400"], detail5_anchors: ["1900"], moves_per_cell: 3, text: [nota]}
+T3: {anchors: ["1900", "2400"], text: []}
+T4: {data: [category, T, R], text: [nota]}
+t1_line_plies: {"1900": 6, "2400": 8}
+headers:
+  move: "Mossa"
+  eval: "Valutazione"
+  p_user: "Scelta a {elo}"
+  line: "Linea del motore"
+  per_chi: "Per chi"
+  idea: "Idea"
+  nota: "Nota"
+  reply: "Risposta"
+  p_opp: "Probabilità a {opp_elo}"
+  user_best: "La tua risposta migliore"
+  prepare: "Come prepararsi"
+  t2_after: "Dopo"
+  t2_moves: "Mosse (dalla migliore)"
+  t3_after: "Dopo…"
+  t3_best: "Migliore di {opp}"
+  t3_cost: "Costo"
+  category: "Categoria"
+  T: "T (tu)"
+  R: "R"
+empty_text_cell: "—"
+recommended_marker: "★"

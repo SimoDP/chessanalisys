@@ -1,0 +1,36 @@
+user:
+  color: white            # white | black | both (both da M4)  (D-53)
+  elo: 1900
+  elo_scale: fide         # fide | lichess | chesscom (chesscom quando configurata)
+  opp_elo: null           # null = uguale a elo
+  elo_white: null         # solo color: both (M4)
+  elo_black: null
+  detail_level: 4         # M1-M3: solo 4 (D-30)
+  language: it
+input:
+  method: null            # null = chiede | example | fen | pgn
+  example_fen_file: examples/example.fen
+  pgn_default_position: end
+  max_attempts: 3
+  confirm: true
+engines:
+  stockfish: {path: null, version_pin: "Stockfish 16", hash_mb: 4096, poll_s: 0.05}
+  maia2: {model_type: rapid, device: auto, version_pin: "0.11.0", up_delta: 300}
+  syzygy: {path: null, max_pieces: 5}
+  openings: {index_file: data/openings_index.json}
+exploration:
+  profile: standard       # fast | standard | deep
+llm:
+  model: claude-sonnet-5-5
+  max_tokens: 16000
+  temperature: 0.3
+  max_retries: 2
+  network_attempts: 3
+  network_backoff_s: [2, 4, 8]
+  on_fail: mark           # mark | drop
+  critic: false           # da M4
+  plan_max_moves: 6
+render:
+  mark_theory: footnote
+output:
+  dir: output

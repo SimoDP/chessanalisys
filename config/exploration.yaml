@@ -1,0 +1,39 @@
+reference_time_s: null          # scritto da M0 (benchmark di doctor)
+phase_shares: {E0: 0.30, E4: 0.10, E1: 0.08, E2: 0.26, E3: 0.20, E2b: 0.06}
+e2c_time_factor: 0.5            # t_target di E2c rispetto a E3
+e4_min_p: 0.03
+profiles:
+  fast:
+    B_s: 60
+    dmin: {root: 16, nodes: 14, pvwalk: 12}
+    node_cap_factor: 2.0
+    deadline_factor: 2.0
+    multipv: {root: 8, nodes: 5, pvwalk: 2}
+    e3_levels: 1
+    e3_M: 1
+    e3_R: 2
+    e4_max_moves: 4
+    max_nodes: 16
+  standard:
+    B_s: 300
+    dmin: {root: 18, nodes: 16, pvwalk: 14}
+    node_cap_factor: 2.0
+    deadline_factor: 2.0
+    multipv: {root: 12, nodes: 8, pvwalk: 2}
+    e3_levels: 2
+    e3_M: 2
+    e3_R: 3
+    e4_max_moves: 6
+    max_nodes: 40
+  deep:
+    B_s: 900
+    dmin: {root: 20, nodes: 18, pvwalk: 14}
+    node_cap_factor: 1.5
+    deadline_factor: 1.5
+    multipv: {root: 16, nodes: 8, pvwalk: 2}
+    e3_levels: 3
+    e3_M: 3
+    e3_R: 3
+    e4_max_moves: 6
+    max_nodes: 80
+milestone_max_e3_level: 1       # M1: 1; da M2: 3

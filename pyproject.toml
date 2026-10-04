@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "chessanalyst"
+version = "0.1.0"
+description = "Chess Position Analyst: analisi testuale di una posizione calibrata sul livello Elo"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "chess>=1.11,<2",
+  "anthropic>=0.40",
+  "pydantic>=2.7,<3",
+  "pyyaml>=6",
+  "platformdirs>=4",
+  "psutil>=5.9",
+  "rich>=13",
+  "torch>=2.8,<2.9",
+  "maia2==0.11.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9"]
+
+[project.scripts]
+chessanalyst = "chessanalyst.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/chessanalyst"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m 'not engines and not network and not llm'"
+markers = [
+  "engines: richiede Stockfish e/o Maia-2 veri",
+  "network: richiede la rete",
+  "llm: richiede la chiave API e il modello",
+]

@@ -1,0 +1,14 @@
+S01: {"1500": "In una frase", "1900": "Sintesi", "2400": "Sintesi"}
+S02: {"1500": "Radar semplificato", "1900": "Radar delle categorie", "2400": "Fattori decisivi"}
+S03: {"1500": "Le tre cose da fare adesso", "1900": "I sistemi che puoi scegliere", "2400": "Piani per struttura"}
+S04: {"1500": null, "1900": "Dove ti arrocchi", "2400": null}
+S05: {"1500": "Cosa vuole ogni pezzo", "1900": "Cosa vuole ogni pezzo", "2400": null}
+S06: {"1500": "Cosa fa {opp}", "1900": "Cosa cerca {opp}", "2400": "Cosa cerca {opp}"}
+S07: {"1500": "Mosse candidate", "1900": "Mosse candidate", "2400": "Mosse candidate e test di move order"}
+S07_alt: {"1500": "Risposte probabili di {opp} e come prepararsi", "1900": "Risposte probabili di {opp} e come prepararsi", "2400": "Risposte probabili di {opp} e come prepararsi"}
+S08: {"1500": "Attenzione a questi errori tipici", "1900": "Trappole naturali e mosse difficili", "2400": "Imprecisioni sottili"}
+S09: {"1500": "Minacce invisibili al tuo livello", "1900": "Minacce invisibili al tuo livello", "2400": "Minacce invisibili al tuo livello"}
+S10: {"1500": "Prima di ogni mossa, controlla", "1900": "Come ragionare", "2400": null}
+S11: {"1500": null, "1900": "Note da maestro", "2400": "Note da maestro"}
+S12: {"1500": "Finale: tecnica e tablebase", "1900": "Finale: tecnica e tablebase", "2400": "Finale: tecnica e tablebase"}
+S13: {"1500": "Tattica forzata", "1900": "Tattica forzata", "2400": "Tattica forzata"}

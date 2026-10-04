@@ -1,0 +1,50 @@
+v03_allowed_literals: ["Maia-2"]
+eval_bands:                      # sul MODULO |e| in pedoni, [abs_lo, abs_hi); il segno sceglie _plus/_minus
+  equal:    {abs_lo: 0.0, abs_hi: 0.15, text: "equilibrata"}
+  slight:   {abs_lo: 0.15, abs_hi: 0.5, text_plus: "vantaggio minimo per te", text_minus: "svantaggio minimo"}
+  small:    {abs_lo: 0.5, abs_hi: 1.0,  text_plus: "leggero vantaggio per te", text_minus: "leggero svantaggio"}
+  clear:    {abs_lo: 1.0, abs_hi: 2.0,  text_plus: "vantaggio netto per te", text_minus: "svantaggio netto"}
+  decisive: {abs_lo: 2.0, abs_hi: null, text_plus: "vantaggio decisivo per te", text_minus: "svantaggio decisivo"}
+  mate:     {text_plus: "matto forzato a tuo favore", text_minus: "matto forzato contro di te"}
+# ID di banda = chiave + "_plus" / "_minus" (es. slight_plus); `equal` non ha suffisso.
+maia_bands:
+  very_unlikely: {lo: 0.0,  hi: 0.03, text: "molto improbabile"}
+  unlikely:      {lo: 0.03, hi: 0.10, text: "poco probabile"}
+  possible:      {lo: 0.10, hi: 0.25, text: "possibile"}
+  frequent:      {lo: 0.25, hi: 0.45, text: "frequente"}
+  very_frequent: {lo: 0.45, hi: null, text: "molto frequente"}
+categories:
+  natural_trap: "trappola naturale"
+  hard_move: "mossa difficile"
+  solid: "mossa solida"
+  practical_alt: "alternativa pratica"
+  improbable_error: "errore improbabile"
+p_up_group:
+  higher: "giocatori di circa trecento punti più forti"     # da aggiornare se cambia up_delta
+  top: "giocatori della fascia più forte del modello"
+colors: {w: "il Bianco", b: "il Nero"}
+fixed:
+  maia_low_confidence: "A questo livello Maia-2, il modello del comportamento umano, distingue poco tra i giocatori più forti: le probabilità indicate sono poco affidabili e le indicazioni si basano soprattutto sul motore."
+  maia_low_confidence_table: "* Probabilità di Maia-2 poco affidabili a questo livello."
+  section_unavailable: "Questa sezione non è disponibile: il testo prodotto non ha superato i controlli."
+  unverified_mark: "⚠ non verificato"
+  theory_footnote: "† contenuto teorico, non verificato dai motori"
+header:
+  convention: "Convenzione: le valutazioni sono in pedoni dal tuo punto di vista (positivo = meglio per te)."
+  references_not_validated: "Gli esempi di riferimento per questo livello non sono ancora stati validati da un giocatore."
+  profile_unsupported: "Profilo di posizione non ancora supportato: analisi limitata a sintesi, idee dell'avversario, mosse candidate e metodo."
+  move_order_limited: "Test di move order limitati al primo livello: l'analisi completa a questo livello arriva in una versione successiva."
+  maia_low_confidence_header: "Maia-2 è poco affidabile a questo livello (vedi le sezioni sull'avversario)."
+  unstable_nodes: "Alcune analisi non hanno raggiunto la profondità minima: vedi il rapporto tecnico."
+errors: {}                        # messaggi di §2-bis.3 e §2-bis.4, chiavi = nomi degli stati
+verify_hints:
+  V01: "Rispetta lo schema di submit_analysis; nel testo solo **grassetto** e *corsivo*."
+  V02: "Usa solo token della grammatica con ID presenti nel pacchetto e valori non nulli."
+  V03: "Niente mosse, cifre, catene di case o puntini in chiaro: usa {{m:SAN@N}}, {{plan:…}}, {{diag:…}}, numeri in lettere."
+  V04: "La mossa o la sequenza non è legale nel nodo indicato."
+  V05: "La linea supera max_pv_plies della sezione."
+  V06: "L'asserzione non corrisponde al pacchetto."
+  V07: "Scrivi esattamente le sezioni required nell'ordine, con le tabelle indicate, gli ID di must_cover e circa il budget di parole."
+  V08: "Contenuto theory fuori posto, con token di dati o oltre la quota."
+  V09: "Il termine appartiene a un'altra apertura: non usarlo."
+  V10: "La fonte (source) non corrisponde ai token usati."

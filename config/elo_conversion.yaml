@@ -1,0 +1,3 @@
+# PLACEHOLDER: ipotesi iniziale, da sostituire con una fonte documentata (O-1)
+fide_to_lichess: [[1000, 1300], [1200, 1450], [1500, 1700], [1800, 1950], [2000, 2100], [2200, 2250], [2400, 2400], [2600, 2600]]
+chesscom_to_lichess: []   # finché è vuota, --elo-scale chesscom è rifiutato
