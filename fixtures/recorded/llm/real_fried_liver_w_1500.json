@@ -6,22 +6,31 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "chatcmpl-tool-99b11d37eaf586e8",
+     "id": "chatcmpl-tool-b7273c7a4b6eb1fa",
      "name": "submit_analysis",
      "input": {
+      "schema_version": "1",
       "sections": [
        {
         "id": "S01",
         "blocks": [
          {
           "type": "p",
-          "text": "Il Bianco sta un po' meglio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Il Nero ha appena preso in d5 e il tuo cavallo in g5 è attaccato: la posizione è tesa e conta la mossa giusta, non la fretta.",
+          "text": "Con il Bianco hai un piccolo vantaggio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Ma il cavallo in g5 è appeso e il Nero ha più tempo ({{sc:initiative_tempo.T}}): **devi rispondere subito alla minaccia**.",
           "source": "engine",
           "assertions": [
            {
             "kind": "eval_band",
             "ref": "N1",
             "band": "slight_plus"
+           },
+           {
+            "kind": "feature",
+            "key": "hanging_piece",
+            "side": "w",
+            "squares": [
+             "g5"
+            ]
            }
           ]
          }
@@ -34,9 +43,30 @@
           "type": "table",
           "ref": "T4",
           "text_cells": {
+           "king_safety": {
+            "nota": {
+             "text": "Il re è ancora al centro e la colonna e è aperta: {{sc:king_safety.T}} di tranquillità, {{sc:king_safety.R}} di rilevanza",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "king_safety",
+               "advice": "critical"
+              },
+              {
+               "kind": "feature",
+               "key": "open_file_to_king",
+               "side": "w",
+               "squares": [
+                "e1"
+               ]
+              }
+             ]
+            }
+           },
            "threats_dynamics": {
             "nota": {
-             "text": "Il cavallo in g5 è attaccato: è la categoria più urgente (rilevanza {{sc:threats_dynamics.R}})",
+             "text": "Il cavallo in g5 è attaccato e il Nero può prendere in d5",
              "source": "mixed",
              "assertions": [
               {
@@ -55,28 +85,15 @@
              ]
             }
            },
-           "king_safety": {
-            "nota": {
-             "text": "Nessuna linea seria contro il re, ma il centro aperto va tenuto d'occhio",
-             "source": "mixed",
-             "assertions": [
-              {
-               "kind": "category_advice",
-               "id": "king_safety",
-               "advice": "monitor"
-              }
-             ]
-            }
-           },
            "piece_activity": {
             "nota": {
-             "text": "Alfiere e cavallo di donna sono ancora a casa",
+             "text": "Torre a1, cavallo b1 e alfiere c1 sono ancora fermi",
              "source": "mixed",
              "assertions": [
               {
                "kind": "category_advice",
                "id": "piece_activity",
-               "advice": "no_worry"
+               "advice": "attention"
               },
               {
                "kind": "feature",
@@ -90,9 +107,22 @@
              ]
             }
            },
+           "initiative_tempo": {
+            "nota": {
+             "text": "Il Nero ha più mosse utili di te",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "initiative_tempo",
+               "advice": "attention"
+              }
+             ]
+            }
+           },
            "material": {
             "nota": {
-             "text": "Materiale pari: nessuno ha più pezzi dell'altro",
+             "text": "Materiale pari, ma il cavallo in g5 è in presa",
              "source": "mixed",
              "assertions": [
               {
@@ -108,27 +138,19 @@
               }
              ]
             }
-           },
-           "initiative_tempo": {
-            "nota": {
-             "text": "Il Nero ha più tempi di sviluppo di te",
-             "source": "mixed",
-             "assertions": [
-              {
-               "kind": "category_advice",
-               "id": "initiative_tempo",
-               "advice": "monitor"
-              }
-             ]
-            }
            }
           }
          },
          {
           "type": "p",
-          "text": "La cosa urgente è il cavallo in g5, attaccato: la categoria delle minacce è critica (rilevanza {{sc:threats_dynamics.R}}). Il resto è sotto controllo: materiale pari, struttura intatta, re tranquillo.",
+          "text": "Le categorie più urgenti sono la sicurezza del re e le minacce: entrambe sono critiche. Poi conta l'attività dei pezzi, con torre e cavallo ancora a casa. Il materiale è pari, quindi non è lì il problema.",
           "source": "mixed",
           "assertions": [
+           {
+            "kind": "category_advice",
+            "id": "king_safety",
+            "advice": "critical"
+           },
            {
             "kind": "category_advice",
             "id": "threats_dynamics",
@@ -136,8 +158,8 @@
            },
            {
             "kind": "category_advice",
-            "id": "king_safety",
-            "advice": "monitor"
+            "id": "piece_activity",
+            "advice": "attention"
            }
           ]
          }
@@ -150,22 +172,32 @@
           "type": "ol",
           "items": [
            {
-            "text": "**Salva il cavallo in g5**: è attaccato dal pedone e non può restare lì.",
+            "text": "**Salva il cavallo in g5**: è appeso e il Nero lo può catturare. La mossa consigliata è {{mv:C1}}, che spinge il pedone in d4 e apre il gioco centrale.",
+            "source": "mixed",
+            "assertions": [
+             {
+              "kind": "feature",
+              "key": "hanging_piece",
+              "side": "w",
+              "squares": [
+               "g5"
+              ]
+             }
+            ]
+           },
+           {
+            "text": "**Sviluppa i pezzi fermi**: cavallo in b1 e alfiere in c1 devono entrare in gioco prima di attaccare.",
             "source": "theory"
            },
            {
-            "text": "**Prendi il centro con un pedone**, così apri linee per gli alfieri.",
-            "source": "theory"
-           },
-           {
-            "text": "**Sviluppa i pezzi di donna e arrocca**, senza lanciarti in attacchi di pedoni.",
+            "text": "**Arrocca presto**: con il re al centro e la colonna e aperta, l'arrocco corto è la scelta più sicura.",
             "source": "theory"
            }
           ]
          },
          {
           "type": "p",
-          "text": "**La mossa consigliata è {{mv:C1}}**: il motore la valuta {{ev:C1}} ed è la prima scelta. Il piano è {{plan:w:d4,O-O,Nc3@N1}}: prima il centro, poi l'arrocco corto e lo sviluppo. Il cavallo in g5 resta un problema da risolvere con calma.",
+          "text": "**Piano semplice:** {{plan:w:d4,O-O,Nc3@N1}}, cioè spingi in d4, arrocca corto e porta fuori il cavallo. Con {{mv:C1}} il motore valuta {{ev:C1}}: il vantaggio resta tuo se giochi con ordine.",
           "source": "mixed",
           "assertions": [
            {
@@ -184,40 +216,38 @@
           "type": "ul",
           "items": [
            {
-            "text": "**Cavallo in g5:** è attaccato dal pedone e5: deve ritirarsi o essere difeso, non restare fermo.",
-            "source": "theory"
-           },
-           {
-            "text": "**Alfiere in c4:** punta su f7, la casa debole vicino al re nero: tienilo attivo.",
-            "source": "theory"
-           },
-           {
-            "text": "**Donna in d1:** può uscire in f3 o in e2, ma solo dopo aver messo al sicuro il cavallo.",
-            "source": "theory"
-           },
-           {
-            "text": "**Cavallo in b1:** va in c3, verso il centro.",
-            "source": "theory"
-           },
-           {
-            "text": "**Re in e1:** arrocca corto appena puoi.",
-            "source": "theory"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Il cavallo in b1 e l'alfiere in c1 sono ancora fermi: sviluppali prima di pensare all'attacco.",
-          "source": "feature",
-          "assertions": [
-           {
-            "kind": "feature",
-            "key": "undeveloped_pieces",
-            "side": "w",
-            "squares": [
-             "b1",
-             "c1"
+            "text": "**Cavallo g5:** è il pezzo in pericolo. Deve ritirarsi o essere difeso: non lasciarlo in presa.",
+            "source": "feature",
+            "assertions": [
+             {
+              "kind": "feature",
+              "key": "hanging_piece",
+              "side": "w",
+              "squares": [
+               "g5"
+              ]
+             }
             ]
+           },
+           {
+            "text": "**Cavallo b1:** va in c3 per controllare il centro e sostenere il pedone d4.",
+            "source": "theory"
+           },
+           {
+            "text": "**Donna d1:** resta vicina al centro; non mandarla a caccia di pedoni.",
+            "source": "theory"
+           },
+           {
+            "text": "**Alfiere c1:** va in e3 o g5, dietro ai pedoni centrali.",
+            "source": "theory"
+           },
+           {
+            "text": "**Re e1:** arrocca corto appena puoi, prima che la colonna e diventi pericolosa.",
+            "source": "theory"
+           },
+           {
+            "text": "**Cavallo nero c6 e alfiere f8:** sono i pezzi che possono attaccare il tuo centro; tienili d'occhio.",
+            "source": "theory"
            }
           ]
          }
@@ -227,19 +257,23 @@
         "id": "S06",
         "blocks": [
          {
-          "type": "p",
-          "text": "Il Nero ha appena preso in d5 con il cavallo e minaccia di catturare il tuo cavallo in g5 con il pedone. Se non muovi nulla, il piano è {{plan:b:e5,Nd4@N2}}: spinge il pedone e porta il cavallo in d4, occupando il centro.",
-          "source": "theory"
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C1}} la risposta più frequente del Nero è {{m:Nxd4@N3}} ({{pct:Nxd4@N3}}): riprende il pedone e resta con un buon centro.",
-          "source": "maia",
-          "assertions": [
+          "type": "ul",
+          "items": [
            {
-            "kind": "maia_band",
-            "ref": "Nxd4@N3",
-            "band": "frequent"
+            "text": "Il Nero può catturare il cavallo in g5 con la donna: è la minaccia più diretta.",
+            "source": "theory"
+           },
+           {
+            "text": "Può anche prendere in d5 con il cavallo, entrando nel tuo campo.",
+            "source": "theory"
+           },
+           {
+            "text": "Spesso spinge in f6 per attaccare il cavallo in g5 con un pedone.",
+            "source": "theory"
+           },
+           {
+            "text": "Se non difendi il cavallo, il Nero guadagna materiale: ogni tua mossa deve tenerne conto.",
+            "source": "theory"
            }
           ]
          }
@@ -254,13 +288,13 @@
           "text_cells": {
            "C1": {
             "per_chi": {
-             "text": "Consigliata: prende il centro e tiene il vantaggio ({{ev:C1}}), ma a questo livello la gioca solo il {{pct:C1.p_user}}",
+             "text": "Consigliata: spinge in d4 e apre il centro, ma a questo livello la giocano in pochi ({{pct:C1.p_user}})",
              "source": "maia"
             }
            },
            "C2": {
             "per_chi": {
-             "text": "Il sacrificio in f7: la gioca il {{pct:C2.p_user}} dei giocatori del tuo livello, ma il motore la valuta solo {{ev:C2}}",
+             "text": "Il sacrificio in f7: la giocano quasi tutti al tuo livello ({{pct:C2.p_user}}), ma è rischiosa",
              "source": "maia"
             }
            }
@@ -268,7 +302,7 @@
          },
          {
           "type": "p",
-          "text": "Tra {{mv:C1}} e {{mv:C2}} il motore perde solo {{loss:C2}}: la prima è più solida, la seconda è la mossa che tutti vogliono giocare.",
+          "text": "Il motore preferisce {{mv:C1}} ({{ev:C1}}); {{mv:C2}} perde solo {{loss:C2}} ma è molto più complicata. Scegli quella di cui capisci il piano.",
           "source": "engine"
          }
         ]
@@ -280,24 +314,41 @@
           "type": "ul",
           "items": [
            {
-            "text": "**Non lasciare il cavallo in g5 attaccato**: è l'errore più facile in questa posizione.",
+            "text": "**Non lasciare il cavallo in g5 in presa**: è l'errore più grave della posizione.",
+            "source": "feature",
+            "assertions": [
+             {
+              "kind": "feature",
+              "key": "hanging_piece",
+              "side": "w",
+              "squares": [
+               "g5"
+              ]
+             }
+            ]
+           },
+           {
+            "text": "**Non giocare {{mv:C2}} senza calcolare**: il sacrificio in f7 sembra forte, ma se il Nero risponde bene resti senza pezzo.",
+            "source": "mixed",
+            "assertions": [
+             {
+              "kind": "classification",
+              "ref": "C2",
+              "category": "natural_trap"
+             }
+            ]
+           },
+           {
+            "text": "**Non arroccare tardi**: con il re al centro e la colonna e aperta, ogni tempo perso è pericoloso.",
             "source": "theory"
            },
            {
-            "text": "**Non giocare {{mv:C2}} senza calcolare**: il Nero può rispondere {{m:Kxf7@N8}} e la tua iniziativa si spegne.",
+            "text": "**Non muovere pedoni laterali** mentre hai un pezzo in presa: prima risolvi l'emergenza.",
             "source": "theory"
            },
            {
-            "text": "**Non spingere pedoni ai lati** prima di aver sviluppato i pezzi: perdi solo tempi.",
+            "text": "**Non scambiare senza motivo**: il materiale è pari, non regalare pezzi per aprire linee inutili.",
             "source": "theory"
-           },
-           {
-            "text": "**Non catturare in d5 con l'alfiere** senza motivo: {{mv:C16}} costa {{loss:C16}}.",
-            "source": "engine"
-           },
-           {
-            "text": "**Non arroccare subito** se il cavallo in g5 resta in presa: {{mv:C4}} costa {{loss:C4}}.",
-            "source": "engine"
            }
           ]
          }
@@ -308,7 +359,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Due minacce del Nero sono difficili da vedere a questo livello: {{pv:L1:4}} e {{pv:L2:4}}. La prima porta il cavallo in d4 e vale {{loss:L1}} per te; la seconda spinge il pedone in f6 e vale {{loss:L2}}. Sono mosse silenziose, non catture: per questo sfuggono.",
+          "text": "Due minacce del Nero sono difficili da vedere al tuo livello: {{pv:L1:4}} e {{pv:L2:4}}. La prima porta a {{ev:L1}}, la seconda a {{ev:L2}}: entrambe nascono da mosse tranquille del Nero che preparano l'attacco al centro.",
           "source": "engine"
          }
         ]
@@ -320,15 +371,19 @@
           "type": "ol",
           "items": [
            {
-            "text": "Il mio cavallo in g5 è ancora attaccato?",
+            "text": "Il mio cavallo in g5 è ancora in presa?",
             "source": "theory"
            },
            {
-            "text": "Quale pezzo posso sviluppare o centralizzare?",
+            "text": "Il mio re è al sicuro o devo arroccare?",
             "source": "theory"
            },
            {
-            "text": "Il mio re è al sicuro se arrocco adesso?",
+            "text": "Quale pezzo posso sviluppare con questa mossa?",
+            "source": "theory"
+           },
+           {
+            "text": "Il Nero ha una cattura o uno scacco forte?",
             "source": "theory"
            }
           ]
@@ -340,13 +395,20 @@
         "blocks": [
          {
           "type": "p",
-          "text": "La linea forzata nasce dal sacrificio in f7: {{pv:PV2:4}}. Il Nero deve riprendere con il re, poi la donna dà scacco e il gioco si apre. Il motore valuta la posizione {{ev:C2}} dopo questa sequenza: il Bianco resta con un piccolo vantaggio, ma il Nero ha una difesa precisa.",
-          "source": "engine"
+          "text": "La linea forzata nasce dal sacrificio in f7: {{pv:PV2:4}}. Il Nero deve riprendere con il re, poi la donna dà scacco e il gioco si apre. Il motore valuta {{ev:C2}}, quindi il sacrificio non è un errore, ma richiede precisione: se sbagli una mossa, resti senza pezzo.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "C2",
+            "band": "slight_plus"
+           }
+          ]
          },
          {
           "type": "p",
-          "text": "Non si evita perché il cavallo in f7 è protetto dall'alfiere in c4 e il re nero non ha case migliori. Se il Nero sbaglia con la donna, {{pv:L4:4}} e {{pv:L5:4}} mostrano che il Bianco vince materiale: per questo la difesa giusta è prendere con il re.",
-          "source": "engine"
+          "text": "Le difese del Nero sono limitate: dopo la cattura in f7 il re deve uscire e la donna entra con scacco. Non si evita la sequenza: o accetti il sacrificio, o scegli {{mv:C1}} e giochi una partita più tranquilla.",
+          "source": "mixed"
          }
         ]
        }
@@ -357,21 +419,21 @@
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 31386,
-    "completion_tokens": 2401,
-    "total_tokens": 33787,
-    "cost": 0.005228636,
+    "prompt_tokens": 31382,
+    "completion_tokens": 2607,
+    "total_tokens": 33989,
+    "cost": 0.001229732,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 1280,
+     "cached_tokens": 31360,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.005228636,
-     "upstream_inference_prompt_cost": 0.004220216,
-     "upstream_inference_completions_cost": 0.00100842
+     "upstream_inference_cost": 0.001229732,
+     "upstream_inference_prompt_cost": 0.000134792,
+     "upstream_inference_completions_cost": 0.00109494
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -380,9 +442,9 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791143239-9JFTVs6uF3JB6bmXzuaW",
+    "id": "gen-1791156460-J0rq2YbVjSV8Iagp7Olr",
     "object": "chat.completion",
-    "created": 1791143239,
+    "created": 1791156460,
     "model": "deepseek/deepseek-v4.1-flash",
     "provider": "DeepInfra",
     "system_fingerprint": null,
@@ -402,10 +464,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "chatcmpl-tool-99b11d37eaf586e8",
+         "id": "chatcmpl-tool-b7273c7a4b6eb1fa",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Bianco sta un po' meglio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Il Nero ha appena preso in d5 e il tuo cavallo in g5 è attaccato: la posizione è tesa e conta la mossa giusta, non la fretta.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"slight_plus\"}]}]}, {\"id\": \"S02\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T4\", \"text_cells\": {\"threats_dynamics\": {\"nota\": {\"text\": \"Il cavallo in g5 è attaccato: è la categoria più urgente (rilevanza {{sc:threats_dynamics.R}})\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"critical\"}, {\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}}, \"king_safety\": {\"nota\": {\"text\": \"Nessuna linea seria contro il re, ma il centro aperto va tenuto d'occhio\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"king_safety\", \"advice\": \"monitor\"}]}}, \"piece_activity\": {\"nota\": {\"text\": \"Alfiere e cavallo di donna sono ancora a casa\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"no_worry\"}, {\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"b1\", \"c1\"]}]}}, \"material\": {\"nota\": {\"text\": \"Materiale pari: nessuno ha più pezzi dell'altro\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"material\", \"advice\": \"no_worry\"}, {\"kind\": \"feature\", \"key\": \"material_balance\", \"side\": null, \"squares\": []}]}}, \"initiative_tempo\": {\"nota\": {\"text\": \"Il Nero ha più tempi di sviluppo di te\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"initiative_tempo\", \"advice\": \"monitor\"}]}}}}, {\"type\": \"p\", \"text\": \"La cosa urgente è il cavallo in g5, attaccato: la categoria delle minacce è critica (rilevanza {{sc:threats_dynamics.R}}). Il resto è sotto controllo: materiale pari, struttura intatta, re tranquillo.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"critical\"}, {\"kind\": \"category_advice\", \"id\": \"king_safety\", \"advice\": \"monitor\"}]}]}, {\"id\": \"S03\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"**Salva il cavallo in g5**: è attaccato dal pedone e non può restare lì.\", \"source\": \"theory\"}, {\"text\": \"**Prendi il centro con un pedone**, così apri linee per gli alfieri.\", \"source\": \"theory\"}, {\"text\": \"**Sviluppa i pezzi di donna e arrocca**, senza lanciarti in attacchi di pedoni.\", \"source\": \"theory\"}]}, {\"type\": \"p\", \"text\": \"**La mossa consigliata è {{mv:C1}}**: il motore la valuta {{ev:C1}} ed è la prima scelta. Il piano è {{plan:w:d4,O-O,Nc3@N1}}: prima il centro, poi l'arrocco corto e lo sviluppo. Il cavallo in g5 resta un problema da risolvere con calma.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"C1\", \"band\": \"slight_plus\"}]}]}, {\"id\": \"S05\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Cavallo in g5:** è attaccato dal pedone e5: deve ritirarsi o essere difeso, non restare fermo.\", \"source\": \"theory\"}, {\"text\": \"**Alfiere in c4:** punta su f7, la casa debole vicino al re nero: tienilo attivo.\", \"source\": \"theory\"}, {\"text\": \"**Donna in d1:** può uscire in f3 o in e2, ma solo dopo aver messo al sicuro il cavallo.\", \"source\": \"theory\"}, {\"text\": \"**Cavallo in b1:** va in c3, verso il centro.\", \"source\": \"theory\"}, {\"text\": \"**Re in e1:** arrocca corto appena puoi.\", \"source\": \"theory\"}]}, {\"type\": \"p\", \"text\": \"Il cavallo in b1 e l'alfiere in c1 sono ancora fermi: sviluppali prima di pensare all'attacco.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"b1\", \"c1\"]}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Nero ha appena preso in d5 con il cavallo e minaccia di catturare il tuo cavallo in g5 con il pedone. Se non muovi nulla, il piano è {{plan:b:e5,Nd4@N2}}: spinge il pedone e porta il cavallo in d4, occupando il centro.\", \"source\": \"theory\"}, {\"type\": \"p\", \"text\": \"Dopo {{mv:C1}} la risposta più frequente del Nero è {{m:Nxd4@N3}} ({{pct:Nxd4@N3}}): riprende il pedone e resta con un buon centro.\", \"source\": \"maia\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"Nxd4@N3\", \"band\": \"frequent\"}]}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C1\": {\"per_chi\": {\"text\": \"Consigliata: prende il centro e tiene il vantaggio ({{ev:C1}}), ma a questo livello la gioca solo il {{pct:C1.p_user}}\", \"source\": \"maia\"}}, \"C2\": {\"per_chi\": {\"text\": \"Il sacrificio in f7: la gioca il {{pct:C2.p_user}} dei giocatori del tuo livello, ma il motore la valuta solo {{ev:C2}}\", \"source\": \"maia\"}}}}, {\"type\": \"p\", \"text\": \"Tra {{mv:C1}} e {{mv:C2}} il motore perde solo {{loss:C2}}: la prima è più solida, la seconda è la mossa che tutti vogliono giocare.\", \"source\": \"engine\"}]}, {\"id\": \"S08\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Non lasciare il cavallo in g5 attaccato**: è l'errore più facile in questa posizione.\", \"source\": \"theory\"}, {\"text\": \"**Non giocare {{mv:C2}} senza calcolare**: il Nero può rispondere {{m:Kxf7@N8}} e la tua iniziativa si spegne.\", \"source\": \"theory\"}, {\"text\": \"**Non spingere pedoni ai lati** prima di aver sviluppato i pezzi: perdi solo tempi.\", \"source\": \"theory\"}, {\"text\": \"**Non catturare in d5 con l'alfiere** senza motivo: {{mv:C16}} costa {{loss:C16}}.\", \"source\": \"engine\"}, {\"text\": \"**Non arroccare subito** se il cavallo in g5 resta in presa: {{mv:C4}} costa {{loss:C4}}.\", \"source\": \"engine\"}]}]}, {\"id\": \"S09\", \"blocks\": [{\"type\": \"p\", \"text\": \"Due minacce del Nero sono difficili da vedere a questo livello: {{pv:L1:4}} e {{pv:L2:4}}. La prima porta il cavallo in d4 e vale {{loss:L1}} per te; la seconda spinge il pedone in f6 e vale {{loss:L2}}. Sono mosse silenziose, non catture: per questo sfuggono.\", \"source\": \"engine\"}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Il mio cavallo in g5 è ancora attaccato?\", \"source\": \"theory\"}, {\"text\": \"Quale pezzo posso sviluppare o centralizzare?\", \"source\": \"theory\"}, {\"text\": \"Il mio re è al sicuro se arrocco adesso?\", \"source\": \"theory\"}]}]}, {\"id\": \"S13\", \"blocks\": [{\"type\": \"p\", \"text\": \"La linea forzata nasce dal sacrificio in f7: {{pv:PV2:4}}. Il Nero deve riprendere con il re, poi la donna dà scacco e il gioco si apre. Il motore valuta la posizione {{ev:C2}} dopo questa sequenza: il Bianco resta con un piccolo vantaggio, ma il Nero ha una difesa precisa.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Non si evita perché il cavallo in f7 è protetto dall'alfiere in c4 e il re nero non ha case migliori. Se il Nero sbaglia con la donna, {{pv:L4:4}} e {{pv:L5:4}} mostrano che il Bianco vince materiale: per questo la difesa giusta è prendere con il re.\", \"source\": \"engine\"}]}], \"notes\": []}"
+          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Con il Bianco hai un piccolo vantaggio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Ma il cavallo in g5 è appeso e il Nero ha più tempo ({{sc:initiative_tempo.T}}): **devi rispondere subito alla minaccia**.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"slight_plus\"}, {\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}]}, {\"id\": \"S02\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T4\", \"text_cells\": {\"king_safety\": {\"nota\": {\"text\": \"Il re è ancora al centro e la colonna e è aperta: {{sc:king_safety.T}} di tranquillità, {{sc:king_safety.R}} di rilevanza\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"king_safety\", \"advice\": \"critical\"}, {\"kind\": \"feature\", \"key\": \"open_file_to_king\", \"side\": \"w\", \"squares\": [\"e1\"]}]}}, \"threats_dynamics\": {\"nota\": {\"text\": \"Il cavallo in g5 è attaccato e il Nero può prendere in d5\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"critical\"}, {\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}}, \"piece_activity\": {\"nota\": {\"text\": \"Torre a1, cavallo b1 e alfiere c1 sono ancora fermi\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"attention\"}, {\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"b1\", \"c1\"]}]}}, \"initiative_tempo\": {\"nota\": {\"text\": \"Il Nero ha più mosse utili di te\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"initiative_tempo\", \"advice\": \"attention\"}]}}, \"material\": {\"nota\": {\"text\": \"Materiale pari, ma il cavallo in g5 è in presa\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"material\", \"advice\": \"no_worry\"}, {\"kind\": \"feature\", \"key\": \"material_balance\", \"side\": null, \"squares\": []}]}}}}, {\"type\": \"p\", \"text\": \"Le categorie più urgenti sono la sicurezza del re e le minacce: entrambe sono critiche. Poi conta l'attività dei pezzi, con torre e cavallo ancora a casa. Il materiale è pari, quindi non è lì il problema.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"king_safety\", \"advice\": \"critical\"}, {\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"critical\"}, {\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"attention\"}]}]}, {\"id\": \"S03\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"**Salva il cavallo in g5**: è appeso e il Nero lo può catturare. La mossa consigliata è {{mv:C1}}, che spinge il pedone in d4 e apre il gioco centrale.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}, {\"text\": \"**Sviluppa i pezzi fermi**: cavallo in b1 e alfiere in c1 devono entrare in gioco prima di attaccare.\", \"source\": \"theory\"}, {\"text\": \"**Arrocca presto**: con il re al centro e la colonna e aperta, l'arrocco corto è la scelta più sicura.\", \"source\": \"theory\"}]}, {\"type\": \"p\", \"text\": \"**Piano semplice:** {{plan:w:d4,O-O,Nc3@N1}}, cioè spingi in d4, arrocca corto e porta fuori il cavallo. Con {{mv:C1}} il motore valuta {{ev:C1}}: il vantaggio resta tuo se giochi con ordine.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"C1\", \"band\": \"slight_plus\"}]}]}, {\"id\": \"S05\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Cavallo g5:** è il pezzo in pericolo. Deve ritirarsi o essere difeso: non lasciarlo in presa.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}, {\"text\": \"**Cavallo b1:** va in c3 per controllare il centro e sostenere il pedone d4.\", \"source\": \"theory\"}, {\"text\": \"**Donna d1:** resta vicina al centro; non mandarla a caccia di pedoni.\", \"source\": \"theory\"}, {\"text\": \"**Alfiere c1:** va in e3 o g5, dietro ai pedoni centrali.\", \"source\": \"theory\"}, {\"text\": \"**Re e1:** arrocca corto appena puoi, prima che la colonna e diventi pericolosa.\", \"source\": \"theory\"}, {\"text\": \"**Cavallo nero c6 e alfiere f8:** sono i pezzi che possono attaccare il tuo centro; tienili d'occhio.\", \"source\": \"theory\"}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"Il Nero può catturare il cavallo in g5 con la donna: è la minaccia più diretta.\", \"source\": \"theory\"}, {\"text\": \"Può anche prendere in d5 con il cavallo, entrando nel tuo campo.\", \"source\": \"theory\"}, {\"text\": \"Spesso spinge in f6 per attaccare il cavallo in g5 con un pedone.\", \"source\": \"theory\"}, {\"text\": \"Se non difendi il cavallo, il Nero guadagna materiale: ogni tua mossa deve tenerne conto.\", \"source\": \"theory\"}]}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C1\": {\"per_chi\": {\"text\": \"Consigliata: spinge in d4 e apre il centro, ma a questo livello la giocano in pochi ({{pct:C1.p_user}})\", \"source\": \"maia\"}}, \"C2\": {\"per_chi\": {\"text\": \"Il sacrificio in f7: la giocano quasi tutti al tuo livello ({{pct:C2.p_user}}), ma è rischiosa\", \"source\": \"maia\"}}}}, {\"type\": \"p\", \"text\": \"Il motore preferisce {{mv:C1}} ({{ev:C1}}); {{mv:C2}} perde solo {{loss:C2}} ma è molto più complicata. Scegli quella di cui capisci il piano.\", \"source\": \"engine\"}]}, {\"id\": \"S08\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Non lasciare il cavallo in g5 in presa**: è l'errore più grave della posizione.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}, {\"text\": \"**Non giocare {{mv:C2}} senza calcolare**: il sacrificio in f7 sembra forte, ma se il Nero risponde bene resti senza pezzo.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"classification\", \"ref\": \"C2\", \"category\": \"natural_trap\"}]}, {\"text\": \"**Non arroccare tardi**: con il re al centro e la colonna e aperta, ogni tempo perso è pericoloso.\", \"source\": \"theory\"}, {\"text\": \"**Non muovere pedoni laterali** mentre hai un pezzo in presa: prima risolvi l'emergenza.\", \"source\": \"theory\"}, {\"text\": \"**Non scambiare senza motivo**: il materiale è pari, non regalare pezzi per aprire linee inutili.\", \"source\": \"theory\"}]}]}, {\"id\": \"S09\", \"blocks\": [{\"type\": \"p\", \"text\": \"Due minacce del Nero sono difficili da vedere al tuo livello: {{pv:L1:4}} e {{pv:L2:4}}. La prima porta a {{ev:L1}}, la seconda a {{ev:L2}}: entrambe nascono da mosse tranquille del Nero che preparano l'attacco al centro.\", \"source\": \"engine\"}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Il mio cavallo in g5 è ancora in presa?\", \"source\": \"theory\"}, {\"text\": \"Il mio re è al sicuro o devo arroccare?\", \"source\": \"theory\"}, {\"text\": \"Quale pezzo posso sviluppare con questa mossa?\", \"source\": \"theory\"}, {\"text\": \"Il Nero ha una cattura o uno scacco forte?\", \"source\": \"theory\"}]}]}, {\"id\": \"S13\", \"blocks\": [{\"type\": \"p\", \"text\": \"La linea forzata nasce dal sacrificio in f7: {{pv:PV2:4}}. Il Nero deve riprendere con il re, poi la donna dà scacco e il gioco si apre. Il motore valuta {{ev:C2}}, quindi il sacrificio non è un errore, ma richiede precisione: se sbagli una mossa, resti senza pezzo.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"C2\", \"band\": \"slight_plus\"}]}, {\"type\": \"p\", \"text\": \"Le difese del Nero sono limitate: dopo la cattura in f7 il re deve uscire e la donna entra con scacco. Non si evita la sequenza: o accetti il sacrificio, o scegli {{mv:C1}} e giochi una partita più tranquilla.\", \"source\": \"mixed\"}]}], \"notes\": []}"
          }
         }
        ]
@@ -413,21 +475,21 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 31386,
-     "completion_tokens": 2401,
-     "total_tokens": 33787,
-     "cost": 0.005228636,
+     "prompt_tokens": 31382,
+     "completion_tokens": 2607,
+     "total_tokens": 33989,
+     "cost": 0.001229732,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 1280,
+      "cached_tokens": 31360,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.005228636,
-      "upstream_inference_prompt_cost": 0.004220216,
-      "upstream_inference_completions_cost": 0.00100842
+      "upstream_inference_cost": 0.001229732,
+      "upstream_inference_prompt_cost": 0.000134792,
+      "upstream_inference_completions_cost": 0.00109494
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,
@@ -442,7 +504,7 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "chatcmpl-tool-9eb987f2e598ea43",
+     "id": "chatcmpl-tool-a389d2713a07b659",
      "name": "submit_analysis",
      "input": {
       "schema_version": "1",
@@ -452,444 +514,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Il Bianco sta un po' meglio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Il Nero ha appena preso in d5 e il tuo cavallo in g5 è attaccato: la posizione è tesa e conta la mossa giusta, non la fretta.",
-          "source": "engine",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "N1",
-            "band": "slight_plus"
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "id": "S02",
-        "blocks": [
-         {
-          "type": "table",
-          "ref": "T4",
-          "text_cells": {
-           "threats_dynamics": {
-            "nota": {
-             "text": "Il cavallo in g5 è attaccato: è la categoria più urgente (rilevanza {{sc:threats_dynamics.R}})",
-             "source": "mixed",
-             "assertions": [
-              {
-               "kind": "category_advice",
-               "id": "threats_dynamics",
-               "advice": "critical"
-              },
-              {
-               "kind": "feature",
-               "key": "hanging_piece",
-               "side": "w",
-               "squares": [
-                "g5"
-               ]
-              }
-             ]
-            }
-           },
-           "king_safety": {
-            "nota": {
-             "text": "Nessuna linea seria contro il re, ma il centro aperto va tenuto d'occhio",
-             "source": "mixed",
-             "assertions": [
-              {
-               "kind": "category_advice",
-               "id": "king_safety",
-               "advice": "monitor"
-              }
-             ]
-            }
-           },
-           "piece_activity": {
-            "nota": {
-             "text": "Alfiere e cavallo di donna sono ancora a casa",
-             "source": "mixed",
-             "assertions": [
-              {
-               "kind": "category_advice",
-               "id": "piece_activity",
-               "advice": "no_worry"
-              },
-              {
-               "kind": "feature",
-               "key": "undeveloped_pieces",
-               "side": "w",
-               "squares": [
-                "b1",
-                "c1"
-               ]
-              }
-             ]
-            }
-           },
-           "material": {
-            "nota": {
-             "text": "Materiale pari: nessuno ha più pezzi dell'altro",
-             "source": "mixed",
-             "assertions": [
-              {
-               "kind": "category_advice",
-               "id": "material",
-               "advice": "no_worry"
-              },
-              {
-               "kind": "feature",
-               "key": "material_balance",
-               "side": null,
-               "squares": []
-              }
-             ]
-            }
-           },
-           "initiative_tempo": {
-            "nota": {
-             "text": "Il Nero ha più tempi di sviluppo di te",
-             "source": "mixed",
-             "assertions": [
-              {
-               "kind": "category_advice",
-               "id": "initiative_tempo",
-               "advice": "monitor"
-              }
-             ]
-            }
-           }
-          }
-         },
-         {
-          "type": "p",
-          "text": "La cosa urgente è il cavallo in g5, attaccato: la categoria delle minacce è critica (rilevanza {{sc:threats_dynamics.R}}). Il resto è sotto controllo: materiale pari, struttura intatta, re tranquillo.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "category_advice",
-            "id": "threats_dynamics",
-            "advice": "critical"
-           },
-           {
-            "kind": "category_advice",
-            "id": "king_safety",
-            "advice": "monitor"
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "id": "S03",
-        "blocks": [
-         {
-          "type": "ol",
-          "items": [
-           {
-            "text": "**Salva il cavallo in g5**: è attaccato dal pedone e non può restare lì.",
-            "source": "theory"
-           },
-           {
-            "text": "**Prendi il centro con un pedone**, così apri linee per gli alfieri.",
-            "source": "theory"
-           },
-           {
-            "text": "**Sviluppa i pezzi di donna e arrocca**, senza lanciarti in attacchi di pedoni.",
-            "source": "theory"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "**La mossa consigliata è {{mv:C1}}**: il motore la valuta {{ev:C1}} ed è la prima scelta. Il piano è {{plan:w:d4,O-O,Nc3@N1}}: prima il centro, poi l'arrocco corto e lo sviluppo. Il cavallo in g5 resta un problema da risolvere con calma.",
-          "source": "mixed",
-          "assertions": [
-           {
-            "kind": "eval_band",
-            "ref": "C1",
-            "band": "slight_plus"
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "id": "S05",
-        "blocks": [
-         {
-          "type": "ul",
-          "items": [
-           {
-            "text": "**Cavallo in g5:** è attaccato dal pedone e5: deve ritirarsi o essere difeso, non restare fermo.",
-            "source": "theory"
-           },
-           {
-            "text": "**Alfiere in c4:** punta su f7, la casa debole vicino al re nero: tienilo attivo.",
-            "source": "theory"
-           },
-           {
-            "text": "**Donna in d1:** può uscire in f3 o in e2, ma solo dopo aver messo al sicuro il cavallo.",
-            "source": "theory"
-           },
-           {
-            "text": "**Cavallo in b1:** va in c3, verso il centro.",
-            "source": "theory"
-           },
-           {
-            "text": "**Re in e1:** arrocca corto appena puoi.",
-            "source": "theory"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Il cavallo in b1 e l'alfiere in c1 sono ancora fermi: sviluppali prima di pensare all'attacco.",
-          "source": "feature",
-          "assertions": [
-           {
-            "kind": "feature",
-            "key": "undeveloped_pieces",
-            "side": "w",
-            "squares": [
-             "b1",
-             "c1"
-            ]
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "id": "S06",
-        "blocks": [
-         {
-          "type": "p",
-          "text": "Il Nero ha appena preso in d5 con il cavallo e minaccia di catturare il tuo cavallo in g5 con il pedone. Se non muovi nulla, il piano è {{plan:b:e5,Nd4@N2}}: spinge il pedone e porta il cavallo in d4, occupando il centro.",
-          "source": "theory"
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C1}} la risposta più frequente del Nero è {{m:Nxd4@N3}} ({{pct:Nxd4@N3}}): riprende il pedone e resta con un buon centro.",
-          "source": "maia",
-          "assertions": [
-           {
-            "kind": "maia_band",
-            "ref": "Nxd4@N3",
-            "band": "frequent"
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "id": "S07",
-        "blocks": [
-         {
-          "type": "table",
-          "ref": "T1",
-          "text_cells": {
-           "C1": {
-            "per_chi": {
-             "text": "Consigliata: prende il centro e tiene il vantaggio ({{ev:C1}}), ma a questo livello la gioca solo il {{pct:C1.p_user}}",
-             "source": "maia"
-            }
-           },
-           "C2": {
-            "per_chi": {
-             "text": "Il sacrificio in f7: la gioca il {{pct:C2.p_user}} dei giocatori del tuo livello, ma il motore la valuta solo {{ev:C2}}",
-             "source": "maia"
-            }
-           }
-          }
-         },
-         {
-          "type": "p",
-          "text": "Tra {{mv:C1}} e {{mv:C2}} il motore perde solo {{loss:C2}}: la prima è più solida, la seconda è la mossa che tutti vogliono giocare.",
-          "source": "engine"
-         }
-        ]
-       },
-       {
-        "id": "S08",
-        "blocks": [
-         {
-          "type": "ul",
-          "items": [
-           {
-            "text": "**Non lasciare il cavallo in g5 attaccato**: è l'errore più facile in questa posizione.",
-            "source": "theory"
-           },
-           {
-            "text": "**Non giocare {{mv:C2}} senza calcolare**: il Nero può rispondere {{m:Kxf7@N8}} e la tua iniziativa si spegne.",
-            "source": "theory"
-           },
-           {
-            "text": "**Non spingere pedoni ai lati** prima di aver sviluppato i pezzi: perdi solo tempi.",
-            "source": "theory"
-           },
-           {
-            "text": "**Non catturare in d5 con l'alfiere** senza motivo: {{mv:C16}} costa {{loss:C16}}.",
-            "source": "engine"
-           },
-           {
-            "text": "**Non arroccare subito** se il cavallo in g5 resta in presa: {{mv:C4}} costa {{loss:C4}}.",
-            "source": "engine"
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "id": "S09",
-        "blocks": [
-         {
-          "type": "p",
-          "text": "Due minacce del Nero sono difficili da vedere a questo livello: {{pv:L1:4}} e {{pv:L2:4}}. La prima porta il cavallo in d4 e vale {{loss:L1}} per te; la seconda spinge il pedone in f6 e vale {{loss:L2}}. Sono mosse silenziose, non catture: per questo sfuggono.",
-          "source": "engine"
-         }
-        ]
-       },
-       {
-        "id": "S10",
-        "blocks": [
-         {
-          "type": "ol",
-          "items": [
-           {
-            "text": "Il mio cavallo in g5 è ancora attaccato?",
-            "source": "theory"
-           },
-           {
-            "text": "Quale pezzo posso sviluppare o centralizzare?",
-            "source": "theory"
-           },
-           {
-            "text": "Il mio re è al sicuro se arrocco adesso?",
-            "source": "theory"
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "id": "S13",
-        "blocks": [
-         {
-          "type": "p",
-          "text": "La linea forzata nasce dal sacrificio in f7: {{pv:PV2:4}}. Il Nero deve riprendere con il re, poi la donna dà scacco e il gioco si apre. Il motore valuta la posizione {{ev:C2}} dopo questa sequenza: il Bianco resta con un piccolo vantaggio, ma il Nero ha una difesa precisa.",
-          "source": "engine"
-         },
-         {
-          "type": "p",
-          "text": "Non si evita perché il cavallo in f7 è protetto dall'alfiere in c4 e il re nero non ha case migliori. Se il Nero sbaglia con la donna, {{pv:L4:4}} e {{pv:L5:4}} mostrano che il Bianco vince materiale: per questo la difesa giusta è prendere con il re.",
-          "source": "engine"
-         }
-        ]
-       }
-      ],
-      "notes": []
-     }
-    }
-   ],
-   "model": "deepseek/deepseek-v4.1-flash",
-   "usage": {
-    "prompt_tokens": 33888,
-    "completion_tokens": 2418,
-    "total_tokens": 36306,
-    "cost": 0.0048386128,
-    "is_byok": false,
-    "prompt_tokens_details": {
-     "cached_tokens": 6784,
-     "cache_write_tokens": 0,
-     "audio_tokens": 0,
-     "video_tokens": 0
-    },
-    "cost_details": {
-     "upstream_inference_cost": 0.0048386128,
-     "upstream_inference_prompt_cost": 0.0038230528,
-     "upstream_inference_completions_cost": 0.00101556
-    },
-    "completion_tokens_details": {
-     "reasoning_tokens": 0,
-     "image_tokens": 0,
-     "audio_tokens": 0
-    }
-   },
-   "provider_response": {
-    "id": "gen-1791143259-MU36Wa3tPXx3rY9fgKWC",
-    "object": "chat.completion",
-    "created": 1791143259,
-    "model": "deepseek/deepseek-v4.1-flash",
-    "provider": "DeepInfra",
-    "system_fingerprint": null,
-    "service_tier": "default",
-    "choices": [
-     {
-      "index": 0,
-      "logprobs": null,
-      "finish_reason": "tool_calls",
-      "native_finish_reason": "tool_calls",
-      "message": {
-       "role": "assistant",
-       "content": null,
-       "refusal": null,
-       "reasoning": null,
-       "tool_calls": [
-        {
-         "type": "function",
-         "index": 0,
-         "id": "chatcmpl-tool-9eb987f2e598ea43",
-         "function": {
-          "name": "submit_analysis",
-          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Bianco sta un po' meglio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Il Nero ha appena preso in d5 e il tuo cavallo in g5 è attaccato: la posizione è tesa e conta la mossa giusta, non la fretta.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"slight_plus\"}]}]}, {\"id\": \"S02\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T4\", \"text_cells\": {\"threats_dynamics\": {\"nota\": {\"text\": \"Il cavallo in g5 è attaccato: è la categoria più urgente (rilevanza {{sc:threats_dynamics.R}})\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"critical\"}, {\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}}, \"king_safety\": {\"nota\": {\"text\": \"Nessuna linea seria contro il re, ma il centro aperto va tenuto d'occhio\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"king_safety\", \"advice\": \"monitor\"}]}}, \"piece_activity\": {\"nota\": {\"text\": \"Alfiere e cavallo di donna sono ancora a casa\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"no_worry\"}, {\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"b1\", \"c1\"]}]}}, \"material\": {\"nota\": {\"text\": \"Materiale pari: nessuno ha più pezzi dell'altro\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"material\", \"advice\": \"no_worry\"}, {\"kind\": \"feature\", \"key\": \"material_balance\", \"side\": null, \"squares\": []}]}}, \"initiative_tempo\": {\"nota\": {\"text\": \"Il Nero ha più tempi di sviluppo di te\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"initiative_tempo\", \"advice\": \"monitor\"}]}}}}, {\"type\": \"p\", \"text\": \"La cosa urgente è il cavallo in g5, attaccato: la categoria delle minacce è critica (rilevanza {{sc:threats_dynamics.R}}). Il resto è sotto controllo: materiale pari, struttura intatta, re tranquillo.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"critical\"}, {\"kind\": \"category_advice\", \"id\": \"king_safety\", \"advice\": \"monitor\"}]}]}, {\"id\": \"S03\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"**Salva il cavallo in g5**: è attaccato dal pedone e non può restare lì.\", \"source\": \"theory\"}, {\"text\": \"**Prendi il centro con un pedone**, così apri linee per gli alfieri.\", \"source\": \"theory\"}, {\"text\": \"**Sviluppa i pezzi di donna e arrocca**, senza lanciarti in attacchi di pedoni.\", \"source\": \"theory\"}]}, {\"type\": \"p\", \"text\": \"**La mossa consigliata è {{mv:C1}}**: il motore la valuta {{ev:C1}} ed è la prima scelta. Il piano è {{plan:w:d4,O-O,Nc3@N1}}: prima il centro, poi l'arrocco corto e lo sviluppo. Il cavallo in g5 resta un problema da risolvere con calma.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"C1\", \"band\": \"slight_plus\"}]}]}, {\"id\": \"S05\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Cavallo in g5:** è attaccato dal pedone e5: deve ritirarsi o essere difeso, non restare fermo.\", \"source\": \"theory\"}, {\"text\": \"**Alfiere in c4:** punta su f7, la casa debole vicino al re nero: tienilo attivo.\", \"source\": \"theory\"}, {\"text\": \"**Donna in d1:** può uscire in f3 o in e2, ma solo dopo aver messo al sicuro il cavallo.\", \"source\": \"theory\"}, {\"text\": \"**Cavallo in b1:** va in c3, verso il centro.\", \"source\": \"theory\"}, {\"text\": \"**Re in e1:** arrocca corto appena puoi.\", \"source\": \"theory\"}]}, {\"type\": \"p\", \"text\": \"Il cavallo in b1 e l'alfiere in c1 sono ancora fermi: sviluppali prima di pensare all'attacco.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"b1\", \"c1\"]}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Nero ha appena preso in d5 con il cavallo e minaccia di catturare il tuo cavallo in g5 con il pedone. Se non muovi nulla, il piano è {{plan:b:e5,Nd4@N2}}: spinge il pedone e porta il cavallo in d4, occupando il centro.\", \"source\": \"theory\"}, {\"type\": \"p\", \"text\": \"Dopo {{mv:C1}} la risposta più frequente del Nero è {{m:Nxd4@N3}} ({{pct:Nxd4@N3}}): riprende il pedone e resta con un buon centro.\", \"source\": \"maia\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"Nxd4@N3\", \"band\": \"frequent\"}]}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C1\": {\"per_chi\": {\"text\": \"Consigliata: prende il centro e tiene il vantaggio ({{ev:C1}}), ma a questo livello la gioca solo il {{pct:C1.p_user}}\", \"source\": \"maia\"}}, \"C2\": {\"per_chi\": {\"text\": \"Il sacrificio in f7: la gioca il {{pct:C2.p_user}} dei giocatori del tuo livello, ma il motore la valuta solo {{ev:C2}}\", \"source\": \"maia\"}}}}, {\"type\": \"p\", \"text\": \"Tra {{mv:C1}} e {{mv:C2}} il motore perde solo {{loss:C2}}: la prima è più solida, la seconda è la mossa che tutti vogliono giocare.\", \"source\": \"engine\"}]}, {\"id\": \"S08\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Non lasciare il cavallo in g5 attaccato**: è l'errore più facile in questa posizione.\", \"source\": \"theory\"}, {\"text\": \"**Non giocare {{mv:C2}} senza calcolare**: il Nero può rispondere {{m:Kxf7@N8}} e la tua iniziativa si spegne.\", \"source\": \"theory\"}, {\"text\": \"**Non spingere pedoni ai lati** prima di aver sviluppato i pezzi: perdi solo tempi.\", \"source\": \"theory\"}, {\"text\": \"**Non catturare in d5 con l'alfiere** senza motivo: {{mv:C16}} costa {{loss:C16}}.\", \"source\": \"engine\"}, {\"text\": \"**Non arroccare subito** se il cavallo in g5 resta in presa: {{mv:C4}} costa {{loss:C4}}.\", \"source\": \"engine\"}]}]}, {\"id\": \"S09\", \"blocks\": [{\"type\": \"p\", \"text\": \"Due minacce del Nero sono difficili da vedere a questo livello: {{pv:L1:4}} e {{pv:L2:4}}. La prima porta il cavallo in d4 e vale {{loss:L1}} per te; la seconda spinge il pedone in f6 e vale {{loss:L2}}. Sono mosse silenziose, non catture: per questo sfuggono.\", \"source\": \"engine\"}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Il mio cavallo in g5 è ancora attaccato?\", \"source\": \"theory\"}, {\"text\": \"Quale pezzo posso sviluppare o centralizzare?\", \"source\": \"theory\"}, {\"text\": \"Il mio re è al sicuro se arrocco adesso?\", \"source\": \"theory\"}]}]}, {\"id\": \"S13\", \"blocks\": [{\"type\": \"p\", \"text\": \"La linea forzata nasce dal sacrificio in f7: {{pv:PV2:4}}. Il Nero deve riprendere con il re, poi la donna dà scacco e il gioco si apre. Il motore valuta la posizione {{ev:C2}} dopo questa sequenza: il Bianco resta con un piccolo vantaggio, ma il Nero ha una difesa precisa.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Non si evita perché il cavallo in f7 è protetto dall'alfiere in c4 e il re nero non ha case migliori. Se il Nero sbaglia con la donna, {{pv:L4:4}} e {{pv:L5:4}} mostrano che il Bianco vince materiale: per questo la difesa giusta è prendere con il re.\", \"source\": \"engine\"}]}], \"notes\": []}"
-         }
-        }
-       ]
-      }
-     }
-    ],
-    "usage": {
-     "prompt_tokens": 33888,
-     "completion_tokens": 2418,
-     "total_tokens": 36306,
-     "cost": 0.0048386128,
-     "is_byok": false,
-     "prompt_tokens_details": {
-      "cached_tokens": 6784,
-      "cache_write_tokens": 0,
-      "audio_tokens": 0,
-      "video_tokens": 0
-     },
-     "cost_details": {
-      "upstream_inference_cost": 0.0048386128,
-      "upstream_inference_prompt_cost": 0.0038230528,
-      "upstream_inference_completions_cost": 0.00101556
-     },
-     "completion_tokens_details": {
-      "reasoning_tokens": 0,
-      "image_tokens": 0,
-      "audio_tokens": 0
-     }
-    }
-   }
-  },
-  {
-   "stop_reason": "tool_use",
-   "content": [
-    {
-     "type": "tool_use",
-     "id": "chatcmpl-tool-91214c7e94606cc3",
-     "name": "submit_analysis",
-     "input": {
-      "schema_version": "1",
-      "sections": [
-       {
-        "id": "S01",
-        "blocks": [
-         {
-          "type": "p",
-          "text": "Il Bianco sta un po' meglio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Il Nero ha appena preso in d5 e il tuo cavallo in g5 è attaccato: conta la mossa giusta, non la fretta.",
+          "text": "Con il Bianco hai un piccolo vantaggio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Ma il cavallo in g5 è appeso: **devi rispondere subito alla minaccia**.",
           "source": "engine",
           "assertions": [
            {
@@ -908,9 +533,30 @@
           "type": "table",
           "ref": "T4",
           "text_cells": {
+           "king_safety": {
+            "nota": {
+             "text": "Re al centro, colonna e aperta",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "king_safety",
+               "advice": "critical"
+              },
+              {
+               "kind": "feature",
+               "key": "open_file_to_king",
+               "side": "w",
+               "squares": [
+                "e1"
+               ]
+              }
+             ]
+            }
+           },
            "threats_dynamics": {
             "nota": {
-             "text": "Il cavallo in g5 è attaccato: categoria più urgente",
+             "text": "Il cavallo in g5 è attaccato",
              "source": "mixed",
              "assertions": [
               {
@@ -929,28 +575,15 @@
              ]
             }
            },
-           "king_safety": {
-            "nota": {
-             "text": "Re tranquillo, ma il centro aperto va tenuto d'occhio",
-             "source": "mixed",
-             "assertions": [
-              {
-               "kind": "category_advice",
-               "id": "king_safety",
-               "advice": "monitor"
-              }
-             ]
-            }
-           },
            "piece_activity": {
             "nota": {
-             "text": "Alfiere e cavallo di donna ancora a casa",
+             "text": "Torre, cavallo e alfiere ancora fermi",
              "source": "mixed",
              "assertions": [
               {
                "kind": "category_advice",
                "id": "piece_activity",
-               "advice": "no_worry"
+               "advice": "attention"
               },
               {
                "kind": "feature",
@@ -964,9 +597,22 @@
              ]
             }
            },
+           "initiative_tempo": {
+            "nota": {
+             "text": "Il Nero ha più mosse utili",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "initiative_tempo",
+               "advice": "attention"
+              }
+             ]
+            }
+           },
            "material": {
             "nota": {
-             "text": "Materiale pari",
+             "text": "Materiale pari, ma il cavallo è in presa",
              "source": "mixed",
              "assertions": [
               {
@@ -982,31 +628,28 @@
               }
              ]
             }
-           },
-           "initiative_tempo": {
-            "nota": {
-             "text": "Il Nero ha più tempi di sviluppo",
-             "source": "mixed",
-             "assertions": [
-              {
-               "kind": "category_advice",
-               "id": "initiative_tempo",
-               "advice": "monitor"
-              }
-             ]
-            }
            }
           }
          },
          {
           "type": "p",
-          "text": "Urgente solo il cavallo in g5, attaccato: le minacce sono critiche. Il resto è sotto controllo.",
+          "text": "Le categorie più urgenti sono sicurezza del re e minacce: entrambe critiche. Poi conta l'attività dei pezzi, ancora bassa. Il materiale è pari.",
           "source": "mixed",
           "assertions": [
            {
             "kind": "category_advice",
+            "id": "king_safety",
+            "advice": "critical"
+           },
+           {
+            "kind": "category_advice",
             "id": "threats_dynamics",
             "advice": "critical"
+           },
+           {
+            "kind": "category_advice",
+            "id": "piece_activity",
+            "advice": "attention"
            }
           ]
          }
@@ -1019,22 +662,32 @@
           "type": "ol",
           "items": [
            {
-            "text": "**Salva il cavallo in g5**: è attaccato dal pedone e non può restare lì.",
+            "text": "**Salva il cavallo in g5**: è appeso e il Nero lo può catturare. La mossa consigliata è {{mv:C1}}, che spinge il pedone in d4 e apre il gioco centrale.",
+            "source": "mixed",
+            "assertions": [
+             {
+              "kind": "feature",
+              "key": "hanging_piece",
+              "side": "w",
+              "squares": [
+               "g5"
+              ]
+             }
+            ]
+           },
+           {
+            "text": "**Sviluppa i pezzi fermi**: cavallo in b1 e alfiere in c1 devono entrare in gioco prima di attaccare.",
             "source": "theory"
            },
            {
-            "text": "**Prendi il centro con un pedone**, così apri linee per gli alfieri.",
-            "source": "theory"
-           },
-           {
-            "text": "**Sviluppa i pezzi di donna e arrocca**, senza attacchi di pedoni.",
+            "text": "**Arrocca presto**: con il re al centro e la colonna e aperta, l'arrocco corto è la scelta più sicura.",
             "source": "theory"
            }
           ]
          },
          {
           "type": "p",
-          "text": "**La mossa consigliata è {{mv:C1}}**: il motore la valuta {{ev:C1}} ed è la prima scelta. Il piano è {{plan:w:d4,O-O,Nc3@N1}}: prima il centro, poi l'arrocco corto e lo sviluppo. Il cavallo in g5 resta un problema da risolvere con calma.",
+          "text": "**Piano semplice:** {{plan:w:d4,O-O,Nc3@N1}}, cioè spingi in d4, arrocca corto e porta fuori il cavallo. Con {{mv:C1}} il motore valuta {{ev:C1}}: il vantaggio resta tuo se giochi con ordine.",
           "source": "mixed",
           "assertions": [
            {
@@ -1053,40 +706,38 @@
           "type": "ul",
           "items": [
            {
-            "text": "**Cavallo in g5:** è attaccato dal pedone e5: deve ritirarsi o essere difeso, non restare fermo.",
-            "source": "theory"
-           },
-           {
-            "text": "**Alfiere in c4:** punta su f7, la casa debole vicino al re nero: tienilo attivo.",
-            "source": "theory"
-           },
-           {
-            "text": "**Donna in d1:** può uscire in f3 o in e2, ma solo dopo aver messo al sicuro il cavallo.",
-            "source": "theory"
-           },
-           {
-            "text": "**Cavallo in b1:** va in c3, verso il centro.",
-            "source": "theory"
-           },
-           {
-            "text": "**Re in e1:** arrocca corto appena puoi.",
-            "source": "theory"
-           }
-          ]
-         },
-         {
-          "type": "p",
-          "text": "Il cavallo in b1 e l'alfiere in c1 sono ancora fermi: sviluppali prima di pensare all'attacco.",
-          "source": "feature",
-          "assertions": [
-           {
-            "kind": "feature",
-            "key": "undeveloped_pieces",
-            "side": "w",
-            "squares": [
-             "b1",
-             "c1"
+            "text": "**Cavallo g5:** è il pezzo in pericolo. Deve ritirarsi o essere difeso: non lasciarlo in presa.",
+            "source": "feature",
+            "assertions": [
+             {
+              "kind": "feature",
+              "key": "hanging_piece",
+              "side": "w",
+              "squares": [
+               "g5"
+              ]
+             }
             ]
+           },
+           {
+            "text": "**Cavallo b1:** va in c3 per controllare il centro e sostenere il pedone d4.",
+            "source": "theory"
+           },
+           {
+            "text": "**Donna d1:** resta vicina al centro; non mandarla a caccia di pedoni.",
+            "source": "theory"
+           },
+           {
+            "text": "**Alfiere c1:** va in e3 o g5, dietro ai pedoni centrali.",
+            "source": "theory"
+           },
+           {
+            "text": "**Re e1:** arrocca corto appena puoi, prima che la colonna e diventi pericolosa.",
+            "source": "theory"
+           },
+           {
+            "text": "**Cavallo nero c6 e alfiere f8:** sono i pezzi che possono attaccare il tuo centro; tienili d'occhio.",
+            "source": "theory"
            }
           ]
          }
@@ -1096,19 +747,23 @@
         "id": "S06",
         "blocks": [
          {
-          "type": "p",
-          "text": "Il Nero ha appena preso in d5 con il cavallo e minaccia di catturare il tuo cavallo in g5 con il pedone. Se non muovi nulla, il piano è {{plan:b:Nd4@N2}}: porta il cavallo in d4, occupando il centro.",
-          "source": "theory"
-         },
-         {
-          "type": "p",
-          "text": "Dopo {{mv:C1}} la risposta più frequente del Nero è {{m:Nxd4@N3}} ({{pct:Nxd4@N3}}): riprende il pedone e resta con un buon centro.",
-          "source": "maia",
-          "assertions": [
+          "type": "ul",
+          "items": [
            {
-            "kind": "maia_band",
-            "ref": "Nxd4@N3",
-            "band": "frequent"
+            "text": "Il Nero può catturare il cavallo in g5 con la donna: è la minaccia più diretta.",
+            "source": "theory"
+           },
+           {
+            "text": "Può anche prendere in d5 con il cavallo, entrando nel tuo campo.",
+            "source": "theory"
+           },
+           {
+            "text": "Spesso spinge in f6 per attaccare il cavallo in g5 con un pedone.",
+            "source": "theory"
+           },
+           {
+            "text": "Se non difendi il cavallo, il Nero guadagna materiale: ogni tua mossa deve tenerne conto.",
+            "source": "theory"
            }
           ]
          }
@@ -1123,13 +778,13 @@
           "text_cells": {
            "C1": {
             "per_chi": {
-             "text": "Consigliata: prende il centro, ma a questo livello la gioca solo il {{pct:C1.p_user}}",
+             "text": "Consigliata: spinge in d4 e apre il centro, ma a questo livello la giocano in pochi ({{pct:C1.p_user}})",
              "source": "maia"
             }
            },
            "C2": {
             "per_chi": {
-             "text": "Il sacrificio in f7: la gioca il {{pct:C2.p_user}} dei giocatori del tuo livello",
+             "text": "Il sacrificio in f7: la giocano quasi tutti al tuo livello ({{pct:C2.p_user}}), ma è rischiosa",
              "source": "maia"
             }
            }
@@ -1137,7 +792,7 @@
          },
          {
           "type": "p",
-          "text": "Tra {{mv:C1}} e {{mv:C2}} il motore perde solo {{loss:C2}}: la prima è più solida, la seconda è quella che tutti vogliono giocare.",
+          "text": "Il motore preferisce {{mv:C1}} ({{ev:C1}}); {{mv:C2}} perde solo {{loss:C2}} ma è molto più complicata. Scegli quella di cui capisci il piano.",
           "source": "engine"
          }
         ]
@@ -1149,24 +804,52 @@
           "type": "ul",
           "items": [
            {
-            "text": "**Non lasciare il cavallo in g5 attaccato**: è l'errore più facile qui.",
+            "text": "**Non lasciare il cavallo in g5 in presa**: è l'errore più grave della posizione.",
+            "source": "feature",
+            "assertions": [
+             {
+              "kind": "feature",
+              "key": "hanging_piece",
+              "side": "w",
+              "squares": [
+               "g5"
+              ]
+             }
+            ]
+           },
+           {
+            "text": "**Non giocare {{mv:C2}} senza calcolare**: il sacrificio in f7 sembra forte, ma se il Nero risponde bene resti senza pezzo.",
+            "source": "mixed",
+            "assertions": [
+             {
+              "kind": "classification",
+              "ref": "C2",
+              "category": "solid"
+             }
+            ]
+           },
+           {
+            "text": "**Non arroccare tardi**: con il re al centro e la colonna e aperta, ogni tempo perso è pericoloso.",
             "source": "theory"
            },
            {
-            "text": "**Non giocare {{mv:C2}} senza calcolare**: il Nero riprende con il re e la tua iniziativa si spegne.",
+            "text": "**Non muovere pedoni laterali** mentre hai un pezzo in presa: prima risolvi l'emergenza.",
             "source": "theory"
            },
            {
-            "text": "**Non spingere pedoni ai lati** prima di aver sviluppato i pezzi.",
+            "text": "**Non scambiare senza motivo**: il materiale è pari, non regalare pezzi per aprire linee inutili.",
             "source": "theory"
            },
            {
-            "text": "**Non catturare in d5 con l'alfiere** senza motivo: {{mv:C16}} costa {{loss:C16}}.",
-            "source": "engine"
-           },
-           {
-            "text": "**Non arroccare subito** se il cavallo in g5 resta in presa: {{mv:C4}} costa {{loss:C4}}.",
-            "source": "engine"
+            "text": "**La mossa consigliata è {{mv:C1}}**: spinge in d4 e apre il centro senza rischi.",
+            "source": "mixed",
+            "assertions": [
+             {
+              "kind": "classification",
+              "ref": "C1",
+              "category": "hard_move"
+             }
+            ]
            }
           ]
          }
@@ -1177,7 +860,7 @@
         "blocks": [
          {
           "type": "p",
-          "text": "Due minacce del Nero sono difficili da vedere a questo livello: {{pv:L1:4}} e {{pv:L2:4}}. La prima porta il cavallo in d4 e vale {{loss:L1}} per te; la seconda spinge il pedone in f6 e vale {{loss:L2}}. Sono mosse silenziose, non catture: per questo sfuggono.",
+          "text": "Due minacce del Nero sono difficili da vedere al tuo livello: {{pv:L1:4}} e {{pv:L2:4}}. La prima porta a {{ev:L1}}, la seconda a {{ev:L2}}: entrambe nascono da mosse tranquille del Nero che preparano l'attacco al centro.",
           "source": "engine"
          }
         ]
@@ -1189,15 +872,19 @@
           "type": "ol",
           "items": [
            {
-            "text": "Il mio cavallo in g5 è ancora attaccato?",
+            "text": "Il mio cavallo in g5 è ancora in presa?",
             "source": "theory"
            },
            {
-            "text": "Quale pezzo posso sviluppare o centralizzare?",
+            "text": "Il mio re è al sicuro o devo arroccare?",
             "source": "theory"
            },
            {
-            "text": "Il mio re è al sicuro se arrocco adesso?",
+            "text": "Quale pezzo posso sviluppare con questa mossa?",
+            "source": "theory"
+           },
+           {
+            "text": "Il Nero ha una cattura o uno scacco forte?",
             "source": "theory"
            }
           ]
@@ -1209,13 +896,27 @@
         "blocks": [
          {
           "type": "p",
-          "text": "La linea forzata nasce dal sacrificio in f7: {{pv:PV2:4}}. Il Nero deve riprendere con il re, poi la donna dà scacco e il gioco si apre. Il motore valuta la posizione {{ev:C2}} dopo questa sequenza: il Bianco resta con un piccolo vantaggio, ma il Nero ha una difesa precisa.",
-          "source": "engine"
+          "text": "La linea forzata nasce dal sacrificio in f7: {{pv:PV2:4}}. Il Nero deve riprendere con il re, poi la donna dà scacco e il gioco si apre. Il motore valuta {{ev:C2}}, quindi il sacrificio non è un errore, ma richiede precisione: se sbagli una mossa, resti senza pezzo.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "C2",
+            "band": "small_plus"
+           }
+          ]
          },
          {
           "type": "p",
-          "text": "Non si evita perché il cavallo in f7 è protetto dall'alfiere in c4 e il re nero non ha case migliori. Se il Nero sbaglia con la donna, {{pv:L4:4}} e {{pv:L5:4}} mostrano che il Bianco vince materiale: per questo la difesa giusta è prendere con il re.",
-          "source": "engine"
+          "text": "Le difese del Nero sono limitate: dopo la cattura in f7 il re deve uscire e la donna entra con scacco. Non si evita la sequenza: o accetti il sacrificio, o scegli {{mv:C1}} e giochi una partita più tranquilla.",
+          "source": "mixed",
+          "assertions": [
+           {
+            "kind": "classification",
+            "ref": "C1",
+            "category": "hard_move"
+           }
+          ]
          }
         ]
        }
@@ -1226,21 +927,21 @@
    ],
    "model": "deepseek/deepseek-v4.1-flash",
    "usage": {
-    "prompt_tokens": 36818,
-    "completion_tokens": 2266,
-    "total_tokens": 39084,
-    "cost": 0.0011870208,
+    "prompt_tokens": 34409,
+    "completion_tokens": 2577,
+    "total_tokens": 36986,
+    "cost": 0.001640912,
     "is_byok": false,
     "prompt_tokens_details": {
-     "cached_tokens": 36224,
+     "cached_tokens": 31360,
      "cache_write_tokens": 0,
      "audio_tokens": 0,
      "video_tokens": 0
     },
     "cost_details": {
-     "upstream_inference_cost": 0.0011870208,
-     "upstream_inference_prompt_cost": 0.0002353008,
-     "upstream_inference_completions_cost": 0.00095172
+     "upstream_inference_cost": 0.001640912,
+     "upstream_inference_prompt_cost": 0.000558572,
+     "upstream_inference_completions_cost": 0.00108234
     },
     "completion_tokens_details": {
      "reasoning_tokens": 0,
@@ -1249,9 +950,9 @@
     }
    },
    "provider_response": {
-    "id": "gen-1791143275-JdbQyM5j6J8NfFfLSBVC",
+    "id": "gen-1791156480-bU8fMUTYDD9Po4MpeZdH",
     "object": "chat.completion",
-    "created": 1791143275,
+    "created": 1791156480,
     "model": "deepseek/deepseek-v4.1-flash",
     "provider": "DeepInfra",
     "system_fingerprint": null,
@@ -1271,10 +972,10 @@
         {
          "type": "function",
          "index": 0,
-         "id": "chatcmpl-tool-91214c7e94606cc3",
+         "id": "chatcmpl-tool-a389d2713a07b659",
          "function": {
           "name": "submit_analysis",
-          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Bianco sta un po' meglio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Il Nero ha appena preso in d5 e il tuo cavallo in g5 è attaccato: conta la mossa giusta, non la fretta.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"small_plus\"}]}]}, {\"id\": \"S02\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T4\", \"text_cells\": {\"threats_dynamics\": {\"nota\": {\"text\": \"Il cavallo in g5 è attaccato: categoria più urgente\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"critical\"}, {\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}}, \"king_safety\": {\"nota\": {\"text\": \"Re tranquillo, ma il centro aperto va tenuto d'occhio\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"king_safety\", \"advice\": \"monitor\"}]}}, \"piece_activity\": {\"nota\": {\"text\": \"Alfiere e cavallo di donna ancora a casa\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"no_worry\"}, {\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"b1\", \"c1\"]}]}}, \"material\": {\"nota\": {\"text\": \"Materiale pari\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"material\", \"advice\": \"no_worry\"}, {\"kind\": \"feature\", \"key\": \"material_balance\", \"side\": null, \"squares\": []}]}}, \"initiative_tempo\": {\"nota\": {\"text\": \"Il Nero ha più tempi di sviluppo\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"initiative_tempo\", \"advice\": \"monitor\"}]}}}}, {\"type\": \"p\", \"text\": \"Urgente solo il cavallo in g5, attaccato: le minacce sono critiche. Il resto è sotto controllo.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"critical\"}]}]}, {\"id\": \"S03\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"**Salva il cavallo in g5**: è attaccato dal pedone e non può restare lì.\", \"source\": \"theory\"}, {\"text\": \"**Prendi il centro con un pedone**, così apri linee per gli alfieri.\", \"source\": \"theory\"}, {\"text\": \"**Sviluppa i pezzi di donna e arrocca**, senza attacchi di pedoni.\", \"source\": \"theory\"}]}, {\"type\": \"p\", \"text\": \"**La mossa consigliata è {{mv:C1}}**: il motore la valuta {{ev:C1}} ed è la prima scelta. Il piano è {{plan:w:d4,O-O,Nc3@N1}}: prima il centro, poi l'arrocco corto e lo sviluppo. Il cavallo in g5 resta un problema da risolvere con calma.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"C1\", \"band\": \"small_plus\"}]}]}, {\"id\": \"S05\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Cavallo in g5:** è attaccato dal pedone e5: deve ritirarsi o essere difeso, non restare fermo.\", \"source\": \"theory\"}, {\"text\": \"**Alfiere in c4:** punta su f7, la casa debole vicino al re nero: tienilo attivo.\", \"source\": \"theory\"}, {\"text\": \"**Donna in d1:** può uscire in f3 o in e2, ma solo dopo aver messo al sicuro il cavallo.\", \"source\": \"theory\"}, {\"text\": \"**Cavallo in b1:** va in c3, verso il centro.\", \"source\": \"theory\"}, {\"text\": \"**Re in e1:** arrocca corto appena puoi.\", \"source\": \"theory\"}]}, {\"type\": \"p\", \"text\": \"Il cavallo in b1 e l'alfiere in c1 sono ancora fermi: sviluppali prima di pensare all'attacco.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"b1\", \"c1\"]}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Nero ha appena preso in d5 con il cavallo e minaccia di catturare il tuo cavallo in g5 con il pedone. Se non muovi nulla, il piano è {{plan:b:Nd4@N2}}: porta il cavallo in d4, occupando il centro.\", \"source\": \"theory\"}, {\"type\": \"p\", \"text\": \"Dopo {{mv:C1}} la risposta più frequente del Nero è {{m:Nxd4@N3}} ({{pct:Nxd4@N3}}): riprende il pedone e resta con un buon centro.\", \"source\": \"maia\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"Nxd4@N3\", \"band\": \"frequent\"}]}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C1\": {\"per_chi\": {\"text\": \"Consigliata: prende il centro, ma a questo livello la gioca solo il {{pct:C1.p_user}}\", \"source\": \"maia\"}}, \"C2\": {\"per_chi\": {\"text\": \"Il sacrificio in f7: la gioca il {{pct:C2.p_user}} dei giocatori del tuo livello\", \"source\": \"maia\"}}}}, {\"type\": \"p\", \"text\": \"Tra {{mv:C1}} e {{mv:C2}} il motore perde solo {{loss:C2}}: la prima è più solida, la seconda è quella che tutti vogliono giocare.\", \"source\": \"engine\"}]}, {\"id\": \"S08\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Non lasciare il cavallo in g5 attaccato**: è l'errore più facile qui.\", \"source\": \"theory\"}, {\"text\": \"**Non giocare {{mv:C2}} senza calcolare**: il Nero riprende con il re e la tua iniziativa si spegne.\", \"source\": \"theory\"}, {\"text\": \"**Non spingere pedoni ai lati** prima di aver sviluppato i pezzi.\", \"source\": \"theory\"}, {\"text\": \"**Non catturare in d5 con l'alfiere** senza motivo: {{mv:C16}} costa {{loss:C16}}.\", \"source\": \"engine\"}, {\"text\": \"**Non arroccare subito** se il cavallo in g5 resta in presa: {{mv:C4}} costa {{loss:C4}}.\", \"source\": \"engine\"}]}]}, {\"id\": \"S09\", \"blocks\": [{\"type\": \"p\", \"text\": \"Due minacce del Nero sono difficili da vedere a questo livello: {{pv:L1:4}} e {{pv:L2:4}}. La prima porta il cavallo in d4 e vale {{loss:L1}} per te; la seconda spinge il pedone in f6 e vale {{loss:L2}}. Sono mosse silenziose, non catture: per questo sfuggono.\", \"source\": \"engine\"}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Il mio cavallo in g5 è ancora attaccato?\", \"source\": \"theory\"}, {\"text\": \"Quale pezzo posso sviluppare o centralizzare?\", \"source\": \"theory\"}, {\"text\": \"Il mio re è al sicuro se arrocco adesso?\", \"source\": \"theory\"}]}]}, {\"id\": \"S13\", \"blocks\": [{\"type\": \"p\", \"text\": \"La linea forzata nasce dal sacrificio in f7: {{pv:PV2:4}}. Il Nero deve riprendere con il re, poi la donna dà scacco e il gioco si apre. Il motore valuta la posizione {{ev:C2}} dopo questa sequenza: il Bianco resta con un piccolo vantaggio, ma il Nero ha una difesa precisa.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Non si evita perché il cavallo in f7 è protetto dall'alfiere in c4 e il re nero non ha case migliori. Se il Nero sbaglia con la donna, {{pv:L4:4}} e {{pv:L5:4}} mostrano che il Bianco vince materiale: per questo la difesa giusta è prendere con il re.\", \"source\": \"engine\"}]}], \"notes\": []}"
+          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Con il Bianco hai un piccolo vantaggio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Ma il cavallo in g5 è appeso: **devi rispondere subito alla minaccia**.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"small_plus\"}]}]}, {\"id\": \"S02\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T4\", \"text_cells\": {\"king_safety\": {\"nota\": {\"text\": \"Re al centro, colonna e aperta\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"king_safety\", \"advice\": \"critical\"}, {\"kind\": \"feature\", \"key\": \"open_file_to_king\", \"side\": \"w\", \"squares\": [\"e1\"]}]}}, \"threats_dynamics\": {\"nota\": {\"text\": \"Il cavallo in g5 è attaccato\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"critical\"}, {\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}}, \"piece_activity\": {\"nota\": {\"text\": \"Torre, cavallo e alfiere ancora fermi\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"attention\"}, {\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"b1\", \"c1\"]}]}}, \"initiative_tempo\": {\"nota\": {\"text\": \"Il Nero ha più mosse utili\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"initiative_tempo\", \"advice\": \"attention\"}]}}, \"material\": {\"nota\": {\"text\": \"Materiale pari, ma il cavallo è in presa\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"material\", \"advice\": \"no_worry\"}, {\"kind\": \"feature\", \"key\": \"material_balance\", \"side\": null, \"squares\": []}]}}}}, {\"type\": \"p\", \"text\": \"Le categorie più urgenti sono sicurezza del re e minacce: entrambe critiche. Poi conta l'attività dei pezzi, ancora bassa. Il materiale è pari.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"king_safety\", \"advice\": \"critical\"}, {\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"critical\"}, {\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"attention\"}]}]}, {\"id\": \"S03\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"**Salva il cavallo in g5**: è appeso e il Nero lo può catturare. La mossa consigliata è {{mv:C1}}, che spinge il pedone in d4 e apre il gioco centrale.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}, {\"text\": \"**Sviluppa i pezzi fermi**: cavallo in b1 e alfiere in c1 devono entrare in gioco prima di attaccare.\", \"source\": \"theory\"}, {\"text\": \"**Arrocca presto**: con il re al centro e la colonna e aperta, l'arrocco corto è la scelta più sicura.\", \"source\": \"theory\"}]}, {\"type\": \"p\", \"text\": \"**Piano semplice:** {{plan:w:d4,O-O,Nc3@N1}}, cioè spingi in d4, arrocca corto e porta fuori il cavallo. Con {{mv:C1}} il motore valuta {{ev:C1}}: il vantaggio resta tuo se giochi con ordine.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"C1\", \"band\": \"small_plus\"}]}]}, {\"id\": \"S05\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Cavallo g5:** è il pezzo in pericolo. Deve ritirarsi o essere difeso: non lasciarlo in presa.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}, {\"text\": \"**Cavallo b1:** va in c3 per controllare il centro e sostenere il pedone d4.\", \"source\": \"theory\"}, {\"text\": \"**Donna d1:** resta vicina al centro; non mandarla a caccia di pedoni.\", \"source\": \"theory\"}, {\"text\": \"**Alfiere c1:** va in e3 o g5, dietro ai pedoni centrali.\", \"source\": \"theory\"}, {\"text\": \"**Re e1:** arrocca corto appena puoi, prima che la colonna e diventi pericolosa.\", \"source\": \"theory\"}, {\"text\": \"**Cavallo nero c6 e alfiere f8:** sono i pezzi che possono attaccare il tuo centro; tienili d'occhio.\", \"source\": \"theory\"}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"Il Nero può catturare il cavallo in g5 con la donna: è la minaccia più diretta.\", \"source\": \"theory\"}, {\"text\": \"Può anche prendere in d5 con il cavallo, entrando nel tuo campo.\", \"source\": \"theory\"}, {\"text\": \"Spesso spinge in f6 per attaccare il cavallo in g5 con un pedone.\", \"source\": \"theory\"}, {\"text\": \"Se non difendi il cavallo, il Nero guadagna materiale: ogni tua mossa deve tenerne conto.\", \"source\": \"theory\"}]}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C1\": {\"per_chi\": {\"text\": \"Consigliata: spinge in d4 e apre il centro, ma a questo livello la giocano in pochi ({{pct:C1.p_user}})\", \"source\": \"maia\"}}, \"C2\": {\"per_chi\": {\"text\": \"Il sacrificio in f7: la giocano quasi tutti al tuo livello ({{pct:C2.p_user}}), ma è rischiosa\", \"source\": \"maia\"}}}}, {\"type\": \"p\", \"text\": \"Il motore preferisce {{mv:C1}} ({{ev:C1}}); {{mv:C2}} perde solo {{loss:C2}} ma è molto più complicata. Scegli quella di cui capisci il piano.\", \"source\": \"engine\"}]}, {\"id\": \"S08\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Non lasciare il cavallo in g5 in presa**: è l'errore più grave della posizione.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}, {\"text\": \"**Non giocare {{mv:C2}} senza calcolare**: il sacrificio in f7 sembra forte, ma se il Nero risponde bene resti senza pezzo.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"classification\", \"ref\": \"C2\", \"category\": \"solid\"}]}, {\"text\": \"**Non arroccare tardi**: con il re al centro e la colonna e aperta, ogni tempo perso è pericoloso.\", \"source\": \"theory\"}, {\"text\": \"**Non muovere pedoni laterali** mentre hai un pezzo in presa: prima risolvi l'emergenza.\", \"source\": \"theory\"}, {\"text\": \"**Non scambiare senza motivo**: il materiale è pari, non regalare pezzi per aprire linee inutili.\", \"source\": \"theory\"}, {\"text\": \"**La mossa consigliata è {{mv:C1}}**: spinge in d4 e apre il centro senza rischi.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"classification\", \"ref\": \"C1\", \"category\": \"hard_move\"}]}]}]}, {\"id\": \"S09\", \"blocks\": [{\"type\": \"p\", \"text\": \"Due minacce del Nero sono difficili da vedere al tuo livello: {{pv:L1:4}} e {{pv:L2:4}}. La prima porta a {{ev:L1}}, la seconda a {{ev:L2}}: entrambe nascono da mosse tranquille del Nero che preparano l'attacco al centro.\", \"source\": \"engine\"}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Il mio cavallo in g5 è ancora in presa?\", \"source\": \"theory\"}, {\"text\": \"Il mio re è al sicuro o devo arroccare?\", \"source\": \"theory\"}, {\"text\": \"Quale pezzo posso sviluppare con questa mossa?\", \"source\": \"theory\"}, {\"text\": \"Il Nero ha una cattura o uno scacco forte?\", \"source\": \"theory\"}]}]}, {\"id\": \"S13\", \"blocks\": [{\"type\": \"p\", \"text\": \"La linea forzata nasce dal sacrificio in f7: {{pv:PV2:4}}. Il Nero deve riprendere con il re, poi la donna dà scacco e il gioco si apre. Il motore valuta {{ev:C2}}, quindi il sacrificio non è un errore, ma richiede precisione: se sbagli una mossa, resti senza pezzo.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"C2\", \"band\": \"small_plus\"}]}, {\"type\": \"p\", \"text\": \"Le difese del Nero sono limitate: dopo la cattura in f7 il re deve uscire e la donna entra con scacco. Non si evita la sequenza: o accetti il sacrificio, o scegli {{mv:C1}} e giochi una partita più tranquilla.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"classification\", \"ref\": \"C1\", \"category\": \"hard_move\"}]}]}], \"notes\": []}"
          }
         }
        ]
@@ -1282,21 +983,525 @@
      }
     ],
     "usage": {
-     "prompt_tokens": 36818,
-     "completion_tokens": 2266,
-     "total_tokens": 39084,
-     "cost": 0.0011870208,
+     "prompt_tokens": 34409,
+     "completion_tokens": 2577,
+     "total_tokens": 36986,
+     "cost": 0.001640912,
      "is_byok": false,
      "prompt_tokens_details": {
-      "cached_tokens": 36224,
+      "cached_tokens": 31360,
       "cache_write_tokens": 0,
       "audio_tokens": 0,
       "video_tokens": 0
      },
      "cost_details": {
-      "upstream_inference_cost": 0.0011870208,
-      "upstream_inference_prompt_cost": 0.0002353008,
-      "upstream_inference_completions_cost": 0.00095172
+      "upstream_inference_cost": 0.001640912,
+      "upstream_inference_prompt_cost": 0.000558572,
+      "upstream_inference_completions_cost": 0.00108234
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+     }
+    }
+   }
+  },
+  {
+   "stop_reason": "tool_use",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "chatcmpl-tool-a079502d930fe671",
+     "name": "submit_analysis",
+     "input": {
+      "schema_version": "1",
+      "sections": [
+       {
+        "id": "S01",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Con il Bianco hai un piccolo vantaggio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Ma il cavallo in g5 è appeso: **devi rispondere subito alla minaccia**.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "N1",
+            "band": "small_plus"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S02",
+        "blocks": [
+         {
+          "type": "table",
+          "ref": "T4",
+          "text_cells": {
+           "king_safety": {
+            "nota": {
+             "text": "Re al centro, colonna e aperta",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "king_safety",
+               "advice": "critical"
+              },
+              {
+               "kind": "feature",
+               "key": "open_file_to_king",
+               "side": "w",
+               "squares": [
+                "e1"
+               ]
+              }
+             ]
+            }
+           },
+           "threats_dynamics": {
+            "nota": {
+             "text": "Il cavallo in g5 è attaccato",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "threats_dynamics",
+               "advice": "critical"
+              },
+              {
+               "kind": "feature",
+               "key": "hanging_piece",
+               "side": "w",
+               "squares": [
+                "g5"
+               ]
+              }
+             ]
+            }
+           },
+           "piece_activity": {
+            "nota": {
+             "text": "Torre, cavallo e alfiere ancora fermi",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "piece_activity",
+               "advice": "attention"
+              },
+              {
+               "kind": "feature",
+               "key": "undeveloped_pieces",
+               "side": "w",
+               "squares": [
+                "b1",
+                "c1"
+               ]
+              }
+             ]
+            }
+           },
+           "initiative_tempo": {
+            "nota": {
+             "text": "Il Nero ha più mosse utili",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "initiative_tempo",
+               "advice": "attention"
+              }
+             ]
+            }
+           },
+           "material": {
+            "nota": {
+             "text": "Materiale pari, ma il cavallo è in presa",
+             "source": "mixed",
+             "assertions": [
+              {
+               "kind": "category_advice",
+               "id": "material",
+               "advice": "no_worry"
+              },
+              {
+               "kind": "feature",
+               "key": "material_balance",
+               "side": null,
+               "squares": []
+              }
+             ]
+            }
+           }
+          }
+         },
+         {
+          "type": "p",
+          "text": "Le categorie più urgenti sono sicurezza del re e minacce: entrambe critiche. Poi conta l'attività dei pezzi, ancora bassa. Il materiale è pari.",
+          "source": "mixed",
+          "assertions": [
+           {
+            "kind": "category_advice",
+            "id": "king_safety",
+            "advice": "critical"
+           },
+           {
+            "kind": "category_advice",
+            "id": "threats_dynamics",
+            "advice": "critical"
+           },
+           {
+            "kind": "category_advice",
+            "id": "piece_activity",
+            "advice": "attention"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S03",
+        "blocks": [
+         {
+          "type": "ol",
+          "items": [
+           {
+            "text": "**Salva il cavallo in g5**: è appeso e il Nero lo può catturare. La mossa consigliata è {{mv:C1}}, che spinge il pedone in d4 e apre il gioco centrale.",
+            "source": "mixed",
+            "assertions": [
+             {
+              "kind": "feature",
+              "key": "hanging_piece",
+              "side": "w",
+              "squares": [
+               "g5"
+              ]
+             }
+            ]
+           },
+           {
+            "text": "**Sviluppa i pezzi fermi**: cavallo in b1 e alfiere in c1 devono entrare in gioco prima di attaccare.",
+            "source": "theory"
+           },
+           {
+            "text": "**Arrocca presto**: con il re al centro e la colonna e aperta, l'arrocco corto è la scelta più sicura.",
+            "source": "theory"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "**Piano semplice:** {{plan:w:d4,O-O,Nc3@N1}}, cioè spingi in d4, arrocca corto e porta fuori il cavallo. Con {{mv:C1}} il motore valuta {{ev:C1}}: il vantaggio resta tuo se giochi con ordine.",
+          "source": "mixed",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "C1",
+            "band": "small_plus"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S05",
+        "blocks": [
+         {
+          "type": "ul",
+          "items": [
+           {
+            "text": "**Cavallo g5:** è il pezzo in pericolo. Deve ritirarsi o essere difeso: non lasciarlo in presa.",
+            "source": "feature",
+            "assertions": [
+             {
+              "kind": "feature",
+              "key": "hanging_piece",
+              "side": "w",
+              "squares": [
+               "g5"
+              ]
+             }
+            ]
+           },
+           {
+            "text": "**Cavallo b1:** va in c3 per controllare il centro e sostenere il pedone d4.",
+            "source": "theory"
+           },
+           {
+            "text": "**Donna d1:** resta vicina al centro; non mandarla a caccia di pedoni.",
+            "source": "theory"
+           },
+           {
+            "text": "**Alfiere c1:** va in e3 o g5, dietro ai pedoni centrali.",
+            "source": "theory"
+           },
+           {
+            "text": "**Re e1:** arrocca corto appena puoi, prima che la colonna e diventi pericolosa.",
+            "source": "theory"
+           },
+           {
+            "text": "**Cavallo nero c6 e alfiere f8:** sono i pezzi che possono attaccare il tuo centro; tienili d'occhio.",
+            "source": "theory"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S06",
+        "blocks": [
+         {
+          "type": "ul",
+          "items": [
+           {
+            "text": "Il Nero può catturare il cavallo in g5 con la donna: è la minaccia più diretta.",
+            "source": "theory"
+           },
+           {
+            "text": "Può anche prendere in d5 con il cavallo, entrando nel tuo campo.",
+            "source": "theory"
+           },
+           {
+            "text": "Spesso spinge in f6 per attaccare il cavallo in g5 con un pedone.",
+            "source": "theory"
+           },
+           {
+            "text": "Se non difendi il cavallo, il Nero guadagna materiale: ogni tua mossa deve tenerne conto.",
+            "source": "theory"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S07",
+        "blocks": [
+         {
+          "type": "table",
+          "ref": "T1",
+          "text_cells": {
+           "C1": {
+            "per_chi": {
+             "text": "Consigliata: spinge in d4 e apre il centro, ma a questo livello la giocano in pochi ({{pct:C1.p_user}})",
+             "source": "maia"
+            }
+           },
+           "C2": {
+            "per_chi": {
+             "text": "Il sacrificio in f7: la giocano quasi tutti al tuo livello ({{pct:C2.p_user}}), ma è rischiosa",
+             "source": "maia"
+            }
+           }
+          }
+         },
+         {
+          "type": "p",
+          "text": "Il motore preferisce {{mv:C1}} ({{ev:C1}}); {{mv:C2}} perde solo {{loss:C2}} ma è molto più complicata. Scegli quella di cui capisci il piano.",
+          "source": "engine"
+         }
+        ]
+       },
+       {
+        "id": "S08",
+        "blocks": [
+         {
+          "type": "ul",
+          "items": [
+           {
+            "text": "**Non lasciare il cavallo in g5 in presa**: è l'errore più grave della posizione.",
+            "source": "feature",
+            "assertions": [
+             {
+              "kind": "feature",
+              "key": "hanging_piece",
+              "side": "w",
+              "squares": [
+               "g5"
+              ]
+             }
+            ]
+           },
+           {
+            "text": "**Non giocare {{mv:C2}} senza calcolare**: il sacrificio in f7 sembra forte, ma se il Nero risponde bene resti senza pezzo.",
+            "source": "mixed",
+            "assertions": [
+             {
+              "kind": "classification",
+              "ref": "C2",
+              "category": "solid"
+             }
+            ]
+           },
+           {
+            "text": "**Non arroccare tardi**: con il re al centro e la colonna e aperta, ogni tempo perso è pericoloso.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non muovere pedoni laterali** mentre hai un pezzo in presa: prima risolvi l'emergenza.",
+            "source": "theory"
+           },
+           {
+            "text": "**La mossa consigliata è {{mv:C1}}**: spinge in d4 e apre il centro senza rischi.",
+            "source": "mixed",
+            "assertions": [
+             {
+              "kind": "classification",
+              "ref": "C1",
+              "category": "hard_move"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S09",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Due minacce del Nero sono difficili da vedere al tuo livello: {{pv:L1:4}} e {{pv:L2:4}}. La prima porta a {{ev:L1}}, la seconda a {{ev:L2}}: entrambe nascono da mosse tranquille del Nero che preparano l'attacco al centro.",
+          "source": "engine"
+         }
+        ]
+       },
+       {
+        "id": "S10",
+        "blocks": [
+         {
+          "type": "ol",
+          "items": [
+           {
+            "text": "Il mio cavallo in g5 è ancora in presa?",
+            "source": "theory"
+           },
+           {
+            "text": "Il mio re è al sicuro o devo arroccare?",
+            "source": "theory"
+           },
+           {
+            "text": "Quale pezzo posso sviluppare con questa mossa?",
+            "source": "theory"
+           },
+           {
+            "text": "Il Nero ha una cattura o uno scacco forte?",
+            "source": "theory"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S13",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "La linea forzata nasce dal sacrificio in f7: {{pv:PV2:4}}. Il Nero deve riprendere con il re, poi la donna dà scacco e il gioco si apre. Il motore valuta {{ev:C2}}, quindi il sacrificio non è un errore, ma richiede precisione: se sbagli una mossa, resti senza pezzo.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "C2",
+            "band": "small_plus"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Le difese del Nero sono limitate: dopo la cattura in f7 il re deve uscire e la donna entra con scacco. Non si evita la sequenza: o accetti il sacrificio, o scegli {{mv:C1}} e giochi una partita più tranquilla.",
+          "source": "mixed",
+          "assertions": [
+           {
+            "kind": "classification",
+            "ref": "C1",
+            "category": "hard_move"
+           }
+          ]
+         }
+        ]
+       }
+      ],
+      "notes": []
+     }
+    }
+   ],
+   "model": "deepseek/deepseek-v4.1-flash",
+   "usage": {
+    "prompt_tokens": 37072,
+    "completion_tokens": 2538,
+    "total_tokens": 39610,
+    "cost": 0.0012499088,
+    "is_byok": false,
+    "prompt_tokens_details": {
+     "cached_tokens": 36864,
+     "cache_write_tokens": 0,
+     "audio_tokens": 0,
+     "video_tokens": 0
+    },
+    "cost_details": {
+     "upstream_inference_cost": 0.0012499088,
+     "upstream_inference_prompt_cost": 0.0001839488,
+     "upstream_inference_completions_cost": 0.00106596
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0,
+     "image_tokens": 0,
+     "audio_tokens": 0
+    }
+   },
+   "provider_response": {
+    "id": "gen-1791156497-kA2xhKOHj0sgRrk593YU",
+    "object": "chat.completion",
+    "created": 1791156497,
+    "model": "deepseek/deepseek-v4.1-flash",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+     {
+      "index": 0,
+      "logprobs": null,
+      "finish_reason": "tool_calls",
+      "native_finish_reason": "tool_calls",
+      "message": {
+       "role": "assistant",
+       "content": null,
+       "refusal": null,
+       "reasoning": null,
+       "tool_calls": [
+        {
+         "type": "function",
+         "index": 0,
+         "id": "chatcmpl-tool-a079502d930fe671",
+         "function": {
+          "name": "submit_analysis",
+          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Con il Bianco hai un piccolo vantaggio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Ma il cavallo in g5 è appeso: **devi rispondere subito alla minaccia**.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"small_plus\"}]}]}, {\"id\": \"S02\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T4\", \"text_cells\": {\"king_safety\": {\"nota\": {\"text\": \"Re al centro, colonna e aperta\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"king_safety\", \"advice\": \"critical\"}, {\"kind\": \"feature\", \"key\": \"open_file_to_king\", \"side\": \"w\", \"squares\": [\"e1\"]}]}}, \"threats_dynamics\": {\"nota\": {\"text\": \"Il cavallo in g5 è attaccato\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"critical\"}, {\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}}, \"piece_activity\": {\"nota\": {\"text\": \"Torre, cavallo e alfiere ancora fermi\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"attention\"}, {\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"b1\", \"c1\"]}]}}, \"initiative_tempo\": {\"nota\": {\"text\": \"Il Nero ha più mosse utili\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"initiative_tempo\", \"advice\": \"attention\"}]}}, \"material\": {\"nota\": {\"text\": \"Materiale pari, ma il cavallo è in presa\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"material\", \"advice\": \"no_worry\"}, {\"kind\": \"feature\", \"key\": \"material_balance\", \"side\": null, \"squares\": []}]}}}}, {\"type\": \"p\", \"text\": \"Le categorie più urgenti sono sicurezza del re e minacce: entrambe critiche. Poi conta l'attività dei pezzi, ancora bassa. Il materiale è pari.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"king_safety\", \"advice\": \"critical\"}, {\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"critical\"}, {\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"attention\"}]}]}, {\"id\": \"S03\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"**Salva il cavallo in g5**: è appeso e il Nero lo può catturare. La mossa consigliata è {{mv:C1}}, che spinge il pedone in d4 e apre il gioco centrale.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}, {\"text\": \"**Sviluppa i pezzi fermi**: cavallo in b1 e alfiere in c1 devono entrare in gioco prima di attaccare.\", \"source\": \"theory\"}, {\"text\": \"**Arrocca presto**: con il re al centro e la colonna e aperta, l'arrocco corto è la scelta più sicura.\", \"source\": \"theory\"}]}, {\"type\": \"p\", \"text\": \"**Piano semplice:** {{plan:w:d4,O-O,Nc3@N1}}, cioè spingi in d4, arrocca corto e porta fuori il cavallo. Con {{mv:C1}} il motore valuta {{ev:C1}}: il vantaggio resta tuo se giochi con ordine.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"C1\", \"band\": \"small_plus\"}]}]}, {\"id\": \"S05\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Cavallo g5:** è il pezzo in pericolo. Deve ritirarsi o essere difeso: non lasciarlo in presa.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}, {\"text\": \"**Cavallo b1:** va in c3 per controllare il centro e sostenere il pedone d4.\", \"source\": \"theory\"}, {\"text\": \"**Donna d1:** resta vicina al centro; non mandarla a caccia di pedoni.\", \"source\": \"theory\"}, {\"text\": \"**Alfiere c1:** va in e3 o g5, dietro ai pedoni centrali.\", \"source\": \"theory\"}, {\"text\": \"**Re e1:** arrocca corto appena puoi, prima che la colonna e diventi pericolosa.\", \"source\": \"theory\"}, {\"text\": \"**Cavallo nero c6 e alfiere f8:** sono i pezzi che possono attaccare il tuo centro; tienili d'occhio.\", \"source\": \"theory\"}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"Il Nero può catturare il cavallo in g5 con la donna: è la minaccia più diretta.\", \"source\": \"theory\"}, {\"text\": \"Può anche prendere in d5 con il cavallo, entrando nel tuo campo.\", \"source\": \"theory\"}, {\"text\": \"Spesso spinge in f6 per attaccare il cavallo in g5 con un pedone.\", \"source\": \"theory\"}, {\"text\": \"Se non difendi il cavallo, il Nero guadagna materiale: ogni tua mossa deve tenerne conto.\", \"source\": \"theory\"}]}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C1\": {\"per_chi\": {\"text\": \"Consigliata: spinge in d4 e apre il centro, ma a questo livello la giocano in pochi ({{pct:C1.p_user}})\", \"source\": \"maia\"}}, \"C2\": {\"per_chi\": {\"text\": \"Il sacrificio in f7: la giocano quasi tutti al tuo livello ({{pct:C2.p_user}}), ma è rischiosa\", \"source\": \"maia\"}}}}, {\"type\": \"p\", \"text\": \"Il motore preferisce {{mv:C1}} ({{ev:C1}}); {{mv:C2}} perde solo {{loss:C2}} ma è molto più complicata. Scegli quella di cui capisci il piano.\", \"source\": \"engine\"}]}, {\"id\": \"S08\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Non lasciare il cavallo in g5 in presa**: è l'errore più grave della posizione.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}, {\"text\": \"**Non giocare {{mv:C2}} senza calcolare**: il sacrificio in f7 sembra forte, ma se il Nero risponde bene resti senza pezzo.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"classification\", \"ref\": \"C2\", \"category\": \"solid\"}]}, {\"text\": \"**Non arroccare tardi**: con il re al centro e la colonna e aperta, ogni tempo perso è pericoloso.\", \"source\": \"theory\"}, {\"text\": \"**Non muovere pedoni laterali** mentre hai un pezzo in presa: prima risolvi l'emergenza.\", \"source\": \"theory\"}, {\"text\": \"**La mossa consigliata è {{mv:C1}}**: spinge in d4 e apre il centro senza rischi.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"classification\", \"ref\": \"C1\", \"category\": \"hard_move\"}]}]}]}, {\"id\": \"S09\", \"blocks\": [{\"type\": \"p\", \"text\": \"Due minacce del Nero sono difficili da vedere al tuo livello: {{pv:L1:4}} e {{pv:L2:4}}. La prima porta a {{ev:L1}}, la seconda a {{ev:L2}}: entrambe nascono da mosse tranquille del Nero che preparano l'attacco al centro.\", \"source\": \"engine\"}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Il mio cavallo in g5 è ancora in presa?\", \"source\": \"theory\"}, {\"text\": \"Il mio re è al sicuro o devo arroccare?\", \"source\": \"theory\"}, {\"text\": \"Quale pezzo posso sviluppare con questa mossa?\", \"source\": \"theory\"}, {\"text\": \"Il Nero ha una cattura o uno scacco forte?\", \"source\": \"theory\"}]}]}, {\"id\": \"S13\", \"blocks\": [{\"type\": \"p\", \"text\": \"La linea forzata nasce dal sacrificio in f7: {{pv:PV2:4}}. Il Nero deve riprendere con il re, poi la donna dà scacco e il gioco si apre. Il motore valuta {{ev:C2}}, quindi il sacrificio non è un errore, ma richiede precisione: se sbagli una mossa, resti senza pezzo.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"C2\", \"band\": \"small_plus\"}]}, {\"type\": \"p\", \"text\": \"Le difese del Nero sono limitate: dopo la cattura in f7 il re deve uscire e la donna entra con scacco. Non si evita la sequenza: o accetti il sacrificio, o scegli {{mv:C1}} e giochi una partita più tranquilla.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"classification\", \"ref\": \"C1\", \"category\": \"hard_move\"}]}]}], \"notes\": []}"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "usage": {
+     "prompt_tokens": 37072,
+     "completion_tokens": 2538,
+     "total_tokens": 39610,
+     "cost": 0.0012499088,
+     "is_byok": false,
+     "prompt_tokens_details": {
+      "cached_tokens": 36864,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+     },
+     "cost_details": {
+      "upstream_inference_cost": 0.0012499088,
+      "upstream_inference_prompt_cost": 0.0001839488,
+      "upstream_inference_completions_cost": 0.00106596
      },
      "completion_tokens_details": {
       "reasoning_tokens": 0,

@@ -3,7 +3,9 @@
 App locale che, data una posizione e un livello Elo, produce un'analisi testuale calibrata sul livello.
 Fonte di verità: [`docs/Chess_Position_Analyst_Documentazione_tecnica_v0_9_1.md`](docs/Chess_Position_Analyst_Documentazione_tecnica_v0_9_1.md).
 
-**Stato: milestone M4 (calibrazione e modalità).** Dettaglio 1–5 (`--detail`), modalità *entrambi*
+**Stato: milestone M5 (calibrazione dei numeri).** Costanti della tranquillità T calibrate su 100 posizioni di
+partite rapid di Lichess (`docs/CALIBRATION_REPORT.md`), comandi `chessanalyst calibrate` e
+`chessanalyst regression` (regressione del prompt). Da M4: Dettaglio 1–5 (`--detail`), modalità *entrambi*
 (`--color both`, `--elo-white`, `--elo-black`: due prospettive in un solo `analysis.md`), S11 «Note da maestro»,
 Elo dai tag PGN nel flusso interattivo, critico opzionale (`llm.critic`). Da M3: radar delle categorie (S02,
 tabella T4), linee filtrate da Maia-2 per Elo e «Minacce invisibili al tuo livello» (S09). Da M2: Stockfish 19 (D-66), move order E3 fino a ℓ3, tablebase Syzygy, aperture per sequenza,
@@ -41,7 +43,7 @@ python3.12 -m venv .venv
 ```
 
 Rapporti: `docs/M0_REPORT.md`, `docs/M1A_REPORT.md`, `docs/M1B_REPORT.md`, `docs/M1C_REPORT.md`,
-`docs/M2_REPORT.md`, `docs/M3_REPORT.md`, `docs/M4_REPORT.md`; questioni aperte: `docs/OPEN_QUESTIONS.md`.
+`docs/M2_REPORT.md`, `docs/M3_REPORT.md`, `docs/M4_REPORT.md`, `docs/M5_REPORT.md`; questioni aperte: `docs/OPEN_QUESTIONS.md`.
 Registrazioni dei motori per i test: `pytest -m engines --record` (solo le risposte di Maia-2 che mancano:
 `CHESSANALYST_RECORD_MAIA_ONLY=1 pytest -m engines --record`); risposte difettose del modello
 (Appendice G.6): `python -m tests.fault_fixtures`.
