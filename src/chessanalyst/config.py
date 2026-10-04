@@ -31,6 +31,7 @@ CONFIG_FILES = (
     "section_budget.yaml",
     "tables.yaml",
     "verify.yaml",
+    "calibration.yaml",     # M5
 )
 HASHED_FILES = ("exploration.yaml", "thresholds.yaml", "maia2_limits.yaml", "elo_conversion.yaml")
 
@@ -449,6 +450,7 @@ class Config(Strict):
     tables: dict[str, Any]
     wording: dict[str, Any]
     verify: dict[str, Any]
+    calibration: dict[str, Any]
     project_root: Path
     config_hash: str
 
@@ -558,6 +560,7 @@ def load_config(root: Path | None = None) -> Config:
             tables=raw["tables.yaml"],
             wording=raw["wording.yaml"],
             verify=raw["verify.yaml"],
+            calibration=raw["calibration.yaml"],
             project_root=root,
             config_hash=compute_config_hash(raw),
         )

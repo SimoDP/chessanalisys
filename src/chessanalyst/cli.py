@@ -40,6 +40,13 @@ def build_parser() -> argparse.ArgumentParser:
     g.add_argument("--force", action="store_true", help="--packs: sovrascrive i pacchetti congelati")
     g.add_argument("--recorded", action="store_true",
                    help="--packs: usa le registrazioni di fixtures/recorded invece dei motori")
+    rg = sub.add_parser("regression", help="M5: rilancia il modello sui pacchetti congelati e confronta i rapporti")
+    rg.add_argument("--verbose", action="store_true", dest="verbose_a")
+    cb = sub.add_parser("calibrate", help="M5: campione Lichess, annotazione con i motori, fit delle costanti")
+    cmode = cb.add_mutually_exclusive_group(required=True)
+    cmode.add_argument("--sample", action="store_true", help="estrae le posizioni dal database aperto di Lichess")
+    cmode.add_argument("--annotate", action="store_true", help="annota le posizioni con Stockfish e Maia-2")
+    cmode.add_argument("--fit", action="store_true", help="ricerca a griglia e relazione di calibrazione")
     a = sub.add_parser("analyze", help="analisi non interattiva")
     a.add_argument("--input", choices=["example", "fen", "pgn"], default=None)
     src = a.add_mutually_exclusive_group()
@@ -193,6 +200,41 @@ def _progress(console):
     return show
 
 
+def _cmd_regression(args: argparse.Namespace) -> int:
+    from chessanalyst.config import load_config
+    from chessanalyst.llm.client import make_client
+    from chessanalyst.llm.regression import run_regression, write_regression
+
+    cfg = load_config()
+    summary = run_regression(cfg, make_client(cfg))
+    j, m = write_regression(cfg, summary)
+    print(f"Scritti {j.relative_to(cfg.project_root)} e {m.relative_to(cfg.project_root)}")
+    return exit_codes.OK
+
+
+def _cmd_calibrate(args: argparse.Namespace) -> int:
+    from chessanalyst.config import load_config
+
+    cfg = load_config()
+    if args.sample:
+        from chessanalyst.calibration.sample import sample_positions, write_positions
+
+        path = write_positions(cfg, sample_positions(cfg, progress=print))
+        print(f"Scritto {path.relative_to(cfg.project_root)}")
+    elif args.annotate:
+        from chessanalyst.calibration.annotate import annotate_all
+        from chessanalyst.calibration.sample import read_positions
+
+        path = annotate_all(cfg, read_positions(cfg))
+        print(f"Scritto {path.relative_to(cfg.project_root)}")
+    else:
+        from chessanalyst.calibration.report import write_report
+
+        path = write_report(cfg)
+        print(f"Scritto {path.relative_to(cfg.project_root)}")
+    return exit_codes.OK
+
+
 def _cmd_rerun(args: argparse.Namespace) -> int:
     from pathlib import Path
 
@@ -300,6 +342,10 @@ def main(argv: list[str] | None = None) -> int:
             return _cmd_analyze(args)
         if args.command == "rerun":
             return _cmd_rerun(args)
+        if args.command == "regression":
+            return _cmd_regression(args)
+        if args.command == "calibrate":
+            return _cmd_calibrate(args)
         if args.command == "doctor":
             return _cmd_doctor(args)
         if args.command == "golden":

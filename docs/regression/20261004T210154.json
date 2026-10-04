@@ -1,0 +1,147 @@
+{
+ "created_utc": "2026-10-04T21:01:54+00:00",
+ "model": "deepseek/deepseek-v4.1-flash",
+ "config_hash": "66421c9ac5e41763714469aa623d00c2c701e334",
+ "packs": [
+  {
+   "pack": "najdorf_w_1500",
+   "attempts": [
+    {
+     "V06": 2,
+     "V07(d)": 1
+    },
+    {
+     "V07(d)": 1
+    },
+    {
+     "V07(d)": 1
+    }
+   ],
+   "retries": 2,
+   "complete": false,
+   "removed": 0,
+   "marked": 0,
+   "sections_off_budget": 1,
+   "theory_share": 0.406
+  },
+  {
+   "pack": "najdorf_w_1900",
+   "attempts": [
+    {}
+   ],
+   "retries": 0,
+   "complete": true,
+   "removed": 0,
+   "marked": 0,
+   "sections_off_budget": 0,
+   "theory_share": 0.359
+  },
+  {
+   "pack": "najdorf_w_2400",
+   "attempts": [
+    {
+     "V01": 1
+    },
+    {
+     "V04": 3,
+     "V06": 1
+    },
+    {
+     "V01": 6
+    }
+   ],
+   "retries": 2,
+   "complete": false,
+   "removed": 3,
+   "marked": 1,
+   "sections_off_budget": 0,
+   "theory_share": 0.124
+  },
+  {
+   "pack": "najdorf_after_be3_w_1900",
+   "attempts": [
+    {
+     "V06": 2,
+     "V07(d)": 1,
+     "V09": 2
+    },
+    {}
+   ],
+   "retries": 1,
+   "complete": true,
+   "removed": 0,
+   "marked": 0,
+   "sections_off_budget": 0,
+   "theory_share": 0.46
+  },
+  {
+   "pack": "fried_liver_w_1500",
+   "attempts": [
+    {
+     "V02": 2,
+     "V06": 4,
+     "V07(d)": 2
+    },
+    {
+     "V07(d)": 1
+    },
+    {}
+   ],
+   "retries": 2,
+   "complete": true,
+   "removed": 0,
+   "marked": 0,
+   "sections_off_budget": 0,
+   "theory_share": 0.283
+  },
+  {
+   "pack": "rook_endgame_w_1900",
+   "attempts": [
+    {
+     "V04": 6,
+     "V07(d)": 3,
+     "V10": 1
+    },
+    {
+     "V06": 4,
+     "V07(d)": 2
+    },
+    {
+     "V08": 1
+    }
+   ],
+   "retries": 2,
+   "complete": false,
+   "removed": 1,
+   "marked": 0,
+   "sections_off_budget": 0,
+   "theory_share": 0.345
+  },
+  {
+   "pack": "lucena_w_1900",
+   "attempts": [
+    {
+     "V02": 4,
+     "V06": 3,
+     "V07(d)": 5,
+     "V10": 12
+    },
+    {
+     "V07(d)": 4,
+     "V10": 10
+    },
+    {
+     "V07(d)": 4,
+     "V08": 7,
+     "V10": 2
+    }
+   ],
+   "retries": 2,
+   "complete": false,
+   "removed": 8,
+   "marked": 0,
+   "sections_off_budget": 4,
+   "theory_share": 0.583
+  }
+ ]
+}

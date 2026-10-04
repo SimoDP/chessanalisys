@@ -22,6 +22,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<9", "jsonschema>=4,<5"]
+calibration = ["zstandard>=0.25,<1"]   # M5: lettura dei file .pgn.zst del database aperto di Lichess
 
 [project.scripts]
 chessanalyst = "chessanalyst.cli:main"
