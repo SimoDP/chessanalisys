@@ -159,7 +159,7 @@ def run_doctor(
     if n >= 5:
         checks.append(Check("Syzygy", OK, f"{tb_path}: completo fino a {n} pezzi"))
     else:
-        checks.append(Check("Syzygy", WARN, f"tablebase 3-4-5 incomplete ({n} pezzi) in {tb_path}",
+        checks.append(Check("Syzygy", WARN, f"tablebase 3-4-5 incomplete ({n} pezzi) in {tb_path or 'percorso non configurato'}",
                             "Esegui `python scripts/setup_engines.py` (servono da M2)"))
 
     # Openings index

@@ -89,7 +89,7 @@ def _cmd_golden_data(args: argparse.Namespace) -> int:
             sf.close()
     a = out["ac09"]
     console.print(f"AC-09: {'superato' if a['passed'] else 'NON superato'} · vedi docs/golden_diff.md", markup=False)
-    if out["maia_error"]:
+    if out["maia_error"] and not args.no_maia:
         console.print(f"AVVISO Maia-2: {out['maia_error']}", markup=False)
         return exit_codes.ENVIRONMENT
     return exit_codes.OK
