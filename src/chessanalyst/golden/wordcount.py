@@ -6,16 +6,11 @@ import re
 from collections import OrderedDict
 from pathlib import Path
 
-TOKEN_RE = re.compile(r"\{\{[^{}]*\}\}")
+from chessanalyst.verify.wordcount import count_words  # noqa: F401 - re-exported
+
 SECTION_MARK = re.compile(r"<!--\s*(S\d\d)\b")
 COMMENT_RE = re.compile(r"<!--.*?-->")
 NUMERIC_CELL = re.compile(r"[+\-−]?\d+,\d+")
-
-
-def count_words(text: str, word_re: str) -> int:
-    """Tokens count as one word each; ``*`` removed; apostrophe separates."""
-    text = TOKEN_RE.sub(" tok ", text).replace("*", "")
-    return len(re.findall(word_re, text))
 
 
 def _strip_front_matter(text: str) -> str:

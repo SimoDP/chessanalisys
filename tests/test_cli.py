@@ -5,10 +5,14 @@ import pytest
 from chessanalyst.cli import main
 
 
-@pytest.mark.parametrize("argv", [["rerun", "out"], ["golden", "--packs"], ["golden", "--render"]])
-def test_not_yet_available_commands_exit_2(argv, capsys):
-    assert main(argv) == 2
-    assert "disponibile da M1" in capsys.readouterr().err
+def test_not_yet_available_commands_exit_2(capsys):
+    assert main(["rerun", "out"]) == 2
+    assert "disponibile da M1c" in capsys.readouterr().err
+
+
+def test_frozen_golden_packs_need_force(capsys):
+    assert main(["golden", "--packs"]) == 2          # refused before any engine is started
+    assert "--force" in capsys.readouterr().err
 
 
 def test_unknown_option_exit_2():

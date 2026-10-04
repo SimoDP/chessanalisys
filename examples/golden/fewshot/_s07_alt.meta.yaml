@@ -1,0 +1,6 @@
+id: _s07_alt
+pack: examples/golden/packs/najdorf_after_be3_w_1900.pack.json
+validated: false
+needs_review: [S07]
+notes:
+  - "Solo S07 in modalità avversario al tratto (fixture AC-21), secondo esempio di forma (§9.2)."

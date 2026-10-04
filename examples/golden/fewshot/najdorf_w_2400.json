@@ -1,0 +1,196 @@
+{
+ "schema_version": "1",
+ "sections": [
+  {
+   "id": "S01",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Posizione teorica, vantaggio minimo: da {{ev:C1}} a {{ev:C10}} tra le cinque mosse spiegate, patta al {{pct:root.draw}} secondo il motore. Il problema non è cercare vantaggio ma **scegliere la struttura e il move order** che portano alla posizione voluta, evitando i rifugi teorici del Nero. Con il Nero al tratto la valutazione sarebbe {{ev:N2}} ({{m:e5@N2}}): il vantaggio è sostanzialmente il tratto.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "C10",
+       "band": "slight_plus"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Fattori decisivi: la corsa {{plan:w:g4,g5@N3}} contro {{plan:b:b5,b4@N3}} con gli arrocchi opposti; la casa d5 dopo {{m:e5@N3}} ({{ev:e5@N3}}); la diagonale {{diag:a7-g1}} con la donna nera in b6; la stabilità di e4.",
+     "source": "mixed"
+    }
+   ]
+  },
+  {
+   "id": "S03",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      {
+       "text": "**Inglese ({{plan:w:Be3,f3,Qd2,O-O-O@N1}}):** arrocco lungo, poi {{plan:w:g4,g5,h4@N3}}; il Nero risponde con {{plan:b:b5,b4@N3}} e con la rottura in d5 nei momenti giusti. È una corsa: un tempo decide. Il motore tiene i due ordini {{mv:C1}} ({{ev:C1}}) e {{mv:C2}} ({{ev:C2}}) quasi alla pari; con {{mv:C1}} il salto del cavallo in g4 non esiste.",
+       "source": "mixed"
+      },
+      {
+       "text": "**Classica ({{plan:w:Be2,O-O,Be3,a4@N1}}):** arrocco corto; la spinta in a4 frena la spinta del pedone b, il salto in d5 forza lo scambio e cambia la struttura, come nella linea {{pv:PV5:10}}. Costo rispetto alla migliore: {{loss:C5}}.",
+       "source": "mixed"
+      },
+      {
+       "text": "**Con {{mv:C3}}:** {{plan:w:g4,g5@N5}} senza la spinta in f3, con il re bianco ancora flessibile. Contro {{m:e5@N5}} il cavallo va in e2 e il motore prepara il fianchetto ({{pv:PV3:6}}); contro {{m:e6@N5}} la spinta {{m:g4@N15}} vale {{ev:g4@N15}}.",
+       "source": "mixed"
+      },
+      {
+       "text": "**Pedone e4:** nelle strutture con f3 è stabile; senza f3 resta esposto alla presa del cavallo f6 se il cavallo c3 è sovraccarico o cacciato dalla spinta in b4. {{mv:C4}} ({{ev:C4}}) lo protegge con l'alfiere e porta all'arrocco corto.",
+       "source": "mixed"
+      },
+      {
+       "text": "**Diagonale {{diag:a7-g1}}:** con l'alfiere in e3, il cavallo in d4 e il re in g1, la donna in b6 mette in difficoltà l'alfiere se il cavallo deve muoversi.",
+       "source": "theory"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "S06",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Le idee del Nero dipendono dal sistema. Contro {{mv:C2}} la migliore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), un tempo sull'alfiere; contro {{mv:C1}} il Nero sceglie tra {{m:e5@N3}} ({{ev:N3}}) e {{m:Nc6@N3}} ({{ev:Nc6@N3}}).",
+     "source": "engine"
+    },
+    {
+     "type": "table",
+     "ref": "T3"
+    },
+    {
+     "type": "p",
+     "text": "La mossa di contesto è {{m:e5@N3}}: contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} costa al massimo {{loss:e5@N6}}, contro {{mv:C10}} perde {{loss:e5@N7}} ({{ev:e5@N7}} invece di {{ev:N7}}): con l'alfiere in g5 la spinta inchioda il cavallo f6 sulla donna e cede la casa d5.",
+     "source": "engine"
+    },
+    {
+     "type": "p",
+     "text": "Le frequenze di Maia-2 indicano soltanto che contro {{mv:C2}} {{m:e5@N4}} resta la scelta più comune ({{pct:e5@N4}}), davanti a {{m:Ng4@N4}} ({{pct:Ng4@N4}}): bisogna essere pronti a entrambe.",
+     "source": "maia"
+    },
+    {
+     "type": "p",
+     "text": "Contro le strutture inglesi lo schema tipico del Nero è {{plan:b:e5,Be6,Be7,O-O@N3}}, con il cavallo di donna in d7 e la spinta del pedone b appena il re bianco va sul lato di donna; contro la classica cerca la rottura in d5 o il cavallo in c5.",
+     "source": "theory"
+    }
+   ]
+  },
+  {
+   "id": "S07",
+   "blocks": [
+    {
+     "type": "table",
+     "ref": "T1",
+     "text_cells": {
+      "C1": {
+       "nota": {
+        "text": "Evita il salto in g4; dopo {{m:e5@N3}} segue {{m:Nb3@N8}} ({{ev:Nb3@N8}})",
+        "source": "engine"
+       }
+      },
+      "C2": {
+       "nota": {
+        "text": "Ammette {{m:Ng4@N4}} ({{ev:Ng4@N4}})",
+        "source": "engine"
+       }
+      },
+      "C3": {
+       "nota": {
+        "text": "Senza f3; contro {{m:e6@N5}} segue {{m:g4@N15}} ({{ev:g4@N15}})",
+        "source": "engine"
+       }
+      },
+      "C4": {
+       "nota": {
+        "text": "Arrocco corto; il motore risponde {{m:Nbd7@N6}} ({{ev:N6}})",
+        "source": "engine"
+       }
+      },
+      "C10": {
+       "nota": {
+        "text": "Teoria del Pedone Avvelenato: {{pv:PV10:10}}",
+        "source": "engine"
+       }
+      }
+     }
+    },
+    {
+     "type": "table",
+     "ref": "T2",
+     "text_cells": {
+      "r2": {
+       "nota": {
+        "text": "Solo {{m:Nb3@N8}} tiene: {{m:Nf5@N8}} perde {{loss:Nf5@N8}}",
+        "source": "engine"
+       }
+      },
+      "r5": {
+       "nota": {
+        "text": "Le prime due risposte sono pari ({{loss:e5@N4}})",
+        "source": "engine"
+       }
+      },
+      "r6": {
+       "nota": {
+        "text": "{{m:Qd2@N11}} ({{ev:Qd2@N11}}) regala il vantaggio: si ritira l'alfiere",
+        "source": "engine"
+       }
+      },
+      "r8": {
+       "nota": {
+        "text": "Contro questa struttura il vantaggio cresce ({{ev:N13}})",
+        "source": "engine"
+       }
+      },
+      "r9": {
+       "nota": {
+        "text": "{{m:e5@N5}} è la risposta più precisa ({{ev:e5@N5}})",
+        "source": "engine"
+       }
+      }
+     }
+    },
+    {
+     "type": "p",
+     "text": "Tra la prima e la quinta mossa spiegata ci sono {{loss:C10}}: la scelta è di sistema, non di valutazione. Il test critico è dopo {{mv:C2}} {{m:Ng4@N4}}: {{m:Bc1@N11}} ({{ev:Bc1@N11}}) conserva il vantaggio, {{m:Bg5@N11}} ({{ev:Bg5@N11}}) è la ritirata più comune ma costa {{loss:Bg5@N11}}.",
+     "source": "engine"
+    },
+    {
+     "type": "p",
+     "text": "{{mv:C1}} è l'ordine che lascia meno scelte al Nero; {{mv:C3}} ({{ev:C3}}) e {{mv:C4}} ({{ev:C4}}) cambiano struttura senza perdere quasi nulla.",
+     "source": "engine"
+    }
+   ]
+  },
+  {
+   "id": "S08",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "{{mv:C3}} è la mossa più difficile da trovare tra le prime: {{ev:C3}}, a {{loss:C3}} dalla migliore, scelta solo dal {{pct:C3.p_user}}. Toglie al Nero il salto in g4 e lascia aperte entrambe le strutture.",
+     "source": "mixed",
+     "assertions": [
+      {
+       "kind": "classification",
+       "ref": "C3",
+       "category": "hard_move"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Imprecisione tipica: dopo {{mv:C1}} {{m:e6@N3}} la mossa naturale {{m:Be3@N10}} ({{pct:Be3@N10}}) concede {{loss:Be3@N10}} rispetto a {{m:g4@N10}}. È poco, ma nella corsa decide i tempi.",
+     "source": "mixed"
+    }
+   ]
+  }
+ ],
+ "notes": []
+}

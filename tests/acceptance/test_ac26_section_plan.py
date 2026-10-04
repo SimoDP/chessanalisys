@@ -39,7 +39,8 @@ def test_anchor_1500(cfg, color, opp):
     # S03 carries the weight of the absorbed S04 (absent at 1500): 0.25 / sum
     w = cfg.section_budget["1500"]
     s = sum(w[k] for k in req)
-    assert p["S03"]["word_budget"] == round(650 * w["S03"] / s / 10) * 10
+    pw = cfg.thresholds.band_params["1200_1600"].prose_words
+    assert p["S03"]["word_budget"] == round(pw * w["S03"] / s / 10) * 10
 
 
 @pytest.mark.parametrize("color", ["w", "b"])

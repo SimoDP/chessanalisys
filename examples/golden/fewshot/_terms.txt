@@ -1,0 +1,9 @@
+# Termini di apertura, variante o struttura presenti nei fewshot (§8-bis.4, V09).
+# Una riga = un gruppo di alias; il gruppo è ammesso se un alias compare in opening.name del pacchetto.
+Najdorf|Najdorf
+Scheveningen|Scheveningen
+Dragon|Dragon
+attacco inglese|English Attack
+Pedone Avvelenato|Poisoned Pawn
+Sozin|Sozin
+Siciliana|Sicilian

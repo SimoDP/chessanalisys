@@ -16,8 +16,6 @@ from chessanalyst.errors import AnalystError
 
 NOT_YET = {
     "rerun": "M1c",
-    "golden --packs": "M1b",
-    "golden --render": "M1b",
 }
 
 
@@ -44,6 +42,9 @@ def build_parser() -> argparse.ArgumentParser:
     g.add_argument("--reuse-nodes", action="store_true",
                    help="riusa fixtures/golden_nodes.json e ripete solo Maia-2 e il confronto")
     g.add_argument("--no-maia", action="store_true", help="salta Maia-2")
+    g.add_argument("--force", action="store_true", help="--packs: sovrascrive i pacchetti congelati")
+    g.add_argument("--recorded", action="store_true",
+                   help="--packs: usa le registrazioni di fixtures/recorded invece dei motori")
     a = sub.add_parser("analyze", help="analisi non interattiva")
     a.add_argument("--input", choices=["example", "fen", "pgn"], default=None)
     src = a.add_mutually_exclusive_group()
@@ -112,6 +113,56 @@ def _cmd_golden_data(args: argparse.Namespace) -> int:
         console.print(f"AVVISO Maia-2: {out['maia_error']}", markup=False)
         return exit_codes.ENVIRONMENT
     return exit_codes.OK
+
+
+def _cmd_golden_packs(args: argparse.Namespace) -> int:
+    from rich.console import Console
+
+    from chessanalyst.config import load_config
+    from chessanalyst.engines.cache import Cache, CachedAnalyzer
+    from chessanalyst.golden.packs import check_overwrite, golden_packs
+    from chessanalyst.run import load_openings, open_engines
+
+    console = Console()
+    cfg = load_config()
+    check_overwrite(cfg, args.force)   # before starting the engines
+    if args.recorded:
+        from chessanalyst.engines.fake import FakeEngine, FakeMaiaBackend
+        from chessanalyst.engines.maia2 import MaiaEngine
+
+        rec = cfg.project_root / "fixtures" / "recorded"
+        cache = Cache(":memory:")
+        analyzer = CachedAnalyzer(FakeEngine.from_dir(rec / "engine"), cache)
+        maia = MaiaEngine(FakeMaiaBackend.from_dir(rec / "maia"), cfg.maia2_limits, cache)
+        close = lambda: None  # noqa: E731
+    else:
+        engines = open_engines(cfg, Cache(":memory:"))   # fresh cache: the packs come from this run only
+        analyzer, maia, close = engines.analyzer, engines.maia, engines.close
+    try:
+        written = golden_packs(cfg, analyzer, maia, load_openings(cfg), force=args.force,
+                               time_scale=args.time_scale,
+                               progress=lambda s: console.print(s, highlight=False, markup=False))
+    finally:
+        close()
+    for w in written:
+        console.print(f"Scritto {w.relative_to(cfg.project_root)}", markup=False)
+    return exit_codes.OK
+
+
+def _cmd_golden_render(args: argparse.Namespace) -> int:
+    from chessanalyst.config import load_config
+    from chessanalyst.golden.render import golden_render
+
+    cfg = load_config()
+    outcomes = golden_render(cfg)
+    failed = False
+    for o in outcomes:
+        for line in o.errors:
+            print(f"  {o.name} · {line}")
+        if o.rendered is not None:
+            print(f"Scritto {o.rendered.relative_to(cfg.project_root)}")
+        failed = failed or bool(o.errors)
+    return exit_codes.INVALID_INPUT if failed else exit_codes.OK
 
 
 def _console():
@@ -232,9 +283,9 @@ def main(argv: list[str] | None = None) -> int:
             return _cmd_doctor(args)
         if args.command == "golden":
             if args.packs:
-                return _not_yet("golden --packs")
+                return _cmd_golden_packs(args)
             if args.render:
-                return _not_yet("golden --render")
+                return _cmd_golden_render(args)
             return _cmd_golden_data(args)
     except AnalystError as e:
         sys.stderr.write(f"Errore: {e}\n")

@@ -27,11 +27,11 @@ class Engines:
     close: Callable[[], None]
 
 
-def open_engines(cfg: Config) -> Engines:
+def open_engines(cfg: Config, cache: Cache | None = None) -> Engines:
     """Real Stockfish and Maia-2 behind the SQLite cache (missing → EnvironmentProblem, exit 4)."""
     from chessanalyst.engines.factory import make_maia, make_stockfish
 
-    cache = Cache()
+    cache = cache if cache is not None else Cache()
     maia = make_maia(cfg, cache)
     sf = make_stockfish(cfg).open()
     return Engines(CachedAnalyzer(sf, cache), maia, sf.close)

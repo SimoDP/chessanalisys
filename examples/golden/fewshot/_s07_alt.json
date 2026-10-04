@@ -1,0 +1,50 @@
+{
+ "schema_version": "1",
+ "sections": [
+  {
+   "id": "S07",
+   "blocks": [
+    {
+     "type": "table",
+     "ref": "T1",
+     "text_cells": {
+      "R1": {
+       "prepare": {
+        "text": "Ritira subito il cavallo: {{mv:R1.u1}} ({{ev:R1.u1}}); {{mv:R1.u2}} costa già {{loss:R1.u2}}",
+        "source": "engine"
+       }
+      },
+      "R2": {
+       "prepare": {
+        "text": "L'alfiere deve spostarsi: {{mv:R2.u1}} ({{ev:R2.u1}}) o {{mv:R2.u2}}; {{mv:R2.u3}} perde {{loss:R2.u3}}",
+        "source": "engine"
+       }
+      },
+      "R3": {
+       "prepare": {
+        "text": "Struttura Scheveningen: {{mv:R3.u1}} e {{mv:R3.u2}} si equivalgono ({{loss:R3.u2}})",
+        "source": "engine"
+       }
+      }
+     }
+    },
+    {
+     "type": "p",
+     "text": "Secondo Maia-2 il Nero risponde quasi sempre {{mv:R1}} ({{pct:R1.p_opp}}); {{mv:R2}} ({{pct:R2.p_opp}}) e {{mv:R3}} ({{pct:R3.p_opp}}) sono le alternative principali.",
+     "source": "maia"
+    },
+    {
+     "type": "p",
+     "text": "Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere in e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro. Nella linea principale del motore, {{pv:PV1:6}}, il Nero sviluppa l'alfiere in e6 e il cavallo in c6 prima di decidere dove mettere il re.",
+     "source": "engine"
+    },
+    {
+     "type": "p",
+     "text": "Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}, perché {{mv:R2.u3}} è la mossa istintiva che regala il vantaggio (la sceglie il {{pct:R2.u3.p_user}} dei giocatori del tuo livello), e ricorda che dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra la donna in d2 e il pedone in f3: portano allo stesso attacco.",
+     "source": "mixed"
+    }
+   ]
+  }
+ ],
+ "notes": []
+}

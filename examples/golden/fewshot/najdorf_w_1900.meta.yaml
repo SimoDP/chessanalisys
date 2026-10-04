@@ -1,0 +1,12 @@
+id: najdorf_w_1900
+anchor: "1900"
+pack: examples/golden/packs/najdorf_w_1900.pack.json
+raw: examples/golden/raw/najdorf_w_1900.md
+validated: false          # §8-bis.5: da rivedere da un giocatore di circa 1900
+needs_review: [S03, S06, S07, S08, S10]
+notes:
+  - "S03: i sistemi seguono le candidate del pacchetto (6.f3/6.Be3, 6.Be2/6.Bd3, 6.h3, 6.Bg5); raccomandazione calcolata 6.f3, nessuna mossa unica."
+  - "S06: la mossa di contesto calcolata è ...e5 (non ...Nc6 come nel raw): la tabella T3 e il commento sono riscritti; la tabella «Dove vanno i pezzi neri» perde la colonna dei dati."
+  - "S07: colonna «Idea» scritta con i dati del pacchetto; 6.Be2 non è tra le spiegate."
+  - "S08: sezione nuova (nel raw era un segnaposto [MAIA])."
+  - "S10: aggiunto il punto sulla ritirata dell'alfiere dopo ...Ng4."

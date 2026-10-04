@@ -11,10 +11,10 @@ anchors:                        # [lo, hi) su elo_ref_fide
   "2400": {lo: 2150, hi: null}
 band_params:
   "lt1200":    {plies_max: 3,  explained_min: 1, K: 2, listed_max: 3,  L_max: 40, prose_words: 450,  A: 0.6, B: 1.2}
-  "1200_1600": {plies_max: 4,  explained_min: 2, K: 3, listed_max: 4,  L_max: 40, prose_words: 650,  A: 0.5, B: 1.0}
+  "1200_1600": {plies_max: 4,  explained_min: 2, K: 3, listed_max: 4,  L_max: 40, prose_words: 500,  A: 0.5, B: 1.0}   # M1b: 650 → 500 (fewshot 1500)
   "1600_2000": {plies_max: 8,  explained_min: 3, K: 5, listed_max: 12, L_max: 35, prose_words: 1400, A: 0.3, B: 0.5}
   "2000_2400": {plies_max: 10, explained_min: 3, K: 4, listed_max: 12, L_max: 30, prose_words: 1100, A: 0.1, B: 0.2}
-  "ge2400":    {plies_max: 12, explained_min: 4, K: 5, listed_max: 12, L_max: 25, prose_words: 800,  A: 0.0, B: 0.0}
+  "ge2400":    {plies_max: 12, explained_min: 4, K: 5, listed_max: 12, L_max: 25, prose_words: 610,  A: 0.0, B: 0.0}   # M1b: 800 → 610 (fewshot 2400)
 detail:                         # usato da M4
   "1": {words: 0.35, plies_delta: -2}
   "2": {words: 0.6,  plies_delta: -1}
