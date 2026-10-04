@@ -148,7 +148,7 @@ def run_maia(cfg: Config, maia: Any, nodes_data: dict[str, Any]) -> dict[str, An
                 "path": node["path"], "label": node["label"], "fen": node["fen"],
                 "elo_self": e.maia, "elo_oppo": e.maia,
                 "policy": [{"san": board.san(chess.Move.from_uci(u)), "uci": u, "p": round(p, 4)}
-                           for u, p in ranked if p >= 0.001],
+                           for u, p in ranked if p >= cfg.thresholds.maia.policy_min_p],
                 "expected_score_side_to_move": round(score, 4),
                 "entropy_bits": round(entropy_bits(pol), 3),
                 "time_s": round(dt, 3),
@@ -200,7 +200,8 @@ def claim_value(idx: dict, claim: rc.Claim) -> tuple[int | None, str]:
     return None, "non valutata"
 
 
-def ac09(idx: dict) -> dict[str, Any]:
+def ac09(cfg: Config, idx: dict) -> dict[str, Any]:
+    g = cfg.thresholds.golden
     root: NodeResult = idx[()]["result"]
     ranking = [ln.san for ln in root.lines]
     rows = []
@@ -210,7 +211,7 @@ def ac09(idx: dict) -> dict[str, Any]:
         new, _ = claim_value(idx, claim)
         rank = ranking.index(san) + 1 if san in ranking else None
         diff = None if new is None else new - claim.raw_cp
-        passed = diff is not None and abs(diff) <= rc.AC09_MAX_DIFF_CP and rank is not None and rank <= rc.AC09_TOP_N
+        passed = diff is not None and abs(diff) <= g.ac09_max_diff_cp and rank is not None and rank <= g.ac09_top_n
         ok = ok and passed
         rows.append({"move": san, "raw": claim.raw_cp, "new": new, "diff": diff, "rank": rank, "passed": passed})
     return {"passed": ok, "rows": rows}
@@ -231,11 +232,11 @@ def write_diff(cfg: Config, nodes_data: dict[str, Any], maia_data: dict[str, Any
     L.append("")
 
     # AC-09
-    a = ac09(idx)
+    a = ac09(cfg, idx)
     L.append("## AC-09")
     L.append("")
     L.append(f"Esito: **{'superato' if a['passed'] else 'NON superato'}** "
-             f"(le prime 3 candidate dei raw devono differire ≤ 0,25 e restare tra le prime {rc.AC09_TOP_N}).")
+             f"(le prime 3 candidate dei raw devono differire ≤ 0,25 e restare tra le prime {cfg.thresholds.golden.ac09_top_n}).")
     L.append("")
     L.append("| Mossa | Raw | Nuovo | Differenza | Rango nuovo | Esito |")
     L.append("| --- | --- | --- | --- | --- | --- |")
@@ -270,7 +271,7 @@ def write_diff(cfg: Config, nodes_data: dict[str, Any], maia_data: dict[str, Any
     for c in rc.CLAIMS:
         new, src = claim_value(idx, c)
         diff = None if new is None else new - c.raw_cp
-        flag = diff is not None and abs(diff) > rc.AC09_MAX_DIFF_CP
+        flag = diff is not None and abs(diff) > cfg.thresholds.golden.ac09_max_diff_cp
         flagged += flag
         L.append(f"| {path_label(c.path)} | {c.move or '(nodo)'} | {_fmt(c.raw_cp)} | {_fmt(new)} | "
                  f"{_fmt(diff)}{' ⚠' if flag else ''} | {src} | {', '.join(c.sources)} | {c.note} |")
@@ -382,7 +383,7 @@ def golden_data(
         maia_error = "Maia-2 non richiesto"
     write_diff(cfg, nodes_data, maia_data, maia_error)
     write_calibration_guide(cfg)
-    a = ac09(_node_index(nodes_data))
+    a = ac09(cfg, _node_index(nodes_data))
     return {"ac09": a, "maia_error": maia_error}
 
 

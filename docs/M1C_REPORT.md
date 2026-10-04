@@ -1,6 +1,6 @@
 # Rapporto della milestone M1c — Modello
 
-Contenuto (§13): client Anthropic, prompt (Appendice E), schema dello strumento (Appendice F), legenda dei
+Contenuto (§13): client del modello (OpenRouter predefinito, Anthropic in alternativa: D-64), prompt (Appendice E), schema dello strumento (Appendice F), legenda dei
 token, vista ridotta del pacchetto, retry di verifica e di rete, `rerun`.
 
 ## Criteri di accettazione
@@ -20,11 +20,11 @@ ancora e `_s07_alt.json` in modalità avversario; politica di rete (429/5xx/529 
 `retry-after`, 400/401/403 senza tentativi, `temperature` rifiutata); riservatezza (nomi, tag e percorsi di un
 PGN non arrivano al messaggio).
 
-Suite: `pytest` → 456 test superati e 3 saltati (le risposte reali), senza motori né rete.
+Suite: `pytest` → 473 test superati e 3 saltati (le risposte reali), senza motori né rete.
 
 ## Che cosa manca per chiudere M1c
 
-AC-10 e AC-21 nella parte «modello» richiedono una chiamata vera: con `ANTHROPIC_API_KEY` impostata,
+AC-10 e AC-21 nella parte «modello» richiedono una chiamata vera: con `OPENROUTER_API_KEY` impostata (D-64),
 
 ```bash
 .venv/bin/pytest -m llm --record      # registra real_najdorf_w_1500/1900 e real_najdorf_after_be3_w_1900
@@ -34,7 +34,7 @@ AC-10 e AC-21 nella parte «modello» richiedono una chiamata vera: con `ANTHROP
 ## Uso
 
 ```bash
-export ANTHROPIC_API_KEY=...                               # mai scritta su disco né nei log
+export OPENROUTER_API_KEY=...                              # mai scritta su disco né nei log
 .venv/bin/chessanalyst analyze --yes --elo 1900
 .venv/bin/chessanalyst rerun output/<cartella>             # rifà modello, verifica e render da pack.json
 ```

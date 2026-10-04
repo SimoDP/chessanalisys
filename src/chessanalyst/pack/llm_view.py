@@ -11,27 +11,26 @@ from __future__ import annotations
 import copy
 import json
 
-# §6.1 fixes these sizes in the text; Appendix D has no key for them (OQ-M1a-13).
-VIEW_MULTIPV_LINES = 5
-VIEW_PV_PLIES = 6
-VIEW_POLICY_MOVES = 5
+from chessanalyst.config import LlmViewCfg
+
 EXCLUDED = ("tables", "omitted_nodes", "config_hash")
 
 
-def llm_view(pack: dict) -> dict:
-    view = {k: copy.deepcopy(v) for k, v in pack.items() if k not in EXCLUDED}
+def llm_view(pack: dict, view: LlmViewCfg) -> dict:
+    """``view`` = ``config/default.yaml: llm.view`` (§6.1, D-65)."""
+    out = {k: copy.deepcopy(v) for k, v in pack.items() if k not in EXCLUDED}
     nodes = []
-    for n in view["nodes"]:
+    for n in out["nodes"]:
         if not n["citable"]:
             continue
-        n["multipv"] = [dict(ln, pv=ln["pv"][:VIEW_PV_PLIES]) for ln in n["multipv"][:VIEW_MULTIPV_LINES]]
+        n["multipv"] = [dict(ln, pv=ln["pv"][:view.pv_plies]) for ln in n["multipv"][:view.multipv_lines]]
         if n["maia"] is not None:
-            n["maia"]["policy"] = n["maia"]["policy"][:VIEW_POLICY_MOVES]
+            n["maia"]["policy"] = n["maia"]["policy"][:view.policy_moves]
         nodes.append(n)
-    view["nodes"] = nodes
-    return view
+    out["nodes"] = nodes
+    return out
 
 
-def llm_view_json(pack: dict) -> str:
+def llm_view_json(pack: dict, view: LlmViewCfg) -> str:
     """Compact JSON (E.2)."""
-    return json.dumps(llm_view(pack), ensure_ascii=False, separators=(",", ":"))
+    return json.dumps(llm_view(pack, view), ensure_ascii=False, separators=(",", ":"))

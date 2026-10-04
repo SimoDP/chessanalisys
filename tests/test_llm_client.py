@@ -116,3 +116,136 @@ def test_sdk_client_without_internal_retries(cfg, monkeypatch):
     monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-test-not-a-real-key")
     c = AnthropicClient(cfg)
     assert c.sdk.max_retries == 0
+
+
+# -- OpenRouter (D-64) --------------------------------------------------------------------
+
+import json  # noqa: E402
+
+from chessanalyst.llm.client import OpenRouterClient, from_openai, make_client, to_openai  # noqa: E402
+from chessanalyst.llm.cycle import run_model  # noqa: E402
+
+TOOL = {"name": "submit_analysis", "description": "d", "input_schema": {"type": "object"}}
+
+
+def or_ok(args: dict | str, finish="tool_calls"):
+    arguments = args if isinstance(args, str) else json.dumps(args)
+    return {"id": "gen-1", "model": "anthropic/claude-sonnet-5.5", "choices": [{"finish_reason": finish, "message": {
+        "role": "assistant", "content": None,
+        "tool_calls": [{"id": "call_1", "type": "function", "function": {"name": "submit_analysis",
+                                                                         "arguments": arguments}}]}}]}
+
+
+class FakeTransport:
+    def __init__(self, outcomes):
+        self.outcomes = list(outcomes)
+        self.calls = []
+
+    def __call__(self, url, headers, body, timeout):
+        self.calls.append({"url": url, "headers": headers, "body": json.loads(body), "timeout": timeout})
+        o = self.outcomes.pop(0)
+        if isinstance(o, Exception):
+            raise o
+        status, payload, *hdr = o
+        return status, (hdr[0] if hdr else {}), json.dumps(payload).encode()
+
+
+def or_client(cfg, outcomes):
+    waits = []
+    t = FakeTransport(outcomes)
+    return OpenRouterClient(cfg, sleep=waits.append, transport=t, api_key="test-key"), t, waits
+
+
+def test_openrouter_is_the_default(cfg, monkeypatch):
+    assert cfg.default.llm.provider == "openrouter" and cfg.default.llm.model == "anthropic/claude-sonnet-5.5"
+    monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
+    with pytest.raises(EnvironmentProblem, match="OPENROUTER_API_KEY"):
+        make_client(cfg)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "test-key")
+    assert isinstance(make_client(cfg), OpenRouterClient)
+
+
+def test_request_conversion(cfg):
+    c, t, _ = or_client(cfg, [(200, or_ok({"schema_version": "1"}))])
+    system = [{"type": "text", "text": "SYS", "cache_control": {"type": "ephemeral"}}]
+    messages = [{"role": "user", "content": "MSG"},
+                {"role": "assistant", "content": [{"type": "tool_use", "id": "call_0", "name": "submit_analysis",
+                                                   "input": {"a": 1}}]},
+                {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "call_0", "is_error": True,
+                                              "content": "ERRORI"}]}]
+    out = c.create(system=system, messages=messages, tools=[TOOL],
+                   tool_choice={"type": "tool", "name": "submit_analysis"}, max_tokens=99)
+    call = t.calls[0]
+    assert call["url"] == "https://openrouter.ai/api/v1/chat/completions"
+    assert call["headers"]["Authorization"] == "Bearer test-key"
+    b = call["body"]
+    assert b["model"] == "anthropic/claude-sonnet-5.5" and b["max_tokens"] == 99
+    assert b["temperature"] == cfg.default.llm.temperature
+    assert b["messages"][0] == {"role": "system", "content": system}           # cache_control kept
+    assert b["messages"][1] == {"role": "user", "content": "MSG"}
+    assert b["messages"][2]["tool_calls"][0]["function"] == {"name": "submit_analysis", "arguments": '{"a": 1}'}
+    assert b["messages"][3] == {"role": "tool", "tool_call_id": "call_0", "content": "ERRORI"}
+    assert b["tools"] == [{"type": "function", "function": {"name": "submit_analysis", "description": "d",
+                                                             "parameters": {"type": "object"}}}]
+    assert b["tool_choice"] == {"type": "function", "function": {"name": "submit_analysis"}}
+    assert out["stop_reason"] == "tool_use"
+    assert out["content"] == [{"type": "tool_use", "id": "call_1", "name": "submit_analysis",
+                               "input": {"schema_version": "1"}}]
+
+
+def test_response_conversion():
+    assert from_openai(or_ok({}, finish="length"))["stop_reason"] == "max_tokens"
+    bad = from_openai(or_ok("{non json"))
+    assert bad["content"][0]["input"] is None
+
+
+@pytest.mark.parametrize("code", [408, 429, 500, 502, 503, 504])
+def test_openrouter_retryable(cfg, code):
+    c, t, waits = or_client(cfg, [(code, {"error": {"code": code, "message": "x"}}), (200, or_ok({}))])
+    assert c.create(system=[], messages=[], tools=[TOOL], tool_choice={"name": "submit_analysis"}, max_tokens=1)
+    assert len(t.calls) == 2 and waits == [cfg.default.llm.network_backoff_s[0]]
+
+
+def test_openrouter_connection_error_and_give_up(cfg):
+    c, t, _ = or_client(cfg, [OSError("reset")] * 5)
+    with pytest.raises(ModelError) as e:
+        c.create(system=[], messages=[], tools=[TOOL], tool_choice={"name": "submit_analysis"}, max_tokens=1)
+    assert e.value.exit_code == 5 and len(t.calls) == cfg.default.llm.network_attempts
+
+
+@pytest.mark.parametrize("code,msg", [(401, "Chiave API non valida"), (403, "Chiave API non valida"),
+                                      (402, "Credito insufficiente"), (400, "rifiutata")])
+def test_openrouter_fatal(cfg, code, msg):
+    c, t, _ = or_client(cfg, [(code, {"error": {"code": code, "message": "no"}}), (200, or_ok({}))])
+    with pytest.raises(ModelError, match=msg):
+        c.create(system=[], messages=[], tools=[TOOL], tool_choice={"name": "submit_analysis"}, max_tokens=1)
+    assert len(t.calls) == 1
+
+
+def test_openrouter_error_inside_200(cfg):
+    c, t, _ = or_client(cfg, [(200, {"error": {"code": 502, "message": "upstream"}}), (200, or_ok({}))])
+    c.create(system=[], messages=[], tools=[TOOL], tool_choice={"name": "submit_analysis"}, max_tokens=1)
+    assert len(t.calls) == 2
+
+
+def test_openrouter_temperature_rejected(cfg):
+    c, t, _ = or_client(cfg, [(400, {"error": {"code": 400, "message": "temperature not supported"}}),
+                              (200, or_ok({}))])
+    c.create(system=[], messages=[], tools=[TOOL], tool_choice={"name": "submit_analysis"}, max_tokens=1)
+    assert "temperature" in t.calls[0]["body"] and "temperature" not in t.calls[1]["body"]
+
+
+def test_full_cycle_through_openrouter(cfg):
+    """Retry round-trip in the OpenAI format: the defective answer comes back as a tool message."""
+    from chessanalyst.golden.packs import load_frozen_pack
+    from tests.llm_helpers import recorded
+
+    bad = recorded("bad_chain.json")["content"][0]["input"]
+    good = recorded("good_najdorf_1900.json")["content"][0]["input"]
+    c, t, _ = or_client(cfg, [(200, or_ok(bad)), (200, or_ok(good))])
+    res = run_model(cfg, load_frozen_pack(cfg, "najdorf_w_1900"), c)
+    assert res.retries == 1 and not res.degraded
+    second = t.calls[1]["body"]["messages"]
+    assert [m["role"] for m in second] == ["system", "user", "assistant", "tool"]
+    assert second[3]["content"].startswith("La consegna contiene errori")
+    assert "modello di linguaggio: anthropic/claude-sonnet-5.5" in res.document

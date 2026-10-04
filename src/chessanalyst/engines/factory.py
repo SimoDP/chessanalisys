@@ -30,7 +30,7 @@ def make_stockfish(cfg: Config):
             "engines.stockfish.path in config/local.yaml"
         )
     sf = cfg.default.engines.stockfish
-    return StockfishEngine(path, hash_mb=sf.hash_mb, poll_s=sf.poll_s)
+    return StockfishEngine(path, hash_mb=sf.hash_mb, poll_s=sf.poll_s, ram_fraction=sf.hash_max_ram_fraction)
 
 
 def maia_models_dir(cfg: Config) -> Path:

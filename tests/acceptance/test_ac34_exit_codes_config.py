@@ -94,7 +94,7 @@ def test_exit_4_missing_api_key_keeps_the_pack(cfg, monkeypatch, tmp_path, capsy
     [outdir] = list(tmp_path.iterdir())
     assert (outdir / "pack.json").is_file() and not (outdir / "analysis.md").exists()
     err = capsys.readouterr().err
-    assert "ANTHROPIC_API_KEY" in err and "chessanalyst rerun" in err
+    assert "OPENROUTER_API_KEY" in err and "chessanalyst rerun" in err
 
 
 def test_precedence(root, tmp_path, monkeypatch):

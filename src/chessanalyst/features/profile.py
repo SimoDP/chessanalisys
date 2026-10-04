@@ -25,7 +25,7 @@ def extract_features(board: chess.Board, cfg: Config, e0_lines: list[EngineLine]
     """M1 subset of §5.1, on the root."""
     see_min = cfg.thresholds.profile.unresolved_capture_see_min
     mate = e0_lines[0].mate_white if e0_lines else None
-    feats = (material_features(board) + pawn_features(board) + king_features(board)
+    feats = (material_features(board) + pawn_features(board, cfg.thresholds.features) + king_features(board)
              + activity_features(board, castling_profile(board)) + tactic_features(board, see_min, mate))
     return feats
 

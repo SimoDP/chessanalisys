@@ -70,6 +70,7 @@ class StockfishCfg(Strict):
     version_pin: str | None
     hash_mb: int
     poll_s: float
+    hash_max_ram_fraction: float
 
 
 class Maia2Cfg(Strict):
@@ -99,7 +100,23 @@ class ExplorationChoiceCfg(Strict):
     profile: Literal["fast", "standard", "deep"]
 
 
+class LlmViewCfg(Strict):
+    multipv_lines: int
+    pv_plies: int
+    policy_moves: int
+
+
+class OpenRouterCfg(Strict):
+    base_url: str
+    timeout_s: float
+
+
+class AnthropicCfg(Strict):
+    timeout_s: float
+
+
 class LlmCfg(Strict):
+    provider: Literal["openrouter", "anthropic"]
     model: str
     max_tokens: int
     temperature: float
@@ -109,6 +126,9 @@ class LlmCfg(Strict):
     on_fail: Literal["mark", "drop"]
     critic: bool
     plan_max_moves: int
+    view: LlmViewCfg
+    openrouter: OpenRouterCfg
+    anthropic: AnthropicCfg
 
 
 class RenderCfg(Strict):
@@ -117,6 +137,7 @@ class RenderCfg(Strict):
 
 class OutputCfg(Strict):
     dir: str
+    slug_max_chars: int
 
 
 class DefaultCfg(Strict):
@@ -270,6 +291,27 @@ class EloRules(Strict):
     s11_from: int
 
 
+class SectionPlanThresholds(Strict):
+    c3_loss_max_cp: int
+
+
+class MaiaThresholds(Strict):
+    policy_min_p: float
+
+
+class FeatureGeometry(Strict):
+    weak_square_files: str
+    weak_square_ranks: tuple[int, int]
+    outpost_ranks: tuple[int, int]
+    queenside_files: str
+    kingside_files: str
+
+
+class GoldenThresholds(Strict):
+    ac09_max_diff_cp: int
+    ac09_top_n: int
+
+
 class ThresholdsCfg(Strict):
     elo_input: EloInput
     bands: dict[str, Range]
@@ -281,6 +323,10 @@ class ThresholdsCfg(Strict):
     profile: ProfileThresholds
     elo_rules: EloRules
     theory_max_share: dict[str, float]
+    section_plan: SectionPlanThresholds
+    maia: MaiaThresholds
+    features: FeatureGeometry
+    golden: GoldenThresholds
 
 
 # --- smaller files ----------------------------------------------------------

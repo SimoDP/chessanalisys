@@ -42,7 +42,7 @@ def test_version_pin_mismatch_api_key_device_and_elo_table(cfg, fake_uci):
     c = by_name(checks)
     assert c["Stockfish"].status == OK and "Stockfish 15" in c["Stockfish"].detail
     assert c["Versione Stockfish"].status == WARN and "Stockfish 16" in c["Versione Stockfish"].detail
-    assert c["ANTHROPIC_API_KEY"].status == WARN
+    assert c["OPENROUTER_API_KEY"].status == WARN
     assert "dispositivo" in c["PyTorch"].detail
     assert c["Maia-2"].status == OK
     table = c["Elo Maia-2"].detail
@@ -53,11 +53,11 @@ def test_version_pin_mismatch_api_key_device_and_elo_table(cfg, fake_uci):
 
 def test_api_key_present_is_never_printed(cfg, fake_uci):
     cmd = fake_uci(uci_iterations(range(1, 3), [("cp 30", "c1e3")]))
-    checks, _ = run_doctor(cfg, env={"ANTHROPIC_API_KEY": "sk-secret-123"},
+    checks, _ = run_doctor(cfg, env={"OPENROUTER_API_KEY": "sk-secret-123"},
                            stockfish_factory=lambda _c: StockfishEngine(cmd, 16, 0.01, threads=1),
                            maia_factory=fake_maia, benchmark=False)
     c = by_name(checks)
-    assert c["ANTHROPIC_API_KEY"].status == OK
+    assert c["OPENROUTER_API_KEY"].status == OK
     assert c["Versione Stockfish"].status == OK
     assert all("sk-secret" not in x.detail for x in checks)
 

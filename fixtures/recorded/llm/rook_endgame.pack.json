@@ -2,7 +2,7 @@
  "schema_version": "0.9",
  "app_version": "0.1.0",
  "created_utc": "2026-01-01T00:00:00+00:00",
- "config_hash": "2cdb1b0a244cb313f7d83e562287ba9ad85f767b",
+ "config_hash": "4cb14de49cd721b1d71750abb84814280cf8ca83",
  "position": {
   "fen": "8/5pk1/6p1/r7/8/6P1/5PK1/3R4 w - - 0 40",
   "epd": "8/5pk1/6p1/r7/8/6P1/5PK1/3R4 w - -",

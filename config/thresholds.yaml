@@ -46,3 +46,13 @@ elo_rules:
   e3_mandatory_from: 2150
   s11_from: 2000
 theory_max_share: {"1500": 0.70, "1900": 0.50, "2400": 0.35}
+# D-65: valori fissati nel testo della documentazione, spostati in configurazione
+section_plan: {c3_loss_max_cp: 30}               # §8.2, condizione c3
+maia: {policy_min_p: 0.001}                      # §6.2, policy salvata nei nodi
+features:                                        # §5.1, definizioni geometriche
+  weak_square_files: "cdef"
+  weak_square_ranks: [3, 5]                      # traverse relative del lato
+  outpost_ranks: [4, 6]
+  queenside_files: "abcd"
+  kingside_files: "efgh"
+golden: {ac09_max_diff_cp: 25, ac09_top_n: 6}    # AC-09

@@ -1,0 +1,22 @@
+# Decisioni dell'utente dopo il congelamento della v0.9.1
+
+La documentazione v0.9.1 resta invariata ed è la fonte di verità. Le decisioni seguenti sono state prese
+dall'utente dopo il congelamento: **prevalgono sui punti della v0.9.1 che modificano** e continuano la
+numerazione del registro (§0.3). Tutto il resto della v0.9.1 vale come prima.
+
+| ID | Decisione | Modifica | Data |
+| --- | --- | --- | --- |
+| D-64 | **Fornitore del modello configurabile, OpenRouter predefinito.** `config/default.yaml: llm.provider` = `openrouter` (predefinito) oppure `anthropic`. Con OpenRouter: API chat completions (`https://openrouter.ai/api/v1/chat/completions`, formato OpenAI per strumenti e messaggi), chiave in `OPENROUTER_API_KEY`, modello `anthropic/claude-sonnet-5.5`. Con Anthropic: SDK `anthropic`, chiave in `ANTHROPIC_API_KEY`, modello `claude-sonnet-5-5`. Prompt, schema dello strumento, verifica, retry e render sono identici; il client converte i formati. Nella politica di rete si aggiungono 408 (ritentato) e 402 (credito insufficiente, non ritentato) | §9.1, §9.3, §11.1, §11.5, Appendice A (chiave API) | ottobre 2026 |
+| D-65 | **Nessuna costante numerica nel codice, nemmeno quelle fissate nel testo.** Spostati in configurazione: `thresholds.yaml: section_plan.c3_loss_max_cp` (30, §8.2 c3), `maia.policy_min_p` (0,001, §6.2), `features` (colonne e traverse delle case deboli e degli avamposti, lati di donna e di re, §5.1), `golden` (soglie di AC-09); `default.yaml: output.slug_max_chars` (40, §2-bis.5), `llm.view` (5 righe, PV di 6 semimosse, 5 mosse di Maia-2, §6.1), `engines.stockfish.hash_max_ram_fraction` (0,25, §3.1.1). I valori sono quelli della v0.9.1 | Appendice D (chiavi aggiunte) | ottobre 2026 |
+| D-66 | **Stockfish 19 dall'inizio di M2.** L'utente preferisce l'ultima versione (19). Il passaggio cambia tutti i dati dei motori: vanno rifatte le registrazioni (`pytest -m engines --record`), i pacchetti congelati e i fewshot che citano ID e valori. M2 rigenera comunque pacchetti e fewshot (ℓ2–ℓ3), quindi il passaggio si fa una volta sola all'inizio di M2; fino ad allora resta `version_pin: "Stockfish 16"`. Serve poter scaricare la release da GitHub (in questo ambiente cloud oggi è bloccato: OQ-M0-1) | §3.1.1 (`version_pin`), OQ-M0-2 | ottobre 2026 |
+
+## Effetti pratici
+
+- **Riservatezza (§11.5) con OpenRouter.** Il contenuto inviato è lo stesso (vista ridotta del pacchetto,
+  prompt, esempio; niente PGN, nomi, tag o percorsi), ma passa da OpenRouter prima di arrivare al modello.
+  La chiave si legge solo dalla variabile d'ambiente e non è mai scritta su disco né nei log.
+- **Cambiare fornitore.** In `config/local.yaml`:
+  ```yaml
+  llm: {provider: anthropic, model: claude-sonnet-5-5}
+  ```
+- **Costo.** Una analisi è una chiamata al modello più al massimo due retry di verifica (§9.3).

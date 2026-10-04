@@ -170,12 +170,16 @@ def run_doctor(
     except (OSError, ValueError) as e:
         checks.append(Check("Indice aperture", ERR, f"non leggibile: {e}", "Esegui `python scripts/setup_engines.py`"))
 
-    # API key (never printed)
-    if env.get("ANTHROPIC_API_KEY"):
-        checks.append(Check("ANTHROPIC_API_KEY", OK, "presente"))
+    # API key of the chosen provider (never printed, D-64)
+    from chessanalyst.llm.client import API_KEY_ENV
+
+    provider = cfg.default.llm.provider
+    var = API_KEY_ENV[provider]
+    if env.get(var):
+        checks.append(Check(var, OK, f"presente (fornitore {provider}, modello {cfg.default.llm.model})"))
     else:
-        checks.append(Check("ANTHROPIC_API_KEY", WARN, "assente (serve per il testo dell'analisi: analyze e rerun)",
-                            "Imposta la variabile d'ambiente ANTHROPIC_API_KEY"))
+        checks.append(Check(var, WARN, f"assente (fornitore {provider}: serve per il testo dell'analisi, "
+                                       "analyze e rerun)", f"Imposta la variabile d'ambiente {var}"))
 
     # Write permissions
     for label, path in (

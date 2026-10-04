@@ -22,9 +22,6 @@ from chessanalyst.pack.section_plan import PlanInput, build_section_plan
 from chessanalyst.scoring.classify import classify
 from chessanalyst.scoring.recommend import Cand, recommend
 
-C3_LOSS_MAX = 30   # §8.2 c3 ("loss_cp ≤ 30"), fixed by the matrix definition (D-57)
-
-
 @dataclass
 class UserSettings:
     color: chess.Color
@@ -73,7 +70,7 @@ def _parent(rec: NodeRec, by_path: dict[tuple, str]) -> str | None:
     return None
 
 
-def _node_dict(rec: NodeRec, nid: str, parent: str | None, color: chess.Color) -> dict[str, Any]:
+def _node_dict(rec: NodeRec, nid: str, parent: str | None, color: chess.Color, min_p: float) -> dict[str, Any]:
     b = rec.board
     res = rec.result
     via_san = rec.path[-1] if rec.path else None
@@ -93,7 +90,7 @@ def _node_dict(rec: NodeRec, nid: str, parent: str | None, color: chess.Color) -
     maia = None
     if rec.maia is not None:
         pol = rec.maia["policy"]
-        entries = sorted(((u, p) for u, p in pol.items() if p >= 0.001), key=lambda kv: (-kv[1], kv[0]))
+        entries = sorted(((u, p) for u, p in pol.items() if p >= min_p), key=lambda kv: (-kv[1], kv[0]))
         es = rec.maia["expected_score"]
         maia = {"elo_self": rec.maia["elo_self"], "elo_oppo": rec.maia["elo_oppo"],
                 "policy": [{"san": b.san(chess.Move.from_uci(u)), "uci": u, "p": _p4(p)} for u, p in entries],
@@ -133,7 +130,7 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
     nodes = []
     for r in recs:
         parent = _parent(r, by_path) if r.path else None
-        nodes.append(_node_dict(r, nid[id(r)], parent, color))
+        nodes.append(_node_dict(r, nid[id(r)], parent, color, cfg.thresholds.maia.policy_min_p))
 
     root_res = exp.root.result
     best = root_res.lines[0]
@@ -283,7 +280,7 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
         tables["T1"] = T.build_t1_alt(cfg, root, replies, rb, us.opp_elo_declared, sat)
 
     # -- section plan ------------------------------------------------------------
-    low_loss = sum(1 for c in candidates if c["explained"] and c["loss_cp"] <= C3_LOSS_MAX)
+    low_loss = sum(1 for c in candidates if c["explained"] and c["loss_cp"] <= cfg.thresholds.section_plan.c3_loss_max_cp)
     pi = PlanInput(anchor=us.anchor, band=us.band, elo_ref_fide=us.elo_ref_fide,
                    matrix_column=profile["matrix_column"], castling=profile["castling"],
                    user_to_move=exp.user_to_move, opp_color_name=opp_name, explained=explained_ids,

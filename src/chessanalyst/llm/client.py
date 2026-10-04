@@ -1,12 +1,15 @@
-"""Model client (§9.1, §9.3 network part, D-61).
+"""Model clients (§9.1, §9.3 network part, D-61, D-64).
 
-``AnthropicClient`` wraps the official SDK with ``max_retries=0`` and applies
-the network policy itself: on connection errors and 429/500/502/503/504/529 up
-to ``llm.network_attempts`` attempts, waiting ``llm.network_backoff_s`` (plus
-``retry-after`` when present); 400/401/403 stop at once. ``FakeLLM`` replays
-recorded responses (tests, §12.1).
+``llm.provider`` chooses ``OpenRouterClient`` (default, chat completions in
+OpenAI format, key in ``OPENROUTER_API_KEY``) or ``AnthropicClient`` (official
+SDK with ``max_retries=0``, key in ``ANTHROPIC_API_KEY``). Both speak the
+Messages format to the rest of the program and apply the same network policy:
+on connection errors and 408/429/500/502/503/504/529 up to
+``llm.network_attempts`` attempts, waiting ``llm.network_backoff_s`` (plus
+``retry-after``); 400/401/402/403 stop at once. ``FakeLLM`` replays recorded
+responses (tests, §12.1).
 
-The API key is read only from ``ANTHROPIC_API_KEY`` and never written or logged.
+The key is read only from the environment and never written or logged.
 """
 
 from __future__ import annotations
@@ -15,6 +18,8 @@ import json
 import logging
 import os
 import time
+import urllib.error
+import urllib.request
 from collections.abc import Callable, Iterable
 from pathlib import Path
 from typing import Any, Protocol
@@ -24,8 +29,8 @@ from chessanalyst.errors import EnvironmentProblem, ModelError
 
 log = logging.getLogger(__name__)
 
-RETRYABLE_STATUS = (429, 500, 502, 503, 504, 529)
-API_KEY_ENV = "ANTHROPIC_API_KEY"
+RETRYABLE_STATUS = (408, 429, 500, 502, 503, 504, 529)
+API_KEY_ENV = {"anthropic": "ANTHROPIC_API_KEY", "openrouter": "OPENROUTER_API_KEY"}
 
 
 class LLMClient(Protocol):
@@ -33,18 +38,39 @@ class LLMClient(Protocol):
 
     def create(self, *, system: list[dict], messages: list[dict], tools: list[dict], tool_choice: dict,
                max_tokens: int) -> dict:
-        """One call; returns the response as a plain dict (``stop_reason``, ``content``, ...)."""
+        """One call. Requests and responses use the Messages format (``tool_use``/``tool_result``
+        blocks); the response is a plain dict (``stop_reason``, ``content``, ...)."""
 
 
-def _retry_after(exc: Any) -> float:
-    try:
-        return float(exc.response.headers.get("retry-after", 0) or 0)
-    except (AttributeError, TypeError, ValueError):
-        return 0.0
+class _Transient(Exception):
+    def __init__(self, what: str, wait: float = 0.0) -> None:
+        super().__init__(what)
+        self.wait = wait
 
 
-class AnthropicClient:
-    def __init__(self, cfg: Config, sleep: Callable[[float], None] = time.sleep, sdk_client: Any = None) -> None:
+class _TemperatureRejected(Exception):
+    pass
+
+
+def _fatal(status: int | None, detail: str) -> ModelError:
+    if status in (401, 403):
+        return ModelError("Chiave API non valida o non autorizzata")
+    if status == 402:
+        return ModelError("Credito insufficiente presso il fornitore del modello")
+    return ModelError(f"Richiesta rifiutata dall'API ({status}): {detail}")
+
+
+def _require_key(provider: str) -> str:
+    key = os.environ.get(API_KEY_ENV[provider])
+    if not key:
+        raise EnvironmentProblem(f"Chiave API assente: imposta la variabile d'ambiente {API_KEY_ENV[provider]}")
+    return key
+
+
+class _RetryingClient:
+    """Network policy shared by the providers (§9.3, D-61)."""
+
+    def __init__(self, cfg: Config, sleep: Callable[[float], None]) -> None:
         llm = cfg.default.llm
         self.model = llm.model
         self.temperature = llm.temperature
@@ -52,57 +78,179 @@ class AnthropicClient:
         self.backoff = list(llm.network_backoff_s)
         self.sleep = sleep
         self.temperature_rejected = False
-        if sdk_client is None:
-            import anthropic
-
-            if not os.environ.get(API_KEY_ENV):
-                raise EnvironmentProblem(f"Chiave API assente: imposta la variabile d'ambiente {API_KEY_ENV}")
-            sdk_client = anthropic.Anthropic(max_retries=0)      # the key is read by the SDK from the environment
-        self.sdk = sdk_client
-        for name in ("anthropic", "httpx", "httpx2", "httpcore"):   # no request dumps in run.log
+        for name in ("anthropic", "httpx", "httpx2", "httpcore", "urllib3"):   # no request dumps in run.log
             logging.getLogger(name).setLevel(logging.WARNING)
 
-    def _call(self, kwargs: dict) -> Any:
-        import anthropic
+    def _attempt(self, request: dict, temperature: bool) -> dict:
+        raise NotImplementedError
 
-        extra = {} if self.temperature_rejected else {"extra_body": {"temperature": self.temperature}}
+    def _once(self, request: dict) -> dict:
         try:
-            return self.sdk.messages.create(**kwargs, **extra)
-        except anthropic.BadRequestError as e:
-            if extra and "temperature" in str(e).lower():
-                # §9.1: parameter rejected for this model → repeat once without it
-                self.temperature_rejected = True
-                log.warning("Il modello %s non accetta temperature: richiesta ripetuta senza", self.model)
-                return self.sdk.messages.create(**kwargs)
-            raise
+            return self._attempt(request, not self.temperature_rejected)
+        except _TemperatureRejected:
+            # §9.1: parameter rejected for this model → repeat once without it
+            self.temperature_rejected = True
+            log.warning("Il modello %s non accetta temperature: richiesta ripetuta senza", self.model)
+            return self._attempt(request, False)
 
     def create(self, *, system: list[dict], messages: list[dict], tools: list[dict], tool_choice: dict,
                max_tokens: int) -> dict:
-        import anthropic
-
-        kwargs = {"model": self.model, "max_tokens": max_tokens, "system": system, "messages": messages,
-                  "tools": tools, "tool_choice": tool_choice}
-        last: Exception | None = None
+        request = {"system": system, "messages": messages, "tools": tools, "tool_choice": tool_choice,
+                   "max_tokens": max_tokens}
+        last = ""
         for attempt in range(1, self.attempts + 1):
             try:
-                return self._call(kwargs).model_dump(mode="json", exclude_none=True)
-            except (anthropic.AuthenticationError, anthropic.PermissionDeniedError) as e:
-                log.error("API: %s (status %s)", type(e).__name__, getattr(e, "status_code", None))
-                raise ModelError("Chiave API non valida o non autorizzata") from None
-            except anthropic.BadRequestError as e:
-                log.error("API: richiesta rifiutata (400): %s", e)
-                raise ModelError(f"Richiesta rifiutata dall'API (400): {e}") from None
-            except anthropic.APIStatusError as e:
-                if e.status_code not in RETRYABLE_STATUS:
-                    log.error("API: errore %s", e.status_code)
-                    raise ModelError(f"Errore dell'API ({e.status_code})") from None
-                last, wait = e, _retry_after(e)
-            except anthropic.APIConnectionError as e:          # includes timeouts
-                last, wait = e, 0.0
-            log.warning("API non raggiungibile (tentativo %d di %d): %s", attempt, self.attempts, type(last).__name__)
+                return self._once(request)
+            except _Transient as e:
+                last, wait = str(e), e.wait
+            log.warning("API non raggiungibile (tentativo %d di %d): %s", attempt, self.attempts, last)
             if attempt < self.attempts:
                 self.sleep(self.backoff[min(attempt - 1, len(self.backoff) - 1)] + wait)
-        raise ModelError(f"API non raggiungibile dopo {self.attempts} tentativi ({type(last).__name__})")
+        raise ModelError(f"API non raggiungibile dopo {self.attempts} tentativi ({last})")
+
+
+def _retry_after(headers: Any) -> float:
+    try:
+        return float(headers.get("retry-after", 0) or 0)
+    except (AttributeError, TypeError, ValueError):
+        return 0.0
+
+
+class AnthropicClient(_RetryingClient):
+    """Official SDK (``anthropic``) with ``max_retries=0``."""
+
+    def __init__(self, cfg: Config, sleep: Callable[[float], None] = time.sleep, sdk_client: Any = None) -> None:
+        super().__init__(cfg, sleep)
+        if sdk_client is None:
+            import anthropic
+
+            _require_key("anthropic")
+            sdk_client = anthropic.Anthropic(max_retries=0, timeout=cfg.default.llm.anthropic.timeout_s)
+        self.sdk = sdk_client
+
+    def _attempt(self, request: dict, temperature: bool) -> dict:
+        import anthropic
+
+        extra = {"extra_body": {"temperature": self.temperature}} if temperature else {}
+        try:
+            return self.sdk.messages.create(model=self.model, **request, **extra).model_dump(mode="json",
+                                                                                           exclude_none=True)
+        except anthropic.BadRequestError as e:
+            if temperature and "temperature" in str(e).lower():
+                raise _TemperatureRejected() from None
+            raise _fatal(400, str(e)) from None
+        except anthropic.APIStatusError as e:
+            if e.status_code in RETRYABLE_STATUS:
+                raise _Transient(f"HTTP {e.status_code}", _retry_after(e.response.headers)) from None
+            log.error("API: errore %s", e.status_code)
+            raise _fatal(e.status_code, str(e)) from None
+        except anthropic.APIConnectionError as e:          # includes timeouts
+            raise _Transient(type(e).__name__) from None
+
+
+# -- OpenRouter (D-64): chat completions, OpenAI format --------------------------------------
+
+FINISH_TO_STOP = {"tool_calls": "tool_use", "length": "max_tokens", "stop": "end_turn",
+                  "content_filter": "refusal", "error": "error"}
+
+Transport = Callable[[str, dict, bytes, float], tuple[int, dict, bytes]]
+
+
+def urllib_transport(url: str, headers: dict, body: bytes, timeout: float) -> tuple[int, dict, bytes]:
+    req = urllib.request.Request(url, data=body, headers=headers, method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            return r.status, dict(r.headers), r.read()
+    except urllib.error.HTTPError as e:
+        return e.code, dict(e.headers or {}), e.read()
+
+
+def to_openai(model: str, request: dict, temperature: float | None) -> dict:
+    """Messages-format request → chat completions body."""
+    msgs: list[dict] = [{"role": "system", "content": [dict(b) for b in request["system"]]}]
+    for m in request["messages"]:
+        content = m["content"]
+        if isinstance(content, str):
+            msgs.append({"role": m["role"], "content": content})
+            continue
+        if m["role"] == "assistant":
+            text = "".join(b.get("text", "") for b in content if b.get("type") == "text")
+            calls = [{"id": b["id"], "type": "function",
+                      "function": {"name": b["name"], "arguments": json.dumps(b.get("input"), ensure_ascii=False)}}
+                     for b in content if b.get("type") == "tool_use"]
+            msg: dict[str, Any] = {"role": "assistant", "content": text or None}
+            if calls:
+                msg["tool_calls"] = calls
+            msgs.append(msg)
+            continue
+        for b in content:
+            if b.get("type") == "tool_result":
+                msgs.append({"role": "tool", "tool_call_id": b["tool_use_id"], "content": b["content"]})
+            elif b.get("type") == "text":
+                msgs.append({"role": "user", "content": b["text"]})
+    body = {"model": model, "messages": msgs, "max_tokens": request["max_tokens"],
+            "tools": [{"type": "function", "function": {"name": t["name"], "description": t["description"],
+                                                         "parameters": t["input_schema"]}} for t in request["tools"]],
+            "tool_choice": {"type": "function", "function": {"name": request["tool_choice"]["name"]}}}
+    if temperature is not None:
+        body["temperature"] = temperature
+    return body
+
+
+def from_openai(data: dict) -> dict:
+    """Chat completions response → Messages-format dict (the original is kept under ``provider_response``)."""
+    choice = (data.get("choices") or [{}])[0]
+    message = choice.get("message") or {}
+    content: list[dict] = []
+    if message.get("content"):
+        content.append({"type": "text", "text": message["content"]})
+    for call in message.get("tool_calls") or []:
+        fn = call.get("function", {})
+        try:
+            args = json.loads(fn.get("arguments") or "")
+        except ValueError:
+            args = None                     # invalid JSON → V01 in the verification
+        content.append({"type": "tool_use", "id": call.get("id", ""), "name": fn.get("name"), "input": args})
+    return {"stop_reason": FINISH_TO_STOP.get(choice.get("finish_reason"), choice.get("finish_reason")),
+            "content": content, "model": data.get("model"), "usage": data.get("usage"), "provider_response": data}
+
+
+class OpenRouterClient(_RetryingClient):
+    """OpenRouter chat completions (``POST {base_url}/chat/completions``), standard library HTTP."""
+
+    def __init__(self, cfg: Config, sleep: Callable[[float], None] = time.sleep, transport: Transport | None = None,
+                 api_key: str | None = None) -> None:
+        super().__init__(cfg, sleep)
+        o = cfg.default.llm.openrouter
+        self.url = o.base_url.rstrip("/") + "/chat/completions"
+        self.timeout = o.timeout_s
+        self.transport = transport or urllib_transport
+        self._key = api_key if api_key is not None else _require_key("openrouter")
+
+    def _attempt(self, request: dict, temperature: bool) -> dict:
+        body = to_openai(self.model, request, self.temperature if temperature else None)
+        headers = {"Authorization": f"Bearer {self._key}", "Content-Type": "application/json"}
+        try:
+            status, resp_headers, raw = self.transport(self.url, headers, json.dumps(body).encode("utf-8"),
+                                                       self.timeout)
+        except (OSError, urllib.error.URLError) as e:       # connection errors and timeouts
+            raise _Transient(type(e).__name__) from None
+        try:
+            data = json.loads(raw.decode("utf-8") or "{}")
+        except ValueError:
+            data = {}
+        err = data.get("error") if isinstance(data, dict) else None
+        if status == 200 and not err:
+            return from_openai(data)
+        if status == 200 and err:            # error reported inside a 200 response
+            status = int(err.get("code") or 502) if str(err.get("code", "")).isdigit() else 502
+        detail = (err or {}).get("message", "") if isinstance(err, dict) else ""
+        if status in RETRYABLE_STATUS:
+            raise _Transient(f"HTTP {status}", _retry_after({k.lower(): v for k, v in resp_headers.items()}))
+        if status == 400 and temperature and "temperature" in detail.lower():
+            raise _TemperatureRejected()
+        log.error("API: errore %s", status)
+        raise _fatal(status, detail)
 
 
 class FakeLLM:
@@ -127,4 +275,7 @@ class FakeLLM:
 
 
 def make_client(cfg: Config) -> LLMClient:
-    return AnthropicClient(cfg)
+    """Client of the provider chosen in ``llm.provider`` (D-64: OpenRouter by default)."""
+    if cfg.default.llm.provider == "anthropic":
+        return AnthropicClient(cfg)
+    return OpenRouterClient(cfg)

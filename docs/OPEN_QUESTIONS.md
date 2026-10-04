@@ -14,7 +14,7 @@ schema, token o criteri di accettazione.
   `github.com` (403), non necessario perché Stockfish 16 è installato dal sistema (OQ-M0-2).
 - **Nota.** Le Syzygy sono in due cartelle (`3-4-5-wdl/` e `3-4-5-dtz/`); `setup_engines.py` le legge entrambe.
 
-### OQ-M0-2 · Versione di Stockfish fissata a 16
+### OQ-M0-2 · Versione di Stockfish fissata a 16 (fino a M2: D-66)
 
 - **Default adottato.** `version_pin: "Stockfish 16"`. È la versione con cui sono stati prodotti i raw
   (§8-bis.2), quindi AC-09 confronta valori omogenei; in questo ambiente è installata dal pacchetto Ubuntu
@@ -127,7 +127,7 @@ valutazione è la prima riga del nodo ℓ1 corrispondente; se manca anche quello
 Per `pin` e `unresolved_capture` le case sono una coppia ordinata (inchiodato, inchiodatore; da, a), non in
 ordine alfabetico, come indicano le definizioni di §5.1.
 
-### OQ-M1a-13 · Costanti numeriche rimaste nel codice
+### OQ-M1a-13 · Costanti numeriche rimaste nel codice (risolta: D-65)
 La regola è «nessuna costante numerica nel codice» (istruzione 5). Restano nel codice solo valori che la
 documentazione fissa nel testo normativo e che l'Appendice D non mette in configurazione: `loss_cp ≤ 30`
 della condizione c3 (§8.2, matrice fissa per §0.5), la soglia `p ≥ 0,001` della policy nei nodi (§6.2),
@@ -135,6 +135,7 @@ i 40 caratteri dello slug della cartella (§2-bis.5), le soglie di AC-09 (0,25 p
 formato della scacchiera (colonne c–f, ali) e, da M1c, le dimensioni della vista ridotta (5 righe, PV di 6
 semimosse, 5 mosse di Maia-2, §6.1). Se si preferisce averli in `config/`, va aggiunta una chiave
 all'Appendice D: è una decisione dell'utente.
+**Risolta (D-65):** l'utente ha scelto di spostarle in configurazione; vedi `docs/DECISIONI_POST_CONGELAMENTO.md`.
 
 ## M1b
 
@@ -238,6 +239,16 @@ I logger dell'SDK e di `httpx` sono portati a WARNING: `run.log` non contiene le
 mai scritta né stampata; la suite normale nasconde `ANTHROPIC_API_KEY` ai test (solo i test `llm` la vedono).
 
 ### OQ-M1c-8 · Risposte registrate del modello reale (AC-10, AC-21 «modello»)
-`pytest -m llm --record` esegue il ciclo completo con l'API sui pacchetti congelati (1500, 1900, AC-21) e salva
+`pytest -m llm --record` esegue il ciclo completo con l'API del fornitore configurato (D-64) sui pacchetti congelati (1500, 1900, AC-21) e salva
 `fixtures/recorded/llm/real_*.json`; i test di accettazione li rigiocano con `FakeLLM`. Senza la chiave i
 test sono saltati con un messaggio esplicito.
+
+### OQ-M1c-9 · Fornitore OpenRouter (D-64)
+Il client OpenRouter usa la libreria standard (`urllib`), senza dipendenze nuove. Converte i messaggi:
+blocchi `tool_use` → `tool_calls` (argomenti in JSON), `tool_result` → messaggio `role: tool` (OpenAI non ha
+`is_error`: l'errore è nel testo, che inizia con «La consegna contiene errori»), `tool_choice` forzato con
+`{"type": "function", "function": {"name": "submit_analysis"}}`, `cache_control` mantenuto nel messaggio di
+sistema (caching dei modelli Claude via OpenRouter). `finish_reason`: `tool_calls` → `tool_use`, `length` →
+`max_tokens`. Argomenti non in JSON valido → V01. Un errore riportato dentro una risposta 200 è trattato con il
+suo codice. `llm_raw.json` conserva anche la risposta originale (`provider_response`). Verificato in rete con
+una chiave volutamente non valida: 401 → «Chiave API non valida o non autorizzata».

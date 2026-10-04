@@ -142,7 +142,7 @@ def build_user_message(cfg: Config, pack: dict, example: Example) -> str:
              f"<analisi>{example.output_json}</analisi>"]
     if not pack["position"]["user_to_move"] and example.alt_json is not None:
         parts.append(f"<analisi_s07_alternativa>{example.alt_json}</analisi_s07_alternativa>")
-    parts += ["</esempio>", "", "<pacchetto>", llm_view_json(pack), "</pacchetto>", "", "<istruzioni>",
+    parts += ["</esempio>", "", "<pacchetto>", llm_view_json(pack, cfg.default.llm.view), "</pacchetto>", "", "<istruzioni>",
               f"Modalità: {mode}. "
               f"Fascia: {u['band']}. Ancora: {u['anchor']}. Giochi con {cfg.wording['colors'][u['color']]}.",
               "Sezioni da scrivere, in ordine:", *_sections(cfg, pack),

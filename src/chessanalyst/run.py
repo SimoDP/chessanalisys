@@ -122,7 +122,8 @@ def run_analysis(cfg: Config, pos: Position, us: UserSettings, out_base: Path, *
                  openings: OpeningIndex | None = None, time_scale: float = 1.0, llm=None) -> Path:
     openings = openings if openings is not None else load_openings(cfg)
     entry = openings.lookup_epd(pos.board) if openings is not None else None
-    outdir = make_output_dir(out_base, entry["name"] if entry else None, pos.board.epd(en_passant="legal"))
+    outdir = make_output_dir(out_base, entry["name"] if entry else None, pos.board.epd(en_passant="legal"),
+                             cfg.default.output.slug_max_chars)
     handler = attach_run_log(outdir / "run.log", verbose)
     own = engines is None
     try:

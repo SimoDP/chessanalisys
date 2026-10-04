@@ -9,19 +9,17 @@ import unicodedata
 from datetime import datetime
 from pathlib import Path
 
-SLUG_MAX = 40
-
-
-def slug(opening_name: str | None, epd: str) -> str:
+def slug(opening_name: str | None, epd: str, max_chars: int) -> str:
     if not opening_name:
         return "pos_" + hashlib.sha1(epd.encode("utf-8")).hexdigest()[:8]
     ascii_ = unicodedata.normalize("NFKD", opening_name).encode("ascii", "ignore").decode("ascii").lower()
-    return re.sub(r"[^a-z0-9]+", "_", ascii_).strip("_")[:SLUG_MAX]
+    return re.sub(r"[^a-z0-9]+", "_", ascii_).strip("_")[:max_chars]
 
 
-def make_output_dir(base: Path, opening_name: str | None, epd: str, now: datetime | None = None) -> Path:
+def make_output_dir(base: Path, opening_name: str | None, epd: str, slug_max: int,
+                    now: datetime | None = None) -> Path:
     now = now or datetime.now()
-    name = f"{now:%Y%m%d_%H%M}_{slug(opening_name, epd)}"
+    name = f"{now:%Y%m%d_%H%M}_{slug(opening_name, epd, slug_max)}"
     path = base / name
     k = 2
     while path.exists():

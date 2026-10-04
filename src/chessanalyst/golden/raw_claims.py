@@ -127,5 +127,3 @@ ROOT_DRAW_PERMILLE = 920
 
 # AC-09: the first three candidates of the raws (1900 T1 order).
 AC09_TOP3 = ("Be3", "f3", "h3")
-AC09_MAX_DIFF_CP = 25
-AC09_TOP_N = 6

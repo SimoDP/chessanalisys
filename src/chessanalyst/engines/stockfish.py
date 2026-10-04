@@ -34,10 +34,10 @@ def default_threads() -> int:
     return max(1, phys - 1)
 
 
-def default_hash_mb(hash_mb: int) -> int:
-    """``min(hash_mb, 25% of RAM)`` rounded down to a power of two (§3.1.1)."""
-    quarter = psutil.virtual_memory().total // (4 * 1024 * 1024)
-    h = max(1, min(hash_mb, quarter))
+def default_hash_mb(hash_mb: int, ram_fraction: float) -> int:
+    """``min(hash_mb, fraction of RAM)`` rounded down to a power of two (§3.1.1)."""
+    cap = int(psutil.virtual_memory().total * ram_fraction) // (1024 * 1024)
+    h = max(1, min(hash_mb, cap))
     return 1 << (h.bit_length() - 1)
 
 
@@ -50,9 +50,10 @@ class StockfishEngine:
         hash_mb: int,
         poll_s: float,
         threads: int | None = None,
+        ram_fraction: float | None = None,
     ) -> None:
         self.command = [str(c) for c in command] if isinstance(command, (list, tuple)) else str(command)
-        self.hash_mb = default_hash_mb(hash_mb)
+        self.hash_mb = default_hash_mb(hash_mb, ram_fraction) if ram_fraction is not None else hash_mb
         self.threads = threads if threads is not None else default_threads()
         self.poll_s = poll_s
         self._engine: chess.engine.SimpleEngine | None = None

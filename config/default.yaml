@@ -14,14 +14,15 @@ input:
   max_attempts: 3
   confirm: true
 engines:
-  stockfish: {path: null, version_pin: "Stockfish 16", hash_mb: 4096, poll_s: 0.05}
+  stockfish: {path: null, version_pin: "Stockfish 16", hash_mb: 4096, poll_s: 0.05, hash_max_ram_fraction: 0.25}
   maia2: {model_type: rapid, device: auto, version_pin: "0.11.0", up_delta: 300}
   syzygy: {path: null, max_pieces: 5}
   openings: {index_file: data/openings_index.json}
 exploration:
   profile: standard       # fast | standard | deep
 llm:
-  model: claude-sonnet-5-5
+  provider: openrouter    # openrouter | anthropic (D-64, docs/DECISIONI_POST_CONGELAMENTO.md)
+  model: anthropic/claude-sonnet-5.5   # ID del fornitore scelto; con anthropic: claude-sonnet-5-5
   max_tokens: 16000
   temperature: 0.3
   max_retries: 2
@@ -30,7 +31,11 @@ llm:
   on_fail: mark           # mark | drop
   critic: false           # da M4
   plan_max_moves: 6
+  view: {multipv_lines: 5, pv_plies: 6, policy_moves: 5}   # vista ridotta (§6.1, D-65)
+  openrouter: {base_url: "https://openrouter.ai/api/v1", timeout_s: 600}
+  anthropic: {timeout_s: 600}
 render:
   mark_theory: footnote
 output:
   dir: output
+  slug_max_chars: 40      # §2-bis.5 (D-65)

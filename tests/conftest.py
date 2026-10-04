@@ -20,7 +20,8 @@ def pytest_addoption(parser):
 def _no_real_api(request, monkeypatch):
     """The default suite never reaches the API: the key is hidden unless a test is marked ``llm``."""
     if "llm" not in request.keywords:
-        monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+        for var in ("ANTHROPIC_API_KEY", "OPENROUTER_API_KEY"):
+            monkeypatch.delenv(var, raising=False)
 
 
 @pytest.fixture(scope="session")

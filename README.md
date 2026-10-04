@@ -6,7 +6,9 @@ Fonte di verità: [`docs/Chess_Position_Analyst_Documentazione_tecnica_v0_9_1.md
 **Stato: milestone M1c (modello).** Disponibili il flusso interattivo `chessanalyst` e
 `chessanalyst analyze` (motori → `pack.json` → modello, verifica e render → `analysis.md`),
 `chessanalyst rerun <cartella>`, `chessanalyst doctor`, `chessanalyst golden --data/--packs/--render`.
-Serve la chiave API nella variabile d'ambiente `ANTHROPIC_API_KEY` (mai scritta su disco).
+Serve la chiave API del fornitore del modello: per default OpenRouter, variabile d'ambiente
+`OPENROUTER_API_KEY` (oppure Anthropic con `ANTHROPIC_API_KEY`, D-64); mai scritta su disco.
+Decisioni prese dopo il congelamento della documentazione: `docs/DECISIONI_POST_CONGELAMENTO.md`.
 
 ## Installazione
 
@@ -22,7 +24,7 @@ python3.12 -m venv .venv
 ```bash
 .venv/bin/pytest                 # senza motori né rete
 .venv/bin/pytest -m engines      # con Stockfish (e Maia-2) veri
-.venv/bin/pytest -m llm --record # registra risposte del modello reale (serve ANTHROPIC_API_KEY)
+.venv/bin/pytest -m llm --record # registra risposte del modello reale (serve la chiave API)
 ```
 
 ## Uso

@@ -4,11 +4,14 @@ from __future__ import annotations
 
 import chess
 
+from chessanalyst.config import FeatureGeometry
 from chessanalyst.features.model import Feature
 from chessanalyst.features.values import code, names, rr
 
-CENTRAL_FILES = range(2, 6)          # c..f for weak squares
-QUEENSIDE, KINGSIDE = range(0, 4), range(4, 8)
+
+
+def _files(letters: str) -> list[int]:
+    return [chess.FILE_NAMES.index(c) for c in letters]
 
 
 def pawns(board: chess.Board, side: chess.Color) -> list[chess.Square]:
@@ -41,15 +44,16 @@ def is_passed(board, side, sq) -> bool:
     return True
 
 
-def weak_squares(board: chess.Board, side: chess.Color) -> list[chess.Square]:
-    """Squares on files c–f, rr 3–5 for ``side``, no own pawn on them, that no own
+def weak_squares(board: chess.Board, side: chess.Color, geo: FeatureGeometry) -> list[chess.Square]:
+    """Squares on files c–f, rr 3–5 for ``side`` (``geo``), no own pawn on them, that no own
     pawn on an adjacent file can ever attack (none with rr ≤ rr(q) − 1)."""
     own = pawns(board, side)
+    lo, hi = geo.weak_square_ranks
     out = []
-    for f in CENTRAL_FILES:
-        for sq in (chess.square(f, r) for r in range(8)):
+    for f in _files(geo.weak_square_files):
+        for sq in chess.SquareSet(chess.BB_FILES[f]):
             q = rr(side, sq)
-            if not 3 <= q <= 5:
+            if not lo <= q <= hi:
                 continue
             if sq in own:
                 continue
@@ -59,13 +63,14 @@ def weak_squares(board: chess.Board, side: chess.Color) -> list[chess.Square]:
     return out
 
 
-def outposts(board: chess.Board, side: chess.Color) -> list[chess.Square]:
-    """Weak squares of the opponent with rr 4–6 for ``side``, defended by an own pawn."""
-    return [sq for sq in weak_squares(board, not side)
-            if 4 <= rr(side, sq) <= 6 and _pawn_attacks(board, side, sq)]
+def outposts(board: chess.Board, side: chess.Color, geo: FeatureGeometry) -> list[chess.Square]:
+    """Weak squares of the opponent with rr 4–6 for ``side`` (``geo``), defended by an own pawn."""
+    lo, hi = geo.outpost_ranks
+    return [sq for sq in weak_squares(board, not side, geo)
+            if lo <= rr(side, sq) <= hi and _pawn_attacks(board, side, sq)]
 
 
-def pawn_features(board: chess.Board) -> list[Feature]:
+def pawn_features(board: chess.Board, geo: FeatureGeometry) -> list[Feature]:
     out: list[Feature] = []
     for side in (chess.WHITE, chess.BLACK):
         s = code(side)
@@ -101,15 +106,15 @@ def pawn_features(board: chess.Board) -> list[Feature]:
                 prev = f
             out.append(Feature("pawn_island_count", s, [], islands))
         theirs = pawns(board, not side)
-        for wing, rng in (("queenside", QUEENSIDE), ("kingside", KINGSIDE)):
+        for wing, rng in (("queenside", _files(geo.queenside_files)), ("kingside", _files(geo.kingside_files))):
             mine_n = sum(1 for p in own if chess.square_file(p) in rng)
             their_n = sum(1 for p in theirs if chess.square_file(p) in rng)
             if mine_n > their_n:
                 out.append(Feature("pawn_majority", s, [], wing))
-        weak = weak_squares(board, side)
+        weak = weak_squares(board, side, geo)
         if weak:
             out.append(Feature("weak_square", s, names(weak)))
-        posts = outposts(board, side)
+        posts = outposts(board, side, geo)
         if posts:
             out.append(Feature("outpost", s, names(posts)))
             for sq in posts:
