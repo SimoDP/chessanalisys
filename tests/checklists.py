@@ -1,7 +1,8 @@
 """Checklists of the non-Najdorf positions (§8-bis.6): ``fixtures/checklists/<id>.yaml``.
 
 A checklist names the expected sections (matrix of §8.2 for the position's profile), three moves that
-must appear in the tokens of the model's answer and two typical errors (moves) the text must cite.
+must appear in the tokens of the model's answer and two typical errors the text must cite: a move (SAN,
+cited by a token) or a concept (``{concept, pattern}``, a regular expression searched in the sections).
 """
 
 from __future__ import annotations

@@ -333,3 +333,58 @@ Tre fixture con checklist in `fixtures/checklists/`, con i pacchetti congelati i
 
 Il raw 1900 di `golden_nodes.json` (Stockfish 16) resta il dato di M0: AC-32 «registrato» lo usa così com'è,
 perché riproduce le righe del raw. D-66 chiede di rifare solo registrazioni, pacchetti e fewshot.
+
+### OQ-M2-7 · Registrazioni dei motori con E3 fino a ℓ3
+Con ℓ2 e ℓ3 l'albero del profilo `deep` arriva al tetto di 80 nodi. Il metodo di M1a (tempo dimezzato, orologio
+vero) dava registrazioni che i test non riuscivano a rigiocare:
+- la scadenza globale scartava nodi che il replay (motori finti istantanei) chiede comunque;
+- un nodo sotto la profondità minima veniva ricercato da un'esecuzione successiva dello stesso gruppo (un'altra
+  ancora) e sovrascritto; la prima mossa poteva cambiare, e con lei i figli richiesti nel replay.
+
+**Default:** `golden/record.py` registra con tempo pieno (`time_scale` 1) e un orologio fermo per la sola
+scadenza globale. Salva **tutte** le ricerche, non solo quelle della cache: la stessa posizione può essere un nodo
+di E2b (MultiPV 2) e di ℓ3 (MultiPV 8), e la cache tiene solo la più profonda. `FakeEngine` conserva tutti i
+risultati di una posizione e dà il migliore che soddisfa la richiesta (regola della cache, §3.3); se nessuno la
+soddisfa, rigioca esattamente una ricerca con abbastanza righe. Nei gruppi con più esecuzioni sulla stessa cache
+(la Najdorf: tre ancore più `standard`) ogni ricerca aspetta la profondità minima, fino alla scadenza globale del
+profilo. Senza questa attesa un nodo instabile verrebbe rifatto dall'esecuzione successiva e il replay della prima
+chiederebbe un altro albero. Gli altri gruppi usano i tempi normali: un nodo instabile resta registrato e compare
+come `unstable_depth`. Esempio: la radice di Lucena con MultiPV 16 arriva a profondità 14 in 60 secondi, contro
+una minima di 20, perché Stockfish rallenta molto con le tablebase alla radice. Le regole di tempo e scadenza di
+§3-ter.2 restano invariate nell'uso normale.
+
+### OQ-M2-8 · Mossa di contesto con i nodi di ℓ2 (RISOLTA con D-68: filtro al 3% ed esclusione degli errori tattici)
+**Problema.** §3-ter.6 vuole riprodurre il ragionamento «`...Nc6` costa poco contro un sistema e molto contro
+un altro». Da M2 i nodi di T3 comprendono tutti i nodi di ℓ2, cioè 9 nodi in più oltre ai 5 di E2 a 1900. Con
+quel numero di nodi l'algoritmo congelato sceglie mosse che nessun avversario gioca: la loro differenza di
+costo viene da una sola linea tattica.
+
+**Prova** (pacchetti `deep` con Stockfish 19, registrazioni del 4 ottobre 2026):
+
+| Ancora | Regola v0.9.1 (E2 + ℓ2) | Righe di T3 | Con la sola condizione «p_opp medio ≥ 3%» |
+| --- | --- | --- | --- |
+| 1500 | `...h5`, spread 138 | 12 | `...e5`, spread 104 |
+| 1900, 2400 | `...Bd7` (p 0,1–0,7%), spread 132 (1,41 dopo `6.h3 e6 7.g4`) | 14 | `...e5`, spread 104: costo 0 contro ogni sistema, 1,04 contro `6.Bg5` |
+
+**Proposta.** Tra le candidate di contesto (passo 2 di §3-ter.6) entrano solo le mosse con `p_opp` medio sui nodi
+di T3 almeno `e4_min_p` (3%), la stessa soglia che definisce una mossa «umana» per E4. Il risultato riproduce
+l'insegnamento del raw: `...e5` va bene contro tutto tranne `6.Bg5`. Il resto dell'algoritmo resta invariato,
+così come i nodi di T3 (E2 + ℓ2). La soglia sarebbe una nuova chiave
+`thresholds.yaml: selection.context_min_p` (D-65).
+
+**Seconda registrazione (dopo la prima risposta dell'utente).** Stockfish con più thread non è deterministico
+(D-60): il nuovo albero ha portato con il solo filtro al 3% a `...e6`, con spread 971. Lo spread nasceva da un
+nodo (`6.Be3 Ng4 7.Bg5`) in cui `...e6` lascia la donna. Sono state misurate due alternative:
+- escludere le righe con p < 3%: rompe AC-32, perché sui nodi del raw `...Nc6` ha p 0,5–1%;
+- escludere le righe con costo ≥ `tactical.gap_cp`: dà `...g6` (1900, 2400, spread 117), `...h6` (1500,
+  spread 79) e AC-32 resta `...Nc6` con spread 53.
+
+L'utente ha scelto la seconda (D-68 aggiornata).
+
+### OQ-M2-9 · Argomenti dello strumento non in JSON valido (bug di verifica, corretto)
+Una risposta reale di DeepSeek sul finale di torri aveva gli argomenti di `submit_analysis` non validi: una
+parentesi chiusa di troppo alla fine e niente `notes`. Il client li converte in `input: null`, come previsto da
+OQ-M1c-9, ma `extract_output` non segnalava alcun errore. Il ciclo si fermava come se la risposta fosse buona e
+usciva con il codice 5, senza retry. Ora `input` che non è un oggetto dà V01 («argomenti di submit_analysis ·
+non sono un oggetto JSON valido») e provoca il retry. Fault injection: `bad_tool_arguments.json` (G.6) e
+`test_invalid_tool_arguments_are_retried`.

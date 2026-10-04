@@ -2,7 +2,7 @@
 
 FEN: `rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 6` · Tratto: il Bianco · Giochi con: il Bianco
 Elo dichiarato 1900 FIDE → 2025 in scala Lichess usata da Maia-2 · Avversario: 1900 FIDE → 2025
-Fascia 1600_2000 · Ancora 1900 · Profilo deep · Stockfish 16 · profondità radice 25
+Fascia 1600_2000 · Ancora 1900 · Profilo deep · Stockfish 19 · profondità radice 31
 
 > Convenzione: le valutazioni sono in pedoni dal tuo punto di vista (positivo = meglio per te).
 > Gli esempi di riferimento per questo livello non sono ancora stati validati da un giocatore.
@@ -10,22 +10,22 @@ Fascia 1600_2000 · Ancora 1900 · Profilo deep · Stockfish 16 · profondità r
 
 ## Sintesi
 
-Posizione teorica e molto equilibrata: il motore dà al Bianco un vantaggio minimo, +0,39 con la mossa migliore, e circa il 95% di patta. Le cinque mosse spiegate stanno tutte in un intervallo piccolissimo: tra 6.f3 (+0,39) e 6.Bg5 (+0,21) la differenza è appena 0,18.
+Posizione teorica e molto equilibrata: il motore dà al Bianco un vantaggio minimo, +0,34 con la mossa migliore, e circa il 93% di patta. Le cinque mosse spiegate stanno in un intervallo piccolo: tra 6.f3 (+0,34) e 6.Bg5 (+0,04) la differenza è appena 0,30.
 
-**Non devi cercare la mossa migliore: devi scegliere un sistema e giocarlo bene.** Se toccasse al Nero, la valutazione sarebbe +0,01 (migliore ...e5): il tuo vantaggio è quasi solo il tratto, quindi non sprecare tempi. Nessuna delle candidate perde materiale: decide il piano che conosci meglio.
+**Non devi cercare la mossa migliore: devi scegliere un sistema e giocarlo bene.** Se toccasse al Nero, la valutazione sarebbe -0,07 (migliore ...e6): il tuo vantaggio è quasi solo il tratto, quindi non sprecare tempi. Nessuna delle candidate perde materiale: decide il piano che conosci meglio.
 
 ## I sistemi che puoi scegliere
 
 | Sistema | Prima mossa | Arrocco | Idea | Per chi |
 | --- | --- | --- | --- | --- |
-| **Attacco inglese** | 6.Be3 (+0,34) o 6.f3 (+0,39) | **Lungo** | Be3 → Qd2 → O-O-O, poi g4 → g5 | Chi vuole attaccare con i pedoni; molta teoria † |
-| **Classico** | 6.Be2 (+0,25) o 6.Bd3 (+0,27) | **Corto** | Be2 → Be3 → O-O → f4 oppure la spinta del pedone a | Chi vuole una posizione solida e piani posizionali † |
-| **Spinta di pedone** | 6.h3 (+0,32) | Varia | g4 → g5 senza la spinta in f3 | Chi conosce già l'attacco inglese † |
-| **Aggressivo e teorico** | 6.Bg5 (+0,21) | Varia | Pressione sul cavallo f6, spesso con la spinta del pedone f | Chi conosce bene la teoria † |
+| **Attacco inglese** | 6.f3 (+0,34) o 6.Be3 (+0,32) | **Lungo** | Be3 → Qd2 → O-O-O, poi g4 → g5 | Chi vuole attaccare con i pedoni; molta teoria † |
+| **Donna in d3** | 6.Qd3 (+0,20) | Varia | La donna difende e4 e lascia aperta la scelta del lato | Chi vuole uscire dalla teoria principale † |
+| **Alfiere in d3** | 6.Bd3 (+0,19) | **Corto** | O-O → f4 con l'alfiere che protegge e4 | Chi vuole una posizione solida e piani posizionali † |
+| **Aggressivo e teorico** | 6.Bg5 (+0,04) | Varia | Pressione sul cavallo f6, spesso con la spinta del pedone f | Chi conosce bene la teoria † |
 
-Il motore preferisce di pochissimo 6.f3, la mossa consigliata, ma **non esiste una mossa unica migliore**: 6.f3 e 6.Be3 portano di solito alla stessa struttura e la differenza tra loro è 0,05. Se vuoi una posizione più tranquilla, 6.Be2 costa solo 0,14.
+Il motore preferisce di pochissimo 6.f3, la mossa consigliata, ma **non esiste una mossa unica migliore**: 6.f3 e 6.Be3 portano di solito alla stessa struttura e la differenza tra loro è 0,02. Le scelte più tranquille, 6.Qd3 e 6.Bd3, costano 0,14 e 0,15.
 
-Come scegliere: se conosci la teoria dell'attacco inglese e ti piacciono le posizioni con arrocchi opposti, gioca 6.f3 o 6.Be3; se preferisci manovrare con il re al sicuro, il sistema classico costa pochissimo; 6.Bg5 richiede una preparazione specifica e la lasci per quando l'avrai studiata.
+Come scegliere: se conosci la teoria dell'attacco inglese e ti piacciono le posizioni con arrocchi opposti, gioca 6.f3 o 6.Be3; se preferisci manovrare con il re al sicuro, 6.Bd3 costa poco; 6.Bg5 richiede una preparazione specifica e la lasci per quando l'avrai studiata.
 
 ## Dove ti arrocchi
 
@@ -40,7 +40,7 @@ Oggi entrambi i re possono ancora arroccare da tutti e due i lati: la scelta del
 | Pezzo | Obiettivo tipico | Attenzione |
 | --- | --- | --- |
 | Pedone e4 | Va protetto: dal cavallo c3, con il pedone in f3, con l'alfiere o la donna in d3 | La presa in e4 del cavallo f6 se il cavallo c3 è sovraccarico o inchiodato † |
-| Cavallo d4 | Centro; dopo ...e5 si ritira in **b3**: Nb3 vale +0,38 | Nf5 sembra attivo ma perde 1,66 † |
+| Cavallo d4 | Centro; dopo ...e5 si ritira in **b3**: Nb3 vale +0,30 | Nf5 sembra attivo ma perde 1,38 † |
 | Cavallo c3 | Difende e4 e controlla d5; dopo la spinta del Nero in e5 il sogno è il salto in **d5** | La spinta ...b5 → ...b4 lo scaccia † |
 | Alfiere c1 | **e3** (flessibile) o **g5** (pressione sul cavallo f6, linee affilate) | Non lasciarlo senza difesa sulla diagonale a7–g1 † |
 | Alfiere f1 | **e2** (solido), **d3** o **c4** (aggressivo) | In c4 invita la spinta del pedone b † |
@@ -56,10 +56,10 @@ A questo livello Maia-2, il modello del comportamento umano, distingue poco tra 
 
 - ...e5 è la risposta più naturale contro quasi tutti i sistemi (contro 6.f3 Maia-2 la dà al 74%): occupa il centro, ma lascia **d5 come buco** e il pedone d6 arretrato.
 - ...e6 porta alla struttura **Scheveningen**: più elastica, prepara ...b5 → ...Bb7 → ...Be7 → ...Qc7 e talvolta la spinta in d5. †
-- Contro 6.Be3 la risposta migliore per il motore è ...Ng4 (+0,35), alla pari con ...e5 (+0,36): il cavallo attacca l'alfiere e fa perdere un tempo.
+- Contro 6.Be3 la risposta migliore per il motore è ...Ng4 (+0,28), quasi alla pari con ...e5 (+0,31): il cavallo attacca l'alfiere e fa perdere un tempo.
 - La spinta ...b5 → ...b4 sul lato di donna caccia il cavallo c3 e toglie protezione a e4. †
 - Dopo 6.Bg5 la donna in b6 è un'idea concreta: nella linea del motore 6.Bg5 e6 7.f4 Qb6 8.Qd2 Qxb2 il Nero prende il pedone b2, il **Pedone Avvelenato**.
-- Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del **Dragon**. †
+- Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del **Dragon**, e qui è proprio la mossa che cambia valore da un sistema all'altro. †
 
 | Pezzo nero | Dove va di solito |
 | --- | --- |
@@ -68,71 +68,80 @@ A questo livello Maia-2, il modello del comportamento umano, distingue poco tra 
 | Alfiere f8 | **e7**, poi arrocco corto † |
 | Donna | **c7** sulla colonna c, oppure **b6** contro b2 e d4 † |
 
-| Dopo… | Migliore del Nero | ...e5 | Costo |
+| Dopo… | Migliore del Nero | ...g6 | Costo |
 | --- | --- | --- | --- |
-| 6.f3 | ...e5 (+0,30) | +0,30 | 0,00 |
-| 6.Be3 | ...Ng4 (+0,35) | +0,36 | 0,01 |
-| 6.h3 | ...e5 (+0,22) | +0,22 | 0,00 |
-| 6.Bd3 | ...Nbd7 (+0,26) | +0,29 | 0,03 |
-| 6.Bg5 | ...e6 (+0,21) | +1,07 | 0,86 |
+| 6.f3 | ...e5 (+0,28) | +0,61 | 0,33 |
+| 6.Be3 | ...Ng4 (+0,28) | +0,68 | 0,40 |
+| 6.Qd3 | ...Nbd7 (0,00) | +0,22 | 0,22 |
+| 6.Bd3 | ...e5 (+0,15) | +0,15 | 0,00 |
+| 6.Bg5 | ...e6 (+0,05) | +1,12 | 1,07 |
+| 6.f3 e5 7.Nb3 | ...Be6 (+0,30) | +0,64 | 0,34 |
+| 6.f3 Nc6 7.Be3 | ...e5 (+0,25) | +0,76 | 0,51 |
+| 6.f3 e6 7.g4 | ...h6 (+0,29) | +1,46 | 1,17 |
+| 6.Be3 Ng4 7.Bg5 | ...h6 (+0,31) | +1,18 | 0,87 |
+| 6.Be3 Nc6 7.h3 | ...e5 (+0,40) | +0,54 | 0,14 |
+| 6.Be3 e5 7.Nb3 | ...Be7 (+0,28) | +0,89 | 0,61 |
+| 6.Qd3 Nbd7 7.Be2 | ...b5 (0,00) | +0,22 | 0,22 |
+| 6.Qd3 e6 7.a4 | ...Nc6 (+0,14) | +0,62 | 0,48 |
+| 6.Qd3 e5 7.Nf5 | ...g6 (+0,30) | +0,30 | 0,00 |
 
-La tabella mostra quanto costa ...e5 contro ciascun sistema. Contro 6.f3, 6.Be3, 6.h3 e 6.Bd3 è una risposta normale (al massimo 0,03), mentre contro 6.Bg5 è un errore: ...e5 vale +1,07 invece di +0,21, cioè perde 0,86. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere ...e6.
+La tabella mostra quanto costa il fianchetto ...g6 contro ciascun sistema. Contro 6.Bd3 non costa nulla (0,00), contro 6.f3 e 6.Be3 costa già 0,33 e 0,40, e contro 6.Bg5 è un errore: ...g6 vale +1,12 invece di +0,05. Lo stesso vale dopo 6.f3 ...e6 7.g4, dove ...g6 perde 1,17. La stessa mossa è buona o cattiva a seconda del sistema: con l'alfiere in d3 il pedone e4 è già protetto e la diagonale lunga del Nero non trova bersagli.
 
-Secondo Maia-2, contro 6.Bg5 sceglie ...e5 il 10% dei giocatori del tuo livello, mentre la risposta corretta raccoglie 80%.
+Secondo Maia-2, contro 6.Bg5 sceglie ...e6 il 80% dei giocatori del tuo livello, mentre ...g6 raccoglie appena 1%: l'errore esiste, ma a questo livello si commette di rado.
 
 ## Mosse candidate
 
 | Mossa | Valutazione | Scelta a 1900* | Linea del motore | Idea |
 | --- | --- | --- | --- | --- |
-| **6.f3** ★ | +0,39 | 13% | 6...e5 7.Nb3 Be6 8.Be3 h5 9.Nd5 | Attacco inglese che evita il salto del cavallo in g4; contro ...e5 segue Nb3 (+0,38) |
-| 6.Be3 | +0,34 | 20% | 6...e5 7.Nb3 Be6 8.h3 Nbd7 9.g4 | Attacco inglese diretto; deve fare i conti con ...Ng4 (+0,35) |
-| 6.h3 | +0,32 | 3% | 6...e5 7.Nde2 h5 8.g3 Be7 9.Bg2 | Prepara la spinta del pedone g senza f3; dopo ...e6 segue g4 (+0,33) |
-| 6.Bd3 | +0,27 | 3% | 6...e5 7.Nde2 Be7 8.O-O O-O 9.Ng3 | Sviluppo tranquillo e arrocco corto; contro ...e5 il cavallo va in e2 (+0,29) |
-| 6.Be2 | +0,25 | 10% | 6...e5 7.Nb3 Be7 8.Be3 Be6 9.Nd5 | — |
-| 6.f4 | +0,25 | 1% | 6...e5 7.Nf3 Qc7 8.a4 Be7 9.Bd3 | — |
-| 6.g3 | +0,25 | 1% | 6...e5 7.Nb3 Be7 8.Bg5 Nbd7 9.a4 | — |
-| 6.a4 | +0,24 | 4% | 6...e5 7.Nf3 Be7 8.Bg5 Be6 9.Bxf6 | — |
-| 6.Qd3 | +0,21 | <1% | 6...e6 7.a4 Bd7 8.Be2 Nc6 9.Nxc6 | — |
-| 6.Bg5 | +0,21 | 32% | 6...e6 7.f4 Qb6 8.Qd2 Qxb2 9.Rb1 | La più giocata a questo livello (32%); il Nero risponde ...e6 |
-| 6.Nb3 | +0,14 | <1% | 6...e6 7.a4 Nc6 8.Be2 d5 9.exd5 | — |
-| 6.Bc4 | +0,12 | 9% | 6...e6 7.Bb3 b5 8.Be3 Be7 9.a3 | — |
+| **6.f3** ★ | +0,34 | 13% | 6...e5 7.Nb3 Be6 8.Be3 Be7 9.Qd2 | Attacco inglese che evita il salto del cavallo in g4; contro ...e5 segue Nb3 (+0,30) |
+| 6.Be3 | +0,32 | 20% | 6...e5 7.Nb3 Be6 8.Qd2 Be7 9.f3 | Attacco inglese diretto; deve fare i conti con ...Ng4 (+0,28) |
+| 6.Qd3 | +0,20 | <1% | 6...Nbd7 7.Be2 g6 8.Bg5 Bg7 9.f4 | La donna difende e4; il motore risponde ...Nbd7 e la posizione si pareggia (0,00) |
+| 6.Bd3 | +0,19 | 3% | 6...g6 7.f3 e5 8.Nb3 Be6 9.Be3 | Sviluppo tranquillo e arrocco corto; contro ...e5 la valutazione resta +0,15 |
+| 6.g3 | +0,15 | 1% | 6...e5 7.Nb3 Be7 8.Bg2 a5 9.Nd2 | — |
+| 6.Be2 | +0,15 | 10% | 6...e5 7.Nb3 Be7 8.Be3 Be6 9.Nd5 | — |
+| 6.h3 | +0,14 | 3% | 6...e5 7.Nde2 h5 8.g3 Be6 9.Bg2 | — |
+| 6.a4 | +0,11 | 4% | 6...e5 7.Nf3 Be7 8.Bg5 Be6 9.Bxf6 | — |
+| 6.Bc4 | +0,09 | 9% | 6...e6 7.Bb3 b5 8.Be3 Be7 9.a3 | — |
+| 6.f4 | +0,04 | 1% | 6...e5 7.Nf3 Nbd7 8.a4 Be7 9.Bc4 | — |
+| 6.Bg5 | +0,04 | 32% | 6...e6 7.f4 Qb6 8.Qd2 Qxb2 9.Rb1 | La più giocata a questo livello (32%); il Nero risponde ...e6 |
+| 6.Nb3 | +0,04 | <1% | 6...e6 7.Be2 Nc6 8.a4 Be7 9.Be3 | — |
 
 * Probabilità di Maia-2 poco affidabili a questo livello.
 
-Il motore non vede un vincitore chiaro: tra la prima e l'ultima mossa spiegata ci sono 0,18 pedoni. La linea principale dopo 6.f3 è 6.f3 e5 7.Nb3 Be6 8.Be3 h5 9.Nd5 Bxd5: il Bianco ottiene la casa d5 in cambio dell'alfiere nero.
+Il motore non vede un vincitore chiaro: tra la prima e l'ultima mossa spiegata ci sono 0,30 pedoni. La linea principale dopo 6.f3 è 6.f3 e5 7.Nb3 Be6 8.Be3 Be7 9.Qd2 O-O; con 6.Be3 si arriva alla stessa posizione cambiando l'ordine delle mosse (6.Be3 e5 7.Nb3 Be6 8.Qd2 Be7 9.f3).
 
-A questo livello conta di più la **conoscenza dei piani** che la scelta tra queste mosse: 6.Be3 e 6.f3 sono intercambiabili, 6.h3 e 6.Bd3 sono alternative valide (+0,32 e +0,27).
+A questo livello conta di più la **conoscenza dei piani** che la scelta tra queste mosse: 6.Be3 e 6.f3 sono intercambiabili, 6.Qd3 e 6.Bd3 sono alternative valide (+0,20 e +0,19).
 
-Le altre mosse della tabella restano tutte entro 0,27 dalla migliore: nessuna è un errore, ma nessuna ha un piano più chiaro dei sistemi spiegati sopra.
+Le altre mosse della tabella restano tutte entro 0,30 dalla migliore: nessuna è un errore, ma nessuna ha un piano più chiaro dei sistemi spiegati sopra.
 
 ## Trappole naturali e mosse difficili
 
 A questo livello Maia-2, il modello del comportamento umano, distingue poco tra i giocatori più forti: le probabilità indicate sono poco affidabili e le indicazioni si basano soprattutto sul motore.
 
-**6.h3 è una mossa difficile**: il motore la mette tra le prime tre (+0,32, solo 0,07 dalla migliore), ma a questo livello la sceglie appena il 3% dei giocatori.
+**6.Bg5 è un'alternativa pratica**: la sceglie il 32% dei giocatori del tuo livello e costa 0,30 rispetto alla migliore, ma lungo la sua linea non ci sono mosse obbligate da trovare.
 
-Dopo 6.f3 ...e5 la ritirata del cavallo va scelta bene: Nb3 tiene il vantaggio, Nde2 costa già 0,48 e la mossa d'attacco Nf5, che sembra la più attiva, perde 1,66.
+Dopo 6.f3 ...e5 la ritirata del cavallo va scelta bene: Nb3 tiene il vantaggio, Nde2 costa già 0,49 e la mossa d'attacco Nf5, che sembra la più attiva, perde 1,38.
 
-Dopo 6.Be3 ...Ng4 la ritirata naturale è Bg5, scelta dal 53%, ma il motore preferisce Bc1 (+0,38); Qd2 perde 0,43.
+Dopo 6.Be3 ...Ng4 la ritirata naturale è Bg5, scelta dal 53% dei giocatori: qui l'istinto è giusto, perché vale quanto Bc1 (+0,31), mentre Qd2 perde 0,46.
 
 ## Come ragionare
 
-1. **Scegli il sistema** (attacco inglese o classico) e quindi il lato dell'arrocco. †
+1. **Scegli il sistema** (attacco inglese o alfiere in d3) e quindi il lato dell'arrocco. †
 2. **Proteggi e4** prima di ogni mossa non forzata. †
 3. **Prima di muovere, controlla la donna nera in b6 e la presa in e4**: sono le due tattiche che il Nero cerca più spesso. †
-4. Se il Nero gioca ...e5, ritira il cavallo in b3 (+0,38) e punta alla casa d5.
+4. Se il Nero gioca ...e5, ritira il cavallo in b3 (+0,30) e punta alla casa d5.
 5. Se il cavallo nero salta in g4, non rispondere d'istinto: confronta le ritirate dell'alfiere prima di muovere. †
-6. Non perdere tempi: con il Nero al tratto la posizione sarebbe +0,01, il tuo vantaggio è il tratto.
+6. Non perdere tempi: con il Nero al tratto la posizione sarebbe -0,07, il tuo vantaggio è il tratto.
 
 ## Rapporto tecnico
 
-- Versioni: Stockfish 16 · Maia-2 0.11.0 (modello rapid, cpu) · modello di linguaggio: nessuno (esempio di riferimento)
-- Profilo deep · tempo dei motori 851,8 s · nodi analizzati 32 · profondità minima 18 e massima 26
+- Versioni: Stockfish 19 · Maia-2 0.11.0 (modello rapid, cpu) · modello di linguaggio: nessuno (esempio di riferimento)
+- Profilo deep · tempo dei motori 1429,3 s · nodi analizzati 62 · profondità minima 18 e massima 31
 - Nodi sotto la profondità minima: nessuno
 - Elo dichiarato 1900 FIDE · Elo Maia-2 2025 · fascia 1600_2000 · ancora 1900 · confidenza di Maia-2 bassa
 - Sezioni omesse: S02 (milestone), S09 (milestone), S11 (elo<2000), S12 (matrix), S13 (matrix) · assorbite: nessuna
-- Fasi omesse: E3l2 (milestone), E3l3 (milestone) · nodi omessi: nessuno
-- Contenuto teorico: 56 blocchi, 42% delle parole
+- Fasi omesse: nessuna · nodi omessi: nessuno
+- Contenuto teorico: 56 blocchi, 41% delle parole
 - Controlli: V01 superato · V02 superato · V03 superato · V04 superato · V05 superato · V06 superato · V07 superato · V08 superato · V09 superato · V10 superato · V11 superato
 - Retry: 0
 - Rimossi in modalità degradata: nessuno

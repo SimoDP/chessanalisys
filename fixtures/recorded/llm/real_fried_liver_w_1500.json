@@ -1,0 +1,1117 @@
+{
+ "model": "deepseek/deepseek-v4.1-flash",
+ "responses": [
+  {
+   "stop_reason": "tool_use",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "call_00_87ii9j24pftv6bo34nf3xv1g",
+     "name": "submit_analysis",
+     "input": {
+      "schema_version": "1",
+      "sections": [
+       {
+        "id": "S01",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Con il Bianco sei leggermente meglio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Il tuo cavallo in g5 è attaccato, quindi devi decidere subito cosa fare di lui.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "N1",
+            "band": "slight_plus"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S03",
+        "blocks": [
+         {
+          "type": "ol",
+          "items": [
+           {
+            "text": "**Gioca {{mv:C1}}**: spingi il pedone in d4 e prendi il centro. Il motore la valuta {{ev:C1}}.",
+            "source": "engine"
+           },
+           {
+            "text": "**Sviluppa i pezzi**: cavallo in c3 e arrocco corto, così il re sta al sicuro.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non perdere il cavallo in g5**: è la tua unica unità attaccata.",
+            "source": "feature",
+            "assertions": [
+             {
+              "kind": "feature",
+              "key": "hanging_piece",
+              "side": "w",
+              "squares": [
+               "g5"
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Piano semplice: {{plan:w:d4,c3,Bd3,O-O@N1}}. Con il pedone in d4 e il cavallo in c3 controlli le case centrali e puoi arroccare corto.",
+          "source": "theory"
+         }
+        ]
+       },
+       {
+        "id": "S05",
+        "blocks": [
+         {
+          "type": "text_table",
+          "columns": [
+           "Pezzo",
+           "Obiettivo",
+           "Attenzione"
+          ],
+          "rows": [
+           [
+            {
+             "text": "**Cavallo g5**",
+             "source": "theory"
+            },
+            {
+             "text": "Attaccare e5 e f7, creare minacce.",
+             "source": "theory"
+            },
+            {
+             "text": "È attaccato: se il Nero spinge il pedone in e5 o gioca la donna, va salvato.",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "hanging_piece",
+               "side": "w",
+               "squares": [
+                "g5"
+               ]
+              }
+             ]
+            }
+           ],
+           [
+            {
+             "text": "**Cavallo b1**",
+             "source": "theory"
+            },
+            {
+             "text": "Va in c3 per controllare d5 e sostenere il centro.",
+             "source": "theory"
+            },
+            {
+             "text": "Non lasciarlo fermo: è ancora a casa.",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "undeveloped_pieces",
+               "side": "w",
+               "squares": [
+                "b1",
+                "c1"
+               ]
+              }
+             ]
+            }
+           ],
+           [
+            {
+             "text": "**Donna d1**",
+             "source": "theory"
+            },
+            {
+             "text": "Sostiene il centro e può andare in f3 o e2.",
+             "source": "theory"
+            },
+            {
+             "text": "Non esporla troppo presto.",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "**Re e1**",
+             "source": "theory"
+            },
+            {
+             "text": "Arrocca corto appena puoi.",
+             "source": "theory"
+            },
+            {
+             "text": "La colonna e è aperta: non restare al centro.",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "open_file_to_king",
+               "side": "w",
+               "squares": [
+                "e1"
+               ]
+              }
+             ]
+            }
+           ]
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S06",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Il Nero ha il cavallo in c6 che punta in d4 e può prendere il tuo pedone. La sua risposta più frequente dopo {{mv:C1}} è {{m:Nxd4@N3}} ({{pct:Nxd4@N3}}), poi spinge i pedoni del lato di donna. Anche {{m:Bf5@N3}} e {{m:Be6@N3}} sono comuni.",
+          "source": "maia",
+          "assertions": [
+           {
+            "kind": "maia_band",
+            "ref": "Nxd4@N3",
+            "band": "frequent"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S07",
+        "blocks": [
+         {
+          "type": "table",
+          "ref": "T1",
+          "text_cells": {
+           "C1": {
+            "per_chi": {
+             "text": "Consigliata: prende il centro, ma a questo livello la giocano in pochi ({{pct:C1.p_user}}).",
+             "source": "maia"
+            }
+           },
+           "C2": {
+            "per_chi": {
+             "text": "La scelta più naturale: la gioca l'{{pct:C2.p_user}} dei giocatori del tuo livello, ma è un sacrificio.",
+             "source": "maia"
+            }
+           }
+          }
+         },
+         {
+          "type": "p",
+          "text": "Il motore preferisce {{mv:C1}} ({{ev:C1}}); {{mv:C2}} perde solo {{loss:C2}} ma è molto più complicata.",
+          "source": "engine"
+         }
+        ]
+       },
+       {
+        "id": "S08",
+        "blocks": [
+         {
+          "type": "ul",
+          "items": [
+           {
+            "text": "**Non lasciare il cavallo in g5 attaccato**: dopo {{m:e5@N3}} o {{m:Qxg5@N2}} lo perdi.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non giocare {{mv:C2}} senza calcolare**: è un sacrificio, non un guadagno facile.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non arroccare tardi**: il centro è aperto e il re è esposto.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non spingere pedoni senza sviluppare**: prima i pezzi, poi i pedoni.",
+            "source": "theory"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S10",
+        "blocks": [
+         {
+          "type": "ol",
+          "items": [
+           {
+            "text": "Il mio cavallo in g5 è attaccato?",
+            "source": "theory"
+           },
+           {
+            "text": "Posso prendere il centro con {{mv:C1}}?",
+            "source": "theory"
+           },
+           {
+            "text": "Tutti i miei pezzi sono protetti?",
+            "source": "theory"
+           },
+           {
+            "text": "Posso arroccare?",
+            "source": "theory"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S13",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Dopo {{mv:C2}} il Nero è quasi costretto a riprendere: {{m:Kxf7@N4}} è la risposta del {{pct:Kxf7@N4}} dei giocatori. Poi il Bianco dà scacco con la donna e recupera materiale, ma il re nero resta al centro e la posizione diventa molto tagliente. Il motore valuta {{ev:N4}} e la linea principale è {{pv:PV2:4}}.",
+          "source": "engine"
+         },
+         {
+          "type": "p",
+          "text": "Il Nero può anche rispondere con la donna, ma perde materiale: {{m:Qh4@N4}} porta a {{ev:Qh4@N4}} per il Bianco. Per questo {{mv:C2}} è una trappola: se il Nero sbaglia, vinci; se gioca bene, la partita resta complicata.",
+          "source": "engine"
+         }
+        ]
+       }
+      ],
+      "notes": [
+       "Il pacchetto non contiene il nodo N2 con policy di Maia-2 per il Nero, quindi le probabilità delle risposte nere sono prese dai nodi disponibili (N3, N4).",
+       "La sezione S13 usa solo dati del motore perché theory non è ammessa."
+      ]
+     }
+    }
+   ],
+   "model": "deepseek/deepseek-v4.1-flash",
+   "usage": {
+    "prompt_tokens": 28792,
+    "completion_tokens": 1792,
+    "total_tokens": 30584,
+    "cost": 0.0047942256,
+    "is_byok": false,
+    "prompt_tokens_details": {
+     "cached_tokens": 2176,
+     "cache_write_tokens": 0,
+     "audio_tokens": 0,
+     "video_tokens": 0
+    },
+    "cost_details": {
+     "upstream_inference_cost": 0.0047942256,
+     "upstream_inference_prompt_cost": 0.0037835376,
+     "upstream_inference_completions_cost": 0.001010688
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0,
+     "image_tokens": 0,
+     "audio_tokens": 0
+    }
+   },
+   "provider_response": {
+    "id": "gen-1791132221-oQngnecTATgfn91gICuP",
+    "object": "chat.completion",
+    "created": 1791132221,
+    "model": "deepseek/deepseek-v4.1-flash",
+    "provider": "AtlasCloud",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+     {
+      "index": 0,
+      "logprobs": null,
+      "finish_reason": "tool_calls",
+      "native_finish_reason": "tool_calls",
+      "message": {
+       "role": "assistant",
+       "content": null,
+       "refusal": null,
+       "reasoning": null,
+       "tool_calls": [
+        {
+         "type": "function",
+         "index": 0,
+         "id": "call_00_87ii9j24pftv6bo34nf3xv1g",
+         "function": {
+          "name": "submit_analysis",
+          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Con il Bianco sei leggermente meglio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Il tuo cavallo in g5 è attaccato, quindi devi decidere subito cosa fare di lui.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"slight_plus\"}]}]}, {\"id\": \"S03\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"**Gioca {{mv:C1}}**: spingi il pedone in d4 e prendi il centro. Il motore la valuta {{ev:C1}}.\", \"source\": \"engine\"}, {\"text\": \"**Sviluppa i pezzi**: cavallo in c3 e arrocco corto, così il re sta al sicuro.\", \"source\": \"theory\"}, {\"text\": \"**Non perdere il cavallo in g5**: è la tua unica unità attaccata.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}]}, {\"type\": \"p\", \"text\": \"Piano semplice: {{plan:w:d4,c3,Bd3,O-O@N1}}. Con il pedone in d4 e il cavallo in c3 controlli le case centrali e puoi arroccare corto.\", \"source\": \"theory\"}]}, {\"id\": \"S05\", \"blocks\": [{\"type\": \"text_table\", \"columns\": [\"Pezzo\", \"Obiettivo\", \"Attenzione\"], \"rows\": [[{\"text\": \"**Cavallo g5**\", \"source\": \"theory\"}, {\"text\": \"Attaccare e5 e f7, creare minacce.\", \"source\": \"theory\"}, {\"text\": \"È attaccato: se il Nero spinge il pedone in e5 o gioca la donna, va salvato.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}], [{\"text\": \"**Cavallo b1**\", \"source\": \"theory\"}, {\"text\": \"Va in c3 per controllare d5 e sostenere il centro.\", \"source\": \"theory\"}, {\"text\": \"Non lasciarlo fermo: è ancora a casa.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"b1\", \"c1\"]}]}], [{\"text\": \"**Donna d1**\", \"source\": \"theory\"}, {\"text\": \"Sostiene il centro e può andare in f3 o e2.\", \"source\": \"theory\"}, {\"text\": \"Non esporla troppo presto.\", \"source\": \"theory\"}], [{\"text\": \"**Re e1**\", \"source\": \"theory\"}, {\"text\": \"Arrocca corto appena puoi.\", \"source\": \"theory\"}, {\"text\": \"La colonna e è aperta: non restare al centro.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"open_file_to_king\", \"side\": \"w\", \"squares\": [\"e1\"]}]}]]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Nero ha il cavallo in c6 che punta in d4 e può prendere il tuo pedone. La sua risposta più frequente dopo {{mv:C1}} è {{m:Nxd4@N3}} ({{pct:Nxd4@N3}}), poi spinge i pedoni del lato di donna. Anche {{m:Bf5@N3}} e {{m:Be6@N3}} sono comuni.\", \"source\": \"maia\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"Nxd4@N3\", \"band\": \"frequent\"}]}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C1\": {\"per_chi\": {\"text\": \"Consigliata: prende il centro, ma a questo livello la giocano in pochi ({{pct:C1.p_user}}).\", \"source\": \"maia\"}}, \"C2\": {\"per_chi\": {\"text\": \"La scelta più naturale: la gioca l'{{pct:C2.p_user}} dei giocatori del tuo livello, ma è un sacrificio.\", \"source\": \"maia\"}}}}, {\"type\": \"p\", \"text\": \"Il motore preferisce {{mv:C1}} ({{ev:C1}}); {{mv:C2}} perde solo {{loss:C2}} ma è molto più complicata.\", \"source\": \"engine\"}]}, {\"id\": \"S08\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Non lasciare il cavallo in g5 attaccato**: dopo {{m:e5@N3}} o {{m:Qxg5@N2}} lo perdi.\", \"source\": \"theory\"}, {\"text\": \"**Non giocare {{mv:C2}} senza calcolare**: è un sacrificio, non un guadagno facile.\", \"source\": \"theory\"}, {\"text\": \"**Non arroccare tardi**: il centro è aperto e il re è esposto.\", \"source\": \"theory\"}, {\"text\": \"**Non spingere pedoni senza sviluppare**: prima i pezzi, poi i pedoni.\", \"source\": \"theory\"}]}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Il mio cavallo in g5 è attaccato?\", \"source\": \"theory\"}, {\"text\": \"Posso prendere il centro con {{mv:C1}}?\", \"source\": \"theory\"}, {\"text\": \"Tutti i miei pezzi sono protetti?\", \"source\": \"theory\"}, {\"text\": \"Posso arroccare?\", \"source\": \"theory\"}]}]}, {\"id\": \"S13\", \"blocks\": [{\"type\": \"p\", \"text\": \"Dopo {{mv:C2}} il Nero è quasi costretto a riprendere: {{m:Kxf7@N4}} è la risposta del {{pct:Kxf7@N4}} dei giocatori. Poi il Bianco dà scacco con la donna e recupera materiale, ma il re nero resta al centro e la posizione diventa molto tagliente. Il motore valuta {{ev:N4}} e la linea principale è {{pv:PV2:4}}.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Il Nero può anche rispondere con la donna, ma perde materiale: {{m:Qh4@N4}} porta a {{ev:Qh4@N4}} per il Bianco. Per questo {{mv:C2}} è una trappola: se il Nero sbaglia, vinci; se gioca bene, la partita resta complicata.\", \"source\": \"engine\"}]}], \"notes\": [\"Il pacchetto non contiene il nodo N2 con policy di Maia-2 per il Nero, quindi le probabilità delle risposte nere sono prese dai nodi disponibili (N3, N4).\", \"La sezione S13 usa solo dati del motore perché theory non è ammessa.\"]}"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "usage": {
+     "prompt_tokens": 28792,
+     "completion_tokens": 1792,
+     "total_tokens": 30584,
+     "cost": 0.0047942256,
+     "is_byok": false,
+     "prompt_tokens_details": {
+      "cached_tokens": 2176,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+     },
+     "cost_details": {
+      "upstream_inference_cost": 0.0047942256,
+      "upstream_inference_prompt_cost": 0.0037835376,
+      "upstream_inference_completions_cost": 0.001010688
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+     }
+    }
+   }
+  },
+  {
+   "stop_reason": "tool_use",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "call_00_4jtei4wojga8jsfkarxvtazz",
+     "name": "submit_analysis",
+     "input": {
+      "schema_version": "1",
+      "sections": [
+       {
+        "id": "S01",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Con il Bianco sei leggermente meglio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Il tuo cavallo in g5 è attaccato, quindi devi decidere subito cosa fare di lui.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "N1",
+            "band": "small_plus"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S03",
+        "blocks": [
+         {
+          "type": "ol",
+          "items": [
+           {
+            "text": "**Gioca {{mv:C1}}**: spingi il pedone in d4 e prendi il centro. Il motore la valuta {{ev:C1}}.",
+            "source": "engine"
+           },
+           {
+            "text": "**Sviluppa i pezzi**: cavallo in c3 e arrocco corto, così il re sta al sicuro.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non perdere il cavallo in g5**: è la tua unica unità attaccata.",
+            "source": "feature",
+            "assertions": [
+             {
+              "kind": "feature",
+              "key": "hanging_piece",
+              "side": "w",
+              "squares": [
+               "g5"
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Piano semplice: {{plan:w:d4,c3,Bd3,O-O@N1}}. Con il pedone in d4 e il cavallo in c3 controlli le case centrali e puoi arroccare corto. Se il Nero prende in d4, riprendi con il pedone in c3 e resti con un buon centro.",
+          "source": "theory"
+         }
+        ]
+       },
+       {
+        "id": "S05",
+        "blocks": [
+         {
+          "type": "text_table",
+          "columns": [
+           "Pezzo",
+           "Obiettivo",
+           "Attenzione"
+          ],
+          "rows": [
+           [
+            {
+             "text": "**Cavallo g5**",
+             "source": "theory"
+            },
+            {
+             "text": "Attaccare e5 e f7, creare minacce.",
+             "source": "theory"
+            },
+            {
+             "text": "È attaccato: se il Nero spinge il pedone in e5 o gioca la donna, va salvato.",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "hanging_piece",
+               "side": "w",
+               "squares": [
+                "g5"
+               ]
+              }
+             ]
+            }
+           ],
+           [
+            {
+             "text": "**Cavallo b1**",
+             "source": "theory"
+            },
+            {
+             "text": "Va in c3 per controllare d5 e sostenere il centro.",
+             "source": "theory"
+            },
+            {
+             "text": "Non lasciarlo fermo: è ancora a casa.",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "undeveloped_pieces",
+               "side": "w",
+               "squares": [
+                "b1",
+                "c1"
+               ]
+              }
+             ]
+            }
+           ],
+           [
+            {
+             "text": "**Donna d1**",
+             "source": "theory"
+            },
+            {
+             "text": "Sostiene il centro e può andare in f3 o e2.",
+             "source": "theory"
+            },
+            {
+             "text": "Non esporla troppo presto.",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "**Re e1**",
+             "source": "theory"
+            },
+            {
+             "text": "Arrocca corto appena puoi.",
+             "source": "theory"
+            },
+            {
+             "text": "La colonna e è aperta: non restare al centro.",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "open_file_to_king",
+               "side": "w",
+               "squares": [
+                "e1"
+               ]
+              }
+             ]
+            }
+           ]
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S06",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Il Nero ha il cavallo in c6 che punta in d4 e può prendere il tuo pedone. La sua risposta più frequente dopo {{mv:C1}} è {{m:Nxd4@N3}} ({{pct:Nxd4@N3}}), poi spinge i pedoni del lato di donna. Anche {{m:Bf5@N3}} e {{m:Be6@N3}} sono comuni.",
+          "source": "maia",
+          "assertions": [
+           {
+            "kind": "maia_band",
+            "ref": "Nxd4@N3",
+            "band": "frequent"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S07",
+        "blocks": [
+         {
+          "type": "table",
+          "ref": "T1",
+          "text_cells": {
+           "C1": {
+            "per_chi": {
+             "text": "Consigliata: prende il centro, ma a questo livello la giocano in pochi ({{pct:C1.p_user}}).",
+             "source": "maia"
+            }
+           },
+           "C2": {
+            "per_chi": {
+             "text": "La scelta più naturale: la gioca l'{{pct:C2.p_user}} dei giocatori del tuo livello, ma è un sacrificio.",
+             "source": "maia"
+            }
+           }
+          }
+         },
+         {
+          "type": "p",
+          "text": "Il motore preferisce {{mv:C1}} ({{ev:C1}}); {{mv:C2}} perde solo {{loss:C2}} ma è molto più complicata.",
+          "source": "engine"
+         }
+        ]
+       },
+       {
+        "id": "S08",
+        "blocks": [
+         {
+          "type": "ul",
+          "items": [
+           {
+            "text": "**Non lasciare il cavallo in g5 attaccato**: dopo la spinta del pedone in e5 o la cattura della donna lo perdi.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non giocare {{mv:C2}} senza calcolare**: è un sacrificio, non un guadagno facile.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non arroccare tardi**: il centro è aperto e il re è esposto.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non spingere pedoni senza sviluppare**: prima i pezzi, poi i pedoni.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non giocare {{mv:C1}} senza guardare la risposta del Nero**: il cavallo in c6 può prendere in d4.",
+            "source": "theory"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S10",
+        "blocks": [
+         {
+          "type": "ol",
+          "items": [
+           {
+            "text": "Il mio cavallo in g5 è attaccato?",
+            "source": "theory"
+           },
+           {
+            "text": "Posso prendere il centro con {{mv:C1}}?",
+            "source": "theory"
+           },
+           {
+            "text": "Tutti i miei pezzi sono protetti?",
+            "source": "theory"
+           },
+           {
+            "text": "Posso arroccare?",
+            "source": "theory"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S13",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Dopo {{mv:C2}} il Nero è quasi costretto a riprendere: {{m:Kxf7@N4}} è la risposta del {{pct:Kxf7@N4}} dei giocatori. Poi il Bianco dà scacco con la donna e recupera materiale, ma il re nero resta al centro e la posizione diventa molto tagliente. Il motore valuta {{ev:N4}} e la linea principale è {{pv:PV2:4}}.",
+          "source": "mixed"
+         },
+         {
+          "type": "p",
+          "text": "Il Nero può anche rispondere con la donna, ma perde materiale: {{m:Qh4@N4}} porta a {{ev:Qh4@N4}} per il Bianco. Per questo {{mv:C2}} è una trappola: se il Nero sbaglia, vinci; se gioca bene, la partita resta complicata.",
+          "source": "engine"
+         }
+        ]
+       }
+      ],
+      "notes": [
+       "Il pacchetto non contiene il nodo N2 con policy di Maia-2 per il Nero, quindi le probabilità delle risposte nere sono prese dai nodi disponibili (N3, N4).",
+       "La sezione S13 usa dati del motore e probabilità di Maia-2, quindi il primo blocco è marcato mixed."
+      ]
+     }
+    }
+   ],
+   "model": "deepseek/deepseek-v4.1-flash",
+   "usage": {
+    "prompt_tokens": 31228,
+    "completion_tokens": 1867,
+    "total_tokens": 33095,
+    "cost": 0.0018176592,
+    "is_byok": false,
+    "prompt_tokens_details": {
+     "cached_tokens": 28672,
+     "cache_write_tokens": 0,
+     "audio_tokens": 0,
+     "video_tokens": 0
+    },
+    "cost_details": {
+     "upstream_inference_cost": 0.0018176592,
+     "upstream_inference_prompt_cost": 0.0007646712,
+     "upstream_inference_completions_cost": 0.001052988
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0,
+     "image_tokens": 0,
+     "audio_tokens": 0
+    }
+   },
+   "provider_response": {
+    "id": "gen-1791132232-ZnucOwVIvR4gY7lVW2SD",
+    "object": "chat.completion",
+    "created": 1791132232,
+    "model": "deepseek/deepseek-v4.1-flash",
+    "provider": "AtlasCloud",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+     {
+      "index": 0,
+      "logprobs": null,
+      "finish_reason": "tool_calls",
+      "native_finish_reason": "tool_calls",
+      "message": {
+       "role": "assistant",
+       "content": null,
+       "refusal": null,
+       "reasoning": null,
+       "tool_calls": [
+        {
+         "type": "function",
+         "index": 0,
+         "id": "call_00_4jtei4wojga8jsfkarxvtazz",
+         "function": {
+          "name": "submit_analysis",
+          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Con il Bianco sei leggermente meglio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Il tuo cavallo in g5 è attaccato, quindi devi decidere subito cosa fare di lui.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"small_plus\"}]}]}, {\"id\": \"S03\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"**Gioca {{mv:C1}}**: spingi il pedone in d4 e prendi il centro. Il motore la valuta {{ev:C1}}.\", \"source\": \"engine\"}, {\"text\": \"**Sviluppa i pezzi**: cavallo in c3 e arrocco corto, così il re sta al sicuro.\", \"source\": \"theory\"}, {\"text\": \"**Non perdere il cavallo in g5**: è la tua unica unità attaccata.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}]}, {\"type\": \"p\", \"text\": \"Piano semplice: {{plan:w:d4,c3,Bd3,O-O@N1}}. Con il pedone in d4 e il cavallo in c3 controlli le case centrali e puoi arroccare corto. Se il Nero prende in d4, riprendi con il pedone in c3 e resti con un buon centro.\", \"source\": \"theory\"}]}, {\"id\": \"S05\", \"blocks\": [{\"type\": \"text_table\", \"columns\": [\"Pezzo\", \"Obiettivo\", \"Attenzione\"], \"rows\": [[{\"text\": \"**Cavallo g5**\", \"source\": \"theory\"}, {\"text\": \"Attaccare e5 e f7, creare minacce.\", \"source\": \"theory\"}, {\"text\": \"È attaccato: se il Nero spinge il pedone in e5 o gioca la donna, va salvato.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}], [{\"text\": \"**Cavallo b1**\", \"source\": \"theory\"}, {\"text\": \"Va in c3 per controllare d5 e sostenere il centro.\", \"source\": \"theory\"}, {\"text\": \"Non lasciarlo fermo: è ancora a casa.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"b1\", \"c1\"]}]}], [{\"text\": \"**Donna d1**\", \"source\": \"theory\"}, {\"text\": \"Sostiene il centro e può andare in f3 o e2.\", \"source\": \"theory\"}, {\"text\": \"Non esporla troppo presto.\", \"source\": \"theory\"}], [{\"text\": \"**Re e1**\", \"source\": \"theory\"}, {\"text\": \"Arrocca corto appena puoi.\", \"source\": \"theory\"}, {\"text\": \"La colonna e è aperta: non restare al centro.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"open_file_to_king\", \"side\": \"w\", \"squares\": [\"e1\"]}]}]]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Nero ha il cavallo in c6 che punta in d4 e può prendere il tuo pedone. La sua risposta più frequente dopo {{mv:C1}} è {{m:Nxd4@N3}} ({{pct:Nxd4@N3}}), poi spinge i pedoni del lato di donna. Anche {{m:Bf5@N3}} e {{m:Be6@N3}} sono comuni.\", \"source\": \"maia\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"Nxd4@N3\", \"band\": \"frequent\"}]}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C1\": {\"per_chi\": {\"text\": \"Consigliata: prende il centro, ma a questo livello la giocano in pochi ({{pct:C1.p_user}}).\", \"source\": \"maia\"}}, \"C2\": {\"per_chi\": {\"text\": \"La scelta più naturale: la gioca l'{{pct:C2.p_user}} dei giocatori del tuo livello, ma è un sacrificio.\", \"source\": \"maia\"}}}}, {\"type\": \"p\", \"text\": \"Il motore preferisce {{mv:C1}} ({{ev:C1}}); {{mv:C2}} perde solo {{loss:C2}} ma è molto più complicata.\", \"source\": \"engine\"}]}, {\"id\": \"S08\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Non lasciare il cavallo in g5 attaccato**: dopo la spinta del pedone in e5 o la cattura della donna lo perdi.\", \"source\": \"theory\"}, {\"text\": \"**Non giocare {{mv:C2}} senza calcolare**: è un sacrificio, non un guadagno facile.\", \"source\": \"theory\"}, {\"text\": \"**Non arroccare tardi**: il centro è aperto e il re è esposto.\", \"source\": \"theory\"}, {\"text\": \"**Non spingere pedoni senza sviluppare**: prima i pezzi, poi i pedoni.\", \"source\": \"theory\"}, {\"text\": \"**Non giocare {{mv:C1}} senza guardare la risposta del Nero**: il cavallo in c6 può prendere in d4.\", \"source\": \"theory\"}]}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Il mio cavallo in g5 è attaccato?\", \"source\": \"theory\"}, {\"text\": \"Posso prendere il centro con {{mv:C1}}?\", \"source\": \"theory\"}, {\"text\": \"Tutti i miei pezzi sono protetti?\", \"source\": \"theory\"}, {\"text\": \"Posso arroccare?\", \"source\": \"theory\"}]}]}, {\"id\": \"S13\", \"blocks\": [{\"type\": \"p\", \"text\": \"Dopo {{mv:C2}} il Nero è quasi costretto a riprendere: {{m:Kxf7@N4}} è la risposta del {{pct:Kxf7@N4}} dei giocatori. Poi il Bianco dà scacco con la donna e recupera materiale, ma il re nero resta al centro e la posizione diventa molto tagliente. Il motore valuta {{ev:N4}} e la linea principale è {{pv:PV2:4}}.\", \"source\": \"mixed\"}, {\"type\": \"p\", \"text\": \"Il Nero può anche rispondere con la donna, ma perde materiale: {{m:Qh4@N4}} porta a {{ev:Qh4@N4}} per il Bianco. Per questo {{mv:C2}} è una trappola: se il Nero sbaglia, vinci; se gioca bene, la partita resta complicata.\", \"source\": \"engine\"}]}], \"notes\": [\"Il pacchetto non contiene il nodo N2 con policy di Maia-2 per il Nero, quindi le probabilità delle risposte nere sono prese dai nodi disponibili (N3, N4).\", \"La sezione S13 usa dati del motore e probabilità di Maia-2, quindi il primo blocco è marcato mixed.\"]}"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "usage": {
+     "prompt_tokens": 31228,
+     "completion_tokens": 1867,
+     "total_tokens": 33095,
+     "cost": 0.0018176592,
+     "is_byok": false,
+     "prompt_tokens_details": {
+      "cached_tokens": 28672,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+     },
+     "cost_details": {
+      "upstream_inference_cost": 0.0018176592,
+      "upstream_inference_prompt_cost": 0.0007646712,
+      "upstream_inference_completions_cost": 0.001052988
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+     }
+    }
+   }
+  },
+  {
+   "stop_reason": "tool_use",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "call_00_civkjhbw7aur2rreaya1xf1j",
+     "name": "submit_analysis",
+     "input": {
+      "schema_version": "1",
+      "sections": [
+       {
+        "id": "S01",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Con il Bianco sei leggermente meglio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Il tuo cavallo in g5 è attaccato, quindi devi decidere subito cosa fare di lui.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "N1",
+            "band": "small_plus"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S03",
+        "blocks": [
+         {
+          "type": "ol",
+          "items": [
+           {
+            "text": "**Gioca {{mv:C1}}**: spingi il pedone in d4 e prendi il centro. Il motore la valuta {{ev:C1}}.",
+            "source": "engine"
+           },
+           {
+            "text": "**Sviluppa i pezzi**: cavallo in c3 e arrocco corto, così il re sta al sicuro.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non perdere il cavallo in g5**: è la tua unica unità attaccata.",
+            "source": "feature",
+            "assertions": [
+             {
+              "kind": "feature",
+              "key": "hanging_piece",
+              "side": "w",
+              "squares": [
+               "g5"
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Piano semplice: {{plan:w:d4,c3,Bd3,O-O@N1}}. Con il pedone in d4 e il cavallo in c3 controlli le case centrali e puoi arroccare corto. Se il Nero prende in d4, riprendi con il pedone in c3 e resti con un buon centro.",
+          "source": "theory"
+         }
+        ]
+       },
+       {
+        "id": "S05",
+        "blocks": [
+         {
+          "type": "text_table",
+          "columns": [
+           "Pezzo",
+           "Obiettivo",
+           "Attenzione"
+          ],
+          "rows": [
+           [
+            {
+             "text": "**Cavallo g5**",
+             "source": "theory"
+            },
+            {
+             "text": "Attaccare e5 e f7, creare minacce.",
+             "source": "theory"
+            },
+            {
+             "text": "È attaccato: se il Nero spinge il pedone in e5 o gioca la donna, va salvato.",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "hanging_piece",
+               "side": "w",
+               "squares": [
+                "g5"
+               ]
+              }
+             ]
+            }
+           ],
+           [
+            {
+             "text": "**Cavallo b1**",
+             "source": "theory"
+            },
+            {
+             "text": "Va in c3 per controllare d5 e sostenere il centro.",
+             "source": "theory"
+            },
+            {
+             "text": "Non lasciarlo fermo: è ancora a casa.",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "undeveloped_pieces",
+               "side": "w",
+               "squares": [
+                "b1",
+                "c1"
+               ]
+              }
+             ]
+            }
+           ],
+           [
+            {
+             "text": "**Donna d1**",
+             "source": "theory"
+            },
+            {
+             "text": "Sostiene il centro e può andare in f3 o e2.",
+             "source": "theory"
+            },
+            {
+             "text": "Non esporla troppo presto.",
+             "source": "theory"
+            }
+           ],
+           [
+            {
+             "text": "**Re e1**",
+             "source": "theory"
+            },
+            {
+             "text": "Arrocca corto appena puoi.",
+             "source": "theory"
+            },
+            {
+             "text": "La colonna e è aperta: non restare al centro.",
+             "source": "feature",
+             "assertions": [
+              {
+               "kind": "feature",
+               "key": "open_file_to_king",
+               "side": "w",
+               "squares": [
+                "e1"
+               ]
+              }
+             ]
+            }
+           ]
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S06",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Il Nero ha il cavallo in c6 che punta in d4 e può prendere il tuo pedone. La sua risposta più frequente dopo {{mv:C1}} è {{m:Nxd4@N3}} ({{pct:Nxd4@N3}}), poi spinge i pedoni del lato di donna. Anche {{m:Bf5@N3}} e {{m:Be6@N3}} sono comuni.",
+          "source": "maia",
+          "assertions": [
+           {
+            "kind": "maia_band",
+            "ref": "Nxd4@N3",
+            "band": "frequent"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S07",
+        "blocks": [
+         {
+          "type": "table",
+          "ref": "T1",
+          "text_cells": {
+           "C1": {
+            "per_chi": {
+             "text": "Consigliata: prende il centro, ma a questo livello la giocano in pochi ({{pct:C1.p_user}}).",
+             "source": "maia"
+            }
+           },
+           "C2": {
+            "per_chi": {
+             "text": "La scelta più naturale: la gioca l'{{pct:C2.p_user}} dei giocatori del tuo livello, ma è un sacrificio.",
+             "source": "maia"
+            }
+           }
+          }
+         },
+         {
+          "type": "p",
+          "text": "Il motore preferisce {{mv:C1}} ({{ev:C1}}); {{mv:C2}} perde solo {{loss:C2}} ma è molto più complicata.",
+          "source": "engine"
+         }
+        ]
+       },
+       {
+        "id": "S08",
+        "blocks": [
+         {
+          "type": "ul",
+          "items": [
+           {
+            "text": "**Non lasciare il cavallo in g5 attaccato**: dopo la spinta del pedone in e5 o la cattura della donna lo perdi.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non giocare {{mv:C2}} senza calcolare**: è un sacrificio, non un guadagno facile.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non arroccare tardi**: il centro è aperto e il re è esposto.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non spingere pedoni senza sviluppare**: prima i pezzi, poi i pedoni.",
+            "source": "theory"
+           },
+           {
+            "text": "**Non giocare {{mv:C1}} senza guardare la risposta del Nero**: il cavallo in c6 può prendere in d4.",
+            "source": "theory"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S10",
+        "blocks": [
+         {
+          "type": "ol",
+          "items": [
+           {
+            "text": "Il mio cavallo in g5 è attaccato?",
+            "source": "theory"
+           },
+           {
+            "text": "Posso prendere il centro con {{mv:C1}}?",
+            "source": "theory"
+           },
+           {
+            "text": "Tutti i miei pezzi sono protetti?",
+            "source": "theory"
+           },
+           {
+            "text": "Posso arroccare?",
+            "source": "theory"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S13",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Dopo {{mv:C2}} il Nero è quasi costretto a riprendere: {{m:Kxf7@N4}} è la risposta del {{pct:Kxf7@N4}} dei giocatori. Poi il Bianco dà scacco con la donna e recupera materiale, ma il re nero resta al centro e la posizione diventa molto tagliente. Il motore valuta {{ev:N4}} e la linea principale è {{pv:PV2:4}}.",
+          "source": "mixed"
+         },
+         {
+          "type": "p",
+          "text": "Il Nero può anche rispondere con la donna, ma perde materiale: {{m:Qh4@N4}} porta a {{ev:Qh4@N4}} per il Bianco. Per questo {{mv:C2}} è una trappola: se il Nero sbaglia, vinci; se gioca bene, la partita resta complicata.",
+          "source": "engine"
+         }
+        ]
+       }
+      ],
+      "notes": [
+       "Il pacchetto non contiene il nodo N2 con policy di Maia-2 per il Nero, quindi le probabilità delle risposte nere sono prese dai nodi disponibili (N3, N4).",
+       "La sezione S13 usa dati del motore e probabilità di Maia-2, quindi il primo blocco è marcato mixed."
+      ]
+     }
+    }
+   ],
+   "model": "deepseek/deepseek-v4.1-flash",
+   "usage": {
+    "prompt_tokens": 33427,
+    "completion_tokens": 1867,
+    "total_tokens": 35294,
+    "cost": 0.0018190974,
+    "is_byok": false,
+    "prompt_tokens_details": {
+     "cached_tokens": 31104,
+     "cache_write_tokens": 0,
+     "audio_tokens": 0,
+     "video_tokens": 0
+    },
+    "cost_details": {
+     "upstream_inference_cost": 0.0018190974,
+     "upstream_inference_prompt_cost": 0.0007661094,
+     "upstream_inference_completions_cost": 0.001052988
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0,
+     "image_tokens": 0,
+     "audio_tokens": 0
+    }
+   },
+   "provider_response": {
+    "id": "gen-1791132239-ZqJjpkI7IGuWQfXadPy4",
+    "object": "chat.completion",
+    "created": 1791132239,
+    "model": "deepseek/deepseek-v4.1-flash",
+    "provider": "AtlasCloud",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+     {
+      "index": 0,
+      "logprobs": null,
+      "finish_reason": "tool_calls",
+      "native_finish_reason": "tool_calls",
+      "message": {
+       "role": "assistant",
+       "content": null,
+       "refusal": null,
+       "reasoning": null,
+       "tool_calls": [
+        {
+         "type": "function",
+         "index": 0,
+         "id": "call_00_civkjhbw7aur2rreaya1xf1j",
+         "function": {
+          "name": "submit_analysis",
+          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Con il Bianco sei leggermente meglio: il motore dà {{ev:N1}}, con {{pct:root.win}} di vittorie e {{pct:root.draw}} di patte. Il tuo cavallo in g5 è attaccato, quindi devi decidere subito cosa fare di lui.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"small_plus\"}]}]}, {\"id\": \"S03\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"**Gioca {{mv:C1}}**: spingi il pedone in d4 e prendi il centro. Il motore la valuta {{ev:C1}}.\", \"source\": \"engine\"}, {\"text\": \"**Sviluppa i pezzi**: cavallo in c3 e arrocco corto, così il re sta al sicuro.\", \"source\": \"theory\"}, {\"text\": \"**Non perdere il cavallo in g5**: è la tua unica unità attaccata.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}]}, {\"type\": \"p\", \"text\": \"Piano semplice: {{plan:w:d4,c3,Bd3,O-O@N1}}. Con il pedone in d4 e il cavallo in c3 controlli le case centrali e puoi arroccare corto. Se il Nero prende in d4, riprendi con il pedone in c3 e resti con un buon centro.\", \"source\": \"theory\"}]}, {\"id\": \"S05\", \"blocks\": [{\"type\": \"text_table\", \"columns\": [\"Pezzo\", \"Obiettivo\", \"Attenzione\"], \"rows\": [[{\"text\": \"**Cavallo g5**\", \"source\": \"theory\"}, {\"text\": \"Attaccare e5 e f7, creare minacce.\", \"source\": \"theory\"}, {\"text\": \"È attaccato: se il Nero spinge il pedone in e5 o gioca la donna, va salvato.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"hanging_piece\", \"side\": \"w\", \"squares\": [\"g5\"]}]}], [{\"text\": \"**Cavallo b1**\", \"source\": \"theory\"}, {\"text\": \"Va in c3 per controllare d5 e sostenere il centro.\", \"source\": \"theory\"}, {\"text\": \"Non lasciarlo fermo: è ancora a casa.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"undeveloped_pieces\", \"side\": \"w\", \"squares\": [\"b1\", \"c1\"]}]}], [{\"text\": \"**Donna d1**\", \"source\": \"theory\"}, {\"text\": \"Sostiene il centro e può andare in f3 o e2.\", \"source\": \"theory\"}, {\"text\": \"Non esporla troppo presto.\", \"source\": \"theory\"}], [{\"text\": \"**Re e1**\", \"source\": \"theory\"}, {\"text\": \"Arrocca corto appena puoi.\", \"source\": \"theory\"}, {\"text\": \"La colonna e è aperta: non restare al centro.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"open_file_to_king\", \"side\": \"w\", \"squares\": [\"e1\"]}]}]]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Nero ha il cavallo in c6 che punta in d4 e può prendere il tuo pedone. La sua risposta più frequente dopo {{mv:C1}} è {{m:Nxd4@N3}} ({{pct:Nxd4@N3}}), poi spinge i pedoni del lato di donna. Anche {{m:Bf5@N3}} e {{m:Be6@N3}} sono comuni.\", \"source\": \"maia\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"Nxd4@N3\", \"band\": \"frequent\"}]}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C1\": {\"per_chi\": {\"text\": \"Consigliata: prende il centro, ma a questo livello la giocano in pochi ({{pct:C1.p_user}}).\", \"source\": \"maia\"}}, \"C2\": {\"per_chi\": {\"text\": \"La scelta più naturale: la gioca l'{{pct:C2.p_user}} dei giocatori del tuo livello, ma è un sacrificio.\", \"source\": \"maia\"}}}}, {\"type\": \"p\", \"text\": \"Il motore preferisce {{mv:C1}} ({{ev:C1}}); {{mv:C2}} perde solo {{loss:C2}} ma è molto più complicata.\", \"source\": \"engine\"}]}, {\"id\": \"S08\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Non lasciare il cavallo in g5 attaccato**: dopo la spinta del pedone in e5 o la cattura della donna lo perdi.\", \"source\": \"theory\"}, {\"text\": \"**Non giocare {{mv:C2}} senza calcolare**: è un sacrificio, non un guadagno facile.\", \"source\": \"theory\"}, {\"text\": \"**Non arroccare tardi**: il centro è aperto e il re è esposto.\", \"source\": \"theory\"}, {\"text\": \"**Non spingere pedoni senza sviluppare**: prima i pezzi, poi i pedoni.\", \"source\": \"theory\"}, {\"text\": \"**Non giocare {{mv:C1}} senza guardare la risposta del Nero**: il cavallo in c6 può prendere in d4.\", \"source\": \"theory\"}]}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Il mio cavallo in g5 è attaccato?\", \"source\": \"theory\"}, {\"text\": \"Posso prendere il centro con {{mv:C1}}?\", \"source\": \"theory\"}, {\"text\": \"Tutti i miei pezzi sono protetti?\", \"source\": \"theory\"}, {\"text\": \"Posso arroccare?\", \"source\": \"theory\"}]}]}, {\"id\": \"S13\", \"blocks\": [{\"type\": \"p\", \"text\": \"Dopo {{mv:C2}} il Nero è quasi costretto a riprendere: {{m:Kxf7@N4}} è la risposta del {{pct:Kxf7@N4}} dei giocatori. Poi il Bianco dà scacco con la donna e recupera materiale, ma il re nero resta al centro e la posizione diventa molto tagliente. Il motore valuta {{ev:N4}} e la linea principale è {{pv:PV2:4}}.\", \"source\": \"mixed\"}, {\"type\": \"p\", \"text\": \"Il Nero può anche rispondere con la donna, ma perde materiale: {{m:Qh4@N4}} porta a {{ev:Qh4@N4}} per il Bianco. Per questo {{mv:C2}} è una trappola: se il Nero sbaglia, vinci; se gioca bene, la partita resta complicata.\", \"source\": \"engine\"}]}], \"notes\": [\"Il pacchetto non contiene il nodo N2 con policy di Maia-2 per il Nero, quindi le probabilità delle risposte nere sono prese dai nodi disponibili (N3, N4).\", \"La sezione S13 usa dati del motore e probabilità di Maia-2, quindi il primo blocco è marcato mixed.\"]}"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "usage": {
+     "prompt_tokens": 33427,
+     "completion_tokens": 1867,
+     "total_tokens": 35294,
+     "cost": 0.0018190974,
+     "is_byok": false,
+     "prompt_tokens_details": {
+      "cached_tokens": 31104,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+     },
+     "cost_details": {
+      "upstream_inference_cost": 0.0018190974,
+      "upstream_inference_prompt_cost": 0.0007661094,
+      "upstream_inference_completions_cost": 0.001052988
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+     }
+    }
+   }
+  }
+ ]
+}

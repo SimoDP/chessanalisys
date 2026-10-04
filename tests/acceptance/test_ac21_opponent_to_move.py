@@ -59,7 +59,7 @@ def test_opponent_document(cfg, root):
     assert "Le tre cose da fare adesso" not in titles and "I sistemi che puoi scegliere" not in titles
     s07 = doc.split("## Risposte probabili del Nero e come prepararsi")[1].split("\n## ")[0]
     assert "| Risposta | Probabilità a 1900* | Valutazione | La tua risposta migliore | Come prepararsi |" in s07
-    assert "| 6...e5 | 69% | +0,33 | 7.Nb3 (+0,34) |" in s07
+    assert "| 6...e5 | 69% | +0,33 | 7.Nb3 (+0,13) |" in s07
     report = doc.split(f"## {REPORT_TITLE}")[1]
     assert "S03 (opponent_to_move)" in report and "S08 (opponent_to_move)" in report
     assert "E2b (opponent_to_move)" in report and "E3 (opponent_to_move)" in report

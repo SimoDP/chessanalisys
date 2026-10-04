@@ -60,10 +60,10 @@ def test_user_message_structure(cfg):
         assert tag in msg
     assert "<analisi_s07_alternativa>" not in msg
     assert "Modalità: tocca a te. Fascia: 1200_1600. Ancora: 1500. Giochi con il Bianco." in msg
-    assert "- S07 «Mosse candidate»: circa" in msg and "deve citare C1, C2, C10" in msg
+    assert "- S07 «Mosse candidate»: circa" in msg and "deve citare C1, C2, C11" in msg
     assert "con colonne di testo per_chi" in msg
     assert "Quota massima di contenuto theory: settanta per cento delle parole." in msg
-    assert "{{ev:N1}} → +0,39" in msg.split("</legenda>")[0]
+    assert "{{ev:N1}} → +0,34" in msg.split("</legenda>")[0]
     view = json.loads(msg.split("<pacchetto>\n")[1].split("\n</pacchetto>")[0])
     assert "tables" not in view
 

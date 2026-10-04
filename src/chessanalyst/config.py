@@ -272,6 +272,7 @@ class Selection(Strict):
     replies_best_sf: int
     context_spread_cp: int
     context_candidates: int
+    context_min_p: float          # D-68
 
 
 class TacticalCfg(Strict):

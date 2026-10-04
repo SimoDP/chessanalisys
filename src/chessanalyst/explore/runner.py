@@ -339,7 +339,7 @@ def _user_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: ches
     t3 = [ctx.ContextNode(exp.rows[u].san, exp.e2[u].board, exp.e2[u].result, exp.e2[u].maia["policy"])
           for u in sel.explained if exp.e2[u].result is not None]
     e2c_t = cfg.exploration.e2c_time_factor * e3_t
-    _run_e2c(exp, budget, t3, prof, th.selection.context_candidates, e2c_t, progress)
+    _run_e2c(exp, budget, t3, prof, th.selection.context_candidates, th.selection.context_min_p, e2c_t, progress)
 
     # E3 ℓ2 (opponent to move, after the first move of ℓ1) and ℓ3 (user, after the first move of ℓ2)
     for lvl in range(2, levels + 1):
@@ -363,15 +363,16 @@ def _user_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: ches
             if lvl == 2:
                 t3.append(ctx.ContextNode(" ".join(path), it.board, res, rec.maia["policy"]))
         if lvl == 2 and items:
-            _run_e2c(exp, budget, t3, prof, th.selection.context_candidates, e2c_t, progress)
-    exp.context = ctx.choose_context(t3, ctx.context_candidates(t3, th.selection.context_candidates),
-                                     th.selection.context_spread_cp)
+            _run_e2c(exp, budget, t3, prof, th.selection.context_candidates, th.selection.context_min_p, e2c_t, progress)
+    cands = ctx.context_candidates(t3, th.selection.context_candidates, th.selection.context_min_p)
+    exp.context = ctx.choose_context(t3, cands, th.selection.context_spread_cp,
+                                     th.profile.tactical.gap_cp)       # D-68: blunders are not context costs
 
 
 def _run_e2c(exp: Exploration, budget: Budget, t3: list[ctx.ContextNode], prof: ProfileCfg, n_cands: int,
-             t_target: float, progress) -> None:
+             min_p: float, t_target: float, progress) -> None:
     """E2c: restricted searches for the context candidates where they are legal but missing (§3-ter.6)."""
-    cands = ctx.context_candidates(t3, n_cands)
+    cands = ctx.context_candidates(t3, n_cands, min_p)
     items: list[tuple[ctx.ContextNode, str, Item]] = []
     for m in cands:
         for n in ctx.missing_nodes(t3, m):

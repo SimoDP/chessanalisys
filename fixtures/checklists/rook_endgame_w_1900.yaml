@@ -1,0 +1,13 @@
+# Checklist della posizione (§8-bis.6, M2). Scritta dai dati del motore, prima di leggere la risposta del modello.
+id: rook_endgame_w_1900
+position: fixtures/positions/rook_endgame.fen    # 8/5pk1/6p1/r7/8/6P1/5PK1/3R4 w - - 0 40
+user: {color: w, elo: 1900, elo_scale: fide}
+matrix_column: 3                                 # finale (8 pezzi: oltre le tablebase 3-4-5)
+sections: [S01, S06, S07, S08, S10, S12]
+# Tre mosse che devono comparire nei token: la raccomandata e due alternative spiegate (patta in ogni caso).
+moves: [Rd7, Rd6, Rb1]
+# Due errori tipici. La posizione è patta con quasi ogni mossa: gli errori sono di concetto. L'unico errore
+# concreto nell'albero è lo scambio delle torri dopo ...Ra2+ (Rb2, finale di pedoni perso).
+typical_errors:
+  - {concept: "torre passiva", pattern: "passiv"}
+  - {concept: "scambio delle torri in un finale di pedoni perso", pattern: "finale di pedoni|scambi\\w* (?:delle|le) torri"}

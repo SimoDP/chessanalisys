@@ -12,5 +12,9 @@ def test_record_fixtures(cfg, request):
         pytest.skip("usa --record per rigenerare le registrazioni")
     from chessanalyst.golden.record import record_fixtures
 
-    written = record_fixtures(cfg)
+    import os
+
+    groups = os.environ.get("CHESSANALYST_RECORD_GROUPS")       # e.g. "najdorf" (comma separated)
+    written = record_fixtures(cfg, groups=groups.split(",") if groups else None,
+                              extend=bool(os.environ.get("CHESSANALYST_RECORD_EXTEND")))
     assert all(p.stat().st_size > 0 for p in written)

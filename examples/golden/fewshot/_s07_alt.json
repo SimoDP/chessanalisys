@@ -35,12 +35,12 @@
     },
     {
      "type": "p",
-     "text": "Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere in e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro. Nella linea principale del motore, {{pv:PV1:6}}, il Nero sviluppa l'alfiere in e6 e il cavallo in c6 prima di decidere dove mettere il re.",
+     "text": "Per il motore la risposta migliore del Nero è {{mv:R2}} ({{ev:R2}}): il cavallo attacca l'alfiere in e3 e ti costringe a decidere subito dove metterlo. Contro {{mv:R1}} la posizione resta {{ev:R1.u1}} se ritiri il cavallo in b3; contro {{mv:R3}} il tuo vantaggio è il più alto ({{ev:R3}}), perché il Nero rinuncia a contrastare subito il centro. Nella linea principale del motore, {{pv:PV1:6}}, il Nero sviluppa l'alfiere in e6 e il cavallo in d7 prima di decidere dove mettere il re.",
      "source": "engine"
     },
     {
      "type": "p",
-     "text": "Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}, perché {{mv:R2.u3}} è la mossa istintiva che regala il vantaggio (la sceglie il {{pct:R2.u3.p_user}} dei giocatori del tuo livello), e ricorda che dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra la donna in d2 e il pedone in f3: portano allo stesso attacco.",
+     "text": "Come prepararti: decidi in anticipo la ritirata dell'alfiere contro {{mv:R2}}: le due buone si equivalgono, mentre una mossa di donna come {{m:Qd2@N4}}, scelta dal {{pct:Qd2@N4}} dei giocatori del tuo livello, perde {{loss:Qd2@N4}}. Ricorda che dopo {{mv:R1}} il cavallo ha una sola ritirata davvero buona, {{mv:R1.u1:bare}}. Contro {{mv:R3}} puoi scegliere con calma tra {{mv:R3.u1:bare}} e {{mv:R3.u2:bare}}: si equivalgono.",
      "source": "mixed"
     }
    ]

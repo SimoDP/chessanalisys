@@ -62,17 +62,17 @@
     },
     {
      "type": "p",
-     "text": "Se preferisci arroccare **corto** e avere una posizione più tranquilla, {{mv:C5}} costa solo {{loss:C5}}: poi {{plan:w:Be2,Be3,O-O@N1}}.",
+     "text": "Se preferisci arroccare **corto** e avere una posizione più tranquilla, {{mv:C6}} costa solo {{loss:C6}}: poi {{plan:w:Be2,Be3,O-O@N1}}.",
      "source": "mixed"
     },
     {
      "type": "p",
-     "text": "{{mv:C10}} è la mossa che si gioca più spesso al tuo livello ({{pct:C10.p_user}}), ma porta a linee molto teoriche: tienila per più avanti.",
+     "text": "{{mv:C11}} è la mossa che si gioca più spesso al tuo livello ({{pct:C11.p_user}}), ma porta a linee molto teoriche: tienila per più avanti.",
      "source": "maia",
      "assertions": [
       {
        "kind": "maia_band",
-       "ref": "C10.p_user",
+       "ref": "C11.p_user",
        "band": "frequent"
       }
      ]
@@ -182,9 +182,9 @@
         "source": "maia"
        }
       },
-      "C10": {
+      "C11": {
        "per_chi": {
-        "text": "La più giocata ({{pct:C10.p_user}}), ma molto teorica: meglio più avanti",
+        "text": "La più giocata ({{pct:C11.p_user}}), ma molto teorica: meglio più avanti",
         "source": "maia"
        }
       }
@@ -192,7 +192,7 @@
     },
     {
      "type": "p",
-     "text": "Le mosse del motore sono vicinissime: tra {{mv:C1}} e {{mv:C10}} si perdono solo {{loss:C10}}. Scegli quella di cui capisci il piano.",
+     "text": "Le mosse del motore sono vicinissime: tra {{mv:C1}} e {{mv:C11}} si perdono solo {{loss:C11}}. Scegli quella di cui capisci il piano.",
      "source": "engine"
     }
    ]
@@ -224,13 +224,13 @@
        "source": "theory"
       },
       {
-       "text": "{{mv:C3}} è una buona mossa ({{ev:C3}}) che quasi nessuno gioca al tuo livello ({{pct:C3.p_user}}): non serve trovarla, ma ricordala.",
+       "text": "{{mv:C11}} è la mossa più giocata al tuo livello ({{pct:C11.p_user}}): costa {{loss:C11}} rispetto alla migliore, ma è un'**alternativa pratica**, senza mosse difficili da trovare. Se la giochi, studia la risposta {{m:e6@N5}}.",
        "source": "mixed",
        "assertions": [
         {
          "kind": "classification",
-         "ref": "C3",
-         "category": "hard_move"
+         "ref": "C11",
+         "category": "practical_alt"
         }
        ]
       }

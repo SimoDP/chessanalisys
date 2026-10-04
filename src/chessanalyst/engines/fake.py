@@ -18,7 +18,7 @@ from typing import Any
 
 import chess
 
-from chessanalyst.engines.cache import satisfies, sf_key
+from chessanalyst.engines.cache import better, satisfies, sf_key
 from chessanalyst.engines.types import NodeResult
 
 
@@ -31,10 +31,15 @@ class FakeEngine:
 
     def __init__(self, version: str = "Stockfish 16", records: Iterable[dict[str, Any]] = ()) -> None:
         self.version = version
-        self._store: dict[str, NodeResult] = {}
+        # every recorded search of a position (the same key can hold e.g. an E2b search with MultiPV 2
+        # and a deeper-level search with MultiPV 8, or the searches of two recording groups)
+        self._store: dict[str, list[NodeResult]] = {}
         self.calls = 0
         for rec in records:
-            self._store[rec["key"]] = NodeResult.from_dict(rec["result"])
+            res = NodeResult.from_dict(rec["result"])
+            lst = self._store.setdefault(rec["key"], [])
+            if res not in lst:
+                lst.append(res)
 
     @classmethod
     def from_dir(cls, directory: Path, version: str | None = None) -> "FakeEngine":
@@ -48,7 +53,20 @@ class FakeEngine:
         return cls(version, records)
 
     def add(self, board: chess.Board, result: NodeResult, root_moves: Sequence[str] | None = None) -> None:
-        self._store[sf_key(self.version, board, root_moves)] = result
+        self._store.setdefault(sf_key(self.version, board, root_moves), []).append(result)
+
+    def _pick(self, key: str, k: int, d_min: int) -> NodeResult | None:
+        """The best recorded search that satisfies the request (cache rule, §3.3); otherwise the
+        exact replay of a search with enough lines (even if unstable)."""
+        recs = self._store.get(key, [])
+        ok = [r for r in recs if satisfies(r, k, d_min)]
+        if ok:
+            best = ok[0]
+            for r in ok[1:]:
+                if better(r, best):
+                    best = r
+            return best
+        return next((r for r in recs if r.multipv >= k), None)
 
     def open(self) -> "FakeEngine":
         return self
@@ -74,11 +92,9 @@ class FakeEngine:
         self.calls += 1
         k = min(multipv, len(root_moves) if root_moves else board.legal_moves.count())
         rm = [m.uci() for m in root_moves] if root_moves else None
-        rec = self._store.get(sf_key(self.version, board, rm))
-        if rec is not None and not satisfies(rec, k, d_min) and rec.multipv >= k:
-            return rec.truncated(k)   # exact replay of what the engine produced (even if unstable)
-        if rec is None or not satisfies(rec, k, d_min):
-            rec = self._from_superset(board, rm, k) if rm else None
+        rec = self._pick(sf_key(self.version, board, rm), k, d_min)
+        if rec is None and rm:
+            rec = self._from_superset(board, rm, k)
         if rec is None:
             raise MissingRecording(
                 f"Nessuna registrazione adatta per {board.fen()} (multipv {k}, d_min {d_min}, root_moves {rm})"
@@ -90,7 +106,7 @@ class FakeEngine:
         position that contains all the requested moves."""
         fen = board.fen(en_passant="legal")
         wanted = set(root_moves)
-        for rec in self._store.values():
+        for rec in (r for lst in self._store.values() for r in lst):
             if rec.fen != fen:
                 continue
             lines = [ln for ln in rec.lines if ln.uci in wanted]

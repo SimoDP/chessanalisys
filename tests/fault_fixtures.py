@@ -39,6 +39,7 @@ EXPECTED: dict[str, tuple[str, set[str]]] = {
     "bad_long_line.json": ("najdorf_w_1900", {"V05"}),
     "max_tokens.json": ("najdorf_w_1900", {"V01"}),
     "bad_notes_token.json": ("najdorf_w_1900", {"V03"}),    # OQ-M1c-10 (real DeepSeek response)
+    "bad_tool_arguments.json": ("najdorf_w_1900", {"V01"}),  # OQ-M2-9: arguments not valid JSON (real DeepSeek)
 }
 
 
@@ -95,18 +96,21 @@ def build(rook_pack: dict) -> dict[str, dict]:
     r = _replace
     out = {
         "good_najdorf_1900.json": envelope(good),
-        "bad_illegal_san.json": envelope(r(good, "S01", "{{m:e5@N2}}", "{{m:Nf6@N1}}")),
+        "bad_illegal_san.json": envelope(r(good, "S01", "{{m:e6@N2}}", "{{m:Nf6@N1}}")),
         "bad_unknown_id.json": envelope(r(good, "S01", "{{ev:C1}}", "{{ev:C99}}")),
-        "bad_null_value.json": envelope(r(good, "S07", "{{pct:C10.p_user}}", "{{pct:C1.p_up}}")),
+        "bad_null_value.json": envelope(r(good, "S07", "{{pct:C11.p_user}}", "{{pct:C1.p_up}}")),
         "bad_free_digit.json": envelope(r(good, "S01", "Le cinque mosse", "Le 5 mosse")),
         "bad_chain.json": envelope(r(good, "S04", "{{plan:w:g4,g5,h4@N3}}", "g4-g5 e h4")),
         "bad_plan.json": envelope(r(r(good, "S04", "{{plan:w:g4,g5,h4@N3}}", "{{plan:w:Be3,Qd2,Qxd8@N1}}"),
-                                    "S03", "{{plan:w:Be2,Be3,O-O,f4@N1}}", "{{plan:w:Bb5,O-O@N1}}")),
+                                    "S03", "{{plan:w:O-O,f4@N6}}", "{{plan:w:Bb5,O-O@N1}}")),
         "bad_plan_engine.json": envelope(r(good, "S01", "quindi non sprecare tempi",
                                            "quindi non sprecare tempi con {{plan:w:Be3,Qd2@N3}}")),
         "bad_theory_tokens.json": envelope(r(good, "S04", "si arrocca corto.", "si arrocca corto ({{ev:C5}}).")),
         "bad_markup.json": envelope(r(good, "S01", "Posizione teorica", "## Posizione teorica")),
         "bad_long_line.json": envelope(r(good, "S07", "{{pv:PV1:8}}", "{{pv:PV1:10}}")),
+        # the client turns tool arguments that are not valid JSON into ``input: None`` (OQ-M1c-9)
+        "bad_tool_arguments.json": {"stop_reason": "tool_use", "content": [
+            {"type": "tool_use", "id": "toolu_recorded", "name": "submit_analysis", "input": None}]},
         "max_tokens.json": {"stop_reason": "max_tokens",
                             "content": [{"type": "text", "text": "Analisi interrotta per limite di token."}]},
     }

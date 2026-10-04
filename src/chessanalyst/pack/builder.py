@@ -124,7 +124,8 @@ def _node_dict(rec: NodeRec, nid: str, parent: str | None, color: chess.Color, m
     maia = None
     if rec.maia is not None:
         pol = rec.maia["policy"]
-        entries = sorted(((u, p) for u, p in pol.items() if p >= min_p), key=lambda kv: (-kv[1], kv[0]))
+        # the threshold applies to the stored value (4 decimals, §6.1): stable at the boundary
+        entries = sorted(((u, p) for u, p in pol.items() if _p4(p) >= min_p), key=lambda kv: (-_p4(kv[1]), kv[0]))
         es = rec.maia["expected_score"]
         maia = {"elo_self": rec.maia["elo_self"], "elo_oppo": rec.maia["elo_oppo"],
                 "policy": [{"san": b.san(chess.Move.from_uci(u)), "uci": u, "p": _p4(p)} for u, p in entries],

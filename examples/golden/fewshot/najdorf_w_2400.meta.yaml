@@ -3,10 +3,12 @@ anchor: "2400"
 pack: examples/golden/packs/najdorf_w_2400.pack.json
 raw: examples/golden/raw/najdorf_w_2400.md
 validated: false          # §8-bis.5: da rivedere da un giocatore di circa 2400
-needs_review: [S01, S03, S06, S07, S08]
+needs_review: [S01, S03, S06, S07]
 notes:
   - "M1: E3 solo al primo livello; T2 contiene le righe di ℓ1 (in M2 si aggiungono ℓ2 e ℓ3 e il fewshot va completato)."
   - "S03: aggiunte le strutture con 6.h3 e 6.Bd3 (candidate spiegate del pacchetto)."
   - "S06: la mossa di contesto calcolata è ...e5; il paragrafo su ...Nc6 del raw è sostituito. La frase di bassa confidenza la mette il render."
   - "S07: aggiunta T1 con la colonna «Nota»; note di T2 sulle righe principali."
   - "S08: sezione nuova (imprecisioni sottili con i dati di Maia-2)."
+  - "M2 (Stockfish 19, ℓ1–ℓ3, D-66, D-68): fewshot completato; T2 contiene ℓ1, ℓ2 e ℓ3 (33 righe) con note sulle righe critiche; T3 con la mossa di contesto ...g6."
+  - "M2 · S08 omessa (c8: nessuna trappola naturale né mossa difficile a 2400); S03 riscritta su 6.Bd3 e 6.Qd3 (6.h3 e 6.Be2 non sono più spiegate)."

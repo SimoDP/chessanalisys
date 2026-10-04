@@ -157,6 +157,13 @@ def test_degraded_mode_uses_the_last_response_that_passed_v01(cfg):
     assert "g4-g5" not in res.document
 
 
+def test_invalid_tool_arguments_are_retried(cfg):
+    # OQ-M2-9: a real DeepSeek answer with invalid JSON arguments ended the cycle without a retry (exit 5)
+    res, llm = _cycle(cfg, ["bad_tool_arguments.json", "good_najdorf_1900.json"])
+    assert res.retries == 1 and not res.degraded and len(llm.requests) == 2
+    assert "V01" in llm.requests[1]["messages"][2]["content"][0]["content"]
+
+
 def test_no_valid_response_is_exit_code_5(cfg):
     with pytest.raises(ModelError) as e:
         _cycle(cfg, ["max_tokens.json"] * 3)

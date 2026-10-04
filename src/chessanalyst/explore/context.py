@@ -22,9 +22,10 @@ def _opp_cp(eval_white_cp: int, board: chess.Board) -> int:
     return eval_white_cp if board.turn == chess.WHITE else -eval_white_cp
 
 
-def context_candidates(nodes: list[ContextNode], n_keep: int) -> list[str]:
+def context_candidates(nodes: list[ContextNode], n_keep: int, min_p: float = 0.0) -> list[str]:
     """Moves present in the MultiPV of ≥ 2 nodes, minus a move that is best in all
-    the nodes where it appears; ordered by (#nodes, mean p_opp) desc."""
+    the nodes where it appears, with mean p_opp ≥ ``min_p`` (D-68: only moves the
+    opponent really plays); ordered by (#nodes, mean p_opp) desc."""
     seen: dict[str, list[ContextNode]] = {}
     for n in nodes:
         for ln in n.result.lines:
@@ -41,6 +42,7 @@ def context_candidates(nodes: list[ContextNode], n_keep: int) -> list[str]:
         legal = [n for n in nodes if chess.Move.from_uci(u) in n.board.legal_moves]
         return sum(n.policy.get(u, 0.0) for n in legal) / len(legal) if legal else 0.0
 
+    cands = [u for u in cands if mean_p(u) >= min_p]
     cands.sort(key=lambda u: (-len(seen[u]), -mean_p(u), u))
     return cands[:n_keep]
 
@@ -60,7 +62,10 @@ def eval_of(n: ContextNode, move: str) -> int | None:
     return None
 
 
-def choose_context(nodes: list[ContextNode], cands: list[str], spread_min: int) -> dict | None:
+def choose_context(nodes: list[ContextNode], cands: list[str], spread_min: int,
+                   blunder_cp: int | None = None) -> dict | None:
+    """Context move: largest cost spread across the T3 nodes (§3-ter.6). D-68: a node where the move
+    costs at least ``blunder_cp`` is left out (there it is a tactical error, not a context cost)."""
     best = None
     for u in cands:
         rows = []
@@ -70,6 +75,8 @@ def choose_context(nodes: list[ContextNode], cands: list[str], spread_min: int) 
                 continue
             best_ev = n.result.lines[0].eval_white_cp
             cost = max(0, _opp_cp(best_ev, n.board) - _opp_cp(ev, n.board))
+            if blunder_cp is not None and cost >= blunder_cp:
+                continue
             rows.append({"node": n, "move_eval_white": ev, "best": n.result.lines[0], "cost_cp": cost,
                          "p_opp": n.policy.get(u, 0.0)})
         if len(rows) < 2:

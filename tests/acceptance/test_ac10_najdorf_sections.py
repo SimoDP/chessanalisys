@@ -15,8 +15,9 @@ from chessanalyst.render.report import REPORT_TITLE
 EXPECTED = {   # sections after matrix, milestone and §8.2-bis (column 1, user to move)
     "1500": ["S01", "S03", "S05", "S06", "S07", "S08", "S10"],
     "1900": ["S01", "S03", "S04", "S05", "S06", "S07", "S08", "S10"],
-    # 2400: S04 absorbed in S03, S05 and S10 excluded (band_2400), S08 by c8 (natural_trap, hard_move)
-    "2400": ["S01", "S03", "S06", "S07", "S08"],
+    # 2400: S04 absorbed in S03, S05 and S10 excluded (band_2400); S08 by c8 (natural_trap, hard_move):
+    # no such move in the frozen pack (Stockfish 19), so S08 is omitted with «no_classified_move»
+    "2400": ["S01", "S03", "S06", "S07"],
 }
 ANCHORS = ["1500", "1900", "2400"]
 
@@ -40,7 +41,7 @@ def test_rendered_sections(cfg, root, anchor):
         assert plan["S04"]["absorbed_into"] == "S03" and "S04 in S03" in report
         assert "S05 (band_2400)" in report and "S10 (band_2400)" in report
         assert plan["S07"]["tables"] == ["T1", "T2"]              # move order at 2400 (§8.5)
-        assert plan["S08"]["required"] == bool(plan["S08"]["must_cover"])
+        assert not plan["S08"]["required"] and "S08 (no_classified_move)" in report
         assert "S11 (milestone)" in report                       # S11 arrives in M4
     else:
         assert "assorbite: nessuna" in report

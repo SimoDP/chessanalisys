@@ -1,0 +1,814 @@
+{
+ "model": "deepseek/deepseek-v4.1-flash",
+ "responses": [
+  {
+   "stop_reason": "tool_use",
+   "content": [
+    {
+     "type": "text",
+     "text": "\n\n"
+    },
+    {
+     "type": "tool_use",
+     "id": "call_2918a0a3658941abb2bfce4c",
+     "name": "submit_analysis",
+     "input": {
+      "schema_version": "1",
+      "sections": [
+       {
+        "id": "S01",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Posizione di Najdorf con vantaggio bianco minimo: {{ev:C1}} per la prima scelta, {{ev:C2}} per la seconda, patta al {{pct:root.draw}} secondo il motore. Il punto non è il vantaggio ma il **move order**: il Nero ha tre sistemi difensivi distinti e il Bianco deve scegliere quale struttura imporre.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "C1",
+            "band": "slight_plus"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Con il Nero al tratto la valutazione sarebbe {{ev:N2}}: il vantaggio è quasi tutto il tratto. La casa d5, la diagonale {{diag:a7-g1}} e la scelta dell'arrocco sono i temi che decidono la partita.",
+          "source": "mixed"
+         }
+        ]
+       },
+       {
+        "id": "S03",
+        "blocks": [
+         {
+          "type": "ul",
+          "items": [
+           {
+            "text": "**Sistema con f3 e arrocco lungo ({{plan:w:f3,Be3,Qd2,O-O-O@N3}}):** {{mv:C1}} prepara e4 e l'arrocco lungo, poi la corsa {{plan:w:g4,g5@N3}}. Adatto a chi vuole giocare sull'ala di re con il re al sicuro sul lato di donna; il Nero risponde con {{plan:b:e5,Be6,Be7,O-O@N3}}.",
+            "source": "mixed"
+           },
+           {
+            "text": "**Sistema con alfiere in e3 e arrocco corto o lungo ({{plan:w:Be3,f3,Qd2,O-O-O@N1}}):** {{mv:C2}} sviluppa subito e tiene aperte entrambe le scelte di arrocco; la linea del motore è {{pv:PV2:6}}. Più flessibile, meno impegnativa.",
+            "source": "engine"
+           },
+           {
+            "text": "**Sistema con donna in d3:** {{mv:C3}} ({{ev:C3}}) evita la teoria principale e punta su e4 sostenuto; dopo {{m:Nbd7@N5}} la posizione è {{ev:N5}} e il Nero fianchetta, come in {{pv:PV3:6}}.",
+            "source": "engine"
+           },
+           {
+            "text": "**Sistema con alfiere in d3:** {{mv:C4}} ({{ev:C4}}) protegge e4 con l'alfiere e rinvia la scelta dell'arrocco; contro il fianchetto la linea è {{pv:PV4:6}}.",
+            "source": "engine"
+           },
+           {
+            "text": "**Sistema con alfiere in g5:** {{mv:C11}} ({{ev:C11}}) è la scelta pratica più frequente; dopo {{m:e6@N7}} il Nero entra in una struttura diversa, con la donna in b6 e la presa in b2 come in {{pv:PV11:10}}.",
+            "source": "engine"
+           },
+           {
+            "text": "**Corsa dei pedoni:** con gli arrocchi opposti la spinta g4-g5 contro b5-b4 è la partita; chi arriva prima vince. Con l'arrocco corto il Bianco gioca invece su d5 e sulla colonna e.",
+            "source": "theory"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S06",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Il Nero ha tre risposte principali e la scelta dipende dal sistema bianco. Contro {{mv:C1}} la più comune è {{m:e5@N3}} ({{ev:N3}}), alla pari con {{m:Nc6@N3}} ({{ev:Nc6@N3}}); contro {{mv:C2}} la migliore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), che guadagna un tempo sull'alfiere.",
+          "source": "engine"
+         },
+         {
+          "type": "table",
+          "ref": "T3"
+         },
+         {
+          "type": "p",
+          "text": "La mossa di contesto è il fianchetto {{m:g6@N6}}: contro {{mv:C4}} non costa nulla ({{loss:g6@N6}}), contro {{mv:C1}} e {{mv:C2}} costa {{loss:g6@N3}} e {{loss:g6@N4}}, mentre contro {{mv:C11}} perde {{loss:g6@N7}}. Dopo {{mv:C1}} {{m:e6@N3}} {{m:g4@N10:num}} il fianchetto perde {{loss:g6@N20}}: con il pedone già in g4 l'attacco arriva con un tempo di vantaggio.",
+          "source": "engine"
+         },
+         {
+          "type": "p",
+          "text": "Le frequenze di Maia-2 vanno lette con cautela: contro {{mv:C2}} {{m:e5@N4}} resta la scelta più comune ({{pct:e5@N4}}), davanti a {{m:Ng4@N4}} ({{pct:Ng4@N4}}). Contro le strutture con f3 il piano tipico del Nero è {{plan:b:e5,Be6,Be7,O-O@N3}}, con il cavallo di donna in d7 e la spinta in b5 appena il re bianco va sul lato di donna.",
+          "source": "mixed"
+         }
+        ]
+       },
+       {
+        "id": "S07",
+        "blocks": [
+         {
+          "type": "table",
+          "ref": "T1",
+          "text_cells": {
+           "C1": {
+            "nota": {
+             "text": "Evita il salto in g4; dopo {{m:e5@N3}} segue {{m:Nb3@N8}} ({{ev:Nb3@N8}})",
+             "source": "engine"
+            }
+           },
+           "C2": {
+            "nota": {
+             "text": "Ammette {{m:Ng4@N4}} ({{ev:Ng4@N4}})",
+             "source": "engine"
+            }
+           },
+           "C3": {
+            "nota": {
+             "text": "Fuori teoria; {{m:Nbd7@N5}} pareggia ({{ev:N5}})",
+             "source": "engine"
+            }
+           },
+           "C4": {
+            "nota": {
+             "text": "Contro il fianchetto non perde nulla ({{ev:g6@N6}})",
+             "source": "engine"
+            }
+           },
+           "C11": {
+            "nota": {
+             "text": "Struttura diversa: {{pv:PV11:10}}",
+             "source": "engine"
+            }
+           }
+          }
+         },
+         {
+          "type": "table",
+          "ref": "T2",
+          "text_cells": {
+           "r2": {
+            "nota": {
+             "text": "Solo {{m:Nb3@N8}} tiene: {{m:Nf5@N8}} perde {{loss:Nf5@N8}}",
+             "source": "engine"
+            }
+           },
+           "r9": {
+            "nota": {
+             "text": "{{m:h6@N20}} è quasi obbligata: {{m:b5@N20}} costa {{loss:b5@N20}}",
+             "source": "engine"
+            }
+           },
+           "r12": {
+            "nota": {
+             "text": "Le due ritirate si equivalgono ({{ev:Bg5@N11}})",
+             "source": "engine"
+            }
+           },
+           "r14": {
+            "nota": {
+             "text": "Solo {{m:Bh4@N31}} tiene: {{m:Bc1@N31}} cede {{loss:Bc1@N31}}",
+             "source": "engine"
+            }
+           },
+           "r31": {
+            "nota": {
+             "text": "{{m:Nf5@N17}} ({{ev:Nf5@N17}}) è più forte della ritirata {{m:Nb3@N17}}",
+             "source": "engine"
+            }
+           }
+          }
+         },
+         {
+          "type": "p",
+          "text": "Tra la prima e l'undicesima mossa spiegata ci sono {{loss:C11}}: la scelta è di sistema, non di valutazione. Il test critico è dopo {{mv:C2}} {{m:Ng4@N4}}: dopo {{m:Bg5@N11}} {{m:h6@N21}} solo {{m:Bh4@N31}} ({{ev:Bh4@N31}}) conserva il vantaggio.",
+          "source": "engine"
+         },
+         {
+          "type": "p",
+          "text": "{{mv:C1}} è l'ordine che lascia meno scelte al Nero; {{mv:C3}} ({{ev:C3}}) e {{mv:C4}} ({{ev:C4}}) cambiano struttura cedendo poco più di un decimo.",
+          "source": "engine"
+         }
+        ]
+       }
+      ],
+      "notes": [
+       "Il pacchetto segnala maia.confidence low: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.",
+       "recommendation.no_unique_best è vero: non esiste una mossa unica; C1 è indicata solo come scelta debolmente preferita."
+      ]
+     }
+    }
+   ],
+   "model": "deepseek/deepseek-v4.1-flash",
+   "usage": {
+    "prompt_tokens": 40948,
+    "completion_tokens": 1920,
+    "total_tokens": 42868,
+    "cost": 0.0015997,
+    "is_byok": false,
+    "prompt_tokens_details": {
+     "cached_tokens": 0,
+     "cache_write_tokens": 0,
+     "audio_tokens": 0,
+     "video_tokens": 0
+    },
+    "cost_details": {
+     "upstream_inference_cost": 0.0015997,
+     "upstream_inference_prompt_cost": 0.0010237,
+     "upstream_inference_completions_cost": 0.000576
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0,
+     "image_tokens": 0,
+     "audio_tokens": 0
+    }
+   },
+   "provider_response": {
+    "id": "gen-1791134727-LEGp4Er01N0M1Fxu5PFz",
+    "object": "chat.completion",
+    "created": 1791134727,
+    "model": "deepseek/deepseek-v4.1-flash",
+    "provider": "InferenceNet",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+     {
+      "index": 0,
+      "logprobs": null,
+      "finish_reason": "tool_calls",
+      "native_finish_reason": "tool_calls",
+      "message": {
+       "role": "assistant",
+       "content": "\n\n",
+       "refusal": null,
+       "reasoning": null,
+       "tool_calls": [
+        {
+         "type": "function",
+         "index": 0,
+         "id": "call_2918a0a3658941abb2bfce4c",
+         "function": {
+          "name": "submit_analysis",
+          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Posizione di Najdorf con vantaggio bianco minimo: {{ev:C1}} per la prima scelta, {{ev:C2}} per la seconda, patta al {{pct:root.draw}} secondo il motore. Il punto non è il vantaggio ma il **move order**: il Nero ha tre sistemi difensivi distinti e il Bianco deve scegliere quale struttura imporre.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"C1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Con il Nero al tratto la valutazione sarebbe {{ev:N2}}: il vantaggio è quasi tutto il tratto. La casa d5, la diagonale {{diag:a7-g1}} e la scelta dell'arrocco sono i temi che decidono la partita.\",\"source\":\"mixed\"}]},{\"id\":\"S03\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"**Sistema con f3 e arrocco lungo ({{plan:w:f3,Be3,Qd2,O-O-O@N3}}):** {{mv:C1}} prepara e4 e l'arrocco lungo, poi la corsa {{plan:w:g4,g5@N3}}. Adatto a chi vuole giocare sull'ala di re con il re al sicuro sul lato di donna; il Nero risponde con {{plan:b:e5,Be6,Be7,O-O@N3}}.\",\"source\":\"mixed\"},{\"text\":\"**Sistema con alfiere in e3 e arrocco corto o lungo ({{plan:w:Be3,f3,Qd2,O-O-O@N1}}):** {{mv:C2}} sviluppa subito e tiene aperte entrambe le scelte di arrocco; la linea del motore è {{pv:PV2:6}}. Più flessibile, meno impegnativa.\",\"source\":\"engine\"},{\"text\":\"**Sistema con donna in d3:** {{mv:C3}} ({{ev:C3}}) evita la teoria principale e punta su e4 sostenuto; dopo {{m:Nbd7@N5}} la posizione è {{ev:N5}} e il Nero fianchetta, come in {{pv:PV3:6}}.\",\"source\":\"engine\"},{\"text\":\"**Sistema con alfiere in d3:** {{mv:C4}} ({{ev:C4}}) protegge e4 con l'alfiere e rinvia la scelta dell'arrocco; contro il fianchetto la linea è {{pv:PV4:6}}.\",\"source\":\"engine\"},{\"text\":\"**Sistema con alfiere in g5:** {{mv:C11}} ({{ev:C11}}) è la scelta pratica più frequente; dopo {{m:e6@N7}} il Nero entra in una struttura diversa, con la donna in b6 e la presa in b2 come in {{pv:PV11:10}}.\",\"source\":\"engine\"},{\"text\":\"**Corsa dei pedoni:** con gli arrocchi opposti la spinta g4-g5 contro b5-b4 è la partita; chi arriva prima vince. Con l'arrocco corto il Bianco gioca invece su d5 e sulla colonna e.\",\"source\":\"theory\"}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero ha tre risposte principali e la scelta dipende dal sistema bianco. Contro {{mv:C1}} la più comune è {{m:e5@N3}} ({{ev:N3}}), alla pari con {{m:Nc6@N3}} ({{ev:Nc6@N3}}); contro {{mv:C2}} la migliore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), che guadagna un tempo sull'alfiere.\",\"source\":\"engine\"},{\"type\":\"table\",\"ref\":\"T3\"},{\"type\":\"p\",\"text\":\"La mossa di contesto è il fianchetto {{m:g6@N6}}: contro {{mv:C4}} non costa nulla ({{loss:g6@N6}}), contro {{mv:C1}} e {{mv:C2}} costa {{loss:g6@N3}} e {{loss:g6@N4}}, mentre contro {{mv:C11}} perde {{loss:g6@N7}}. Dopo {{mv:C1}} {{m:e6@N3}} {{m:g4@N10:num}} il fianchetto perde {{loss:g6@N20}}: con il pedone già in g4 l'attacco arriva con un tempo di vantaggio.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Le frequenze di Maia-2 vanno lette con cautela: contro {{mv:C2}} {{m:e5@N4}} resta la scelta più comune ({{pct:e5@N4}}), davanti a {{m:Ng4@N4}} ({{pct:Ng4@N4}}). Contro le strutture con f3 il piano tipico del Nero è {{plan:b:e5,Be6,Be7,O-O@N3}}, con il cavallo di donna in d7 e la spinta in b5 appena il re bianco va sul lato di donna.\",\"source\":\"mixed\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C1\":{\"nota\":{\"text\":\"Evita il salto in g4; dopo {{m:e5@N3}} segue {{m:Nb3@N8}} ({{ev:Nb3@N8}})\",\"source\":\"engine\"}},\"C2\":{\"nota\":{\"text\":\"Ammette {{m:Ng4@N4}} ({{ev:Ng4@N4}})\",\"source\":\"engine\"}},\"C3\":{\"nota\":{\"text\":\"Fuori teoria; {{m:Nbd7@N5}} pareggia ({{ev:N5}})\",\"source\":\"engine\"}},\"C4\":{\"nota\":{\"text\":\"Contro il fianchetto non perde nulla ({{ev:g6@N6}})\",\"source\":\"engine\"}},\"C11\":{\"nota\":{\"text\":\"Struttura diversa: {{pv:PV11:10}}\",\"source\":\"engine\"}}}},{\"type\":\"table\",\"ref\":\"T2\",\"text_cells\":{\"r2\":{\"nota\":{\"text\":\"Solo {{m:Nb3@N8}} tiene: {{m:Nf5@N8}} perde {{loss:Nf5@N8}}\",\"source\":\"engine\"}},\"r9\":{\"nota\":{\"text\":\"{{m:h6@N20}} è quasi obbligata: {{m:b5@N20}} costa {{loss:b5@N20}}\",\"source\":\"engine\"}},\"r12\":{\"nota\":{\"text\":\"Le due ritirate si equivalgono ({{ev:Bg5@N11}})\",\"source\":\"engine\"}},\"r14\":{\"nota\":{\"text\":\"Solo {{m:Bh4@N31}} tiene: {{m:Bc1@N31}} cede {{loss:Bc1@N31}}\",\"source\":\"engine\"}},\"r31\":{\"nota\":{\"text\":\"{{m:Nf5@N17}} ({{ev:Nf5@N17}}) è più forte della ritirata {{m:Nb3@N17}}\",\"source\":\"engine\"}}}},{\"type\":\"p\",\"text\":\"Tra la prima e l'undicesima mossa spiegata ci sono {{loss:C11}}: la scelta è di sistema, non di valutazione. Il test critico è dopo {{mv:C2}} {{m:Ng4@N4}}: dopo {{m:Bg5@N11}} {{m:h6@N21}} solo {{m:Bh4@N31}} ({{ev:Bh4@N31}}) conserva il vantaggio.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"{{mv:C1}} è l'ordine che lascia meno scelte al Nero; {{mv:C3}} ({{ev:C3}}) e {{mv:C4}} ({{ev:C4}}) cambiano struttura cedendo poco più di un decimo.\",\"source\":\"engine\"}]}],\"notes\":[\"Il pacchetto segnala maia.confidence low: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.\",\"recommendation.no_unique_best è vero: non esiste una mossa unica; C1 è indicata solo come scelta debolmente preferita.\"]}"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "usage": {
+     "prompt_tokens": 40948,
+     "completion_tokens": 1920,
+     "total_tokens": 42868,
+     "cost": 0.0015997,
+     "is_byok": false,
+     "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+     },
+     "cost_details": {
+      "upstream_inference_cost": 0.0015997,
+      "upstream_inference_prompt_cost": 0.0010237,
+      "upstream_inference_completions_cost": 0.000576
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+     }
+    }
+   }
+  },
+  {
+   "stop_reason": "tool_use",
+   "content": [
+    {
+     "type": "text",
+     "text": "\n\n"
+    },
+    {
+     "type": "tool_use",
+     "id": "call_11c8641127fa4898a3551069",
+     "name": "submit_analysis",
+     "input": {
+      "schema_version": "1",
+      "sections": [
+       {
+        "id": "S01",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Posizione di Najdorf con vantaggio bianco minimo: {{ev:C1}} per la prima scelta, {{ev:C2}} per la seconda, patta al {{pct:root.draw}} secondo il motore. Il punto non è il vantaggio ma il **move order**: il Nero ha tre sistemi difensivi distinti e il Bianco deve scegliere quale struttura imporre, perché la differenza tra la prima e l'ultima candidata spiegata è di soli {{loss:C11}}.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "C1",
+            "band": "slight_plus"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Con il Nero al tratto la valutazione sarebbe {{ev:N2}}: il vantaggio è quasi tutto il tratto. La casa d5, la diagonale {{diag:a7-g1}} e la scelta dell'arrocco sono i temi che decidono la partita.",
+          "source": "mixed"
+         }
+        ]
+       },
+       {
+        "id": "S03",
+        "blocks": [
+         {
+          "type": "ul",
+          "items": [
+           {
+            "text": "**Sistema con f3 e arrocco lungo:** {{mv:C1}} prepara e4 e l'arrocco lungo, poi la corsa {{plan:w:g4,g5@N3}}. Adatto a chi vuole giocare sull'ala di re con il re al sicuro sul lato di donna; il Nero risponde con {{plan:b:e5,Be6,Be7,O-O@N3}}.",
+            "source": "mixed"
+           },
+           {
+            "text": "**Sistema con alfiere in e3 e arrocco corto o lungo:** {{mv:C2}} sviluppa subito e tiene aperte entrambe le scelte di arrocco; la linea del motore è {{pv:PV2:6}}. Più flessibile, meno impegnativa.",
+            "source": "engine"
+           },
+           {
+            "text": "**Sistema con donna in d3:** {{mv:C3}} ({{ev:C3}}) evita la teoria principale e punta su e4 sostenuto; dopo {{m:Nbd7@N5}} la posizione è {{ev:N5}} e il Nero fianchetta, come in {{pv:PV3:6}}.",
+            "source": "engine"
+           },
+           {
+            "text": "**Sistema con alfiere in d3:** {{mv:C4}} ({{ev:C4}}) protegge e4 con l'alfiere e rinvia la scelta dell'arrocco; contro il fianchetto la linea è {{pv:PV4:6}}.",
+            "source": "engine"
+           },
+           {
+            "text": "**Sistema con alfiere in g5:** {{mv:C11}} ({{ev:C11}}) è la scelta pratica più frequente; dopo {{m:e6@N7}} il Nero entra in una struttura diversa, con la donna in b6 e la presa in b2 come in {{pv:PV11:10}}.",
+            "source": "engine"
+           },
+           {
+            "text": "**Corsa dei pedoni:** con gli arrocchi opposti la spinta del pedone g contro il pedone b è la partita; chi arriva prima vince. Con l'arrocco corto il Bianco gioca invece su d5 e sulla colonna e.",
+            "source": "theory"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S06",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Il Nero ha tre risposte principali e la scelta dipende dal sistema bianco. Contro {{mv:C1}} la più comune è {{m:e5@N3}} ({{ev:N3}}), alla pari con {{m:Nc6@N3}} ({{ev:Nc6@N3}}); contro {{mv:C2}} la migliore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), che guadagna un tempo sull'alfiere.",
+          "source": "engine"
+         },
+         {
+          "type": "table",
+          "ref": "T3"
+         },
+         {
+          "type": "p",
+          "text": "La mossa di contesto è il fianchetto {{m:g6@N6}}: contro {{mv:C4}} non costa nulla ({{loss:g6@N6}}), contro {{mv:C1}} e {{mv:C2}} costa {{loss:g6@N3}} e {{loss:g6@N4}}, mentre contro {{mv:C11}} perde {{loss:g6@N7}}. Dopo {{mv:C1}} {{m:e6@N3}} {{m:g4@N10:num}} il fianchetto perde {{loss:g6@N20}}: con il pedone già in g4 l'attacco arriva con un tempo di vantaggio.",
+          "source": "engine"
+         },
+         {
+          "type": "p",
+          "text": "Le frequenze di Maia-2 vanno lette con cautela: contro {{mv:C2}} {{m:e5@N4}} resta la scelta più comune ({{pct:e5@N4}}), davanti a {{m:Ng4@N4}} ({{pct:Ng4@N4}}). Contro le strutture con f3 il piano tipico del Nero è {{plan:b:e5,Be6,Be7,O-O@N3}}, con il cavallo di donna in d7 e la spinta in b5 appena il re bianco va sul lato di donna.",
+          "source": "mixed"
+         }
+        ]
+       },
+       {
+        "id": "S07",
+        "blocks": [
+         {
+          "type": "table",
+          "ref": "T1",
+          "text_cells": {
+           "C1": {
+            "nota": {
+             "text": "Evita il salto in g4; dopo {{m:e5@N3}} segue {{m:Nb3@N8}} ({{ev:Nb3@N8}})",
+             "source": "engine"
+            }
+           },
+           "C2": {
+            "nota": {
+             "text": "Ammette {{m:Ng4@N4}} ({{ev:Ng4@N4}})",
+             "source": "engine"
+            }
+           },
+           "C3": {
+            "nota": {
+             "text": "Fuori teoria; {{m:Nbd7@N5}} pareggia ({{ev:N5}})",
+             "source": "engine"
+            }
+           },
+           "C4": {
+            "nota": {
+             "text": "Contro il fianchetto non perde nulla ({{ev:g6@N6}})",
+             "source": "engine"
+            }
+           },
+           "C11": {
+            "nota": {
+             "text": "Struttura diversa: {{pv:PV11:10}}",
+             "source": "engine"
+            }
+           }
+          }
+         },
+         {
+          "type": "table",
+          "ref": "T2",
+          "text_cells": {
+           "r2": {
+            "nota": {
+             "text": "Solo {{m:Nb3@N8}} tiene: {{m:Nf5@N8}} perde {{loss:Nf5@N8}}",
+             "source": "engine"
+            }
+           },
+           "r9": {
+            "nota": {
+             "text": "{{m:h6@N20}} è quasi obbligata: {{m:b5@N20}} costa {{loss:b5@N20}}",
+             "source": "engine"
+            }
+           },
+           "r12": {
+            "nota": {
+             "text": "Le due ritirate si equivalgono ({{ev:Bg5@N11}})",
+             "source": "engine"
+            }
+           },
+           "r14": {
+            "nota": {
+             "text": "Solo {{m:Bh4@N31}} tiene: {{m:Bc1@N31}} cede {{loss:Bc1@N31}}",
+             "source": "engine"
+            }
+           },
+           "r31": {
+            "nota": {
+             "text": "{{m:Nf5@N17}} ({{ev:Nf5@N17}}) è più forte della ritirata {{m:Nb3@N17}}",
+             "source": "engine"
+            }
+           }
+          }
+         },
+         {
+          "type": "p",
+          "text": "Tra la prima e l'ultima mossa spiegata ci sono {{loss:C11}}: la scelta è di sistema, non di valutazione. Il test critico è dopo {{mv:C2}} {{m:Ng4@N4}}: dopo {{m:Bg5@N11}} {{m:h6@N21}} solo {{m:Bh4@N31}} ({{ev:Bh4@N31}}) conserva il vantaggio.",
+          "source": "engine"
+         },
+         {
+          "type": "p",
+          "text": "{{mv:C1}} è l'ordine che lascia meno scelte al Nero; {{mv:C3}} ({{ev:C3}}) e {{mv:C4}} ({{ev:C4}}) cambiano struttura cedendo poco più di un decimo.",
+          "source": "engine"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "model": "deepseek/deepseek-v4.1-flash",
+   "usage": {
+    "prompt_tokens": 43511,
+    "completion_tokens": 1958,
+    "total_tokens": 45469,
+    "cost": 0.001308839,
+    "is_byok": false,
+    "prompt_tokens_details": {
+     "cached_tokens": 40704,
+     "cache_write_tokens": 0,
+     "audio_tokens": 0,
+     "video_tokens": 0
+    },
+    "cost_details": {
+     "upstream_inference_cost": 0.001308839,
+     "upstream_inference_prompt_cost": 0.000721439,
+     "upstream_inference_completions_cost": 0.0005874
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0,
+     "image_tokens": 0,
+     "audio_tokens": 0
+    }
+   },
+   "provider_response": {
+    "id": "gen-1791134771-yCrMn69cMWubGDOeLSBN",
+    "object": "chat.completion",
+    "created": 1791134771,
+    "model": "deepseek/deepseek-v4.1-flash",
+    "provider": "InferenceNet",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+     {
+      "index": 0,
+      "logprobs": null,
+      "finish_reason": "tool_calls",
+      "native_finish_reason": "tool_calls",
+      "message": {
+       "role": "assistant",
+       "content": "\n\n",
+       "refusal": null,
+       "reasoning": null,
+       "tool_calls": [
+        {
+         "type": "function",
+         "index": 0,
+         "id": "call_11c8641127fa4898a3551069",
+         "function": {
+          "name": "submit_analysis",
+          "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Posizione di Najdorf con vantaggio bianco minimo: {{ev:C1}} per la prima scelta, {{ev:C2}} per la seconda, patta al {{pct:root.draw}} secondo il motore. Il punto non è il vantaggio ma il **move order**: il Nero ha tre sistemi difensivi distinti e il Bianco deve scegliere quale struttura imporre, perché la differenza tra la prima e l'ultima candidata spiegata è di soli {{loss:C11}}.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"C1\", \"band\": \"slight_plus\"}]}, {\"type\": \"p\", \"text\": \"Con il Nero al tratto la valutazione sarebbe {{ev:N2}}: il vantaggio è quasi tutto il tratto. La casa d5, la diagonale {{diag:a7-g1}} e la scelta dell'arrocco sono i temi che decidono la partita.\", \"source\": \"mixed\"}]}, {\"id\": \"S03\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Sistema con f3 e arrocco lungo:** {{mv:C1}} prepara e4 e l'arrocco lungo, poi la corsa {{plan:w:g4,g5@N3}}. Adatto a chi vuole giocare sull'ala di re con il re al sicuro sul lato di donna; il Nero risponde con {{plan:b:e5,Be6,Be7,O-O@N3}}.\", \"source\": \"mixed\"}, {\"text\": \"**Sistema con alfiere in e3 e arrocco corto o lungo:** {{mv:C2}} sviluppa subito e tiene aperte entrambe le scelte di arrocco; la linea del motore è {{pv:PV2:6}}. Più flessibile, meno impegnativa.\", \"source\": \"engine\"}, {\"text\": \"**Sistema con donna in d3:** {{mv:C3}} ({{ev:C3}}) evita la teoria principale e punta su e4 sostenuto; dopo {{m:Nbd7@N5}} la posizione è {{ev:N5}} e il Nero fianchetta, come in {{pv:PV3:6}}.\", \"source\": \"engine\"}, {\"text\": \"**Sistema con alfiere in d3:** {{mv:C4}} ({{ev:C4}}) protegge e4 con l'alfiere e rinvia la scelta dell'arrocco; contro il fianchetto la linea è {{pv:PV4:6}}.\", \"source\": \"engine\"}, {\"text\": \"**Sistema con alfiere in g5:** {{mv:C11}} ({{ev:C11}}) è la scelta pratica più frequente; dopo {{m:e6@N7}} il Nero entra in una struttura diversa, con la donna in b6 e la presa in b2 come in {{pv:PV11:10}}.\", \"source\": \"engine\"}, {\"text\": \"**Corsa dei pedoni:** con gli arrocchi opposti la spinta del pedone g contro il pedone b è la partita; chi arriva prima vince. Con l'arrocco corto il Bianco gioca invece su d5 e sulla colonna e.\", \"source\": \"theory\"}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"p\", \"text\": \"Il Nero ha tre risposte principali e la scelta dipende dal sistema bianco. Contro {{mv:C1}} la più comune è {{m:e5@N3}} ({{ev:N3}}), alla pari con {{m:Nc6@N3}} ({{ev:Nc6@N3}}); contro {{mv:C2}} la migliore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), che guadagna un tempo sull'alfiere.\", \"source\": \"engine\"}, {\"type\": \"table\", \"ref\": \"T3\"}, {\"type\": \"p\", \"text\": \"La mossa di contesto è il fianchetto {{m:g6@N6}}: contro {{mv:C4}} non costa nulla ({{loss:g6@N6}}), contro {{mv:C1}} e {{mv:C2}} costa {{loss:g6@N3}} e {{loss:g6@N4}}, mentre contro {{mv:C11}} perde {{loss:g6@N7}}. Dopo {{mv:C1}} {{m:e6@N3}} {{m:g4@N10:num}} il fianchetto perde {{loss:g6@N20}}: con il pedone già in g4 l'attacco arriva con un tempo di vantaggio.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Le frequenze di Maia-2 vanno lette con cautela: contro {{mv:C2}} {{m:e5@N4}} resta la scelta più comune ({{pct:e5@N4}}), davanti a {{m:Ng4@N4}} ({{pct:Ng4@N4}}). Contro le strutture con f3 il piano tipico del Nero è {{plan:b:e5,Be6,Be7,O-O@N3}}, con il cavallo di donna in d7 e la spinta in b5 appena il re bianco va sul lato di donna.\", \"source\": \"mixed\"}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"C1\": {\"nota\": {\"text\": \"Evita il salto in g4; dopo {{m:e5@N3}} segue {{m:Nb3@N8}} ({{ev:Nb3@N8}})\", \"source\": \"engine\"}}, \"C2\": {\"nota\": {\"text\": \"Ammette {{m:Ng4@N4}} ({{ev:Ng4@N4}})\", \"source\": \"engine\"}}, \"C3\": {\"nota\": {\"text\": \"Fuori teoria; {{m:Nbd7@N5}} pareggia ({{ev:N5}})\", \"source\": \"engine\"}}, \"C4\": {\"nota\": {\"text\": \"Contro il fianchetto non perde nulla ({{ev:g6@N6}})\", \"source\": \"engine\"}}, \"C11\": {\"nota\": {\"text\": \"Struttura diversa: {{pv:PV11:10}}\", \"source\": \"engine\"}}}}, {\"type\": \"table\", \"ref\": \"T2\", \"text_cells\": {\"r2\": {\"nota\": {\"text\": \"Solo {{m:Nb3@N8}} tiene: {{m:Nf5@N8}} perde {{loss:Nf5@N8}}\", \"source\": \"engine\"}}, \"r9\": {\"nota\": {\"text\": \"{{m:h6@N20}} è quasi obbligata: {{m:b5@N20}} costa {{loss:b5@N20}}\", \"source\": \"engine\"}}, \"r12\": {\"nota\": {\"text\": \"Le due ritirate si equivalgono ({{ev:Bg5@N11}})\", \"source\": \"engine\"}}, \"r14\": {\"nota\": {\"text\": \"Solo {{m:Bh4@N31}} tiene: {{m:Bc1@N31}} cede {{loss:Bc1@N31}}\", \"source\": \"engine\"}}, \"r31\": {\"nota\": {\"text\": \"{{m:Nf5@N17}} ({{ev:Nf5@N17}}) è più forte della ritirata {{m:Nb3@N17}}\", \"source\": \"engine\"}}}}, {\"type\": \"p\", \"text\": \"Tra la prima e l'ultima mossa spiegata ci sono {{loss:C11}}: la scelta è di sistema, non di valutazione. Il test critico è dopo {{mv:C2}} {{m:Ng4@N4}}: dopo {{m:Bg5@N11}} {{m:h6@N21}} solo {{m:Bh4@N31}} ({{ev:Bh4@N31}}) conserva il vantaggio.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"{{mv:C1}} è l'ordine che lascia meno scelte al Nero; {{mv:C3}} ({{ev:C3}}) e {{mv:C4}} ({{ev:C4}}) cambiano struttura cedendo poco più di un decimo.\", \"source\": \"engine\"}]}]}"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "usage": {
+     "prompt_tokens": 43511,
+     "completion_tokens": 1958,
+     "total_tokens": 45469,
+     "cost": 0.001308839,
+     "is_byok": false,
+     "prompt_tokens_details": {
+      "cached_tokens": 40704,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+     },
+     "cost_details": {
+      "upstream_inference_cost": 0.001308839,
+      "upstream_inference_prompt_cost": 0.000721439,
+      "upstream_inference_completions_cost": 0.0005874
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+     }
+    }
+   }
+  },
+  {
+   "stop_reason": "tool_use",
+   "content": [
+    {
+     "type": "text",
+     "text": "\n\n"
+    },
+    {
+     "type": "tool_use",
+     "id": "call_9a95716f293c4976b2abe7a4",
+     "name": "submit_analysis",
+     "input": {
+      "schema_version": "1",
+      "sections": [
+       {
+        "id": "S01",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Posizione di Najdorf con vantaggio bianco minimo: {{ev:C1}} per la prima scelta, {{ev:C2}} per la seconda, patta al {{pct:root.draw}} secondo il motore. Il punto non è il vantaggio ma il **move order**: il Nero ha tre sistemi difensivi distinti e il Bianco deve scegliere quale struttura imporre, perché la differenza tra la prima e l'ultima candidata spiegata è di soli {{loss:C11}}.",
+          "source": "engine",
+          "assertions": [
+           {
+            "kind": "eval_band",
+            "ref": "C1",
+            "band": "slight_plus"
+           }
+          ]
+         },
+         {
+          "type": "p",
+          "text": "Con il Nero al tratto la valutazione sarebbe {{ev:N2}}: il vantaggio è quasi tutto il tratto. La casa d5, la diagonale {{diag:a7-g1}} e la scelta dell'arrocco sono i temi che decidono la partita.",
+          "source": "mixed"
+         }
+        ]
+       },
+       {
+        "id": "S03",
+        "blocks": [
+         {
+          "type": "ul",
+          "items": [
+           {
+            "text": "**Sistema con f3 e arrocco lungo:** {{mv:C1}} prepara e4 e l'arrocco lungo, poi la corsa {{plan:w:g4,g5@N3}}. Adatto a chi vuole giocare sull'ala di re con il re al sicuro sul lato di donna; il Nero risponde con {{plan:b:e5,Be6,Be7,O-O@N3}}.",
+            "source": "mixed"
+           },
+           {
+            "text": "**Sistema con alfiere in e3 e arrocco corto o lungo:** {{mv:C2}} sviluppa subito e tiene aperte entrambe le scelte di arrocco; la linea del motore è {{pv:PV2:6}}. Più flessibile, meno impegnativa.",
+            "source": "engine"
+           },
+           {
+            "text": "**Sistema con donna in d3:** {{mv:C3}} ({{ev:C3}}) evita la teoria principale e punta su e4 sostenuto; dopo {{m:Nbd7@N5}} la posizione è {{ev:N5}} e il Nero fianchetta, come in {{pv:PV3:6}}.",
+            "source": "engine"
+           },
+           {
+            "text": "**Sistema con alfiere in d3:** {{mv:C4}} ({{ev:C4}}) protegge e4 con l'alfiere e rinvia la scelta dell'arrocco; contro il fianchetto la linea è {{pv:PV4:6}}.",
+            "source": "engine"
+           },
+           {
+            "text": "**Sistema con alfiere in g5:** {{mv:C11}} ({{ev:C11}}) è la scelta pratica più frequente; dopo {{m:e6@N7}} il Nero entra in una struttura diversa, con la donna in b6 e la presa in b2 come in {{pv:PV11:10}}.",
+            "source": "engine"
+           },
+           {
+            "text": "**Corsa dei pedoni:** con gli arrocchi opposti la spinta del pedone g contro il pedone b è la partita; chi arriva prima vince. Con l'arrocco corto il Bianco gioca invece su d5 e sulla colonna e.",
+            "source": "theory"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "S06",
+        "blocks": [
+         {
+          "type": "p",
+          "text": "Il Nero ha tre risposte principali e la scelta dipende dal sistema bianco. Contro {{mv:C1}} la più comune è {{m:e5@N3}} ({{ev:N3}}), alla pari con {{m:Nc6@N3}} ({{ev:Nc6@N3}}); contro {{mv:C2}} la migliore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), che guadagna un tempo sull'alfiere.",
+          "source": "engine"
+         },
+         {
+          "type": "table",
+          "ref": "T3"
+         },
+         {
+          "type": "p",
+          "text": "La mossa di contesto è il fianchetto {{m:g6@N6}}: contro {{mv:C4}} non costa nulla ({{loss:g6@N6}}), contro {{mv:C1}} e {{mv:C2}} costa {{loss:g6@N3}} e {{loss:g6@N4}}, mentre contro {{mv:C11}} perde {{loss:g6@N7}}. Dopo {{mv:C1}} {{m:e6@N3}} {{m:g4@N10:num}} il fianchetto perde {{loss:g6@N20}}: con il pedone già in g4 l'attacco arriva con un tempo di vantaggio.",
+          "source": "engine"
+         },
+         {
+          "type": "p",
+          "text": "Le frequenze di Maia-2 vanno lette con cautela: contro {{mv:C2}} {{m:e5@N4}} resta la scelta più comune ({{pct:e5@N4}}), davanti a {{m:Ng4@N4}} ({{pct:Ng4@N4}}). Contro le strutture con f3 il piano tipico del Nero è {{plan:b:e5,Be6,Be7,O-O@N3}}, con il cavallo di donna in d7 e la spinta in b5 appena il re bianco va sul lato di donna.",
+          "source": "mixed"
+         }
+        ]
+       },
+       {
+        "id": "S07",
+        "blocks": [
+         {
+          "type": "table",
+          "ref": "T1",
+          "text_cells": {
+           "C1": {
+            "nota": {
+             "text": "Evita il salto in g4; dopo {{m:e5@N3}} segue {{m:Nb3@N8}} ({{ev:Nb3@N8}})",
+             "source": "engine"
+            }
+           },
+           "C2": {
+            "nota": {
+             "text": "Ammette {{m:Ng4@N4}} ({{ev:Ng4@N4}})",
+             "source": "engine"
+            }
+           },
+           "C3": {
+            "nota": {
+             "text": "Fuori teoria; {{m:Nbd7@N5}} pareggia ({{ev:N5}})",
+             "source": "engine"
+            }
+           },
+           "C4": {
+            "nota": {
+             "text": "Contro il fianchetto non perde nulla ({{ev:g6@N6}})",
+             "source": "engine"
+            }
+           },
+           "C11": {
+            "nota": {
+             "text": "Struttura diversa: {{pv:PV11:10}}",
+             "source": "engine"
+            }
+           }
+          }
+         },
+         {
+          "type": "table",
+          "ref": "T2",
+          "text_cells": {
+           "r2": {
+            "nota": {
+             "text": "Solo {{m:Nb3@N8}} tiene: {{m:Nf5@N8}} perde {{loss:Nf5@N8}}",
+             "source": "engine"
+            }
+           },
+           "r9": {
+            "nota": {
+             "text": "{{m:h6@N20}} è quasi obbligata: {{m:b5@N20}} costa {{loss:b5@N20}}",
+             "source": "engine"
+            }
+           },
+           "r12": {
+            "nota": {
+             "text": "Le due ritirate si equivalgono ({{ev:Bg5@N11}})",
+             "source": "engine"
+            }
+           },
+           "r14": {
+            "nota": {
+             "text": "Solo {{m:Bh4@N31}} tiene: {{m:Bc1@N31}} cede {{loss:Bc1@N31}}",
+             "source": "engine"
+            }
+           },
+           "r31": {
+            "nota": {
+             "text": "{{m:Nf5@N17}} ({{ev:Nf5@N17}}) è più forte della ritirata {{m:Nb3@N17}}",
+             "source": "engine"
+            }
+           }
+          }
+         },
+         {
+          "type": "p",
+          "text": "Tra la prima e l'ultima mossa spiegata ci sono {{loss:C11}}: la scelta è di sistema, non di valutazione. Il test critico è dopo {{mv:C2}} {{m:Ng4@N4}}: dopo {{m:Bg5@N11}} {{m:h6@N21}} solo {{m:Bh4@N31}} ({{ev:Bh4@N31}}) conserva il vantaggio.",
+          "source": "engine"
+         },
+         {
+          "type": "p",
+          "text": "{{mv:C1}} è l'ordine che lascia meno scelte al Nero; {{mv:C3}} ({{ev:C3}}) e {{mv:C4}} ({{ev:C4}}) cambiano struttura cedendo poco più di un decimo.",
+          "source": "engine"
+         }
+        ]
+       }
+      ],
+      "notes": [
+       "Il pacchetto segnala maia.confidence low: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.",
+       "recommendation.no_unique_best è vero: non esiste una mossa unica; C1 è indicata solo come scelta debolmente preferita."
+      ]
+     }
+    }
+   ],
+   "model": "deepseek/deepseek-v4.1-flash",
+   "usage": {
+    "prompt_tokens": 45590,
+    "completion_tokens": 1904,
+    "total_tokens": 47494,
+    "cost": 0.001321574,
+    "is_byok": false,
+    "prompt_tokens_details": {
+     "cached_tokens": 43264,
+     "cache_write_tokens": 0,
+     "audio_tokens": 0,
+     "video_tokens": 0
+    },
+    "cost_details": {
+     "upstream_inference_cost": 0.001321574,
+     "upstream_inference_prompt_cost": 0.000750374,
+     "upstream_inference_completions_cost": 0.0005712
+    },
+    "completion_tokens_details": {
+     "reasoning_tokens": 0,
+     "image_tokens": 0,
+     "audio_tokens": 0
+    }
+   },
+   "provider_response": {
+    "id": "gen-1791134820-AKLunUEc8osJFSGE7zOp",
+    "object": "chat.completion",
+    "created": 1791134820,
+    "model": "deepseek/deepseek-v4.1-flash",
+    "provider": "InferenceNet",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+     {
+      "index": 0,
+      "logprobs": null,
+      "finish_reason": "tool_calls",
+      "native_finish_reason": "tool_calls",
+      "message": {
+       "role": "assistant",
+       "content": "\n\n",
+       "refusal": null,
+       "reasoning": null,
+       "tool_calls": [
+        {
+         "type": "function",
+         "index": 0,
+         "id": "call_9a95716f293c4976b2abe7a4",
+         "function": {
+          "name": "submit_analysis",
+          "arguments": "{\"schema_version\":\"1\",\"sections\":[{\"id\":\"S01\",\"blocks\":[{\"type\":\"p\",\"text\":\"Posizione di Najdorf con vantaggio bianco minimo: {{ev:C1}} per la prima scelta, {{ev:C2}} per la seconda, patta al {{pct:root.draw}} secondo il motore. Il punto non è il vantaggio ma il **move order**: il Nero ha tre sistemi difensivi distinti e il Bianco deve scegliere quale struttura imporre, perché la differenza tra la prima e l'ultima candidata spiegata è di soli {{loss:C11}}.\",\"source\":\"engine\",\"assertions\":[{\"kind\":\"eval_band\",\"ref\":\"C1\",\"band\":\"slight_plus\"}]},{\"type\":\"p\",\"text\":\"Con il Nero al tratto la valutazione sarebbe {{ev:N2}}: il vantaggio è quasi tutto il tratto. La casa d5, la diagonale {{diag:a7-g1}} e la scelta dell'arrocco sono i temi che decidono la partita.\",\"source\":\"mixed\"}]},{\"id\":\"S03\",\"blocks\":[{\"type\":\"ul\",\"items\":[{\"text\":\"**Sistema con f3 e arrocco lungo:** {{mv:C1}} prepara e4 e l'arrocco lungo, poi la corsa {{plan:w:g4,g5@N3}}. Adatto a chi vuole giocare sull'ala di re con il re al sicuro sul lato di donna; il Nero risponde con {{plan:b:e5,Be6,Be7,O-O@N3}}.\",\"source\":\"mixed\"},{\"text\":\"**Sistema con alfiere in e3 e arrocco corto o lungo:** {{mv:C2}} sviluppa subito e tiene aperte entrambe le scelte di arrocco; la linea del motore è {{pv:PV2:6}}. Più flessibile, meno impegnativa.\",\"source\":\"engine\"},{\"text\":\"**Sistema con donna in d3:** {{mv:C3}} ({{ev:C3}}) evita la teoria principale e punta su e4 sostenuto; dopo {{m:Nbd7@N5}} la posizione è {{ev:N5}} e il Nero fianchetta, come in {{pv:PV3:6}}.\",\"source\":\"engine\"},{\"text\":\"**Sistema con alfiere in d3:** {{mv:C4}} ({{ev:C4}}) protegge e4 con l'alfiere e rinvia la scelta dell'arrocco; contro il fianchetto la linea è {{pv:PV4:6}}.\",\"source\":\"engine\"},{\"text\":\"**Sistema con alfiere in g5:** {{mv:C11}} ({{ev:C11}}) è la scelta pratica più frequente; dopo {{m:e6@N7}} il Nero entra in una struttura diversa, con la donna in b6 e la presa in b2 come in {{pv:PV11:10}}.\",\"source\":\"engine\"},{\"text\":\"**Corsa dei pedoni:** con gli arrocchi opposti la spinta del pedone g contro il pedone b è la partita; chi arriva prima vince. Con l'arrocco corto il Bianco gioca invece su d5 e sulla colonna e.\",\"source\":\"theory\"}]}]},{\"id\":\"S06\",\"blocks\":[{\"type\":\"p\",\"text\":\"Il Nero ha tre risposte principali e la scelta dipende dal sistema bianco. Contro {{mv:C1}} la più comune è {{m:e5@N3}} ({{ev:N3}}), alla pari con {{m:Nc6@N3}} ({{ev:Nc6@N3}}); contro {{mv:C2}} la migliore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), che guadagna un tempo sull'alfiere.\",\"source\":\"engine\"},{\"type\":\"table\",\"ref\":\"T3\"},{\"type\":\"p\",\"text\":\"La mossa di contesto è il fianchetto {{m:g6@N6}}: contro {{mv:C4}} non costa nulla ({{loss:g6@N6}}), contro {{mv:C1}} e {{mv:C2}} costa {{loss:g6@N3}} e {{loss:g6@N4}}, mentre contro {{mv:C11}} perde {{loss:g6@N7}}. Dopo {{mv:C1}} {{m:e6@N3}} {{m:g4@N10:num}} il fianchetto perde {{loss:g6@N20}}: con il pedone già in g4 l'attacco arriva con un tempo di vantaggio.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"Le frequenze di Maia-2 vanno lette con cautela: contro {{mv:C2}} {{m:e5@N4}} resta la scelta più comune ({{pct:e5@N4}}), davanti a {{m:Ng4@N4}} ({{pct:Ng4@N4}}). Contro le strutture con f3 il piano tipico del Nero è {{plan:b:e5,Be6,Be7,O-O@N3}}, con il cavallo di donna in d7 e la spinta in b5 appena il re bianco va sul lato di donna.\",\"source\":\"mixed\"}]},{\"id\":\"S07\",\"blocks\":[{\"type\":\"table\",\"ref\":\"T1\",\"text_cells\":{\"C1\":{\"nota\":{\"text\":\"Evita il salto in g4; dopo {{m:e5@N3}} segue {{m:Nb3@N8}} ({{ev:Nb3@N8}})\",\"source\":\"engine\"}},\"C2\":{\"nota\":{\"text\":\"Ammette {{m:Ng4@N4}} ({{ev:Ng4@N4}})\",\"source\":\"engine\"}},\"C3\":{\"nota\":{\"text\":\"Fuori teoria; {{m:Nbd7@N5}} pareggia ({{ev:N5}})\",\"source\":\"engine\"}},\"C4\":{\"nota\":{\"text\":\"Contro il fianchetto non perde nulla ({{ev:g6@N6}})\",\"source\":\"engine\"}},\"C11\":{\"nota\":{\"text\":\"Struttura diversa: {{pv:PV11:10}}\",\"source\":\"engine\"}}}},{\"type\":\"table\",\"ref\":\"T2\",\"text_cells\":{\"r2\":{\"nota\":{\"text\":\"Solo {{m:Nb3@N8}} tiene: {{m:Nf5@N8}} perde {{loss:Nf5@N8}}\",\"source\":\"engine\"}},\"r9\":{\"nota\":{\"text\":\"{{m:h6@N20}} è quasi obbligata: {{m:b5@N20}} costa {{loss:b5@N20}}\",\"source\":\"engine\"}},\"r12\":{\"nota\":{\"text\":\"Le due ritirate si equivalgono ({{ev:Bg5@N11}})\",\"source\":\"engine\"}},\"r14\":{\"nota\":{\"text\":\"Solo {{m:Bh4@N31}} tiene: {{m:Bc1@N31}} cede {{loss:Bc1@N31}}\",\"source\":\"engine\"}},\"r31\":{\"nota\":{\"text\":\"{{m:Nf5@N17}} ({{ev:Nf5@N17}}) è più forte della ritirata {{m:Nb3@N17}}\",\"source\":\"engine\"}}}},{\"type\":\"p\",\"text\":\"Tra la prima e l'ultima mossa spiegata ci sono {{loss:C11}}: la scelta è di sistema, non di valutazione. Il test critico è dopo {{mv:C2}} {{m:Ng4@N4}}: dopo {{m:Bg5@N11}} {{m:h6@N21}} solo {{m:Bh4@N31}} ({{ev:Bh4@N31}}) conserva il vantaggio.\",\"source\":\"engine\"},{\"type\":\"p\",\"text\":\"{{mv:C1}} è l'ordine che lascia meno scelte al Nero; {{mv:C3}} ({{ev:C3}}) e {{mv:C4}} ({{ev:C4}}) cambiano struttura cedendo poco più di un decimo.\",\"source\":\"engine\"}]}],\"notes\":[\"Il pacchetto segnala maia.confidence low: le probabilità di Maia-2 sono poco affidabili e non sono state usate per costruire ragionamenti su piccole differenze.\",\"recommendation.no_unique_best è vero: non esiste una mossa unica; C1 è indicata solo come scelta debolmente preferita.\"]}"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "usage": {
+     "prompt_tokens": 45590,
+     "completion_tokens": 1904,
+     "total_tokens": 47494,
+     "cost": 0.001321574,
+     "is_byok": false,
+     "prompt_tokens_details": {
+      "cached_tokens": 43264,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+     },
+     "cost_details": {
+      "upstream_inference_cost": 0.001321574,
+      "upstream_inference_prompt_cost": 0.000750374,
+      "upstream_inference_completions_cost": 0.0005712
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+     }
+    }
+   }
+  }
+ ]
+}

@@ -13,7 +13,7 @@
       "blocks": [
        {
         "type": "p",
-        "text": "Posizione teorica e molto equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}} con la mossa migliore, e circa il {{pct:root.draw}} di patta. Le cinque mosse spiegate stanno tutte in un intervallo piccolissimo: tra {{mv:C1}} ({{ev:C1}}) e {{mv:C10}} ({{ev:C10}}) la differenza è appena {{loss:C10}}.",
+        "text": "Posizione teorica e molto equilibrata: il motore dà al Bianco un vantaggio minimo, {{ev:N1}} con la mossa migliore, e circa il {{pct:root.draw}} di patta. Le cinque mosse spiegate stanno in un intervallo piccolo: tra {{mv:C1}} ({{ev:C1}}) e {{mv:C11}} ({{ev:C11}}) la differenza è appena {{loss:C11}}.",
         "source": "engine",
         "assertions": [
          {
@@ -25,7 +25,7 @@
        },
        {
         "type": "p",
-        "text": "**Non devi cercare la mossa migliore: devi scegliere un sistema e giocarlo bene.** Se toccasse al Nero, la valutazione sarebbe {{ev:N2}} (migliore {{m:e5@N2}}): il tuo vantaggio è quasi solo il tratto, quindi non sprecare tempi. Nessuna delle candidate perde materiale: decide il piano che conosci meglio.",
+        "text": "**Non devi cercare la mossa migliore: devi scegliere un sistema e giocarlo bene.** Se toccasse al Nero, la valutazione sarebbe {{ev:N2}} (migliore {{m:e6@N2}}): il tuo vantaggio è quasi solo il tratto, quindi non sprecare tempi. Nessuna delle candidate perde materiale: decide il piano che conosci meglio.",
         "source": "engine",
         "assertions": [
          {
@@ -56,7 +56,7 @@
            "source": "theory"
           },
           {
-           "text": "{{mv:C2}} ({{ev:C2}}) o {{mv:C1}} ({{ev:C1}})",
+           "text": "{{mv:C1}} ({{ev:C1}}) o {{mv:C2}} ({{ev:C2}})",
            "source": "engine"
           },
           {
@@ -74,29 +74,7 @@
          ],
          [
           {
-           "text": "**Classico**",
-           "source": "theory"
-          },
-          {
-           "text": "{{mv:C5}} ({{ev:C5}}) o {{mv:C4}} ({{ev:C4}})",
-           "source": "engine"
-          },
-          {
-           "text": "**Corto**",
-           "source": "theory"
-          },
-          {
-           "text": "{{plan:w:Be2,Be3,O-O,f4@N1}} oppure la spinta del pedone a",
-           "source": "theory"
-          },
-          {
-           "text": "Chi vuole una posizione solida e piani posizionali",
-           "source": "theory"
-          }
-         ],
-         [
-          {
-           "text": "**Spinta di pedone**",
+           "text": "**Donna in d3**",
            "source": "theory"
           },
           {
@@ -108,11 +86,33 @@
            "source": "theory"
           },
           {
-           "text": "{{plan:w:g4,g5@N5}} senza la spinta in f3",
+           "text": "La donna difende e4 e lascia aperta la scelta del lato",
            "source": "theory"
           },
           {
-           "text": "Chi conosce già l'attacco inglese",
+           "text": "Chi vuole uscire dalla teoria principale",
+           "source": "theory"
+          }
+         ],
+         [
+          {
+           "text": "**Alfiere in d3**",
+           "source": "theory"
+          },
+          {
+           "text": "{{mv:C4}} ({{ev:C4}})",
+           "source": "engine"
+          },
+          {
+           "text": "**Corto**",
+           "source": "theory"
+          },
+          {
+           "text": "{{plan:w:O-O,f4@N6}} con l'alfiere che protegge e4",
+           "source": "theory"
+          },
+          {
+           "text": "Chi vuole una posizione solida e piani posizionali",
            "source": "theory"
           }
          ],
@@ -122,7 +122,7 @@
            "source": "theory"
           },
           {
-           "text": "{{mv:C10}} ({{ev:C10}})",
+           "text": "{{mv:C11}} ({{ev:C11}})",
            "source": "engine"
           },
           {
@@ -142,17 +142,17 @@
        },
        {
         "type": "p",
-        "text": "Il motore preferisce di pochissimo {{mv:C1}}, la mossa consigliata, ma **non esiste una mossa unica migliore**: {{mv:C1}} e {{mv:C2}} portano di solito alla stessa struttura e la differenza tra loro è {{loss:C2}}. Se vuoi una posizione più tranquilla, {{mv:C5}} costa solo {{loss:C5}}.",
+        "text": "Il motore preferisce di pochissimo {{mv:C1}}, la mossa consigliata, ma **non esiste una mossa unica migliore**: {{mv:C1}} e {{mv:C2}} portano di solito alla stessa struttura e la differenza tra loro è {{loss:C2}}. Le scelte più tranquille, {{mv:C3}} e {{mv:C4}}, costano {{loss:C3}} e {{loss:C4}}.",
         "source": "engine"
        },
        {
         "type": "p",
-        "text": "Come scegliere: se conosci la teoria dell'attacco inglese e ti piacciono le posizioni con arrocchi opposti, gioca {{mv:C1}} o {{mv:C2}}; se preferisci manovrare con il re al sicuro, il sistema classico costa pochissimo; {{mv:C10}} richiede una preparazione specifica e la lasci per quando l'avrai studiata.",
+        "text": "Come scegliere: se conosci la teoria dell'attacco inglese e ti piacciono le posizioni con arrocchi opposti, gioca {{mv:C1}} o {{mv:C2}}; se preferisci manovrare con il re al sicuro, {{mv:C4}} costa poco; {{mv:C11}} richiede una preparazione specifica e la lasci per quando l'avrai studiata.",
         "source": "mixed",
         "assertions": [
          {
           "kind": "eval_band",
-          "ref": "C5",
+          "ref": "C4",
           "band": "slight_plus"
          }
         ]
@@ -386,7 +386,7 @@
           "source": "theory"
          },
          {
-          "text": "Contro {{mv:C2}} la risposta migliore per il motore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), alla pari con {{m:e5@N4}} ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo.",
+          "text": "Contro {{mv:C2}} la risposta migliore per il motore è {{m:Ng4@N4}} ({{ev:Ng4@N4}}), quasi alla pari con {{m:e5@N4}} ({{ev:e5@N4}}): il cavallo attacca l'alfiere e fa perdere un tempo.",
           "source": "engine"
          },
          {
@@ -394,11 +394,11 @@
           "source": "theory"
          },
          {
-          "text": "Dopo {{mv:C10}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV10:6}} il Nero prende il pedone b2, il **Pedone Avvelenato**.",
+          "text": "Dopo {{mv:C11}} la donna in b6 è un'idea concreta: nella linea del motore {{pv:PV11:6}} il Nero prende il pedone b2, il **Pedone Avvelenato**.",
           "source": "engine"
          },
          {
-          "text": "Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del **Dragon**.",
+          "text": "Il fianchetto del re nero non è il piano principale della Najdorf: è tipico del **Dragon**, e qui è proprio la mossa che cambia valore da un sistema all'altro.",
           "source": "theory"
          }
         ]
@@ -458,12 +458,12 @@
        },
        {
         "type": "p",
-        "text": "La tabella mostra quanto costa {{m:e5@N3}} contro ciascun sistema. Contro {{mv:C1}}, {{mv:C2}}, {{mv:C3}} e {{mv:C4}} è una risposta normale (al massimo {{loss:e5@N6}}), mentre contro {{mv:C10}} è un errore: {{m:e5@N7}} vale {{ev:e5@N7}} invece di {{ev:N7}}, cioè perde {{loss:e5@N7}}. La stessa mossa è buona o cattiva a seconda del sistema: contro l'alfiere in g5 il Nero deve rispondere {{m:e6@N7}}.",
+        "text": "La tabella mostra quanto costa il fianchetto {{m:g6@N6}} contro ciascun sistema. Contro {{mv:C4}} non costa nulla ({{loss:g6@N6}}), contro {{mv:C1}} e {{mv:C2}} costa già {{loss:g6@N3}} e {{loss:g6@N4}}, e contro {{mv:C11}} è un errore: {{m:g6@N7}} vale {{ev:g6@N7}} invece di {{ev:N7}}. Lo stesso vale dopo {{mv:C1}} {{m:e6@N3}} {{m:g4@N10:num}}, dove {{m:g6@N20}} perde {{loss:g6@N20}}. La stessa mossa è buona o cattiva a seconda del sistema: con l'alfiere in d3 il pedone e4 è già protetto e la diagonale lunga del Nero non trova bersagli.",
         "source": "engine"
        },
        {
         "type": "p",
-        "text": "Secondo Maia-2, contro {{mv:C10}} sceglie {{m:e5@N7}} il {{pct:e5@N7}} dei giocatori del tuo livello, mentre la risposta corretta raccoglie {{pct:e6@N7}}.",
+        "text": "Secondo Maia-2, contro {{mv:C11}} sceglie {{m:e6@N7}} il {{pct:e6@N7}} dei giocatori del tuo livello, mentre {{m:g6@N7}} raccoglie appena {{pct:g6@N7}}: l'errore esiste, ma a questo livello si commette di rado.",
         "source": "maia"
        }
       ]
@@ -474,11 +474,11 @@
        {
         "type": "p",
         "source": "mixed",
-        "text": "Attacco inglese che evita il salto del cavallo in g4; contro {{m:e5@N3}} segue {{m:Nb3@N8}} ({{ev:Nb3@N8}}). Attacco inglese diretto; deve fare i conti con {{m:Ng4@N4}} ({{ev:Ng4@N4}}). Prepara la spinta del pedone g senza f3; dopo {{m:e6@N5}} segue {{m:g4@N15}} ({{ev:g4@N15}}). Sviluppo tranquillo e arrocco corto; contro {{m:e5@N6}} il cavallo va in e2 ({{ev:e5@N6}}). La più giocata a questo livello ({{pct:C10.p_user}}); il Nero risponde {{m:e6@N7}}."
+        "text": "Attacco inglese che evita il salto del cavallo in g4; contro {{m:e5@N3}} segue {{m:Nb3@N8}} ({{ev:Nb3@N8}}). Attacco inglese diretto; deve fare i conti con {{m:Ng4@N4}} ({{ev:Ng4@N4}}). La donna difende e4; il motore risponde {{m:Nbd7@N5}} e la posizione si pareggia ({{ev:N5}}). Sviluppo tranquillo e arrocco corto; contro {{m:e5@N6}} la valutazione resta {{ev:e5@N6}}. La più giocata a questo livello ({{pct:C11.p_user}}); il Nero risponde {{m:e6@N7}}."
        },
        {
         "type": "p",
-        "text": "Il motore non vede un vincitore chiaro: tra la prima e l'ultima mossa spiegata ci sono {{loss:C10}} pedoni. La linea principale dopo {{mv:C1}} è {{pv:PV1:8}}: il Bianco ottiene la casa d5 in cambio dell'alfiere nero.",
+        "text": "Il motore non vede un vincitore chiaro: tra la prima e l'ultima mossa spiegata ci sono {{loss:C11}} pedoni. La linea principale dopo {{mv:C1}} è {{pv:PV1:8}}; con {{mv:C2}} si arriva alla stessa posizione cambiando l'ordine delle mosse ({{pv:PV2:7}}).",
         "source": "engine"
        },
        {
@@ -498,13 +498,13 @@
       "blocks": [
        {
         "type": "p",
-        "text": "**{{mv:C3}} è una mossa difficile**: il motore la mette tra le prime tre ({{ev:C3}}, solo {{loss:C3}} dalla migliore), ma a questo livello la sceglie appena il {{pct:C3.p_user}} dei giocatori.",
+        "text": "**{{mv:C11}} è un'alternativa pratica**: la sceglie il {{pct:C11.p_user}} dei giocatori del tuo livello e costa {{loss:C11}} rispetto alla migliore, ma lungo la sua linea non ci sono mosse obbligate da trovare.",
         "source": "mixed",
         "assertions": [
          {
           "kind": "classification",
-          "ref": "C3",
-          "category": "hard_move"
+          "ref": "C11",
+          "category": "practical_alt"
          }
         ]
        },
@@ -515,7 +515,7 @@
        },
        {
         "type": "p",
-        "text": "Dopo {{mv:C2}} {{m:Ng4@N4}} la ritirata naturale è {{m:Bg5@N11}}, scelta dal {{pct:Bg5@N11}}, ma il motore preferisce {{m:Bc1@N11}} ({{ev:Bc1@N11}}); {{m:Qd2@N11}} perde {{loss:Qd2@N11}}.",
+        "text": "Dopo {{mv:C2}} {{m:Ng4@N4}} la ritirata naturale è {{m:Bg5@N11}}, scelta dal {{pct:Bg5@N11}} dei giocatori: qui l'istinto è giusto, perché vale quanto {{m:Bc1@N11}} ({{ev:Bc1@N11}}), mentre {{m:Qd2@N11}} perde {{loss:Qd2@N11}}.",
         "source": "mixed"
        }
       ]
@@ -527,7 +527,7 @@
         "type": "ol",
         "items": [
          {
-          "text": "**Scegli il sistema** (attacco inglese o classico) e quindi il lato dell'arrocco.",
+          "text": "**Scegli il sistema** (attacco inglese o alfiere in d3) e quindi il lato dell'arrocco.",
           "source": "theory"
          },
          {

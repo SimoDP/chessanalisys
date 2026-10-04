@@ -1,0 +1,11 @@
+{
+ "stop_reason": "tool_use",
+ "content": [
+  {
+   "type": "tool_use",
+   "id": "toolu_recorded",
+   "name": "submit_analysis",
+   "input": null
+  }
+ ]
+}

@@ -113,6 +113,9 @@ def extract_output(response: dict) -> tuple[dict | None, list[VError]]:
         return None, [VError("V01", None, None, None, "stop_reason = max_tokens", "risposta troncata")]
     for block in response.get("content", []):
         if block.get("type") == "tool_use" and block.get("name") == "submit_analysis":
+            if not isinstance(block.get("input"), dict):     # arguments that are not valid JSON (OQ-M1c-9)
+                return None, [VError("V01", None, None, None, "argomenti di submit_analysis",
+                                     "non sono un oggetto JSON valido")]
             return block.get("input"), []
     return None, [VError("V01", None, None, None, "tool_use assente", "nessun blocco submit_analysis")]
 

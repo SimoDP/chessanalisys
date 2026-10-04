@@ -52,7 +52,32 @@
       ]
      },
      {
+      "id": "S08",
+      "blocks": [
+       {
+        "type": "p",
+        "source": "engine",
+        "text": "Il finale è vicino all'equilibrio: {{ev:N1}}. Non è una struttura da Najdorf."
+       },
+       {
+        "type": "p",
+        "source": "engine",
+        "text": "{{mv:C1}} ({{ev:C1}}). {{mv:C14}} ({{ev:C14}})."
+       }
+      ]
+     },
+     {
       "id": "S10",
+      "blocks": [
+       {
+        "type": "p",
+        "source": "engine",
+        "text": "Il finale è vicino all'equilibrio: {{ev:N1}}. Non è una struttura da Najdorf."
+       }
+      ]
+     },
+     {
+      "id": "S12",
       "blocks": [
        {
         "type": "p",

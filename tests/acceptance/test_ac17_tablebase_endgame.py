@@ -9,7 +9,9 @@ from chessanalyst.golden.packs import load_frozen_pack
 from tests.checklists import body
 
 NAME = "lucena_w_1900"
-NUMERIC_EVAL = re.compile(r"[+-]?\d+,\d\d|[-]?#\d|\d+\s*%")
+# an evaluation in pawns (``+0,37``, ``99,99``) or a mate count (``#3``, ``matto in 3``); Maia-2 percentages
+# are probabilities, not evaluations
+NUMERIC_EVAL = re.compile(r"[+-]?\d+,\d\d|-?#\d|matto in \d")
 
 
 def test_pack_has_the_exact_result(cfg):
@@ -38,6 +40,6 @@ def test_s12_with_the_exact_result_and_no_numeric_evaluation(cfg):
     assert f"## {s12_title}" in text
     s12 = text.split(f"## {s12_title}")[1].split("\n## ")[0]
     assert cfg.wording["tablebase"]["results"][pack["tablebase"]["result_text_key"]] in s12
-    # no evaluation in pawns, mate count or percentage anywhere in the sections
+    # no evaluation in pawns nor mate count anywhere in the sections (text and tables)
     sections = text.split("\n## ", 1)[1]
     assert not NUMERIC_EVAL.search(sections), NUMERIC_EVAL.search(sections)

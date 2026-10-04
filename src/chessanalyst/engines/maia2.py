@@ -53,7 +53,7 @@ def saturated(elo_maia: int, limits: Maia2LimitsCfg) -> bool:
 def normalize_policy(board: chess.Board, raw: dict[str, float]) -> dict[str, float]:
     """All legal moves (missing ones at 0), illegal keys dropped (logged), sum 1."""
     legal = {m.uci() for m in board.legal_moves}
-    out = {u: 0.0 for u in legal}
+    out = {u: 0.0 for u in sorted(legal)}         # fixed order: the float sum does not depend on the hash seed
     for uci, p in raw.items():
         if uci in legal:
             out[uci] = float(p)

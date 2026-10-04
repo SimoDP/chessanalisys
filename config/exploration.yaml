@@ -1,4 +1,4 @@
-reference_time_s: 7.9            # M0: benchmark di doctor (E0 MultiPV 12, profondità 16, Stockfish 16, 3 thread, 4 core x86-64)
+reference_time_s: 6.0            # M2: benchmark di doctor con Stockfish 19 (E0 MultiPV 12, profondità 16, 3 thread, 4 core x86-64); M0 con Stockfish 16: 7.9
 phase_shares: {E0: 0.30, E4: 0.10, E1: 0.08, E2: 0.26, E3: 0.20, E2b: 0.06}
 e2c_time_factor: 0.5            # t_target di E2c rispetto a E3
 e4_min_p: 0.03

@@ -99,3 +99,29 @@ def test_recorded_nodes_threshold():
     ns = golden_t3_nodes()
     spread = choose_context(ns, context_candidates(ns, 3), 30)["spread_cp"]
     assert choose_context(ns, context_candidates(ns, 3), spread + 1) is None
+
+
+def test_recorded_nodes_with_the_d68_filter(cfg):
+    # D-68: only moves the opponent really plays (mean p_opp ≥ context_min_p) are context candidates
+    ns = golden_t3_nodes()
+    sel = cfg.thresholds.selection
+    cands = context_candidates(ns, sel.context_candidates, sel.context_min_p)
+    ctx = choose_context(ns, cands, sel.context_spread_cp, cfg.thresholds.profile.tactical.gap_cp)
+    assert ctx["uci"] == "b8c6" and 45 <= ctx["spread_cp"] <= 55
+
+
+def test_d68_rows_where_the_move_is_a_blunder_are_left_out(cfg):
+    ns = nodes()
+    ns.append(node("Bc4", {"e5": -20, "Nc6": -300, "e6": -25}, {"e5": 0.4, "Nc6": 0.2}))   # Nc6 drops a piece
+    gap = cfg.thresholds.profile.tactical.gap_cp
+    assert choose_context(ns, ["b8c6"], 30)["spread_cp"] == 280 - 8                  # v0.9.1 rule
+    ctx = choose_context(ns, ["b8c6"], 30, gap)
+    assert sorted(r["cost_cp"] for r in ctx["rows"]) == [8, 10, 53] and ctx["spread_cp"] == 45
+
+
+def test_d68_filter_drops_moves_nobody_plays():
+    ns = nodes()
+    # ...Nc6 has mean p_opp 0.15: kept at 3%, dropped at 20%
+    assert "b8c6" in context_candidates(ns, 3, 0.03)
+    assert "b8c6" not in context_candidates(ns, 3, 0.20)
+    assert context_candidates(ns, 3, 0.20) == ["e7e5"]

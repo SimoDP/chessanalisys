@@ -12,7 +12,7 @@ from chessanalyst.inputs.example import example_position
 from chessanalyst.pipeline import analyse_position, resolve_settings
 from tests.synthetic import FakeClock, SyntheticEngine, SyntheticMaiaBackend
 
-PHASE_ORDER = ["E0", "E1", "E2", "E3l1", "R", "E2b", "E2c"]
+PHASE_ORDER = ["E0", "E1", "E2", "E3l1", "E3l2", "E3l3", "R", "E2b", "E2c"]   # §6.3
 
 
 def make_pack(cfg, elo=1900, color="w", profile="standard"):
@@ -57,7 +57,7 @@ def test_candidates_pvs_and_nodes(cfg):
     rec = pack["recommendation"]["id"]
     assert next(c for c in cands if c["id"] == rec)["explained"]
     for e in pack["engine"]["e3"]:
-        assert nodes[e["node"]]["path"] == e["path"] and e["level"] == 1
+        assert nodes[e["node"]]["path"] == e["path"] and len(e["path"]) == e["level"] + 1
 
 
 def test_tables_reference_candidates(cfg):
