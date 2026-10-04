@@ -128,6 +128,12 @@ class CachedAnalyzer:
         self.cache = cache
         self.calls = 0
 
+    def is_cached(self, board: chess.Board, multipv: int, d_min: int,
+                  root_moves: Sequence[chess.Move] | None = None) -> bool:
+        k = min(multipv, len(root_moves) if root_moves else board.legal_moves.count())
+        rm = [m.uci() for m in root_moves] if root_moves else None
+        return self.cache.get_sf(sf_key(self.engine.version, board, rm), k, d_min) is not None
+
     def analyse(
         self,
         board: chess.Board,

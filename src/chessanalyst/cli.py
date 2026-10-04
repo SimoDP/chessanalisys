@@ -1,7 +1,8 @@
 """Command line interface (§2-bis.1, argparse, D-56).
 
-M0 provides ``doctor`` and ``golden --data``. The other commands exist so
-that they are refused explicitly (exit code 2) instead of failing obscurely.
+M1a provides the interactive flow, ``analyze`` (up to ``pack.json``),
+``doctor`` and ``golden --data``. Commands and options of later milestones are
+refused explicitly with exit code 2 (D-30).
 """
 
 from __future__ import annotations
@@ -14,8 +15,6 @@ from chessanalyst import exit_codes
 from chessanalyst.errors import AnalystError
 
 NOT_YET = {
-    "interactive": "M1a",
-    "analyze": "M1a",
     "rerun": "M1c",
     "golden --packs": "M1b",
     "golden --render": "M1b",
@@ -45,7 +44,27 @@ def build_parser() -> argparse.ArgumentParser:
     g.add_argument("--reuse-nodes", action="store_true",
                    help="riusa fixtures/golden_nodes.json e ripete solo Maia-2 e il confronto")
     g.add_argument("--no-maia", action="store_true", help="salta Maia-2")
-    sub.add_parser("analyze", help="analisi non interattiva (da M1a)")
+    a = sub.add_parser("analyze", help="analisi non interattiva")
+    a.add_argument("--input", choices=["example", "fen", "pgn"], default=None)
+    src = a.add_mutually_exclusive_group()
+    src.add_argument("--text")
+    src.add_argument("--file")
+    src.add_argument("--stdin", action="store_true")
+    a.add_argument("--game", type=int)
+    at = a.add_mutually_exclusive_group()
+    at.add_argument("--at")
+    at.add_argument("--ply", type=int)
+    a.add_argument("--color", choices=["white", "black", "both"])
+    a.add_argument("--elo", type=int)
+    a.add_argument("--opp-elo", type=int)
+    a.add_argument("--elo-white", type=int)
+    a.add_argument("--elo-black", type=int)
+    a.add_argument("--elo-scale", choices=["fide", "lichess", "chesscom"])
+    a.add_argument("--budget", choices=["fast", "standard", "deep"])
+    a.add_argument("--detail", type=int)
+    a.add_argument("--out")
+    a.add_argument("--yes", action="store_true")
+    a.add_argument("--verbose", action="store_true", dest="verbose_a")
     sub.add_parser("rerun", help="rifà LLM, verifica e render (da M1c)")
     return p
 
@@ -95,15 +114,120 @@ def _cmd_golden_data(args: argparse.Namespace) -> int:
     return exit_codes.OK
 
 
+def _console():
+    from rich.console import Console
+
+    return Console(stderr=False, highlight=False)
+
+
+def _finish(outdir) -> None:
+    print(f"Pacchetto di evidenze salvato in {outdir / 'pack.json'}")
+    print("L'analisi testuale (modello di linguaggio, verifica e render) arriva con M1b/M1c.")
+
+
+def _settings_from(cfg, values):
+    from chessanalyst.pipeline import resolve_settings
+
+    return resolve_settings(cfg, values["color"], values["elo"], values["elo_scale"], values.get("opp_elo"),
+                            values["budget"], values.get("detail", 4))
+
+
+def _progress(console):
+    return lambda s: console.print(f"Motori in esecuzione ...  ({s})", markup=False)
+
+
+def _cmd_analyze(args: argparse.Namespace) -> int:
+    from pathlib import Path
+
+    from chessanalyst.config import load_config
+    from chessanalyst.errors import UsageError
+    from chessanalyst.inputs.confirm import confirmation_text
+    from chessanalyst.inputs.load import load_position
+    from chessanalyst.inputs.read_source import read_source, read_stdin
+    from chessanalyst.run import load_openings, run_analysis
+    from chessanalyst.settings import check_available, check_elo, effective
+
+    cfg = load_config()
+    cli = {"color": args.color, "elo": args.elo, "opp_elo": args.opp_elo, "elo_white": args.elo_white,
+           "elo_black": args.elo_black, "elo_scale": args.elo_scale, "budget": args.budget, "detail": args.detail}
+    check_available(cfg, cli)
+    values = effective(cfg, cli)
+    check_available(cfg, values)
+    for key in ("elo", "opp_elo"):
+        if values.get(key) is not None and not check_elo(cfg, values[key]):
+            r = cfg.thresholds.elo_input
+            raise UsageError(f"Elo non valido: {values[key]} (ammesso tra {r.min} e {r.max})")
+    method = args.input or cfg.default.input.method or "example"
+    has_src = args.text is not None or args.file is not None or args.stdin
+    if method == "example" and has_src:
+        raise UsageError("--input example non accetta --text, --file o --stdin")
+    if method != "example" and not has_src:
+        raise UsageError(f"--input {method} richiede uno tra --text, --file e --stdin")
+    if method != "pgn" and (args.game is not None or args.at is not None or args.ply is not None):
+        raise UsageError("--game, --at e --ply valgono solo con --input pgn")
+    text = None
+    if args.stdin:
+        text = read_stdin()
+    elif args.file is not None:
+        p = Path(args.file).expanduser()
+        if not p.is_file():
+            from chessanalyst.errors import InputError
+
+            raise InputError(cfg.wording["errors"]["file_not_found"].format(detail=args.file))
+        text = p.read_text(encoding="utf-8-sig")
+    elif args.text is not None:
+        text = read_source(args.text)
+    pos = load_position(cfg, method, text, game_no=args.game, at=args.at, ply=args.ply)
+    us = _settings_from(cfg, values)
+    console = _console()
+    if not args.yes:
+        openings = load_openings(cfg)
+        console.print(confirmation_text(pos, openings.lookup_epd(pos.board) if openings else None), markup=False)
+        if input("Confermi? [s/n]: ").strip().lower() not in ("s", "si", "sì"):
+            return exit_codes.OK
+    out_base = Path(args.out) if args.out else cfg.resolve_path(cfg.default.output.dir)
+    outdir = run_analysis(cfg, pos, us, out_base, verbose=args.verbose or args.verbose_a,
+                          progress=_progress(console))
+    _finish(outdir)
+    return exit_codes.OK
+
+
+def _cmd_interactive(args: argparse.Namespace) -> int:
+    from chessanalyst.config import load_config
+    from chessanalyst.interactive import IO, interactive
+    from chessanalyst.run import run_analysis
+
+    cfg = load_config()
+    console = _console()
+
+    def run(pos, values) -> int:
+        us = _settings_from(cfg, values)
+        outdir = run_analysis(cfg, pos, us, cfg.resolve_path(cfg.default.output.dir), verbose=args.verbose,
+                              progress=_progress(console))
+        _finish(outdir)
+        return exit_codes.OK
+
+    return interactive(cfg, IO(ask=input, say=lambda s: console.print(s, markup=False)), run)
+
+
 def main(argv: list[str] | None = None) -> int:
     argv = sys.argv[1:] if argv is None else argv
-    if argv and argv[0] in ("analyze", "rerun"):
-        return _not_yet(argv[0])  # options of later milestones are not parsed yet
+    if argv and argv[0] == "rerun":
+        return _not_yet("rerun")  # options of later milestones are not parsed yet
     args = build_parser().parse_args(argv)
-    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.WARNING)
+    verbose = args.verbose or getattr(args, "verbose_a", False)
+    console_handler = logging.StreamHandler(sys.stderr)
+    console_handler.setLevel(logging.DEBUG if verbose else logging.WARNING)  # run.log gets DEBUG
+    console_handler.setFormatter(logging.Formatter("%(levelname)s %(name)s: %(message)s"))
+    root_logger = logging.getLogger()
+    root_logger.handlers = [h for h in root_logger.handlers if not getattr(h, "_chessanalyst_console", False)]
+    console_handler._chessanalyst_console = True
+    root_logger.addHandler(console_handler)
     try:
         if args.command is None:
-            return _not_yet("interactive")
+            return _cmd_interactive(args)
+        if args.command == "analyze":
+            return _cmd_analyze(args)
         if args.command == "doctor":
             return _cmd_doctor(args)
         if args.command == "golden":
@@ -115,6 +239,10 @@ def main(argv: list[str] | None = None) -> int:
     except AnalystError as e:
         sys.stderr.write(f"Errore: {e}\n")
         return e.exit_code
+    except Exception:  # noqa: BLE001 - unexpected bug: exit code 1 with the trace in run.log
+        logging.getLogger(__name__).exception("Errore inatteso")
+        sys.stderr.write("Errore inatteso: vedi run.log\n")
+        return exit_codes.BUG
     return exit_codes.USAGE
 
 

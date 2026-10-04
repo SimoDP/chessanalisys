@@ -5,8 +5,7 @@ import pytest
 from chessanalyst.cli import main
 
 
-@pytest.mark.parametrize("argv", [[], ["analyze", "--yes"], ["rerun", "out"], ["golden", "--packs"],
-                                  ["golden", "--render"]])
+@pytest.mark.parametrize("argv", [["rerun", "out"], ["golden", "--packs"], ["golden", "--render"]])
 def test_not_yet_available_commands_exit_2(argv, capsys):
     assert main(argv) == 2
     assert "disponibile da M1" in capsys.readouterr().err

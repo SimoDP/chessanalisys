@@ -1,0 +1,6 @@
+[Event "Torneo sociale"]
+[White "Rossi"]
+[Black "Bianchi"]
+[Result "*"]
+
+1.e4 {apertura di re} c5 $1 (1...e5 2.Nf3) 2.Nf3 {[%clk 0:09:58]} d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 $14 a6 { Najdorf } *

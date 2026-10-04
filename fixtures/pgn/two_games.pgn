@@ -1,0 +1,13 @@
+[Event "Partita uno"]
+[White "Rossi"]
+[Black "Bianchi"]
+[Result "1-0"]
+
+1.e4 e5 2.Nf3 Nc6 1-0
+
+[Event "Partita due"]
+[White "Verdi"]
+[Black "Neri"]
+[Result "*"]
+
+1.d4 d5 2.c4 e6 *

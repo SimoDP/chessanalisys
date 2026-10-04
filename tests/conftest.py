@@ -11,6 +11,11 @@ from chessanalyst.config import Config, load_config
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def pytest_addoption(parser):
+    parser.addoption("--record", action="store_true", default=False,
+                     help="rigenera fixtures/recorded/{engine,maia} con i motori veri (con -m engines)")
+
+
 @pytest.fixture(scope="session")
 def root() -> Path:
     return ROOT

@@ -72,11 +72,50 @@ class FakeEngine:
         k = min(multipv, len(root_moves) if root_moves else board.legal_moves.count())
         rm = [m.uci() for m in root_moves] if root_moves else None
         rec = self._store.get(sf_key(self.version, board, rm))
+        if rec is not None and not satisfies(rec, k, d_min) and rec.multipv >= k:
+            return rec.truncated(k)   # exact replay of what the engine produced (even if unstable)
         if rec is None or not satisfies(rec, k, d_min):
+            rec = self._from_superset(board, rm, k) if rm else None
+        if rec is None:
             raise MissingRecording(
                 f"Nessuna registrazione adatta per {board.fen()} (multipv {k}, d_min {d_min}, root_moves {rm})"
             )
         return rec.truncated(k)
+
+    def _from_superset(self, board: chess.Board, root_moves: list[str], k: int) -> NodeResult | None:
+        """A restricted search (E4/E2c) answered from any recording of the same
+        position that contains all the requested moves."""
+        fen = board.fen(en_passant="legal")
+        wanted = set(root_moves)
+        for rec in self._store.values():
+            if rec.fen != fen:
+                continue
+            lines = [ln for ln in rec.lines if ln.uci in wanted]
+            if {ln.uci for ln in lines} == wanted:
+                d = rec.to_dict()
+                d["lines"] = [{**ln.__dict__, "rank": i} for i, ln in enumerate(lines, 1)]
+                d["multipv"] = len(lines)
+                d["root_moves"] = sorted(wanted)
+                return NodeResult.from_dict(d).truncated(k)
+        return None
+
+
+class RecordingMaiaBackend:
+    """Wraps a backend and keeps every raw answer (fixtures/recorded/maia)."""
+
+    def __init__(self, inner) -> None:
+        self.inner = inner
+        self.package_version = inner.package_version
+        self.model_type = inner.model_type
+        self.device = inner.device
+        self.records: dict[tuple[str, int, int], dict[str, Any]] = {}
+
+    def infer(self, fen: str, elo_self: int, elo_oppo: int) -> tuple[dict[str, float], float]:
+        probs, win = self.inner.infer(fen, elo_self, elo_oppo)
+        epd = chess.Board(fen).epd(en_passant="legal")
+        self.records[(epd, elo_self, elo_oppo)] = {"epd": epd, "elo_self": elo_self, "elo_oppo": elo_oppo,
+                                                   "move_probs": dict(probs), "win_prob_white": float(win)}
+        return probs, win
 
 
 class FakeMaiaBackend:

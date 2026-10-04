@@ -16,6 +16,8 @@ Verified in M0 on ``maia2`` 0.11.0 (details in docs/MAIA2_NOTES.md):
 
 from __future__ import annotations
 
+import contextlib
+import io
 import logging
 import math
 from pathlib import Path
@@ -96,7 +98,10 @@ class Maia2Backend:
         self.package_version = getattr(maia2, "__version__", "unknown")
         self.model_type = model_type
         models_dir.mkdir(parents=True, exist_ok=True)
-        self._model = model.from_pretrained(type=model_type, device=device, save_root=str(models_dir))
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):   # the package prints download/loading messages
+            self._model = model.from_pretrained(type=model_type, device=device, save_root=str(models_dir))
+        log.info("maia2: %s", buf.getvalue().strip())
         self.device = str(next(self._model.parameters()).device)
         self._prepared = inference.prepare()
         self._torch = torch

@@ -71,3 +71,58 @@ schema, token o criteri di accettazione.
 - **Osservazione.** Sulla stessa macchina il benchmark di `doctor` ha misurato 7,9 s, 7,4 s e 4,7 s.
 - **Default adottato.** `reference_time_s: 7.9` (prima misura, in condizioni di carico simili a quelle di
   `golden --data`). Le stime per profilo sono indicative; si ricalibra in M1a con i tempi reali della pipeline.
+
+## M1a
+
+Dubbi minori risolti con un default (istruzione 9); nessuno tocca architettura, schema, token o criteri.
+
+### OQ-M1a-1 · Risultati di E4 nel pacchetto
+Lo schema dei nodi (§6.2) non ha una fase E4. Le mosse valutate da E4 entrano tra le candidate
+(`source: "e4"`, con valutazione e PV), ma la ricerca ristretta non diventa un nodo. In M1b
+`{{ev:SAN@N1}}` per una mossa di E4 si risolve dalla candidata corrispondente.
+
+### OQ-M1a-2 · `PV<n>` con l'avversario al tratto
+§3-ter.3 definisce `PV<n>` come la PV di `C<n>`. Con l'avversario al tratto non ci sono `C<n>`:
+`PV<n>` è la PV della riga alla radice di `R<n>` (stesso numero), così i blocchi `line` restano disponibili.
+
+### OQ-M1a-3 · `eval_end_user_cp`
+È la valutazione della riga da cui viene la PV (la PV non viene rianalizzata alla fine).
+
+### OQ-M1a-4 · «di {opp}» nei titoli e nelle intestazioni
+`config/section_titles.yaml` e `config/tables.yaml` contengono «di {opp}»: con «il Nero» darebbe
+«di il Nero». Il codice scrive la preposizione articolata («del Nero», «del Bianco»).
+
+### OQ-M1a-5 · Riserva per E3-ℓ1 (§3-ter.2)
+La pianificazione procede nell'ordine di esecuzione e, dentro ogni fase scartabile, taglia dagli elementi
+di rango peggiore. Poiché E3-ℓ1 è la prima fase scartabile, l'ordine di scarto di §3-ter.2
+(ℓ3, ℓ2, E2c, E2b, ℓ1) si ottiene senza una riserva esplicita; AC-33 lo verifica.
+
+### OQ-M1a-6 · Nodi E2c ed E2b nel pacchetto
+Un nodo E2c ha lo stesso percorso del nodo di E2 che completa, `root_moves` = la mossa di contesto,
+`parent` = quel nodo E2, `citable: false`. Un nodo E2b ha come `parent` l'antenato analizzato più vicino.
+
+### OQ-M1a-7 · Elo fuori intervallo con `analyze`
+È un valore di opzione: uscita con codice 2 (uso scorretto). Nel flusso interattivo la domanda si ripete.
+
+### OQ-M1a-8 · FEN scelta ma testo non riconosciuto
+Con il metodo FEN, un testo che non supera `detect_format` viene comunque validato come FEN, così la FEN
+n. 1 dell'Appendice G.2 dà «FEN malformata» come previsto. Nel flusso interattivo la FEN si legge su una
+sola riga (il PGN fino alla riga con il solo punto).
+
+### OQ-M1a-9 · Ordine dei messaggi di stato della FEN
+Un pedone in prima traversa fa scattare anche «troppi pedoni»: si controlla prima la traversa
+(Appendice G.2, n. 5).
+
+### OQ-M1a-10 · Registrazioni dei motori
+`pytest -m engines --record` usa il profilo `deep` con i tempi dimezzati (`time_scale` 0,5): le
+profondità minime restano quelle del profilo, ma qualche nodo può risultare `unstable_depth`.
+`FakeEngine` rigioca esattamente ciò che è stato registrato (anche se instabile) e risponde a una ricerca
+ristretta (`root_moves`) da una registrazione della stessa posizione che contiene tutte le mosse richieste.
+
+### OQ-M1a-11 · Righe di T2 «Dopo c»
+Per una risposta di `Rset(c)` assente dal `MultiPV` del nodo E2 (la mossa più probabile di Maia-2) la
+valutazione è la prima riga del nodo ℓ1 corrispondente; se manca anche quello la mossa compare senza valore.
+
+### OQ-M1a-12 · Testimoni ordinati
+Per `pin` e `unresolved_capture` le case sono una coppia ordinata (inchiodato, inchiodatore; da, a), non in
+ordine alfabetico, come indicano le definizioni di §5.1.

@@ -19,3 +19,9 @@ class EnvironmentProblem(AnalystError):
 
 class UsageError(AnalystError):
     exit_code = exit_codes.USAGE
+
+
+class InputError(AnalystError):
+    """Invalid FEN/PGN/file (exit code 3 after the allowed attempts)."""
+
+    exit_code = exit_codes.INVALID_INPUT
