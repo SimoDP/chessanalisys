@@ -157,7 +157,7 @@ def or_client(cfg, outcomes):
 
 
 def test_openrouter_is_the_default(cfg, monkeypatch):
-    assert cfg.default.llm.provider == "openrouter" and cfg.default.llm.model == "anthropic/claude-sonnet-5.5"
+    assert cfg.default.llm.provider == "openrouter" and cfg.default.llm.model == "deepseek/deepseek-v4.1-flash"
     monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
     with pytest.raises(EnvironmentProblem, match="OPENROUTER_API_KEY"):
         make_client(cfg)
@@ -179,9 +179,10 @@ def test_request_conversion(cfg):
     assert call["url"] == "https://openrouter.ai/api/v1/chat/completions"
     assert call["headers"]["Authorization"] == "Bearer test-key"
     b = call["body"]
-    assert b["model"] == "anthropic/claude-sonnet-5.5" and b["max_tokens"] == 99
+    assert b["model"] == cfg.default.llm.model and b["max_tokens"] == 99
+    assert b["reasoning"] == {"enabled": False}
     assert b["temperature"] == cfg.default.llm.temperature
-    assert b["messages"][0] == {"role": "system", "content": system}           # cache_control kept
+    assert b["messages"][0] == {"role": "system", "content": [{"type": "text", "text": "SYS"}]}   # not a Claude model
     assert b["messages"][1] == {"role": "user", "content": "MSG"}
     assert b["messages"][2]["tool_calls"][0]["function"] == {"name": "submit_analysis", "arguments": '{"a": 1}'}
     assert b["messages"][3] == {"role": "tool", "tool_call_id": "call_0", "content": "ERRORI"}
@@ -248,4 +249,13 @@ def test_full_cycle_through_openrouter(cfg):
     second = t.calls[1]["body"]["messages"]
     assert [m["role"] for m in second] == ["system", "user", "assistant", "tool"]
     assert second[3]["content"].startswith("La consegna contiene errori")
-    assert "modello di linguaggio: anthropic/claude-sonnet-5.5" in res.document
+    assert f"modello di linguaggio: {cfg.default.llm.model}" in res.document
+
+
+def test_cache_control_kept_for_claude_models(cfg):
+    llm = cfg.default.llm.model_copy(update={"model": "anthropic/claude-sonnet-5.5"})
+    claude = cfg.model_copy(update={"default": cfg.default.model_copy(update={"llm": llm})})
+    c, t, _ = or_client(claude, [(200, or_ok({}))])
+    system = [{"type": "text", "text": "SYS", "cache_control": {"type": "ephemeral"}}]
+    c.create(system=system, messages=[], tools=[TOOL], tool_choice={"name": "submit_analysis"}, max_tokens=1)
+    assert t.calls[0]["body"]["messages"][0] == {"role": "system", "content": system}

@@ -22,7 +22,7 @@ exploration:
   profile: standard       # fast | standard | deep
 llm:
   provider: openrouter    # openrouter | anthropic (D-64, docs/DECISIONI_POST_CONGELAMENTO.md)
-  model: anthropic/claude-sonnet-5.5   # ID del fornitore scelto; con anthropic: claude-sonnet-5-5
+  model: deepseek/deepseek-v4.1-flash   # sviluppo (D-67); produzione da decidere. Con anthropic: claude-sonnet-5-5
   max_tokens: 16000
   temperature: 0.3
   max_retries: 2
@@ -32,7 +32,11 @@ llm:
   critic: false           # da M4
   plan_max_moves: 6
   view: {multipv_lines: 5, pv_plies: 6, policy_moves: 5}   # vista ridotta (§6.1, D-65)
-  openrouter: {base_url: "https://openrouter.ai/api/v1", timeout_s: 600}
+  openrouter:
+    base_url: "https://openrouter.ai/api/v1"
+    timeout_s: 600
+    cache_control_prefixes: ["anthropic/"]       # cache_control solo per questi modelli
+    extra_body: {reasoning: {enabled: false}}    # niente ragionamento esteso (§9.1)
   anthropic: {timeout_s: 600}
 render:
   mark_theory: footnote

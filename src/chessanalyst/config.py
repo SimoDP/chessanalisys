@@ -109,6 +109,8 @@ class LlmViewCfg(Strict):
 class OpenRouterCfg(Strict):
     base_url: str
     timeout_s: float
+    cache_control_prefixes: list[str]
+    extra_body: dict[str, Any]
 
 
 class AnthropicCfg(Strict):

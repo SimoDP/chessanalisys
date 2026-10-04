@@ -165,9 +165,12 @@ def urllib_transport(url: str, headers: dict, body: bytes, timeout: float) -> tu
         return e.code, dict(e.headers or {}), e.read()
 
 
-def to_openai(model: str, request: dict, temperature: float | None) -> dict:
-    """Messages-format request → chat completions body."""
-    msgs: list[dict] = [{"role": "system", "content": [dict(b) for b in request["system"]]}]
+def to_openai(model: str, request: dict, temperature: float | None, cache_control: bool = True,
+              extra: dict | None = None) -> dict:
+    """Messages-format request → chat completions body (``cache_control`` kept only when the model supports it)."""
+    system = [dict(b) if cache_control else {k: v for k, v in b.items() if k != "cache_control"}
+              for b in request["system"]]
+    msgs: list[dict] = [{"role": "system", "content": system}]
     for m in request["messages"]:
         content = m["content"]
         if isinstance(content, str):
@@ -194,6 +197,8 @@ def to_openai(model: str, request: dict, temperature: float | None) -> dict:
             "tool_choice": {"type": "function", "function": {"name": request["tool_choice"]["name"]}}}
     if temperature is not None:
         body["temperature"] = temperature
+    for k, v in (extra or {}).items():
+        body.setdefault(k, v)
     return body
 
 
@@ -224,11 +229,13 @@ class OpenRouterClient(_RetryingClient):
         o = cfg.default.llm.openrouter
         self.url = o.base_url.rstrip("/") + "/chat/completions"
         self.timeout = o.timeout_s
+        self.cache_control = any(self.model.startswith(p) for p in o.cache_control_prefixes)
+        self.extra = dict(o.extra_body)
         self.transport = transport or urllib_transport
         self._key = api_key if api_key is not None else _require_key("openrouter")
 
     def _attempt(self, request: dict, temperature: bool) -> dict:
-        body = to_openai(self.model, request, self.temperature if temperature else None)
+        body = to_openai(self.model, request, self.temperature if temperature else None, self.cache_control, self.extra)
         headers = {"Authorization": f"Bearer {self._key}", "Content-Type": "application/json"}
         try:
             status, resp_headers, raw = self.transport(self.url, headers, json.dumps(body).encode("utf-8"),
