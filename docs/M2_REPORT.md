@@ -23,9 +23,9 @@ I criteri delle milestone precedenti restano verdi, compresi AC-01 (esecuzione c
 congelato), AC-14 (profilo più leggero dalla cache di `deep`), AC-16 (con il nuovo caso
 `bad_tool_arguments.json`) e AC-21.
 
-**Suite:** `pytest` → 527 superati, 3 falliti. I falliti sono i controlli di contenuto delle checklist sulle
-risposte di DeepSeek (vedi sotto). `pytest -m engines` → 4 superati, 1 saltato (la registrazione, che parte solo
-con `--record`).
+**Suite:** `pytest` → 530 superati, nessun fallito, 3 avvisi `ChecklistQualityWarning` (errori tipici non
+citati da DeepSeek, vedi sotto). `pytest -m engines` → 4 superati, 1 saltato (la registrazione, che parte solo con
+`--record`).
 
 ## Che cosa è cambiato
 
@@ -129,13 +129,22 @@ soddisfatta per intero:
 - finale di torri: mancano «torre passiva» e lo scambio delle torri in un finale di pedoni perso;
 - Lucena: manca «costruire il ponte».
 
-Sezioni e mosse richieste ci sono sempre. Sono limiti di contenuto del modello di sviluppo, non del programma:
-prompt, esempi e checklist non sono stati modificati in attesa della decisione dell'utente.
+Sezioni e mosse richieste ci sono sempre. Sono limiti di contenuto del modello di sviluppo, non del programma.
+Prompt, esempi e checklist non sono stati modificati.
+
+**Decisione dell'utente alla chiusura di M2.** Le checklist restano due cose diverse:
+- sezioni e mosse sono un **requisito**: il test fallisce se mancano;
+- gli errori tipici sono una **misura di qualità** del testo del modello: se mancano, il test emette un
+  `ChecklistQualityWarning` nel riepilogo di pytest, senza fallire.
+
+La misura va ripresa quando si sceglierà il modello di produzione (D-67) o quando arriveranno esempi su
+posizioni diverse (§8-bis.6, §9.2).
 
 ## Stato
 
-Tutti i criteri di uscita di M2 (AC-10 a 2400, AC-13, AC-17, AC-32 registrato) sono superati. Restano aperti i
-controlli di contenuto delle checklist sulle risposte di DeepSeek, che richiedono una decisione dell'utente.
+**M2 chiusa.** Tutti i criteri di uscita (AC-10 a 2400, AC-13, AC-17, AC-32 registrato) sono superati e la suite
+è verde. Gli errori tipici delle checklist non citati da DeepSeek sono misurati, non bloccanti, per decisione
+dell'utente. I fewshot restano da validare da un giocatore (§8-bis.5), come in M1.
 
 ## Uso
 

@@ -388,3 +388,14 @@ OQ-M1c-9, ma `extract_output` non segnalava alcun errore. Il ciclo si fermava co
 usciva con il codice 5, senza retry. Ora `input` che non è un oggetto dà V01 («argomenti di submit_analysis ·
 non sono un oggetto JSON valido») e provoca il retry. Fault injection: `bad_tool_arguments.json` (G.6) e
 `test_invalid_tool_arguments_are_retried`.
+
+### OQ-M2-10 · Checklist sulle risposte del modello (RISOLTA: decisione dell'utente)
+Le checklist (§8-bis.6) chiedono sezioni, tre mosse e due errori tipici. Sulle risposte di DeepSeek sezioni e
+mosse ci sono sempre, gli errori tipici no:
+- Fried Liver: manca `d3`;
+- finale di torri: mancano «torre passiva» e lo scambio delle torri;
+- Lucena: manca «costruire il ponte».
+
+**Decisione dell'utente:** sezioni e mosse sono un requisito (il test fallisce), gli errori tipici una misura di
+qualità (`ChecklistQualityWarning` nel riepilogo di pytest, il test non fallisce). Prompt, esempi e checklist
+restano invariati.

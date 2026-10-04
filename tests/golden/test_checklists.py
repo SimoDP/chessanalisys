@@ -1,8 +1,12 @@
-"""Checklists of the non-Najdorf positions (§8-bis.6, M2) on the recorded answers of the real model."""
+"""Checklists of the non-Najdorf positions (§8-bis.6, M2) on the recorded answers of the real model.
+
+Sections and the three moves are requirements; the typical errors are a quality measure of the model's
+text (user's decision at the close of M2): a miss is a warning, not a failure."""
 
 from __future__ import annotations
 
 import re
+import warnings
 
 import pytest
 
@@ -10,6 +14,10 @@ from chessanalyst.golden.packs import load_frozen_pack
 from chessanalyst.pack.section_plan import fill_opp
 from chessanalyst.render.report import REPORT_TITLE
 from tests.checklists import body, checklist_ids, cited_moves, final_output, load_checklist
+
+
+class ChecklistQualityWarning(UserWarning):
+    """A typical error of a checklist not cited by the model (quality measure, not a failure)."""
 
 
 def test_two_non_najdorf_checklists_at_least():
@@ -37,10 +45,16 @@ def test_checklist_on_the_model_answer(cfg, name):
     assert titles == [fill_opp(cfg.section_titles[s][anchor], opp) for s in cl["sections"]]
     moves = cited_moves(cfg, pack, final_output(res.raw))
     missing = [m for m in cl["moves"] if m not in moves]
+    assert not missing, (missing, sorted(moves))          # requirement: the three moves are cited
+    # Typical errors: a quality measure of the model's text (user's choice, M2 report). A miss is
+    # reported as a warning in the test summary, it does not fail the suite.
+    absent = []
     for err in cl["typical_errors"]:
         if isinstance(err, str):                         # a move: cited by a token
             if err not in moves:
-                missing.append(err)
+                absent.append(err)
         elif not re.search(err["pattern"], body(res.document), re.IGNORECASE):   # a concept: named in the text
-            missing.append(err["concept"])
-    assert not missing, (missing, sorted(moves))
+            absent.append(err["concept"])
+    if absent:
+        warnings.warn(ChecklistQualityWarning(f"{name}: errori tipici non citati dal modello: {', '.join(absent)}"))
+
