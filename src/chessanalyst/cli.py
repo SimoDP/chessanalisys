@@ -1,8 +1,8 @@
 """Command line interface (§2-bis.1, argparse, D-56).
 
-M1a provides the interactive flow, ``analyze`` (up to ``pack.json``),
-``doctor`` and ``golden --data``. Commands and options of later milestones are
-refused explicitly with exit code 2 (D-30).
+M1c: interactive flow, ``analyze`` and ``rerun`` (pack, model, verification,
+render), ``doctor``, ``golden --data/--packs/--render``. Options of later
+milestones are refused explicitly with exit code 2 (D-30, ``settings.py``).
 """
 
 from __future__ import annotations
@@ -13,11 +13,6 @@ import sys
 
 from chessanalyst import exit_codes
 from chessanalyst.errors import AnalystError
-
-NOT_YET = {
-    "rerun": "M1c",
-}
-
 
 class _Parser(argparse.ArgumentParser):
     def error(self, message: str) -> None:  # usage errors → exit code 2
@@ -66,13 +61,10 @@ def build_parser() -> argparse.ArgumentParser:
     a.add_argument("--out")
     a.add_argument("--yes", action="store_true")
     a.add_argument("--verbose", action="store_true", dest="verbose_a")
-    sub.add_parser("rerun", help="rifà LLM, verifica e render (da M1c)")
+    r = sub.add_parser("rerun", help="rifà modello, verifica e render da pack.json")
+    r.add_argument("folder", help="cartella di output con pack.json")
+    r.add_argument("--verbose", action="store_true", dest="verbose_a")
     return p
-
-
-def _not_yet(what: str) -> int:
-    sys.stderr.write(f"Funzione «{what}» disponibile da {NOT_YET[what]}.\n")
-    return exit_codes.USAGE
 
 
 def _cmd_doctor(args: argparse.Namespace) -> int:
@@ -172,8 +164,7 @@ def _console():
 
 
 def _finish(outdir) -> None:
-    print(f"Pacchetto di evidenze salvato in {outdir / 'pack.json'}")
-    print("L'analisi testuale (chiamata al modello di linguaggio) arriva con M1c.")
+    print(f"Analisi salvata in {outdir / 'analysis.md'}")
 
 
 def _settings_from(cfg, values):
@@ -184,7 +175,24 @@ def _settings_from(cfg, values):
 
 
 def _progress(console):
-    return lambda s: console.print(f"Motori in esecuzione ...  ({s})", markup=False)
+    def show(s: str) -> None:
+        if s.startswith("modello di linguaggio"):
+            console.print("Modello di linguaggio in esecuzione ...", markup=False)
+        else:
+            console.print(f"Motori in esecuzione ...  ({s})", markup=False)
+    return show
+
+
+def _cmd_rerun(args: argparse.Namespace) -> int:
+    from pathlib import Path
+
+    from chessanalyst.config import load_config
+    from chessanalyst.run import rerun
+
+    cfg = load_config()
+    path = rerun(cfg, Path(args.folder).expanduser(), verbose=args.verbose or args.verbose_a)
+    print(f"Analisi salvata in {path}")
+    return exit_codes.OK
 
 
 def _cmd_analyze(args: argparse.Namespace) -> int:
@@ -263,8 +271,6 @@ def _cmd_interactive(args: argparse.Namespace) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     argv = sys.argv[1:] if argv is None else argv
-    if argv and argv[0] == "rerun":
-        return _not_yet("rerun")  # options of later milestones are not parsed yet
     args = build_parser().parse_args(argv)
     verbose = args.verbose or getattr(args, "verbose_a", False)
     console_handler = logging.StreamHandler(sys.stderr)
@@ -279,6 +285,8 @@ def main(argv: list[str] | None = None) -> int:
             return _cmd_interactive(args)
         if args.command == "analyze":
             return _cmd_analyze(args)
+        if args.command == "rerun":
+            return _cmd_rerun(args)
         if args.command == "doctor":
             return _cmd_doctor(args)
         if args.command == "golden":

@@ -16,6 +16,13 @@ def pytest_addoption(parser):
                      help="rigenera fixtures/recorded/{engine,maia} con i motori veri (con -m engines)")
 
 
+@pytest.fixture(autouse=True)
+def _no_real_api(request, monkeypatch):
+    """The default suite never reaches the API: the key is hidden unless a test is marked ``llm``."""
+    if "llm" not in request.keywords:
+        monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+
+
 @pytest.fixture(scope="session")
 def root() -> Path:
     return ROOT

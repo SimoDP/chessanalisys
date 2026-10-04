@@ -21,7 +21,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8,<9"]
+dev = ["pytest>=8,<9", "jsonschema>=4,<5"]
 
 [project.scripts]
 chessanalyst = "chessanalyst.cli:main"

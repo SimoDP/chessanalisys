@@ -131,8 +131,9 @@ ordine alfabetico, come indicano le definizioni di §5.1.
 La regola è «nessuna costante numerica nel codice» (istruzione 5). Restano nel codice solo valori che la
 documentazione fissa nel testo normativo e che l'Appendice D non mette in configurazione: `loss_cp ≤ 30`
 della condizione c3 (§8.2, matrice fissa per §0.5), la soglia `p ≥ 0,001` della policy nei nodi (§6.2),
-i 40 caratteri dello slug della cartella (§2-bis.5), le soglie di AC-09 (0,25 pedoni, prime 6) e i limiti di
-formato della scacchiera (colonne c–f, ali). Se si preferisce averli in `config/`, va aggiunta una chiave
+i 40 caratteri dello slug della cartella (§2-bis.5), le soglie di AC-09 (0,25 pedoni, prime 6), i limiti di
+formato della scacchiera (colonne c–f, ali) e, da M1c, le dimensioni della vista ridotta (5 righe, PV di 6
+semimosse, 5 mosse di Maia-2, §6.1). Se si preferisce averli in `config/`, va aggiunta una chiave
 all'Appendice D: è una decisione dell'utente.
 
 ## M1b
@@ -201,3 +202,42 @@ Una riga per gruppo di alias, commenti con `#`. Oltre ai termini richiesti c'è 
 ### OQ-M1b-13 · Articoli davanti alle percentuali
 Il token produce solo il numero («8%»): frasi come «il {{pct}}» danno «il 8%». I fewshot sono scritti per
 evitarlo; per le risposte del modello non c'è un controllo (sarebbe una regola di stile, non di verifica).
+
+## M1c
+
+### OQ-M1c-1 · `temperature` e SDK
+Nell'SDK `anthropic` 1.11.0 (quello fissato in `requirements.lock`) `messages.create` non ha il parametro
+`temperature`. Il client lo invia con `extra_body`; se l'API lo rifiuta (400 che cita `temperature`) la
+richiesta si ripete una sola volta senza, lo si annota nel log e non lo si invia più (§9.1).
+
+### OQ-M1c-2 · Tentativi di rete
+`network_attempts: 3` = tre tentativi in tutto; tra un tentativo e il successivo si attendono 2 e 4 secondi
+(`network_backoff_s`, più `retry-after`). Il terzo valore (8 s) servirebbe solo con un quarto tentativo.
+
+### OQ-M1c-3 · Chiave API assente
+I motori girano comunque: `pack.json` viene salvato e poi l'uscita è con codice 4 e l'invito a usare
+`chessanalyst rerun <cartella>` dopo aver impostato `ANTHROPIC_API_KEY`. `doctor` continua a segnalarla come
+AVVISO (è un controllo d'ambiente; il codice 4 lo dà `analyze` quando serve).
+
+### OQ-M1c-4 · Messaggio di retry
+Segue l'Appendice E.3 (frase iniziale, poi una riga per errore); §9.3 descrive gli stessi elementi in ordine
+inverso. Se la risposta non contiene un blocco `tool_use` (per esempio `max_tokens` senza strumento) gli errori
+vanno in un normale messaggio utente, perché un `tool_result` richiede `tool_use_id`.
+
+### OQ-M1c-5 · Legenda
+I token di `_s07_alt.json` sono aggiunti alla stessa legenda (risolti sul pacchetto AC-21), senza ripetere
+quelli già presenti; anche i blocchi `line` hanno una riga di legenda.
+
+### OQ-M1c-6 · Schema dello strumento
+Generato dai modelli `pydantic` (`llm/schema.py`), senza le chiavi `discriminator` e `title`; i campi
+facoltativi sono assenti, mai `null`, come nell'Appendice F. Il test di equivalenza con l'Appendice F usa
+`jsonschema` (aggiunto all'extra `dev`).
+
+### OQ-M1c-7 · Log
+I logger dell'SDK e di `httpx` sono portati a WARNING: `run.log` non contiene le richieste. La chiave non è
+mai scritta né stampata; la suite normale nasconde `ANTHROPIC_API_KEY` ai test (solo i test `llm` la vedono).
+
+### OQ-M1c-8 · Risposte registrate del modello reale (AC-10, AC-21 «modello»)
+`pytest -m llm --record` esegue il ciclo completo con l'API sui pacchetti congelati (1500, 1900, AC-21) e salva
+`fixtures/recorded/llm/real_*.json`; i test di accettazione li rigiocano con `FakeLLM`. Senza la chiave i
+test sono saltati con un messaggio esplicito.

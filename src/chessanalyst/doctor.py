@@ -174,7 +174,7 @@ def run_doctor(
     if env.get("ANTHROPIC_API_KEY"):
         checks.append(Check("ANTHROPIC_API_KEY", OK, "presente"))
     else:
-        checks.append(Check("ANTHROPIC_API_KEY", WARN, "assente (serve da M1c per la chiamata al modello)",
+        checks.append(Check("ANTHROPIC_API_KEY", WARN, "assente (serve per il testo dell'analisi: analyze e rerun)",
                             "Imposta la variabile d'ambiente ANTHROPIC_API_KEY"))
 
     # Write permissions

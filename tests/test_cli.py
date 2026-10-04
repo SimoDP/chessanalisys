@@ -5,9 +5,9 @@ import pytest
 from chessanalyst.cli import main
 
 
-def test_not_yet_available_commands_exit_2(capsys):
-    assert main(["rerun", "out"]) == 2
-    assert "disponibile da M1c" in capsys.readouterr().err
+def test_rerun_without_pack_exit_2(tmp_path, capsys):
+    assert main(["rerun", str(tmp_path)]) == 2
+    assert "pack.json" in capsys.readouterr().err
 
 
 def test_frozen_golden_packs_need_force(capsys):

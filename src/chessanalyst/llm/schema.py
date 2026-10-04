@@ -21,7 +21,7 @@ class FeatureAssertion(_M):
     kind: Literal["feature"]
     key: str
     side: Literal["w", "b"] | None
-    squares: list[Annotated[str, Field(pattern=r"^[a-h][1-8]$")]] | None = None
+    squares: list[Annotated[str, Field(pattern=r"^[a-h][1-8]$")]] = Field(default_factory=list)
 
 
 class EvalBandAssertion(_M):
@@ -49,14 +49,14 @@ Assertion = Annotated[Union[FeatureAssertion, EvalBandAssertion, MaiaBandAsserti
 class ParagraphLite(_M):
     text: Annotated[str, Field(min_length=1)]
     source: Source
-    assertions: list[Assertion] | None = None
+    assertions: list[Assertion] = Field(default_factory=list)
 
 
 class Paragraph(_M):
     type: Literal["p"]
     text: Annotated[str, Field(min_length=1)]
     source: Source
-    assertions: list[Assertion] | None = None
+    assertions: list[Assertion] = Field(default_factory=list)
 
 
 class ListBlock(_M):
@@ -68,13 +68,13 @@ class Line(_M):
     type: Literal["line"]
     pv: Annotated[str, Field(pattern=r"^PV[1-9][0-9]*$")]
     plies: Annotated[int, Field(ge=1)]
-    caption: ParagraphLite | None = None
+    caption: ParagraphLite = None  # type: ignore[assignment]  # absent, never null (Appendix F)
 
 
 class DataTable(_M):
     type: Literal["table"]
     ref: Literal["T1", "T2", "T3", "T4"]
-    text_cells: dict[str, dict[str, ParagraphLite]] | None = None
+    text_cells: dict[str, dict[str, ParagraphLite]] = None  # type: ignore[assignment]
 
 
 class TextTable(_M):
@@ -102,3 +102,26 @@ class AnalysisOutput(_M):
     schema_version: Literal["1"]
     sections: Annotated[list[Section], Field(min_length=1)]
     notes: list[str]
+
+
+TOOL_NAME = "submit_analysis"
+TOOL_DESCRIPTION = "Consegna l'analisi strutturata della posizione."
+
+
+def _clean(node):
+    """Drop pydantic-only keywords (``discriminator``, ``title``): same semantics in JSON Schema."""
+    if isinstance(node, dict):
+        return {k: _clean(v) for k, v in node.items()
+                if k != "discriminator" and not (k == "title" and isinstance(v, str))}
+    if isinstance(node, list):
+        return [_clean(v) for v in node]
+    return node
+
+
+def input_schema() -> dict:
+    return _clean(AnalysisOutput.model_json_schema())
+
+
+def tool_definition() -> dict:
+    """The ``submit_analysis`` tool (Appendix F), generated from the pydantic models."""
+    return {"name": TOOL_NAME, "description": TOOL_DESCRIPTION, "input_schema": input_schema()}

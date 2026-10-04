@@ -25,3 +25,9 @@ class InputError(AnalystError):
     """Invalid FEN/PGN/file (exit code 3 after the allowed attempts)."""
 
     exit_code = exit_codes.INVALID_INPUT
+
+
+class ModelError(AnalystError):
+    """API unreachable after the attempts or no valid answer after the retries (exit code 5)."""
+
+    exit_code = exit_codes.MODEL

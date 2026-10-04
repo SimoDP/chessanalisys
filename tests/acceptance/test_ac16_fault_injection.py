@@ -77,3 +77,69 @@ def test_fixtures_are_up_to_date():
     rook = json.loads((OUT / "rook_endgame.pack.json").read_text(encoding="utf-8"))
     for name, data in build(rook).items():
         assert recorded(name) == data, f"{name}: rigenera con python -m tests.fault_fixtures"
+
+
+# -- M1c: full cycle (retry, then correction or degraded mode) -----------------------------
+
+from chessanalyst.errors import ModelError  # noqa: E402
+from chessanalyst.golden.packs import load_frozen_pack  # noqa: E402
+from chessanalyst.llm.client import FakeLLM  # noqa: E402
+from chessanalyst.llm.cycle import run_model  # noqa: E402
+
+
+def _cycle(cfg, names):
+    llm = FakeLLM([recorded(n) for n in names])
+    return run_model(cfg, load_frozen_pack(cfg, "najdorf_w_1900"), llm), llm
+
+
+@pytest.mark.parametrize("name", sorted(n for n in EXPECTED if n.startswith("bad_") and EXPECTED[n][0] != "rook_endgame"))
+def test_retry_then_corrected(cfg, name):
+    res, llm = _cycle(cfg, [name, "good_najdorf_1900.json"])
+    assert res.retries == 1 and not res.degraded
+    assert [bool(a["errors"]) for a in res.verification["attempts"]] == [True, False]
+    second = llm.requests[1]["messages"]
+    assert [m["role"] for m in second] == ["user", "assistant", "user"]
+    assert second[1]["content"] == recorded(name)["content"]                 # the response as received
+    result = second[2]["content"][0]
+    assert result["type"] == "tool_result" and result["is_error"] is True
+    assert result["tool_use_id"] == "toolu_recorded"
+    assert result["content"].startswith("La consegna contiene errori. Correggi solo questi punti")
+    code = sorted(EXPECTED[name][1])[0][:3]
+    assert f"\n{code}" in result["content"]
+
+
+def test_degraded_after_the_retries(cfg):
+    res, llm = _cycle(cfg, ["bad_chain.json"] * 3)
+    assert res.retries == 2 and res.degraded and len(llm.requests) == 3
+    removed = res.verification["final"]["removed"]
+    assert removed and all("V03" in r for r in removed)
+    assert "Rimossi in modalità degradata: S04" in res.document and "Retry: 2" in res.document
+
+
+def test_marked_after_the_retries(cfg):
+    res, _ = _cycle(cfg, ["bad_assertion.json"] * 3)
+    assert res.verification["final"]["marked"] and cfg.wording["fixed"]["unverified_mark"] in res.document
+
+
+def test_word_budget_only_one_retry(cfg):
+    import copy
+
+    out = copy.deepcopy(recorded("good_najdorf_1900.json"))
+    s10 = next(s for s in out["content"][0]["input"]["sections"] if s["id"] == "S10")
+    s10["blocks"].append({"type": "p", "source": "theory", "text": " ".join(["parola"] * 200)})
+    llm = FakeLLM([out, out, out])
+    res = run_model(cfg, load_frozen_pack(cfg, "najdorf_w_1900"), llm)
+    assert res.retries == 1 and len(llm.requests) == 2                       # V07(d) alone: at most one retry
+    assert any("S10" in w for w in res.verification["final"]["warnings"])
+
+
+def test_degraded_mode_uses_the_last_response_that_passed_v01(cfg):
+    res, _ = _cycle(cfg, ["bad_chain.json", "max_tokens.json", "max_tokens.json"])
+    assert res.degraded and len(res.raw) == 3
+    assert "g4-g5" not in res.document
+
+
+def test_no_valid_response_is_exit_code_5(cfg):
+    with pytest.raises(ModelError) as e:
+        _cycle(cfg, ["max_tokens.json"] * 3)
+    assert e.value.exit_code == 5

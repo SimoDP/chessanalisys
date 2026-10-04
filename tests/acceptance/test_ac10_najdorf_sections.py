@@ -37,3 +37,18 @@ def test_rendered_sections(cfg, root, anchor):
         assert plan["S08"]["required"] == bool(plan["S08"]["must_cover"])    # c8
     for o in pack["omitted_sections"]:
         assert f"{o['id']} ({o['reason']})" in report
+
+
+# -- M1c: a recorded response of the real model --------------------------------------------
+
+@pytest.mark.parametrize("anchor", ["1500", "1900"])
+def test_real_model_sections(cfg, anchor):
+    from tests.real_llm import replay
+
+    pack, res = replay(cfg, f"najdorf_w_{anchor}")
+    titles = [h for h in re.findall(r"^## (.+)$", res.document, re.M) if h != REPORT_TITLE]
+    assert titles == [fill_opp(cfg.section_titles[s][anchor], "il Nero") for s in EXPECTED[anchor]]
+    report = res.document.split(f"## {REPORT_TITLE}")[1]
+    for o in pack["omitted_sections"]:
+        assert f"{o['id']} ({o['reason']})" in report
+    assert "{{" not in res.document

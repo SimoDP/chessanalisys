@@ -65,3 +65,18 @@ def test_opponent_document(cfg, root):
     assert "E2b (opponent_to_move)" in report and "E3 (opponent_to_move)" in report
     s01 = doc.split("## Sintesi")[1].split("\n## ")[0]
     assert cfg.wording["fixed"]["section_unavailable"] in s01
+
+
+# -- M1c: a recorded response of the real model --------------------------------------------
+
+def test_real_model_opponent_mode(cfg):
+    from chessanalyst.render.report import REPORT_TITLE
+    from tests.real_llm import replay
+
+    pack, res = replay(cfg, "najdorf_after_be3_w_1900")
+    doc = res.document
+    assert "## Risposte probabili del Nero e come prepararsi" in doc
+    assert "## Le tre cose da fare adesso" not in doc and "## I sistemi che puoi scegliere" not in doc
+    assert "| Risposta | Probabilità a 1900* |" in doc
+    report = doc.split(f"## {REPORT_TITLE}")[1]
+    assert "S03 (opponent_to_move)" in report and "S08 (opponent_to_move)" in report

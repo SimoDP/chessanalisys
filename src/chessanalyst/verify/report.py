@@ -19,8 +19,10 @@ def check_outcomes(last: Result, degraded: Degraded | None) -> dict[str, str]:
     return out
 
 
-def verification_json(attempts: list[Result], degraded: Degraded | None, hints: dict) -> dict:
-    last = attempts[-1]
+def verification_json(attempts: list[Result], degraded: Degraded | None, hints: dict,
+                      final: Result | None = None) -> dict:
+    """``final`` = the response the document comes from (default: the last one)."""
+    last = final if final is not None else attempts[-1]
     outcomes = check_outcomes(last, degraded)
     return {
         "attempts": [{"n": k, "errors": [e.to_dict(hints) for e in r.errors]} for k, r in enumerate(attempts, 1)],
