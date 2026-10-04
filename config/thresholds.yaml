@@ -95,10 +95,10 @@ scoring:
   decisive_cp: 200                # perdita decisiva (banda decisive di §6.4): entra sempre
   visible_p_att_min: 0.10         # sotto questa P_att una linea che entra sempre è «invisibile»
   override: {p_att_min: 0.10, t_max: 29}     # §5-bis.4 punto 5: T <= 30; 29 perché sia «critico» (< 30)
-  k: {king_safety: 0.5, pawn_structure: 0.8, space_center: 0.8, piece_activity: 0.8, initiative_tempo: 0.6,
-      threats_dynamics: 0.5, material: 0.5, transition_plans: 0.8, practical_complexity: 1.0}
-  w: {king_safety: 0.8, pawn_structure: 0.3, space_center: 0.3, piece_activity: 0.4, initiative_tempo: 0.6,
-      threats_dynamics: 0.8, material: 0.7, transition_plans: 0.5, practical_complexity: 0.0}
+  k: {king_safety: 0.075, pawn_structure: 0.12, space_center: 0.12, piece_activity: 0.12, initiative_tempo: 0.09,
+      threats_dynamics: 0.075, material: 0.075, transition_plans: 0.12, practical_complexity: 1}   # M5: × 0.15 (docs/CALIBRATION_REPORT.md)
+  w: {king_safety: 0.95, pawn_structure: 0.45, space_center: 0.45, piece_activity: 0.55, initiative_tempo: 0.75,
+      threats_dynamics: 0.95, material: 0.85, transition_plans: 0.65, practical_complexity: 0}   # M5: +0.15 (docs/CALIBRATION_REPORT.md)
   tags:                           # confronto inizio linea / foglia (§5-bis.4 punto 1)
     material_min: 1
     center_shift_min: 3

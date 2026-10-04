@@ -176,4 +176,9 @@ def test_override_only_on_the_primary_category(cfg):
     line.id, line.tags, line.primary = "L1", ["king_safety", "threats_dynamics"], "threats_dynamics"
     cats = {c["id"]: c for c in score_categories(cfg, [root], [], [line], "w", "middlegame", False, "1600_2000")}
     assert cats["threats_dynamics"]["T"]["w"] == sc.override.t_max and cats["threats_dynamics"]["advice"] == "critical"
-    assert cats["king_safety"]["components"]["override"]["w"] is False and cats["king_safety"]["T"]["w"] > 90
+    import math
+
+    k, w = sc.k["king_safety"], sc.w["king_safety"]
+    expected = round(w * 100 * math.exp(-0.015 / k) + (1 - w) * 100)        # no override: not the primary category
+    assert cats["king_safety"]["components"]["override"]["w"] is False
+    assert cats["king_safety"]["T"]["w"] == expected > sc.override.t_max

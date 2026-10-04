@@ -18,15 +18,15 @@ Fattori decisivi: la corsa g4 → g5 contro ...b5 → ...b4 con gli arrocchi opp
 
 | Categoria | T (tu)* | R | Nota |
 | --- | --- | --- | --- |
-| Attività dei pezzi | 100 | 26 | Quattro pezzi neri ancora chiusi |
+| Attività dei pezzi | 100 | 24 | Quattro pezzi neri ancora chiusi |
 | Struttura pedonale | 100 | 12 | Si decide con la spinta del pedone e del Nero |
 | Spazio e centro | 100 | 7 | Leggera prevalenza bianca al centro |
 | Complessità pratica | 80 | 7 | Più mosse giocabili per entrambi |
-| Sicurezza del re | 98 | 1 | Nessun attacco: i re non sono ancora arroccati |
+| Sicurezza del re | 100 | 0 | Nessun attacco: i re non sono ancora arroccati |
 
 * Punteggi poco affidabili: Maia-2 poco affidabile a questo livello o valutazioni instabili.
 
-Fattori di lungo periodo: l'attività (26), con quattro pezzi neri ancora chiusi, e la struttura (12), che le linee di 6.f3 e 6.Be3 fissano al centro. Nessun fattore tattico; complessità pratica media (80).
+Fattori di lungo periodo: l'attività (24), con quattro pezzi neri ancora chiusi, e la struttura (12), che le linee di 6.f3 e 6.Be3 fissano al centro. Nessun fattore tattico; complessità pratica media (80).
 
 ## Piani per struttura
 

@@ -15,13 +15,13 @@ La posizione è equilibrata: vince chi sviluppa meglio e non regala materiale. I
 
 | Categoria | T (tu) | R | Nota |
 | --- | --- | --- | --- |
-| Attività dei pezzi | 100 | 30 | Il Nero ha più pezzi ancora chiusi di te |
+| Attività dei pezzi | 100 | 29 | Il Nero ha più pezzi ancora chiusi di te |
 | Struttura pedonale | 100 | 13 | Cambia nelle linee di 6.f3 e 6.Be3 |
-| Spazio e centro | 100 | 11 | — |
+| Spazio e centro | 100 | 10 | — |
 | Complessità pratica | 77 | 8 | Tante mosse giocabili, nessuna unica |
-| Sicurezza del re | 98 | 1 | Nessuna linea minaccia il re |
+| Sicurezza del re | 100 | 0 | Nessuna linea minaccia il re |
 
-Nessuna categoria è da attenzione. Conta di più sviluppare i pezzi (rilevanza 30): il Nero ne ha ancora quattro chiusi. Più delicata è la scelta tra tante mosse giocabili (77).
+Nessuna categoria è da attenzione. Conta di più sviluppare i pezzi (rilevanza 29): il Nero ne ha ancora quattro chiusi. Più delicata è la scelta tra tante mosse giocabili (77).
 
 ## Le tre cose da fare adesso
 

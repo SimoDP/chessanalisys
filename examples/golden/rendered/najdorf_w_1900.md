@@ -18,19 +18,19 @@ Posizione teorica e molto equilibrata: il motore dà al Bianco un vantaggio mini
 
 | Categoria | T (tu)* | R | Nota |
 | --- | --- | --- | --- |
-| Attività dei pezzi | 100 | 26 | Il Nero ha più pezzi ancora chiusi |
+| Attività dei pezzi | 100 | 24 | Il Nero ha più pezzi ancora chiusi |
 | Struttura pedonale | 100 | 12 | Cambia nelle linee di 6.f3 e 6.Be3 |
 | Spazio e centro | 100 | 7 | Il centro è leggermente tuo |
 | Complessità pratica | 80 | 7 | Molte mosse giocabili, nessuna unica |
-| Sicurezza del re | 98 | 1 | Entrambi possono ancora arroccare dai due lati |
-| Minacce e dinamica | 100 | 1 | Nessuna minaccia supera la soglia del tuo livello |
+| Sicurezza del re | 100 | 0 | Entrambi possono ancora arroccare dai due lati |
 | Iniziativa e tempi | 100 | 0 | — |
+| Minacce e dinamica | 100 | 0 | Nessuna minaccia supera la soglia del tuo livello |
 | Materiale | 100 | 0 | — |
 | Transizioni e piani | 100 | 0 | — |
 
 * Punteggi poco affidabili: Maia-2 poco affidabile a questo livello o valutazioni instabili.
 
-Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica (80), perché quasi ovunque ci sono più mosse giocabili. Pesa di più l'attività dei pezzi (26): il Nero ha quattro pezzi chiusi, tu solo le torri. Nessuna linea filtrata tocca il re. Le categorie tattiche hanno rilevanza quasi nulla: qui decide il piano, non il calcolo.
+Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica (80), perché quasi ovunque ci sono più mosse giocabili. Pesa di più l'attività dei pezzi (24): il Nero ha quattro pezzi chiusi, tu solo le torri. Nessuna linea filtrata tocca il re. Le categorie tattiche hanno rilevanza quasi nulla: qui decide il piano, non il calcolo.
 
 ## I sistemi che puoi scegliere
 

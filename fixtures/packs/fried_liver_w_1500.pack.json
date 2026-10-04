@@ -1,8 +1,8 @@
 {
   "schema_version": "0.9",
   "app_version": "0.1.0",
-  "created_utc": "2026-10-04T20:10:36+00:00",
-  "config_hash": "66421c9ac5e41763714469aa623d00c2c701e334",
+  "created_utc": "2026-10-04T23:00:52+00:00",
+  "config_hash": "85a4808a78d79368c92c60cfc6b53c2bbc40fc34",
   "position": {
     "fen": "r1bqkb1r/ppp2ppp/2n5/3np1N1/2B5/8/PPPP1PPP/RNBQK2R w KQkq - 0 6",
     "epd": "r1bqkb1r/ppp2ppp/2n5/3np1N1/2B5/8/PPPP1PPP/RNBQK2R w KQkq -",
@@ -1638,12 +1638,12 @@
     {
       "id": "king_safety",
       "T": {
-        "w": 78,
-        "b": 85
+        "w": 18,
+        "b": 40
       },
-      "R": 46,
-      "balance": -7,
-      "advice": "monitor",
+      "R": 73,
+      "balance": -22,
+      "advice": "critical",
       "confidence": "normal",
       "components": {
         "T_stat": {
@@ -1651,11 +1651,11 @@
           "b": 82
         },
         "T_dyn": {
-          "w": 75,
-          "b": 86
+          "w": 14,
+          "b": 38
         },
-        "w": 0.8,
-        "k": 0.5,
+        "w": 0.95,
+        "k": 0.075,
         "risk": {
           "w": 0.1459,
           "b": 0.0733
@@ -1704,8 +1704,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.3,
-        "k": 0.8,
+        "w": 0.45,
+        "k": 0.12,
         "risk": {
           "w": 0,
           "b": 0
@@ -1730,11 +1730,11 @@
     {
       "id": "space_center",
       "T": {
-        "w": 92,
+        "w": 93,
         "b": 100
       },
-      "R": 4,
-      "balance": -8,
+      "R": 3,
+      "balance": -7,
       "advice": "no_worry",
       "confidence": "normal",
       "components": {
@@ -1743,11 +1743,11 @@
           "b": 100
         },
         "T_dyn": {
-          "w": 100,
+          "w": 98,
           "b": 100
         },
-        "w": 0.3,
-        "k": 0.8,
+        "w": 0.45,
+        "k": 0.12,
         "risk": {
           "w": 0.0022,
           "b": 0
@@ -1773,12 +1773,12 @@
     {
       "id": "piece_activity",
       "T": {
-        "w": 85,
-        "b": 98
+        "w": 53,
+        "b": 83
       },
-      "R": 44,
-      "balance": -13,
-      "advice": "no_worry",
+      "R": 60,
+      "balance": -30,
+      "advice": "attention",
       "confidence": "normal",
       "components": {
         "T_stat": {
@@ -1786,11 +1786,11 @@
           "b": 100
         },
         "T_dyn": {
-          "w": 81,
-          "b": 95
+          "w": 25,
+          "b": 70
         },
-        "w": 0.4,
-        "k": 0.8,
+        "w": 0.55,
+        "k": 0.12,
         "risk": {
           "w": 0.1679,
           "b": 0.0434
@@ -1828,12 +1828,12 @@
     {
       "id": "initiative_tempo",
       "T": {
-        "w": 79,
-        "b": 89
+        "w": 33,
+        "b": 46
       },
-      "R": 31,
-      "balance": -10,
-      "advice": "monitor",
+      "R": 47,
+      "balance": -13,
+      "advice": "attention",
       "confidence": "normal",
       "components": {
         "T_stat": {
@@ -1841,11 +1841,11 @@
           "b": 100
         },
         "T_dyn": {
-          "w": 76,
-          "b": 82
+          "w": 15,
+          "b": 27
         },
-        "w": 0.6,
-        "k": 0.6,
+        "w": 0.75,
+        "k": 0.09,
         "risk": {
           "w": 0.1679,
           "b": 0.1167
@@ -1880,11 +1880,11 @@
     {
       "id": "threats_dynamics",
       "T": {
-        "w": 29,
+        "w": 14,
         "b": 100
       },
-      "R": 63,
-      "balance": -71,
+      "R": 71,
+      "balance": -86,
       "advice": "critical",
       "confidence": "normal",
       "components": {
@@ -1893,11 +1893,11 @@
           "b": 100
         },
         "T_dyn": {
-          "w": 71,
+          "w": 11,
           "b": 100
         },
-        "w": 0.8,
-        "k": 0.5,
+        "w": 0.95,
+        "k": 0.075,
         "risk": {
           "w": 0.1679,
           "b": 0
@@ -1941,10 +1941,10 @@
         },
         "T_dyn": {
           "w": 100,
-          "b": 79
+          "b": 21
         },
-        "w": 0.7,
-        "k": 0.5,
+        "w": 0.85,
+        "k": 0.075,
         "risk": {
           "w": 0,
           "b": 0.1167
@@ -1985,8 +1985,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.5,
-        "k": 0.8,
+        "w": 0.65,
+        "k": 0.12,
         "risk": {
           "w": 0,
           "b": 0
@@ -2455,20 +2455,20 @@
       ],
       "rows": [
         {
-          "id": "threats_dynamics",
+          "id": "king_safety",
           "cells": {
-            "category": "Minacce e dinamica",
-            "T": "29",
-            "R": "63",
+            "category": "Sicurezza del re",
+            "T": "18",
+            "R": "73",
             "nota": null
           }
         },
         {
-          "id": "king_safety",
+          "id": "threats_dynamics",
           "cells": {
-            "category": "Sicurezza del re",
-            "T": "78",
-            "R": "46",
+            "category": "Minacce e dinamica",
+            "T": "14",
+            "R": "71",
             "nota": null
           }
         },
@@ -2476,8 +2476,17 @@
           "id": "piece_activity",
           "cells": {
             "category": "Attività dei pezzi",
-            "T": "85",
-            "R": "44",
+            "T": "53",
+            "R": "60",
+            "nota": null
+          }
+        },
+        {
+          "id": "initiative_tempo",
+          "cells": {
+            "category": "Iniziativa e tempi",
+            "T": "33",
+            "R": "47",
             "nota": null
           }
         },
@@ -2487,15 +2496,6 @@
             "category": "Materiale",
             "T": "100",
             "R": "44",
-            "nota": null
-          }
-        },
-        {
-          "id": "initiative_tempo",
-          "cells": {
-            "category": "Iniziativa e tempi",
-            "T": "79",
-            "R": "31",
             "nota": null
           }
         }

@@ -1,8 +1,8 @@
 {
   "schema_version": "0.9",
   "app_version": "0.1.0",
-  "created_utc": "2026-10-04T20:10:36+00:00",
-  "config_hash": "66421c9ac5e41763714469aa623d00c2c701e334",
+  "created_utc": "2026-10-04T23:00:52+00:00",
+  "config_hash": "85a4808a78d79368c92c60cfc6b53c2bbc40fc34",
   "position": {
     "fen": "1K1k4/1P6/8/8/8/8/r7/2R5 w - - 0 1",
     "epd": "1K1k4/1P6/8/8/8/8/r7/2R5 w - -",
@@ -1761,10 +1761,10 @@
     {
       "id": "king_safety",
       "T": {
-        "w": 93,
-        "b": 93
+        "w": 98,
+        "b": 98
       },
-      "R": 14,
+      "R": 13,
       "balance": 0,
       "advice": "no_worry",
       "confidence": "low",
@@ -1777,8 +1777,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.8,
-        "k": 0.5,
+        "w": 0.95,
+        "k": 0.075,
         "risk": {
           "w": 0,
           "b": 0
@@ -1813,10 +1813,10 @@
     {
       "id": "pawn_structure",
       "T": {
-        "w": 90,
-        "b": 89
+        "w": 92,
+        "b": 91
       },
-      "R": 5,
+      "R": 4,
       "balance": 1,
       "advice": "no_worry",
       "confidence": "low",
@@ -1829,8 +1829,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.3,
-        "k": 0.8,
+        "w": 0.45,
+        "k": 0.12,
         "risk": {
           "w": 0,
           "b": 0
@@ -1873,8 +1873,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.3,
-        "k": 0.8,
+        "w": 0.45,
+        "k": 0.12,
         "risk": {
           "w": 0,
           "b": 0
@@ -1898,11 +1898,11 @@
     {
       "id": "piece_activity",
       "T": {
-        "w": 94,
+        "w": 96,
         "b": 100
       },
-      "R": 28,
-      "balance": -6,
+      "R": 27,
+      "balance": -4,
       "advice": "no_worry",
       "confidence": "low",
       "components": {
@@ -1914,8 +1914,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.4,
-        "k": 0.8,
+        "w": 0.55,
+        "k": 0.12,
         "risk": {
           "w": 0,
           "b": 0
@@ -1948,10 +1948,10 @@
       "id": "initiative_tempo",
       "T": {
         "w": 100,
-        "b": 97
+        "b": 98
       },
       "R": 4,
-      "balance": 3,
+      "balance": 2,
       "advice": "no_worry",
       "confidence": "low",
       "components": {
@@ -1963,8 +1963,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.6,
-        "k": 0.6,
+        "w": 0.75,
+        "k": 0.09,
         "risk": {
           "w": 0,
           "b": 0
@@ -1991,10 +1991,10 @@
       "id": "threats_dynamics",
       "T": {
         "w": 100,
-        "b": 99
+        "b": 100
       },
-      "R": 1,
-      "balance": 1,
+      "R": 0,
+      "balance": 0,
       "advice": "no_worry",
       "confidence": "low",
       "components": {
@@ -2006,8 +2006,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.8,
-        "k": 0.5,
+        "w": 0.95,
+        "k": 0.075,
         "risk": {
           "w": 0,
           "b": 0
@@ -2032,10 +2032,10 @@
       "id": "material",
       "T": {
         "w": 100,
-        "b": 96
+        "b": 98
       },
-      "R": 2,
-      "balance": 4,
+      "R": 1,
+      "balance": 2,
       "advice": "no_worry",
       "confidence": "low",
       "components": {
@@ -2047,8 +2047,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.7,
-        "k": 0.5,
+        "w": 0.85,
+        "k": 0.075,
         "risk": {
           "w": 0,
           "b": 0
@@ -2073,10 +2073,10 @@
       "id": "transition_plans",
       "T": {
         "w": 100,
-        "b": 94
+        "b": 95
       },
       "R": 3,
-      "balance": 6,
+      "balance": 5,
       "advice": "no_worry",
       "confidence": "low",
       "components": {
@@ -2088,8 +2088,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.5,
-        "k": 0.8,
+        "w": 0.65,
+        "k": 0.12,
         "risk": {
           "w": 0,
           "b": 0

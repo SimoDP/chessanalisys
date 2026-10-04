@@ -1,0 +1,157 @@
+{
+ "created_utc": "2026-10-04T23:06:30+00:00",
+ "model": "deepseek/deepseek-v4.1-flash",
+ "config_hash": "85a4808a78d79368c92c60cfc6b53c2bbc40fc34",
+ "packs": [
+  {
+   "pack": "najdorf_w_1500",
+   "attempts": [
+    {
+     "V01": 1
+    },
+    {}
+   ],
+   "retries": 1,
+   "complete": true,
+   "removed": 0,
+   "marked": 0,
+   "sections_off_budget": 1,
+   "theory_share": 0.423
+  },
+  {
+   "pack": "najdorf_w_1900",
+   "attempts": [
+    {
+     "V01": 1
+    },
+    {
+     "V04": 1,
+     "V07(d)": 3
+    },
+    {
+     "V01": 3
+    }
+   ],
+   "retries": 2,
+   "complete": false,
+   "removed": 1,
+   "marked": 0,
+   "sections_off_budget": 3,
+   "theory_share": 0.371
+  },
+  {
+   "pack": "najdorf_w_2400",
+   "attempts": [
+    {
+     "V01": 1
+    },
+    {
+     "V04": 5,
+     "V06": 1,
+     "V10": 3
+    },
+    {
+     "V04": 3,
+     "V06": 1,
+     "V10": 2
+    }
+   ],
+   "retries": 2,
+   "complete": false,
+   "removed": 5,
+   "marked": 1,
+   "sections_off_budget": 0,
+   "theory_share": 0.116
+  },
+  {
+   "pack": "najdorf_after_be3_w_1900",
+   "attempts": [
+    {
+     "V01": 1
+    },
+    {
+     "V02": 10,
+     "V04": 7,
+     "V06": 2,
+     "V07(d)": 4,
+     "V09": 6
+    },
+    {
+     "V01": 16
+    }
+   ],
+   "retries": 2,
+   "complete": false,
+   "removed": 23,
+   "marked": 2,
+   "sections_off_budget": 4,
+   "theory_share": 0.433
+  },
+  {
+   "pack": "fried_liver_w_1500",
+   "attempts": [
+    {
+     "V06": 2,
+     "V07(d)": 2,
+     "V08": 1,
+     "V10": 2
+    },
+    {
+     "V07(d)": 1,
+     "V10": 1
+    },
+    {}
+   ],
+   "retries": 2,
+   "complete": true,
+   "removed": 0,
+   "marked": 0,
+   "sections_off_budget": 1,
+   "theory_share": 0.28
+  },
+  {
+   "pack": "rook_endgame_w_1900",
+   "attempts": [
+    {
+     "V01": 2
+    },
+    {
+     "V01": 1
+    },
+    {
+     "V07(a)": 6,
+     "V07(d)": 1
+    }
+   ],
+   "retries": 2,
+   "complete": false,
+   "removed": 6,
+   "marked": 0,
+   "sections_off_budget": 7,
+   "theory_share": 0.0
+  },
+  {
+   "pack": "lucena_w_1900",
+   "attempts": [
+    {
+     "V03": 18,
+     "V06": 3,
+     "V07(d)": 3,
+     "V10": 5
+    },
+    {
+     "V03": 18
+    },
+    {
+     "V03": 1
+    }
+   ],
+   "retries": 2,
+   "complete": false,
+   "removed": 1,
+   "marked": 0,
+   "sections_off_budget": 0,
+   "theory_share": 0.405
+  }
+ ]
+}

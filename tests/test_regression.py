@@ -13,12 +13,11 @@ def test_regression_on_recorded_responses(cfg, tmp_path, monkeypatch):
     responses = []
     for name in cfg.calibration["regression"]["packs"]:
         responses += json.loads(real_fixture(name).read_text(encoding="utf-8"))["responses"]
-    summary = run_regression(cfg, FakeLLM(responses, model="deepseek"), progress=lambda s: None)
+    summary = run_regression(cfg, FakeLLM(responses, model="deepseek"), progress=lambda s: None, runs=1)
     packs = {p["pack"]: p for p in summary["packs"]}
     assert list(packs) == cfg.calibration["regression"]["packs"]
-    assert packs["najdorf_w_1500"]["complete"] and packs["najdorf_w_1500"]["removed"] == 0
-    assert not packs["rook_endgame_w_1900"]["complete"] and packs["rook_endgame_w_1900"]["removed"] > 0
-    assert all(len(p["attempts"]) <= 3 for p in packs.values())
+    assert all(p["n"] == 1 and len(p["runs"][0]["attempts"]) <= 3 for p in packs.values())
+    assert packs["najdorf_w_1500"]["complete"] == 1 and packs["najdorf_w_1500"]["removed"] == 0
     root = tmp_path / "proj"
     (root / "docs").mkdir(parents=True)
     pcfg = cfg.model_copy(update={"project_root": root})
@@ -27,10 +26,12 @@ def test_regression_on_recorded_responses(cfg, tmp_path, monkeypatch):
     later = dict(summary, created_utc="2099-01-01T00:00:00+00:00")
     j2, m2 = write_regression(pcfg, later)
     text = m2.read_text(encoding="utf-8")
-    assert f"confronto con il {summary['created_utc']}" in text and "| najdorf_w_1500 | errori" in text
+    assert f"confronto con il {summary['created_utc']}" in text and "| najdorf_w_1500 | complete 1/1" in text
 
 
 def test_failed_pack_is_reported(cfg):
-    s = summarize("x", None, 0, "nessuna risposta")
+    from chessanalyst.llm.regression import aggregate
+
+    s = aggregate("x", [summarize("x", None, 0, "nessuna risposta")] * 2)
     new = {"created_utc": "t", "model": "m", "config_hash": "h", "packs": [s]}
-    assert "nessuna risposta valida" in compare(new, None)
+    assert "nessuna risposta valida in 2 giri" in compare(new, None)

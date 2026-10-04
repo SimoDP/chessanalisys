@@ -607,3 +607,48 @@ inferiore incluso).
 ### OQ-M4-7 · Budget delle parole con S11
 Come in M1b e M3 (§0.5), `prose_words` di ge2400 sale da 720 a 790, così le sezioni esistenti tengono il loro
 budget e S11 (peso 0,10) ne riceve circa settanta parole.
+
+## M5 — Calibrazione dei numeri
+
+### OQ-M5-1 · «50–100 posizioni annotate»: chi annota
+**Problema.** §13 non dice chi annota le posizioni. Un'annotazione umana di cento posizioni per cinque fasce non è
+disponibile in questo lavoro.
+**Default.** L'annotazione è automatica, con Stockfish e Maia-2:
+- per ogni posizione, la mossa giocata e le due successive del giocatore, con il loro costo;
+- per gli errori (≥ 100 cp), le categorie della confutazione, con gli stessi tag di §5-bis.4.
+
+Le metriche umane di §12.2 (utilità percepita, correttezza concettuale) restano alla validazione degli esempi
+(§8-bis.5).
+
+### OQ-M5-2 · Campione
+**Default** (`config/calibration.yaml`):
+- **Partite.** Rapid valutate di agosto 2026 (il modello di Maia-2 è rapid), lette in streaming dal file `.pgn.zst`
+  senza scaricarlo. Giocatori entro 300 punti.
+- **Posizioni.** Una posizione per partita, tra la semimossa 16 e la 60, estratta con un seme fisso; 20 posizioni per
+  fascia del giocatore al tratto (Elo Lichess → FIDE con la tabella di §3-bis).
+- **Dati conservati.** Nessun nome: solo l'ID pubblico della partita, gli Elo e le mosse.
+- **Profilo.** L'esplorazione usa il profilo `fast` (circa 75 s per posizione con l'annotazione), perché il profilo
+  `deep` avrebbe richiesto una decina di ore.
+- **Ricerche dell'annotazione.** Profondità minima 16, tetto di 8 s.
+- **Fascia ge2400.** Per riempirla si sono lette 76 mila partite.
+
+### OQ-M5-3 · Regole del fit
+**Default.**
+- **Obiettivo.** AUC media di 100 − T nel prevedere un errore della categoria.
+- **Controllo incrociato.** Due metà, divise per ID. Un valore nuovo si adotta solo se migliora di almeno 0,02 sia
+  su tutto il campione sia su ciascuna metà quando è scelto sull'altra.
+- **Primo passo (θ, k, w).** Non passa: θ è instabile tra le due metà (× 0,1 contro × 2).
+- **Secondo passo (θ fisso, k e w).** Passa in entrambe le metà. Si sceglie la combinazione interna alla griglia con
+  la migliore AUC sulla metà peggiore: un ottimo sul bordo è una direzione, non un valore misurato.
+- **Risultato.** k × 0,15 e w + 0,15 per tutte le categorie tranne `practical_complexity`.
+- **A e L_max.** Si cambiano solo se la copertura della mossa giocata tra le spiegate sale di almeno 10 punti,
+  sempre con la migliore di Stockfish tra le spiegate. Nessuna fascia cambia.
+- **B.** Nelle partite non c'è una verità per il peso della complessità nella raccomandazione: B non si calibra
+  qui.
+
+### OQ-M5-4 · Regressione del prompt
+**Default.** `chessanalyst regression` rilancia il modello sui sette pacchetti congelati
+(`calibration.yaml: regression`), tre volte ciascuno, perché le risposte variano da un giro all'altro. Scrive
+`docs/regression/<data>.json` e un confronto in `.md` con il riepilogo precedente: risposte complete, rimozioni
+medie, sezioni fuori budget. Il primo riferimento, a un solo giro, ha mostrato quanto pesa la variabilità: lo
+stesso pacchetto passa da completo a 23 rimozioni.

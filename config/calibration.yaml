@@ -21,14 +21,16 @@ annotate:
 fit:
   error_cp: 100                      # errore = perdita >= 1 pedone in una delle mosse annotate
   min_events: 5                      # categorie con almeno 5 errori entrano nella misura
-  theta_scale: [0.25, 0.5, 1.0, 2.0, 4.0]
-  k_scale: [0.25, 0.5, 1.0, 2.0, 4.0]
-  w_delta: [-0.3, -0.15, 0.0, 0.15, 0.3]
+  theta_scale: [0.1, 0.15, 0.25, 0.5, 1.0, 2.0, 4.0]
+  k_scale: [0.1, 0.15, 0.25, 0.5, 1.0, 2.0, 4.0]
+  w_delta: [-0.3, -0.15, 0.0, 0.15, 0.3, 0.45]
   t_bins: [30, 60, 85]               # bande di T per la tabella della relazione (§5-bis.2)
   a_values: [0.0, 0.1, 0.3, 0.5, 0.7, 1.0]   # A della preselezione (§3-ter.3)
   l_max_values: [25, 30, 35, 40, 60]          # L_max (cp)
   min_auc_gain: 0.02                          # un nuovo valore si adotta solo se l'AUC media migliora almeno così
+  selection_min_gain: 0.10                    # A e L_max di una fascia cambiano solo se la copertura sale di 10 punti
 regression:
   packs: [najdorf_w_1500, najdorf_w_1900, najdorf_w_2400, najdorf_after_be3_w_1900,
           fried_liver_w_1500, rook_endgame_w_1900, lucena_w_1900]
   dir: "docs/regression"
+  runs: 3                     # ripetizioni per pacchetto: le risposte del modello variano da un giro all'altro

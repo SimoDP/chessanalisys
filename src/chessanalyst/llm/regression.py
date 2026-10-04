@@ -38,25 +38,50 @@ def summarize(name: str, verification: dict[str, Any] | None, retries: int, erro
     }
 
 
-def run_regression(cfg: Config, client: Any, progress: Callable[[str], None] = print) -> dict[str, Any]:
+def run_regression(cfg: Config, client: Any, progress: Callable[[str], None] = print,
+                   runs: int | None = None) -> dict[str, Any]:
+    """Every pack ``runs`` times (``regression.runs``): the responses of the model vary between runs, so one
+    run per pack measures mostly noise."""
+    runs = runs or cfg.calibration["regression"]["runs"]
     out = []
     for name in cfg.calibration["regression"]["packs"]:
-        progress(f"{name} …")
-        try:
-            res = run_model(cfg, load_frozen_pack(cfg, name), client)
-            out.append(summarize(name, res.verification, res.retries))
-        except ModelError as e:
-            out.append(summarize(name, None, 0, str(e)))
+        per = []
+        for k in range(runs):
+            progress(f"{name} · giro {k + 1}/{runs} …")
+            try:
+                res = run_model(cfg, load_frozen_pack(cfg, name), client)
+                per.append(summarize(name, res.verification, res.retries))
+            except ModelError as e:
+                per.append(summarize(name, None, 0, str(e)))
+        out.append(aggregate(name, per))
     return {"created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "model": client.model,
             "config_hash": cfg.config_hash, "packs": out}
 
 
+def aggregate(name: str, runs: list[dict]) -> dict:
+    ok = [r for r in runs if not r.get("failed")]
+    n = len(runs)
+    return {
+        "pack": name, "runs": runs, "n": n,
+        "complete": sum(1 for r in ok if r["complete"]),
+        "failed": n - len(ok),
+        "removed": round(sum(r["removed"] for r in ok) / len(ok), 1) if ok else None,
+        "marked": round(sum(r["marked"] for r in ok) / len(ok), 1) if ok else None,
+        "sections_off_budget": round(sum(r["sections_off_budget"] for r in ok) / len(ok), 1) if ok else None,
+    }
+
+
 def _line(s: dict) -> str:
-    if s.get("failed"):
-        return "nessuna risposta valida"
-    att = " → ".join(str(sum(a.values())) for a in s["attempts"])
-    return (f"errori {att} · {'completa' if s['complete'] else 'degradata'} · rimossi {s['removed']} · "
-            f"marcati {s['marked']} · sezioni fuori budget {s['sections_off_budget']}")
+    if "runs" not in s:                       # single-run summary (first reference, before «runs»)
+        if s.get("failed"):
+            return "nessuna risposta valida"
+        att = " → ".join(str(sum(a.values())) for a in s["attempts"])
+        return (f"errori {att} · {'completa' if s['complete'] else 'degradata'} · rimossi {s['removed']} · "
+                f"marcati {s['marked']} · sezioni fuori budget {s['sections_off_budget']}")
+    if s["removed"] is None:
+        return f"nessuna risposta valida in {s['n']} giri"
+    return (f"complete {s['complete']}/{s['n']} · rimossi in media {s['removed']} · marcati {s['marked']} · "
+            f"sezioni fuori budget {s['sections_off_budget']}" + (f" · falliti {s['failed']}" if s["failed"] else ""))
 
 
 def compare(new: dict, old: dict | None) -> str:
@@ -71,8 +96,10 @@ def compare(new: dict, old: dict | None) -> str:
     for label, data in (("Prima", old), ("Adesso", new)):
         if data:
             ps = data["packs"]
-            totals.append(f"- {label}: {sum(1 for p in ps if p.get('complete'))} complete su {len(ps)}, "
-                          f"{sum(p.get('removed', 0) for p in ps)} rimozioni")
+            n = sum(p.get("n", 1) for p in ps)
+            done = sum(int(p.get("complete") or 0) for p in ps)
+            rem = sum((p.get("removed") or 0) * p.get("n", 1) for p in ps)
+            totals.append(f"- {label}: {done} risposte complete su {n}, {rem / n:.1f} rimozioni in media")
     return "\n".join(head + rows + [""] + totals) + "\n"
 
 

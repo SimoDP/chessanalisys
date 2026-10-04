@@ -1,8 +1,8 @@
 {
   "schema_version": "0.9",
   "app_version": "0.1.0",
-  "created_utc": "2026-10-04T20:10:35+00:00",
-  "config_hash": "66421c9ac5e41763714469aa623d00c2c701e334",
+  "created_utc": "2026-10-04T23:00:51+00:00",
+  "config_hash": "85a4808a78d79368c92c60cfc6b53c2bbc40fc34",
   "position": {
     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 6",
     "epd": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq -",
@@ -1822,11 +1822,11 @@
     {
       "id": "king_safety",
       "T": {
-        "w": 98,
+        "w": 100,
         "b": 100
       },
-      "R": 1,
-      "balance": -2,
+      "R": 0,
+      "balance": 0,
       "advice": "no_worry",
       "confidence": "normal",
       "components": {
@@ -1838,8 +1838,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.8,
-        "k": 0.5,
+        "w": 0.95,
+        "k": 0.075,
         "risk": {
           "w": 0,
           "b": 0
@@ -1879,8 +1879,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.3,
-        "k": 0.8,
+        "w": 0.45,
+        "k": 0.12,
         "risk": {
           "w": 0,
           "b": 0
@@ -1906,10 +1906,10 @@
       "id": "space_center",
       "T": {
         "w": 100,
-        "b": 96
+        "b": 97
       },
-      "R": 11,
-      "balance": 4,
+      "R": 10,
+      "balance": 3,
       "advice": "no_worry",
       "confidence": "normal",
       "components": {
@@ -1921,8 +1921,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.3,
-        "k": 0.8,
+        "w": 0.45,
+        "k": 0.12,
         "risk": {
           "w": 0,
           "b": 0
@@ -1949,10 +1949,10 @@
       "id": "piece_activity",
       "T": {
         "w": 100,
-        "b": 90
+        "b": 93
       },
-      "R": 30,
-      "balance": 10,
+      "R": 29,
+      "balance": 7,
       "advice": "no_worry",
       "confidence": "normal",
       "components": {
@@ -1964,8 +1964,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.4,
-        "k": 0.8,
+        "w": 0.55,
+        "k": 0.12,
         "risk": {
           "w": 0,
           "b": 0
@@ -2014,8 +2014,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.6,
-        "k": 0.6,
+        "w": 0.75,
+        "k": 0.09,
         "risk": {
           "w": 0,
           "b": 0
@@ -2041,10 +2041,10 @@
       "id": "threats_dynamics",
       "T": {
         "w": 100,
-        "b": 99
+        "b": 100
       },
-      "R": 1,
-      "balance": 1,
+      "R": 0,
+      "balance": 0,
       "advice": "no_worry",
       "confidence": "normal",
       "components": {
@@ -2056,8 +2056,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.8,
-        "k": 0.5,
+        "w": 0.95,
+        "k": 0.075,
         "risk": {
           "w": 0,
           "b": 0
@@ -2097,8 +2097,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.7,
-        "k": 0.5,
+        "w": 0.85,
+        "k": 0.075,
         "risk": {
           "w": 0,
           "b": 0
@@ -2136,8 +2136,8 @@
           "w": 100,
           "b": 100
         },
-        "w": 0.5,
-        "k": 0.8,
+        "w": 0.65,
+        "k": 0.12,
         "risk": {
           "w": 0,
           "b": 0
@@ -2336,7 +2336,7 @@
           "cells": {
             "category": "Attività dei pezzi",
             "T": "100",
-            "R": "30",
+            "R": "29",
             "nota": null
           }
         },
@@ -2354,7 +2354,7 @@
           "cells": {
             "category": "Spazio e centro",
             "T": "100",
-            "R": "11",
+            "R": "10",
             "nota": null
           }
         },
@@ -2371,8 +2371,8 @@
           "id": "king_safety",
           "cells": {
             "category": "Sicurezza del re",
-            "T": "98",
-            "R": "1",
+            "T": "100",
+            "R": "0",
             "nota": null
           }
         }

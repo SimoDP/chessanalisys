@@ -27,8 +27,16 @@ def compute(cfg: Config) -> dict[str, Any]:
     base = F.evaluate_t(cfg, recs, 1.0, 1.0, 0.0)
     best = grid[0]
     gain = (best["mean_auc"] or 0) - (base["mean_auc"] or 0)
-    adopt = gain >= fitc["min_auc_gain"]
-    chosen = best if adopt else base
+    def holds(cv):
+        return all((f["test_auc"] or 0) - (f["test_auc_baseline"] or 0) >= fitc["min_auc_gain"] for f in cv["folds"])
+    cv = F.cross_validate(cfg, recs)
+    adopt = gain >= fitc["min_auc_gain"] and holds(cv)  # the gain must hold on held-out positions too
+    # second stage (OQ-M5-3): θ fixed, only k_c and w_c, with the same check
+    best_kw = F.robust_choice(cfg, recs)
+    gain_kw = (best_kw["mean_auc"] or 0) - (base["mean_auc"] or 0)
+    cv_kw = F.cross_validate(cfg, recs, fix_theta=True)
+    adopt_kw = not adopt and gain_kw >= fitc["min_auc_gain"] and holds(cv_kw)
+    chosen = best if adopt else best_kw if adopt_kw else base
     data = {
         "positions": len(recs),
         "by_band": {b: sum(r["band"] == b for r in recs) for b in BAND_KEYS},
@@ -38,7 +46,9 @@ def compute(cfg: Config) -> dict[str, Any]:
         "error_categories": dict(Counter(t for r in recs for p in r["played"]
                                          if p["cost_cp"] >= fitc["error_cp"] for t in p["tags"])),
         "t_baseline": base, "t_best": best, "t_gain": round(gain, 4), "t_adopted": adopt,
-        "t_top5": grid[:5],
+        "t_top5": grid[:5], "cv": cv,
+        "t_best_kw": best_kw, "t_gain_kw": round(gain_kw, 4), "cv_kw": cv_kw, "t_adopted_kw": adopt_kw,
+        "t_chosen": [chosen["theta_scale"], chosen["k_scale"], chosen["w_delta"]],
         "bins_baseline": F.t_bins(cfg, recs),
         "bins_chosen": F.t_bins(cfg, recs, chosen["theta_scale"], chosen["k_scale"], chosen["w_delta"]),
         "selection": {},
@@ -49,7 +59,8 @@ def compute(cfg: Config) -> dict[str, Any]:
         scores = F.grid_selection(cfg, recs, band, fitc["a_values"], fitc["l_max_values"])
         ok = [s for s in scores if s.best_in >= cur.best_in]
         top = max(ok, key=lambda s: (s.coverage, -abs(s.A - bp.A), -abs(s.L_max - bp.L_max)))
-        data["selection"][band] = {"current": cur.__dict__, "best": top.__dict__,
+        adopt_sel = top.coverage - cur.coverage >= fitc["selection_min_gain"]
+        data["selection"][band] = {"current": cur.__dict__, "best": top.__dict__, "adopted": adopt_sel,
                                    "grid": [s.__dict__ for s in scores]}
     return data
 
@@ -87,9 +98,26 @@ def render(cfg: Config, d: dict[str, Any]) -> str:
     L.append(row("attuali (θ × 1, k × 1, w + 0)", d["t_baseline"]))
     for r in d["t_top5"]:
         L.append(row(f"θ × {r['theta_scale']}, k × {r['k_scale']}, w {r['w_delta']:+}", r))
-    L += ["", (f"**Adottato** il migliore (guadagno {d['t_gain']:+.3f} ≥ {fitc['min_auc_gain']})." if d["t_adopted"]
-               else f"**Valori attuali mantenuti**: il guadagno del migliore ({d['t_gain']:+.3f}) è sotto la soglia "
-                    f"{fitc['min_auc_gain']}."), "",
+    L += ["", "Controllo incrociato (fit su metà delle posizioni, AUC sull'altra metà):", "",
+          "| Fit sulla metà | Parametri (θ, k, w) | AUC sull'altra metà | Con i valori attuali |", "| --- | --- | --- | --- |"]
+    for f in d["cv"]["folds"]:
+        L.append(f"| {f['fit_on'] + 1} | × {f['params'][0]}, × {f['params'][1]}, {f['params'][2]:+} | "
+                 f"{f['test_auc']} | {f['test_auc_baseline']} |")
+    L += ["", (f"**Adottato** il migliore: guadagno {d['t_gain']:+.3f} ≥ {fitc['min_auc_gain']} su tutto il campione "
+               "e confermato su entrambe le metà." if d["t_adopted"]
+               else f"Il migliore della griglia completa non si adotta: guadagno {d['t_gain']:+.3f} su tutto il campione, "
+                    f"ma non almeno {fitc['min_auc_gain']} su entrambe le metà del controllo incrociato (θ instabile)."),
+          "", "Secondo passo: θ fisso, solo k_c e w_c, con lo stesso controllo.", "",
+          "| Fit sulla metà | Parametri (k, w) | AUC sull'altra metà | Con i valori attuali |", "| --- | --- | --- | --- |"]
+    for f in d["cv_kw"]["folds"]:
+        L.append(f"| {f['fit_on'] + 1} | × {f['params'][1]}, {f['params'][2]:+} | {f['test_auc']} | {f['test_auc_baseline']} |")
+    bk = d["t_best_kw"]
+    L += ["", f"Scelta con θ fisso: la combinazione interna alla griglia con la migliore AUC sulla metà peggiore "
+              f"(un ottimo sul bordo della griglia è una direzione, non un valore misurato): k × {bk['k_scale']}, "
+              f"w {bk['w_delta']:+}; AUC media {bk['mean_auc']} su tutto il campione (guadagno {d['t_gain_kw']:+.3f}), "
+              f"{bk['worst_half_auc']} sulla metà peggiore.",
+          "", ("**Adottati** k_c e w_c del secondo passo (θ invariato)." if d["t_adopted_kw"]
+               else "**Valori attuali mantenuti** anche nel secondo passo." if not d["t_adopted"] else ""), "",
           "Tasso di errore per banda di T (tutte le categorie insieme, una riga per posizione e categoria):", "",
           "| Banda di T | Righe | Errori | Tasso (attuali) | Tasso (scelti) |", "| --- | --- | --- | --- | --- |"]
     for a, b in zip(d["bins_baseline"], d["bins_chosen"]):
@@ -97,11 +125,13 @@ def render(cfg: Config, d: dict[str, Any]) -> str:
     L += ["", "## Selezione delle candidate (A, L_max)", "",
           "Misura: quota di posizioni in cui la mossa giocata è tra le candidate spiegate, con la migliore di "
           "Stockfish sempre tra le spiegate quanto con i valori attuali.", "",
-          "| Fascia | Attuali (A, L_max) | Copertura | Migliore della griglia | Copertura |",
-          "| --- | --- | --- | --- | --- |"]
+          f"Un valore nuovo si adotta solo se la copertura sale di almeno {fitc['selection_min_gain'] * 100:.0f} punti.", "",
+          "| Fascia | Attuali (A, L_max) | Copertura | Migliore della griglia | Copertura | Adottato |",
+          "| --- | --- | --- | --- | --- | --- |"]
     for b, s in d["selection"].items():
         c, t = s["current"], s["best"]
-        L.append(f"| {b} | {c['A']}, {c['L_max']} | {_pct(c['coverage'])} | {t['A']}, {t['L_max']} | {_pct(t['coverage'])} |")
+        L.append(f"| {b} | {c['A']}, {c['L_max']} | {_pct(c['coverage'])} | {t['A']}, {t['L_max']} | "
+                 f"{_pct(t['coverage'])} | {'sì' if s['adopted'] else 'no'} |")
     return "\n".join(L) + "\n"
 
 

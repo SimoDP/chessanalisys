@@ -88,12 +88,34 @@ def evaluate_t(cfg: Config, recs: list[dict], theta_scale: float, k_scale: float
             "mean_auc": round(sum(vals) / len(vals), 4) if vals else None}
 
 
-def grid_t(cfg: Config, recs: list[dict]) -> list[dict[str, Any]]:
+def grid_t(cfg: Config, recs: list[dict], fix_theta: bool = False) -> list[dict[str, Any]]:  # noqa: D401
+    """All the combinations of the grid, best first (ties: closest to the current values). ``fix_theta``:
+    θ stays at the current values (second stage of the fit, OQ-M5-3)."""
     fit = cfg.calibration["fit"]
+    thetas = [1.0] if fix_theta else fit["theta_scale"]
     out = [evaluate_t(cfg, recs, a, b, c)
-           for a, b, c in itertools.product(fit["theta_scale"], fit["k_scale"], fit["w_delta"])]
-    return sorted(out, key=lambda r: (-(r["mean_auc"] or 0), abs(math.log(r["theta_scale"])) + abs(math.log(r["k_scale"]))
-                                      + abs(r["w_delta"])))
+           for a, b, c in itertools.product(thetas, fit["k_scale"], fit["w_delta"])]
+    return sorted(out, key=lambda r: (-(r["mean_auc"] or 0), abs(math.log(r["theta_scale"]))
+                                      + abs(math.log(r["k_scale"])) + abs(r["w_delta"])))
+
+
+def robust_choice(cfg: Config, recs: list[dict]) -> dict[str, Any]:
+    """Second stage (OQ-M5-3): θ fixed; among the combinations of k and w *inside* the grid (an optimum on the
+    edge is a direction, not a measured value), the one with the best worse-half AUC (maximin over the two
+    halves of the cross-check)."""
+    fit = cfg.calibration["fit"]
+    ks, ws = fit["k_scale"], fit["w_delta"]
+    order = sorted(recs, key=lambda r: r["id"])
+    halves = [order[0::2], order[1::2]]
+    best = None
+    for k, w in itertools.product(ks[1:-1], ws[1:-1]):
+        worst = min(evaluate_t(cfg, h, 1.0, k, w)["mean_auc"] or 0 for h in halves)
+        key = (worst, -abs(math.log(k)) - abs(w))
+        if best is None or key > best[0]:
+            best = (key, k, w)
+    r = evaluate_t(cfg, recs, 1.0, best[1], best[2])
+    r["worst_half_auc"] = best[0][0]
+    return r
 
 
 def t_bins(cfg: Config, recs: list[dict], theta_scale: float = 1.0, k_scale: float = 1.0,
@@ -161,3 +183,18 @@ def evaluate_selection(cfg: Config, recs: list[dict], band: str, A: float, L_max
 
 def grid_selection(cfg: Config, recs: list[dict], band: str, As: list[float], Ls: list[int]) -> list[SelScore]:
     return [evaluate_selection(cfg, recs, band, a, lm) for a in As for lm in Ls]
+
+
+def cross_validate(cfg: Config, recs: list[dict], fix_theta: bool = False) -> dict[str, Any]:
+    """Two-fold check of the grid: fit on one half, AUC on the other (split by sorted ID, alternate)."""
+    order = sorted(recs, key=lambda r: r["id"])
+    halves = [order[0::2], order[1::2]]
+    folds = []
+    for k in (0, 1):
+        train, test = halves[k], halves[1 - k]
+        best = grid_t(cfg, train, fix_theta)[0]
+        held = evaluate_t(cfg, test, best["theta_scale"], best["k_scale"], best["w_delta"])
+        base = evaluate_t(cfg, test, 1.0, 1.0, 0.0)
+        folds.append({"fit_on": k, "params": [best["theta_scale"], best["k_scale"], best["w_delta"]],
+                      "test_auc": held["mean_auc"], "test_auc_baseline": base["mean_auc"]})
+    return {"folds": folds}
