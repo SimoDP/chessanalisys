@@ -19,6 +19,20 @@
       ]
      },
      {
+      "id": "S02",
+      "blocks": [
+       {
+        "type": "p",
+        "source": "engine",
+        "text": "Il finale è vicino all'equilibrio: {{ev:N1}}. Non è una struttura da Najdorf."
+       },
+       {
+        "type": "table",
+        "ref": "T4"
+       }
+      ]
+     },
+     {
       "id": "S06",
       "blocks": [
        {

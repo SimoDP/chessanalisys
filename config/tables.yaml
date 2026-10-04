@@ -5,7 +5,7 @@ T1:
 T1_alt: {data: [reply, p_opp, eval, user_best], text: [prepare]}
 T2: {anchors: ["2400"], detail5_anchors: ["1900"], moves_per_cell: 3, text: [nota]}
 T3: {anchors: ["1900", "2400"], text: []}
-T4: {data: [category, T, R], text: [nota]}
+T4: {data: [category, T, R], text: [nota], rows_max: {"1500": 5, "1900": 9, "2400": 5}}   # M3: radar semplificato / fattori decisivi
 t1_line_plies: {"1900": 6, "2400": 8}
 headers:
   move: "Mossa"

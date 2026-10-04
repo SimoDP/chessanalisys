@@ -129,3 +129,43 @@ def record_fixtures(cfg: Config, time_scale: float = 1.0, progress: Callable[[st
             written.append(syz)
         progress(f"   {len(rows)} ricerche, {len(backend.records)} chiamate a Maia-2")
     return written
+
+
+def record_maia(cfg: Config, progress: Callable[[str], None] = print, groups: list[str] | None = None) -> list[Path]:
+    """Adds to ``fixtures/recorded/maia`` the Maia-2 answers that the runs of the groups request on top of
+    the recorded ones, replaying the recorded searches (no Stockfish, no tablebase files): from M3 the
+    scoring engine queries Maia-2 along the lines (§5-bis.3), on positions the exploration never visits."""
+    from chessanalyst.engines.fake import FakeEngine
+    from chessanalyst.engines.syzygy import recorded_tablebase
+
+    root = cfg.project_root
+    m = cfg.default.engines.maia2
+    backend = RecordingMaiaBackend(Maia2Backend(m.model_type, m.device, maia_models_dir(cfg)))
+    eng = FakeEngine.from_dir(root / "fixtures" / "recorded" / "engine")
+    tb = recorded_tablebase(cfg)
+    openings = load_openings(cfg)
+    written = []
+    for group, (pos_file, runs) in GROUPS.items():
+        if groups and group not in groups:
+            continue
+        mai = root / "fixtures" / "recorded" / "maia" / f"{group}.json"
+        old = json.loads(mai.read_text(encoding="utf-8")) if mai.is_file() else []
+        backend.records.clear()
+        cache = Cache(":memory:")
+        maia = MaiaEngine(backend, cfg.maia2_limits, None)
+        pos = group_position(cfg, root / pos_file)
+        for color, elo, *prof in runs:
+            profile = prof[0] if prof else PROFILE
+            progress(f"== {group} · {color} · {elo} FIDE · {profile} (solo Maia-2)")
+            us = resolve_settings(cfg, color, elo, "fide", None, profile)
+            analyse_position(cfg, pos, us, CachedAnalyzer(eng, cache), maia, openings, clock=_stopped_clock,
+                             tablebase=tb if (root / "fixtures" / "recorded" / "syzygy" / f"{group}.json").is_file()
+                             else None)
+        merged = {(r["epd"], r["elo_self"], r["elo_oppo"]): r for r in old}
+        added = [k for k in backend.records if k not in merged]
+        merged.update({k: backend.records[k] for k in added})
+        mai.write_text(json.dumps(sorted(merged.values(), key=lambda r: (r["epd"], r["elo_self"], r["elo_oppo"])),
+                                  indent=0), encoding="utf-8")
+        written.append(mai)
+        progress(f"   {len(added)} risposte di Maia-2 aggiunte ({len(merged)} in tutto)")
+    return written

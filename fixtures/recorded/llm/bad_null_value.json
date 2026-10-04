@@ -38,6 +38,100 @@
       ]
      },
      {
+      "id": "S02",
+      "blocks": [
+       {
+        "type": "table",
+        "ref": "T4",
+        "text_cells": {
+         "piece_activity": {
+          "nota": {
+           "text": "Il Nero ha più pezzi ancora chiusi",
+           "source": "feature",
+           "assertions": [
+            {
+             "kind": "feature",
+             "key": "inactive_piece",
+             "side": "b",
+             "squares": [
+              "b8"
+             ]
+            },
+            {
+             "kind": "feature",
+             "key": "inactive_piece",
+             "side": "b",
+             "squares": [
+              "f8"
+             ]
+            }
+           ]
+          }
+         },
+         "pawn_structure": {
+          "nota": {
+           "text": "Cambia nelle linee di {{mv:C1}} e {{mv:C2}}",
+           "source": "mixed",
+           "assertions": [
+            {
+             "kind": "category_advice",
+             "id": "pawn_structure",
+             "advice": "no_worry"
+            }
+           ]
+          }
+         },
+         "practical_complexity": {
+          "nota": {
+           "text": "Molte mosse giocabili, nessuna unica",
+           "source": "mixed",
+           "assertions": [
+            {
+             "kind": "category_advice",
+             "id": "practical_complexity",
+             "advice": "monitor"
+            }
+           ]
+          }
+         }
+        }
+       },
+       {
+        "type": "p",
+        "text": "Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica ({{sc:practical_complexity.T}}), perché quasi ovunque ci sono più mosse giocabili. Pesa di più l'attività dei pezzi ({{sc:piece_activity.R}}): il Nero ha quattro pezzi chiusi, tu solo le torri. Nessuna linea filtrata tocca il re.",
+        "source": "mixed",
+        "assertions": [
+         {
+          "kind": "category_advice",
+          "id": "piece_activity",
+          "advice": "no_worry"
+         },
+         {
+          "kind": "category_advice",
+          "id": "king_safety",
+          "advice": "no_worry"
+         },
+         {
+          "kind": "feature",
+          "key": "inactive_piece",
+          "side": "w",
+          "squares": [
+           "a1"
+          ]
+         },
+         {
+          "kind": "feature",
+          "key": "inactive_piece",
+          "side": "w",
+          "squares": [
+           "h1"
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
       "id": "S03",
       "blocks": [
        {
@@ -548,6 +642,28 @@
         "type": "p",
         "text": "Dopo {{mv:C2}} {{m:Ng4@N4}} la ritirata naturale è {{m:Bg5@N11}}, scelta dal {{pct:Bg5@N11}} dei giocatori: qui l'istinto è giusto, perché vale quanto {{m:Bc1@N11}} ({{ev:Bc1@N11}}), mentre {{m:Qd2@N11}} perde {{loss:Qd2@N11}}.",
         "source": "mixed"
+       }
+      ]
+     },
+     {
+      "id": "S09",
+      "blocks": [
+       {
+        "type": "p",
+        "text": "Nessuna linea del motore entra nel referto a questo livello: in tutto l'albero analizzato non c'è una minaccia, né per te né per il Nero, il cui rischio pratico superi la soglia del tuo Elo, e nessuna perdita decisiva è nascosta. Se passassi la mossa, il Nero otterrebbe soltanto {{ev:N2}} con {{m:e6@N2}}: non ha colpi pronti.",
+        "source": "engine",
+        "assertions": [
+         {
+          "kind": "eval_band",
+          "ref": "N2",
+          "band": "equal"
+         }
+        ]
+       },
+       {
+        "type": "p",
+        "text": "Anche la candidata più lontana dal motore, {{mv:C11}}, cede appena {{loss:C11}}, e nessuna linea forzata la trasforma in uno svantaggio serio. I pericoli di questa posizione sono di piano, non tattici: li trovi nelle sezioni sui sistemi e sulle idee del Nero.",
+        "source": "engine"
        }
       ]
      },

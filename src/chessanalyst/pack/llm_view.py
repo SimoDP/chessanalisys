@@ -4,6 +4,9 @@ Excluded: ``tables``, nodes with ``citable: false``, ``omitted_nodes``,
 ``config_hash``. In the nodes only the first lines of ``multipv`` (PV
 truncated) and the first moves of the Maia-2 policy are sent. The pack
 contains no PGN, player names, tags or paths (§11.5).
+
+M3: of each category only the user's T (the opponent's T is for detail 5, O-5), R, balance, advice and
+confidence; of each filtered line the data the text can cite (PV truncated as in the nodes).
 """
 
 from __future__ import annotations
@@ -14,6 +17,8 @@ import json
 from chessanalyst.config import LlmViewCfg
 
 EXCLUDED = ("tables", "omitted_nodes", "config_hash")
+LINE_FIELDS = ("id", "kind", "start_node", "entry", "against_user", "plies", "eval_end_user_cp", "mate_user",
+               "impact_cp", "p_att", "risk", "tags", "primary", "visible_at_level")
 
 
 def llm_view(pack: dict, view: LlmViewCfg) -> dict:
@@ -28,6 +33,11 @@ def llm_view(pack: dict, view: LlmViewCfg) -> dict:
             n["maia"]["policy"] = n["maia"]["policy"][:view.policy_moves]
         nodes.append(n)
     out["nodes"] = nodes
+    me = pack["user"]["color"]
+    out["categories"] = [{"id": c["id"], "T": c["T"][me], "R": c["R"], "balance": c["balance"],
+                          "advice": c["advice"], "confidence": c["confidence"]} for c in pack.get("categories", [])]
+    out["filtered_lines"] = [{k: (v[:view.pv_plies] if k == "plies" else v) for k, v in ln.items()
+                              if k in LINE_FIELDS} for ln in pack.get("filtered_lines", [])]
     return out
 
 

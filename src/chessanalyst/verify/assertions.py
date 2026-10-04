@@ -41,6 +41,11 @@ def check_assertion(a: dict, pack: dict, resolver: Resolver, wording: dict) -> s
         if c is None:
             return f"candidata inesistente: {a['ref']}"
         return None if c["category"] == a["category"] else f"{a['ref']} ha categoria {c['category']}"
+    if kind == "category_advice":          # M3: the band of the user's T (§5-bis.2)
+        c = next((c for c in pack.get("categories", []) if c["id"] == a["id"]), None)
+        if c is None:
+            return f"categoria inesistente: {a['id']}"
+        return None if c["advice"] == a["advice"] else f"{a['id']}: T {c['T'][pack['user']['color']]} è «{c['advice']}»"
     try:
         if kind == "eval_band":
             r = resolver.resolve("{{ev:" + a["ref"] + "}}")

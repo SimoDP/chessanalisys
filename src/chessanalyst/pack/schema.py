@@ -318,6 +318,76 @@ class TablebaseInfo(M):
     result_text_key: Literal["win", "cursed_win", "draw", "blessed_loss", "loss"]
 
 
+class SidePair(M):
+    w: Any
+    b: Any
+
+
+class CategoryComponents(M):
+    T_stat: SidePair
+    T_dyn: SidePair
+    w: float
+    k: float
+    risk: SidePair
+    proximity: int
+    decision: int
+    override: SidePair
+
+
+class CategoryTrace(M):
+    features: list[int]                  # indexes into pack.features
+    lines: list[str]                     # L<n> of filtered_lines
+    pvs: list[str]                       # PV<n> of the main lines (R, decision term)
+    nodes: list[str]                     # practical_complexity
+
+
+class CategoryScore(M):
+    """§5-bis.2 (M3): T per side, R, balance from the user's point of view."""
+    id: str
+    T: SidePair
+    R: int
+    balance: int
+    advice: Literal["no_worry", "monitor", "attention", "critical"]
+    confidence: Literal["normal", "low"]
+    components: CategoryComponents
+    trace: CategoryTrace
+
+
+class LineEntry(M):
+    node: str
+    san: str
+    p: float
+
+
+class AttackerMove(M):
+    san: str
+    p: float
+
+
+class FilteredLine(M):
+    """§5-bis.3 (M3): a line of Stockfish that passes the filter by Elo."""
+    id: str
+    kind: Literal["threat", "refutation"]
+    start_node: str
+    rank: int
+    entry: LineEntry | None
+    attacker: Literal["w", "b"]
+    defender: Literal["w", "b"]
+    against_user: bool
+    plies: list[str]
+    eval_end_user_cp: int
+    mate_user: int | None
+    impact_cp: int
+    p_att: float
+    p_walk: float
+    risk: float
+    attacker_moves: list[AttackerMove]
+    tags: list[str]
+    primary: str | None
+    visible_at_level: bool
+    reason: Literal["theta", "mate", "decisive"]
+
+
 class Pack(M):
     schema_version: Literal["0.9"] = "0.9"
     app_version: str
@@ -332,8 +402,8 @@ class Pack(M):
     maia: MaiaInfo
     recommendation: Recommendation | None
     features: list[Feature]
-    categories: list = []
-    filtered_lines: list = []
+    categories: list[CategoryScore] = []
+    filtered_lines: list[FilteredLine] = []
     tablebase: TablebaseInfo | None = None
     tables: dict[str, Table]
     nodes: list[Node]

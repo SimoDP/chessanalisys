@@ -1,4 +1,4 @@
-"""AC-26: SectionPlan for anchors 1500, 1900, 2400 (user White and Black)."""
+"""AC-26: SectionPlan for anchors 1500, 1900, 2400 (user White and Black); from M3 with S02 and S09."""
 
 from __future__ import annotations
 
@@ -25,7 +25,9 @@ def plan(cfg, anchor, band, color="w", user_to_move=True, **kw):
 def test_anchor_1500(cfg, color, opp):
     p, omitted, _ = plan(cfg, "1500", "1200_1600", color)
     req = [s for s, e in p.items() if e["required"]]
-    assert req == ["S01", "S03", "S05", "S06", "S07", "S08", "S10"]
+    assert req == ["S01", "S02", "S03", "S05", "S06", "S07", "S08", "S09", "S10"]
+    assert p["S02"]["title"] == "Radar semplificato" and p["S02"]["theory_allowed"] is False
+    assert p["S09"]["title"] == "Minacce invisibili al tuo livello" and p["S09"]["must_cover"] == []
     assert p["S04"]["absorbed_into"] == "S03" and p["S04"]["title"] is None and not p["S04"]["required"]
     assert p["S03"]["title"] == "Le tre cose da fare adesso" and p["S03"]["must_cover"] == ["C1"]
     assert p["S06"]["title"] == f"Cosa fa {opp}"
@@ -47,20 +49,21 @@ def test_anchor_1500(cfg, color, opp):
 def test_anchor_1900(cfg, color):
     p, omitted, _ = plan(cfg, "1900", "1600_2000", color)
     req = [s for s, e in p.items() if e["required"]]
-    assert req == ["S01", "S03", "S04", "S05", "S06", "S07", "S08", "S10"]
+    assert req == ["S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10"]
     assert p["S04"]["title"] == "Dove ti arrocchi"
     assert p["S06"]["tables"] == ["T3"] and p["S06"]["maia_low_confidence"] is True
     assert p["S07"]["tables"] == ["T1"]             # T2 at 1900 only with detail 5 (M4)
     assert p["S08"]["maia_low_confidence"] and p["S08"]["theory_allowed"] is False
     reasons = {o["id"]: o["reason"] for o in omitted}
-    assert reasons["S02"] == "milestone" and reasons["S11"] == "elo<2000" and reasons["S12"] == "matrix"
+    assert "S02" not in reasons and reasons["S11"] == "elo<2000" and reasons["S12"] == "matrix"
 
 
 @pytest.mark.parametrize("color", ["w", "b"])
 def test_anchor_2400(cfg, color):
     p, omitted, _ = plan(cfg, "2400", "ge2400", color)
     req = [s for s, e in p.items() if e["required"]]
-    assert req == ["S01", "S03", "S06", "S07", "S08"]
+    assert req == ["S01", "S02", "S03", "S06", "S07", "S08", "S09"]
+    assert p["S02"]["title"] == "Fattori decisivi"
     assert p["S04"]["absorbed_into"] == "S03"
     assert p["S03"]["title"] == "Piani per struttura"
     assert p["S07"]["title"] == "Mosse candidate e test di move order" and p["S07"]["tables"] == ["T1", "T2"]
@@ -107,7 +110,7 @@ def test_column_2_tactical_from_m2(cfg):
     entries, omitted, warnings = _other(cfg, 2, focus_squares=["c4", "g5"])
     p = {e["id"]: e for e in entries}
     req = [e["id"] for e in entries if e["required"]]
-    assert req == ["S01", "S03", "S04", "S05", "S06", "S07", "S08", "S10", "S13"] and warnings == []
+    assert req == ["S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S13"] and warnings == []
     assert p["S05"]["focus_squares"] == ["c4", "g5"] and p["S13"]["title"] == "Tattica forzata"
     assert p["S13"]["theory_allowed"] is False and omitted["S12"] == "matrix"
     assert all(e["focus_squares"] == [] for e in entries if e["id"] != "S05")
@@ -122,8 +125,9 @@ def test_column_3_endgame(cfg):
     entries, omitted, warnings = _other(cfg, 3, castling={"w": "lost", "b": "lost"})
     p = {e["id"]: e for e in entries}
     req = [e["id"] for e in entries if e["required"]]
-    assert req == ["S01", "S06", "S07", "S08", "S10", "S12"] and warnings == []
+    assert req == ["S01", "S02", "S06", "S07", "S08", "S10", "S12"] and warnings == []
     assert omitted["S03"] == omitted["S04"] == omitted["S05"] == omitted["S13"] == "matrix"
+    assert omitted["S09"] == "no_invisible_line"                         # c9 (M3)
     assert p["S12"]["theory_allowed"] is True and p["S12"]["must_cover"] == []
 
 
@@ -133,5 +137,14 @@ def test_column_4_tablebase(cfg):
     req = [e["id"] for e in entries if e["required"]]
     assert req == ["S01", "S06", "S07", "S10", "S12"]
     assert omitted["S08"] == "matrix" and p["S12"]["must_cover"] == ["N1"]    # the exact result is cited
+    assert omitted["S02"] == omitted["S09"] == "matrix"
     total = sum(e["word_budget"] for e in entries if e["required"])
     assert abs(total - cfg.thresholds.band_params["1600_2000"].prose_words) <= 30
+
+
+def test_m3_radar_and_invisible_lines(cfg):
+    """S02 carries T4; S09 must cite the lines invisible at the level, and in column 3 exists only with them (c9)."""
+    p, _, _ = plan(cfg, "1900", "1600_2000", has_t4=True, invisible_lines=["L2", "L5"])
+    assert p["S02"]["tables"] == ["T4"] and p["S09"]["must_cover"] == ["L2", "L5"]
+    entries, omitted, _ = _other(cfg, 3, castling={"w": "lost", "b": "lost"}, invisible_lines=["L1"])
+    assert "S09" not in omitted and {e["id"]: e for e in entries}["S09"]["must_cover"] == ["L1"]

@@ -59,6 +59,8 @@ class Resolver:
         self.pvs = {p["id"]: p for p in eng["pvs"]}
         self.nodes = {n["id"]: n for n in pack["nodes"]}
         self.tb = pack.get("tablebase")          # M2: exact result at the root, values in words
+        self.lines = {ln["id"]: ln for ln in pack.get("filtered_lines", [])}     # M3
+        self.cats = {c["id"]: c for c in pack.get("categories", [])}
 
     # -- helpers -------------------------------------------------------------
     def node(self, nid: str) -> dict:
@@ -165,6 +167,9 @@ class Resolver:
         elif "." in ref:
             _, u = self._ruid(ref)
             cp, mate, cites = u["eval_user_cp"], u["mate_user"], {ref}
+        elif ref in self.lines:            # end of the line (M3)
+            ln = self.lines[ref]
+            cp, mate, cites = ln["eval_end_user_cp"], ln["mate_user"], {ref}
         elif ref.startswith("N"):
             n = self.node(ref)
             if not n["multipv"]:
@@ -192,6 +197,9 @@ class Resolver:
             text = self._loss_text(c["loss_cp"], mate, (best["eval_user_cp"], best["mate_user"]),
                                    (c["eval_user_cp"], c["mate_user"]))
             return Resolved(t, text, "loss", {ref}, c["loss_cp"])
+        if ref in self.lines:              # the damage of the line to its defender (M3)
+            ln = self.lines[ref]
+            return Resolved(t, fmt_loss(ln["impact_cp"], ln["mate_user"] is not None), "loss", {ref}, ln["impact_cp"])
         if "." in ref:
             r, u = self._ruid(ref)
             u1 = r["user_best"][0]
@@ -232,7 +240,7 @@ class Resolver:
         return Resolved(t, fmt_pct(p), "pct_maia", {ref}, p)
 
     def _r_pv(self, t: Token) -> Resolved:
-        pv = self.pvs.get(t.ref)
+        pv = self.pvs.get(t.ref) or self.lines.get(t.ref)
         if pv is None:
             raise _v02(f"ID inesistente: {t.ref}")
         if t.n > len(pv["plies"]):
@@ -240,7 +248,8 @@ class Resolver:
         return Resolved(t, self.pv_text(t.ref, t.n), "pv", {t.ref}, t.n)
 
     def pv_text(self, pvid: str, n: int) -> str:
-        pv = self.pvs[pvid]
+        """``PV<n>`` (from its start node) or a filtered line ``L<n>`` (from its start node, M3)."""
+        pv = self.pvs.get(pvid) or self.lines[pvid]
         b = chess.Board(self.nodes[pv["start_node"]]["fen"])
         return numbered(b, pv["plies"][:n])
 
@@ -281,4 +290,9 @@ class Resolver:
         return Resolved(t, self.wording["p_up_group"][group], "other")
 
     def _r_sc(self, t: Token) -> Resolved:
-        raise _v02("punteggi delle categorie non disponibili (da M3)")
+        """``sc:CAT.T`` = tranquillity of the user, ``sc:CAT.R`` = relevance (§5-bis.2, M3)."""
+        c = self.cats.get(t.ref)
+        if c is None:
+            raise _v02(f"categoria inesistente: {t.ref}")
+        v = c["T"][self.user["color"]] if t.field == "T" else c["R"]
+        return Resolved(t, str(v), "sc", {t.ref}, v)

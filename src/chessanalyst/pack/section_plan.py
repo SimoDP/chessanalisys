@@ -26,9 +26,8 @@ MATRIX: dict[str, tuple] = {
     "S12": (None, None, "req", "req"),
     "S13": (None, "req", None, None),
 }
-# Sections available in the current milestone (§8.3, M2): the matrix is complete,
-# S02 and S09 arrive in M3, S11 in M4.
-MILESTONE_SECTIONS = ("S01", "S03", "S04", "S05", "S06", "S07", "S08", "S10", "S12", "S13")
+# Sections available in the current milestone (§8.3, M3): S02 and S09 from M3, S11 arrives in M4.
+MILESTONE_SECTIONS = ("S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S12", "S13")
 THEORY = {"S01": False, "S02": False, "S03": True, "S04": True, "S05": True, "S06": True, "S07": False,
           "S08": False, "S09": False, "S10": True, "S11": True, "S12": True, "S13": False}
 COUNTING_C8 = ("natural_trap", "hard_move", "practical_alt", "improbable_error")
@@ -56,6 +55,8 @@ class PlanInput:
     detail: int = 4
     focus_squares: list[str] = field(default_factory=list)   # c5 (column 2)
     tablebase: bool = False                  # exact result at the root: S12 must cite N1
+    has_t4: bool = False                     # radar (M3)
+    invisible_lines: list[str] = field(default_factory=list)  # L<n> with visible_at_level false (c9, S09)
 
 
 def fill_opp(text: str, opp: str) -> str:
@@ -95,6 +96,8 @@ def build_section_plan(cfg: Config, pi: PlanInput) -> tuple[list[dict], list[dic
         elif rule == "c8" and not c8_moves and pi.anchor != "1500" and pi.user_to_move:
             # always present at 1500 (D-48); with the opponent to move the reason is opponent_to_move (D-54)
             omit(s, "no_classified_move")
+        elif rule == "c9" and not pi.invisible_lines:
+            omit(s, "no_invisible_line")
         elif rule == "c11" and not (pi.elo_ref_fide >= cfg.thresholds.elo_rules.s11_from or pi.detail == 5):
             omit(s, "elo<2000")
     # 2. milestone
@@ -150,6 +153,10 @@ def build_section_plan(cfg: Config, pi: PlanInput) -> tuple[list[dict], list[dic
             must = c8_moves
         if req and s == "S03" and pi.anchor == "1500" and pi.recommendation:
             must = [pi.recommendation]
+        if req and s == "S02" and pi.has_t4:
+            tables = ["T4"]
+        if req and s == "S09":
+            must = list(pi.invisible_lines)
         if req and s == "S12" and pi.tablebase:
             must = ["N1"]
         theory = THEORY[s] or (s == "S08" and pi.anchor == "1500")

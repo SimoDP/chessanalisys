@@ -11,6 +11,18 @@ Fascia 1200_1600 · Ancora 1500 · Profilo deep · Stockfish 19 · profondità r
 
 La posizione è equilibrata: vince chi sviluppa meglio e non regala materiale. Il motore dà al Bianco un vantaggio minimo (+0,34), quindi **stai bene: devi solo giocare in modo ordinato**. Se toccasse al Nero la valutazione sarebbe pari (-0,07): il tuo piccolo vantaggio è il tratto.
 
+## Radar semplificato
+
+| Categoria | T (tu) | R | Nota |
+| --- | --- | --- | --- |
+| Attività dei pezzi | 100 | 30 | — |
+| Struttura pedonale | 100 | 13 | — |
+| Spazio e centro | 100 | 11 | — |
+| Complessità pratica | 77 | 8 | — |
+| Sicurezza del re | 98 | 1 | — |
+
+Nessuna categoria è da attenzione. Conta di più sviluppare i pezzi (rilevanza 30): il Nero ne ha ancora quattro chiusi. Più delicata è la scelta tra tante mosse giocabili (77).
+
 ## Le tre cose da fare adesso
 
 1. **Sviluppa i pezzi**: prima gli alfieri, poi la donna se serve. †
@@ -65,6 +77,10 @@ Le mosse del motore sono vicinissime: tra 6.f3 e 6.Bg5 si perdono solo 0,30. Sce
 - Non lanciare attacchi di pedoni **prima di aver sviluppato i pezzi**. †
 - 6.Bg5 è la mossa più giocata al tuo livello (29%): costa 0,30 rispetto alla migliore, ma è un'**alternativa pratica**, senza mosse difficili da trovare. Se la giochi, studia la risposta ...e6.
 
+## Minacce invisibili al tuo livello
+
+Nessuna minaccia nascosta: nessuna linea del motore è pericolosa al tuo livello. Anche con una mossa in più il Nero otterrebbe solo -0,07: puoi pensare con calma al tuo piano.
+
 ## Prima di ogni mossa, controlla
 
 1. Cosa minaccia l'avversario con la sua ultima mossa? †
@@ -79,9 +95,9 @@ Le mosse del motore sono vicinissime: tra 6.f3 e 6.Bg5 si perdono solo 0,30. Sce
 - Profilo deep · tempo dei motori 1096,1 s · nodi analizzati 41 · profondità minima 18 e massima 31
 - Nodi sotto la profondità minima: nessuno
 - Elo dichiarato 1500 FIDE · Elo Maia-2 1700 · fascia 1200_1600 · ancora 1500 · confidenza di Maia-2 normale
-- Sezioni omesse: S02 (milestone), S09 (milestone), S11 (elo<2000), S12 (matrix), S13 (matrix) · assorbite: S04 in S03
+- Sezioni omesse: S11 (elo<2000), S12 (matrix), S13 (matrix) · assorbite: S04 in S03
 - Fasi omesse: nessuna · nodi omessi: nessuno
-- Contenuto teorico: 21 blocchi, 48% delle parole
+- Contenuto teorico: 21 blocchi, 43% delle parole
 - Controlli: V01 superato · V02 superato · V03 superato · V04 superato · V05 superato · V06 superato · V07 superato · V08 superato · V09 superato · V10 superato · V11 superato
 - Retry: 0
 - Rimossi in modalità degradata: nessuno

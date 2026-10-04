@@ -50,3 +50,59 @@ def activity_features(board: chess.Board, castling: dict[str, str]) -> list[Feat
     control = {code(side): sum(len(board.attackers(side, sq)) for sq in CENTER) for side in (chess.WHITE, chess.BLACK)}
     out.append(Feature("central_control", None, [], control))
     return out
+
+
+PIECES = (chess.KNIGHT, chess.BISHOP, chess.ROOK, chess.QUEEN)
+
+
+def pseudo_moves(board: chess.Board, sq: chess.Square) -> chess.SquareSet:
+    """Pseudo-legal destinations of the (non-pawn, non-king) piece on ``sq``."""
+    return board.attacks(sq) & ~board.occupied_co[board.color_at(sq)]
+
+
+def pawn_attacked(board: chess.Board, side: chess.Color) -> chess.SquareSet:
+    out = chess.SquareSet()
+    for p in board.pieces(chess.PAWN, side):
+        out |= board.attacks(p)
+    return out
+
+
+def mobility(board: chess.Board, side: chess.Color) -> dict[str, int]:
+    """M3 ``piece_mobility``: per piece, pseudo-legal moves to squares not attacked by O's pawns."""
+    bad = pawn_attacked(board, not side)
+    return {chess.square_name(sq): len(pseudo_moves(board, sq) & ~bad)
+            for t in PIECES for sq in board.pieces(t, side)}
+
+
+def activity_m3_features(board: chess.Board, geo) -> list[Feature]:
+    out: list[Feature] = []
+    for side in (chess.WHITE, chess.BLACK):
+        s = code(side)
+        mob = mobility(board, side)
+        if mob:
+            out.append(Feature("piece_mobility", s, sorted(mob), dict(sorted(mob.items()))))
+        for name, n in sorted(mob.items()):
+            if board.piece_type_at(chess.parse_square(name)) in (chess.KNIGHT, chess.BISHOP, chess.ROOK) \
+                    and n <= geo.inactive_mobility_max:
+                out.append(Feature("inactive_piece", s, [name]))
+        for sq in sorted(board.pieces(chess.BISHOP, side)):
+            if len(pseudo_moves(board, sq)) >= geo.bishop_open_min_moves:
+                out.append(Feature("bishop_diagonal_open", s, names([sq])))
+    space = {}
+    for side in (chess.WHITE, chess.BLACK):
+        att = pawn_attacked(board, side)
+        space[side] = sum(1 for sq in att if rr(side, sq) >= 5)
+    for side in (chess.WHITE, chess.BLACK):
+        diff = space[side] - space[not side]
+        if diff >= geo.space_min_diff:
+            out.append(Feature("space_advantage", code(side), [], diff))
+    pawns_all = board.pieces(chess.PAWN, chess.WHITE) | board.pieces(chess.PAWN, chess.BLACK)
+    for f in range(8):
+        if any(chess.square_file(p) == f for p in pawns_all):
+            continue
+        heavy = {side: [sq for t in (chess.ROOK, chess.QUEEN) for sq in board.pieces(t, side)
+                        if chess.square_file(sq) == f] for side in (chess.WHITE, chess.BLACK)}
+        owners = [side for side in (chess.WHITE, chess.BLACK) if heavy[side]]
+        if len(owners) == 1:
+            out.append(Feature("file_control", code(owners[0]), names(heavy[owners[0]]), chess.FILE_NAMES[f]))
+    return out

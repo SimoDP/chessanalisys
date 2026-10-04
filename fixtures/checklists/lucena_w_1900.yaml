@@ -3,7 +3,7 @@ id: lucena_w_1900
 position: fixtures/positions/lucena.fen          # 1K1k4/1P6/8/8/8/8/r7/2R5 w - - 0 1 (posizione di Lucena)
 user: {color: w, elo: 1900, elo_scale: fide}
 matrix_column: 4                                 # finale con tablebase: vittoria, DTZ 15 (AC-17)
-sections: [S01, S06, S07, S10, S12]
+sections: [S01, S06, S07, S10, S12]   # colonna 4: S02 e S09 omesse dalla matrice
 # Tre mosse che devono comparire nei token: le due più giocate (scacchi di torre) e la torre in h1.
 moves: [Rc8, Rd1, Rh1]
 # Ogni mossa candidata vince (tablebase): gli errori tipici sono di tecnica.

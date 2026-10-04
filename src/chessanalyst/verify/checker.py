@@ -28,7 +28,7 @@ SOURCE_RULES = {   # §10.1, V10: (needs one of, may not contain)
     "maia": ({"pct_maia"}, {"ev", "loss", "pv", "plan"}),
     "feature": ({"feature"}, {"ev", "loss", "pct_maia", "pct_root", "pv", "plan"}),
     "theory": (set(), THEORY_FORBIDDEN),
-    "mixed": ({"ev", "loss", "pv", "pct_maia", "pct_root", "assertion", "line"}, set()),
+    "mixed": ({"ev", "loss", "pv", "pct_maia", "pct_root", "assertion", "line", "sc"}, set()),
 }
 
 
@@ -232,7 +232,7 @@ class Checker:
         for a in u.assertions:
             why = check_assertion(a, self.pack, self.resolver, self.wording)
             if why:
-                errs.append(E("V06", f"{a['kind']} {a.get('key') or a.get('ref')}", why))
+                errs.append(E("V06", f"{a['kind']} {a.get('key') or a.get('ref') or a.get('id')}", why))
         if u.source is None:
             return errs
         data = {r.data for r in resolved} | failed
@@ -280,7 +280,7 @@ class Checker:
             for b, blk in enumerate(sec["blocks"], 1):
                 if blk["type"] != "line":
                     continue
-                pv = self.resolver.pvs.get(blk["pv"])
+                pv = self.resolver.pvs.get(blk["pv"]) or self.resolver.lines.get(blk["pv"])
                 desc = f"line {blk['pv']}:{blk['plies']}"
                 if pv is None:
                     errs.append(VError("V02", sec["id"], b, None, desc, "variante inesistente"))

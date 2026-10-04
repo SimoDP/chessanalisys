@@ -1,8 +1,8 @@
 {
   "schema_version": "0.9",
   "app_version": "0.1.0",
-  "created_utc": "2026-10-04T17:32:59+00:00",
-  "config_hash": "6465ac1f3baa7a83a32f446dd03b02a3354a659a",
+  "created_utc": "2026-10-04T18:24:30+00:00",
+  "config_hash": "bc1f0e396adedab04654492eefe2ebf3d6ea6d12",
   "position": {
     "fen": "1K1k4/1P6/8/8/8/8/r7/2R5 w - - 0 1",
     "epd": "1K1k4/1P6/8/8/8/8/r7/2R5 w - -",
@@ -1688,9 +1688,503 @@
         "d1"
       ],
       "value": null
+    },
+    {
+      "key": "king_zone_attackers",
+      "side": "w",
+      "squares": [
+        "a2"
+      ],
+      "value": 1
+    },
+    {
+      "key": "king_zone_defenders",
+      "side": "w",
+      "squares": [
+        "b7",
+        "c1"
+      ],
+      "value": 2
+    },
+    {
+      "key": "king_zone_attackers",
+      "side": "b",
+      "squares": [
+        "c1"
+      ],
+      "value": 1
+    },
+    {
+      "key": "piece_mobility",
+      "side": "w",
+      "squares": [
+        "c1"
+      ],
+      "value": {
+        "c1": 14
+      }
+    },
+    {
+      "key": "piece_mobility",
+      "side": "b",
+      "squares": [
+        "a2"
+      ],
+      "value": {
+        "a2": 13
+      }
+    },
+    {
+      "key": "file_control",
+      "side": "b",
+      "squares": [
+        "a2"
+      ],
+      "value": "a"
+    },
+    {
+      "key": "file_control",
+      "side": "w",
+      "squares": [
+        "c1"
+      ],
+      "value": "c"
+    },
+    {
+      "key": "tempo_count",
+      "side": "w",
+      "squares": [],
+      "value": 1
     }
   ],
-  "categories": [],
+  "categories": [
+    {
+      "id": "king_safety",
+      "T": {
+        "w": 93,
+        "b": 93
+      },
+      "R": 14,
+      "balance": 0,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 67,
+          "b": 67
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.8,
+        "k": 0.5,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 100,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          7,
+          8,
+          9,
+          10,
+          16,
+          18
+        ],
+        "lines": [],
+        "pvs": [
+          "PV3",
+          "PV6",
+          "PV7",
+          "PV10",
+          "PV11"
+        ],
+        "nodes": []
+      }
+    },
+    {
+      "id": "pawn_structure",
+      "T": {
+        "w": 90,
+        "b": 89
+      },
+      "R": 5,
+      "balance": 1,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 86,
+          "b": 84
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.3,
+        "k": 0.8,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          1,
+          2,
+          5,
+          6
+        ],
+        "lines": [],
+        "pvs": [],
+        "nodes": []
+      }
+    },
+    {
+      "id": "space_center",
+      "T": {
+        "w": 100,
+        "b": 100
+      },
+      "R": 0,
+      "balance": 0,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 100
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.3,
+        "k": 0.8,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          14
+        ],
+        "lines": [],
+        "pvs": [],
+        "nodes": []
+      }
+    },
+    {
+      "id": "piece_activity",
+      "T": {
+        "w": 94,
+        "b": 100
+      },
+      "R": 28,
+      "balance": -6,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 90,
+          "b": 100
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.4,
+        "k": 0.8,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 100,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          11,
+          12,
+          13
+        ],
+        "lines": [],
+        "pvs": [
+          "PV3",
+          "PV6",
+          "PV7",
+          "PV10",
+          "PV11"
+        ],
+        "nodes": []
+      }
+    },
+    {
+      "id": "initiative_tempo",
+      "T": {
+        "w": 100,
+        "b": 97
+      },
+      "R": 4,
+      "balance": 3,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 92
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.6,
+        "k": 0.6,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 20,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          23
+        ],
+        "lines": [],
+        "pvs": [
+          "PV3"
+        ],
+        "nodes": []
+      }
+    },
+    {
+      "id": "threats_dynamics",
+      "T": {
+        "w": 100,
+        "b": 99
+      },
+      "R": 1,
+      "balance": 1,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 95
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.8,
+        "k": 0.5,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          15
+        ],
+        "lines": [],
+        "pvs": [],
+        "nodes": []
+      }
+    },
+    {
+      "id": "material",
+      "T": {
+        "w": 100,
+        "b": 96
+      },
+      "R": 2,
+      "balance": 4,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 88
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.7,
+        "k": 0.5,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          0
+        ],
+        "lines": [],
+        "pvs": [],
+        "nodes": []
+      }
+    },
+    {
+      "id": "transition_plans",
+      "T": {
+        "w": 100,
+        "b": 94
+      },
+      "R": 3,
+      "balance": 6,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 87
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.5,
+        "k": 0.8,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          2,
+          4
+        ],
+        "lines": [],
+        "pvs": [],
+        "nodes": []
+      }
+    },
+    {
+      "id": "practical_complexity",
+      "T": {
+        "w": 72,
+        "b": 78
+      },
+      "R": 10,
+      "balance": -6,
+      "advice": "monitor",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 72,
+          "b": 78
+        },
+        "T_dyn": {
+          "w": 72,
+          "b": 78
+        },
+        "w": 0.0,
+        "k": 1.0,
+        "risk": {
+          "w": 0.0,
+          "b": 0.0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [],
+        "lines": [],
+        "pvs": [],
+        "nodes": [
+          "N1",
+          "N3",
+          "N4",
+          "N5",
+          "N6",
+          "N7",
+          "N8",
+          "N9",
+          "N10",
+          "N11",
+          "N12",
+          "N13",
+          "N14",
+          "N15",
+          "N16",
+          "N17",
+          "N18",
+          "N19",
+          "N20",
+          "N21",
+          "N22",
+          "N23",
+          "N24",
+          "N25",
+          "N26",
+          "N27",
+          "N28",
+          "N29",
+          "N30",
+          "N31",
+          "N32",
+          "N33",
+          "N34"
+        ]
+      }
+    }
+  ],
   "filtered_lines": [],
   "tablebase": {
     "wdl": 2,
@@ -20938,7 +21432,7 @@
       "required": true,
       "absorbed_into": null,
       "omitted": null,
-      "word_budget": 130,
+      "word_budget": 140,
       "max_pv_plies": 8,
       "theory_allowed": false,
       "tables": [],
@@ -21008,7 +21502,7 @@
       "required": true,
       "absorbed_into": null,
       "omitted": null,
-      "word_budget": 440,
+      "word_budget": 490,
       "max_pv_plies": 8,
       "theory_allowed": true,
       "tables": [],
@@ -21022,7 +21516,7 @@
       "required": true,
       "absorbed_into": null,
       "omitted": null,
-      "word_budget": 240,
+      "word_budget": 260,
       "max_pv_plies": 8,
       "theory_allowed": false,
       "tables": [
@@ -21072,7 +21566,7 @@
       "required": true,
       "absorbed_into": null,
       "omitted": null,
-      "word_budget": 150,
+      "word_budget": 160,
       "max_pv_plies": 8,
       "theory_allowed": true,
       "tables": [],
@@ -21100,7 +21594,7 @@
       "required": true,
       "absorbed_into": null,
       "omitted": null,
-      "word_budget": 450,
+      "word_budget": 510,
       "max_pv_plies": 8,
       "theory_allowed": true,
       "tables": [],

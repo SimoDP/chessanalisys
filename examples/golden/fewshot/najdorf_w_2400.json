@@ -24,6 +24,33 @@
    ]
   },
   {
+   "id": "S02",
+   "blocks": [
+    {
+     "type": "table",
+     "ref": "T4",
+     "text_cells": {}
+    },
+    {
+     "type": "p",
+     "text": "Fattori di lungo periodo: l'attività ({{sc:piece_activity.R}}), con quattro pezzi neri ancora chiusi, e la struttura ({{sc:pawn_structure.R}}), che le linee di {{mv:C1}} e {{mv:C2}} fissano al centro. Nessun fattore tattico; complessità pratica media ({{sc:practical_complexity.T}}).",
+     "source": "mixed",
+     "assertions": [
+      {
+       "kind": "category_advice",
+       "id": "piece_activity",
+       "advice": "no_worry"
+      },
+      {
+       "kind": "category_advice",
+       "id": "practical_complexity",
+       "advice": "monitor"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "id": "S03",
    "blocks": [
     {
@@ -166,6 +193,23 @@
      "type": "p",
      "text": "{{mv:C1}} è l'ordine che lascia meno scelte al Nero; {{mv:C3}} ({{ev:C3}}) e {{mv:C4}} ({{ev:C4}}) cambiano struttura cedendo poco più di un decimo.",
      "source": "engine"
+    }
+   ]
+  },
+  {
+   "id": "S09",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Nessuna linea supera la soglia di rischio, che a questo livello è la più bassa: con una mossa in più il Nero otterrebbe {{ev:N2}}. Nell'albero dei test di move order non c'è una perdita decisiva nascosta.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "N2",
+       "band": "equal"
+      }
+     ]
     }
    ]
   }

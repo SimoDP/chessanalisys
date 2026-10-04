@@ -24,6 +24,41 @@
    ]
   },
   {
+   "id": "S02",
+   "blocks": [
+    {
+     "type": "table",
+     "ref": "T4",
+     "text_cells": {}
+    },
+    {
+     "type": "p",
+     "text": "Nessuna categoria è da attenzione. Conta di più sviluppare i pezzi (rilevanza {{sc:piece_activity.R}}): il Nero ne ha ancora quattro chiusi. Più delicata è la scelta tra tante mosse giocabili ({{sc:practical_complexity.T}}).",
+     "source": "mixed",
+     "assertions": [
+      {
+       "kind": "category_advice",
+       "id": "piece_activity",
+       "advice": "no_worry"
+      },
+      {
+       "kind": "category_advice",
+       "id": "practical_complexity",
+       "advice": "monitor"
+      },
+      {
+       "kind": "feature",
+       "key": "inactive_piece",
+       "side": "b",
+       "squares": [
+        "b8"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
    "id": "S03",
    "blocks": [
     {
@@ -233,6 +268,23 @@
          "category": "practical_alt"
         }
        ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "S09",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Nessuna minaccia nascosta: nessuna linea del motore è pericolosa al tuo livello. Anche con una mossa in più il Nero otterrebbe solo {{ev:N2}}: puoi pensare con calma al tuo piano.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "N2",
+       "band": "equal"
       }
      ]
     }

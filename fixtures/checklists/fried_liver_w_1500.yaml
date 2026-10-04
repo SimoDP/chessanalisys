@@ -3,7 +3,7 @@ id: fried_liver_w_1500
 position: fixtures/pgn/fried_liver.pgn          # 1.e4 e5 2.Nf3 Nc6 3.Bc4 Nf6 4.Ng5 d5 5.exd5 Nxd5
 user: {color: w, elo: 1500, elo_scale: fide}
 matrix_column: 2                                 # mediogioco tattico: il cavallo g5 è in presa (hanging_piece)
-sections: [S01, S03, S05, S06, S07, S08, S10, S13]   # matrice, colonna 2, ancora 1500 (S04 assorbita in S03)
+sections: [S01, S02, S03, S05, S06, S07, S08, S09, S10, S13]   # matrice, colonna 2, ancora 1500 (S04 assorbita in S03); M3: S02, S09
 # Tre mosse che devono comparire nei token: la migliore (d4), la più giocata (il sacrificio Nxf7)
 # e la mossa che lo giustifica dopo ...Kxf7 (Qf3+, scacco tolto nel confronto).
 moves: [d4, Nxf7, Qf3]

@@ -14,6 +14,24 @@ Posizione teorica e molto equilibrata: il motore dà al Bianco un vantaggio mini
 
 **Non devi cercare la mossa migliore: devi scegliere un sistema e giocarlo bene.** Se toccasse al Nero, la valutazione sarebbe -0,07 (migliore ...e6): il tuo vantaggio è quasi solo il tratto, quindi non sprecare tempi. Nessuna delle candidate perde materiale: decide il piano che conosci meglio.
 
+## Radar delle categorie
+
+| Categoria | T (tu)* | R | Nota |
+| --- | --- | --- | --- |
+| Attività dei pezzi | 100 | 26 | Il Nero ha più pezzi ancora chiusi |
+| Struttura pedonale | 100 | 12 | Cambia nelle linee di 6.f3 e 6.Be3 |
+| Spazio e centro | 100 | 7 | — |
+| Complessità pratica | 80 | 7 | Molte mosse giocabili, nessuna unica |
+| Sicurezza del re | 98 | 1 | — |
+| Minacce e dinamica | 100 | 1 | — |
+| Iniziativa e tempi | 100 | 0 | — |
+| Materiale | 100 | 0 | — |
+| Transizioni e piani | 100 | 0 | — |
+
+* Punteggi poco affidabili: Maia-2 poco affidabile a questo livello o valutazioni instabili.
+
+Nessuna categoria preoccupa: la tranquillità più bassa è quella della complessità pratica (80), perché quasi ovunque ci sono più mosse giocabili. Pesa di più l'attività dei pezzi (26): il Nero ha quattro pezzi chiusi, tu solo le torri. Nessuna linea filtrata tocca il re.
+
 ## I sistemi che puoi scegliere
 
 | Sistema | Prima mossa | Arrocco | Idea | Per chi |
@@ -124,6 +142,12 @@ Dopo 6.f3 ...e5 la ritirata del cavallo va scelta bene: Nb3 tiene il vantaggio, 
 
 Dopo 6.Be3 ...Ng4 la ritirata naturale è Bg5, scelta dal 53% dei giocatori: qui l'istinto è giusto, perché vale quanto Bc1 (+0,31), mentre Qd2 perde 0,46.
 
+## Minacce invisibili al tuo livello
+
+Nessuna linea del motore entra nel referto a questo livello: in tutto l'albero analizzato non c'è una minaccia, né per te né per il Nero, il cui rischio pratico superi la soglia del tuo Elo, e nessuna perdita decisiva è nascosta. Se passassi la mossa, il Nero otterrebbe soltanto -0,07 con ...e6: non ha colpi pronti.
+
+Anche la candidata più lontana dal motore, 6.Bg5, cede appena 0,30, e nessuna linea forzata la trasforma in uno svantaggio serio. I pericoli di questa posizione sono di piano, non tattici: li trovi nelle sezioni sui sistemi e sulle idee del Nero.
+
 ## Come ragionare
 
 1. **Scegli il sistema** (attacco inglese o alfiere in d3) e quindi il lato dell'arrocco. †
@@ -139,9 +163,9 @@ Dopo 6.Be3 ...Ng4 la ritirata naturale è Bg5, scelta dal 53% dei giocatori: qui
 - Profilo deep · tempo dei motori 1429,3 s · nodi analizzati 62 · profondità minima 18 e massima 31
 - Nodi sotto la profondità minima: nessuno
 - Elo dichiarato 1900 FIDE · Elo Maia-2 2025 · fascia 1600_2000 · ancora 1900 · confidenza di Maia-2 bassa
-- Sezioni omesse: S02 (milestone), S09 (milestone), S11 (elo<2000), S12 (matrix), S13 (matrix) · assorbite: nessuna
+- Sezioni omesse: S11 (elo<2000), S12 (matrix), S13 (matrix) · assorbite: nessuna
 - Fasi omesse: nessuna · nodi omessi: nessuno
-- Contenuto teorico: 56 blocchi, 41% delle parole
+- Contenuto teorico: 56 blocchi, 37% delle parole
 - Controlli: V01 superato · V02 superato · V03 superato · V04 superato · V05 superato · V06 superato · V07 superato · V08 superato · V09 superato · V10 superato · V11 superato
 - Retry: 0
 - Rimossi in modalità degradata: nessuno

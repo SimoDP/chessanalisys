@@ -69,3 +69,27 @@ def king_features(board: chess.Board) -> list[Feature]:
         if open_files:
             out.append(Feature("open_file_to_king", s, ksq, "".join(chess.FILE_NAMES[f] for f in open_files)))
     return out
+
+
+def king_zone(board: chess.Board, side: chess.Color) -> chess.SquareSet:
+    k = board.king(side)
+    return chess.SquareSet(chess.BB_KING_ATTACKS[k] | chess.BB_SQUARES[k]) if k is not None else chess.SquareSet()
+
+
+def king_zone_features(board: chess.Board) -> list[Feature]:
+    """M3: pieces of O (no pawns, no king) attacking the zone of S's king / pieces of S (no king)
+    defending it. Emitted only when the count is at least one."""
+    out: list[Feature] = []
+    for side in (chess.WHITE, chess.BLACK):
+        zone = king_zone(board, side)
+        if not zone:
+            continue
+        att = [sq for sq, p in board.piece_map().items()
+               if p.color != side and p.piece_type not in (chess.PAWN, chess.KING) and board.attacks(sq) & zone]
+        dfd = [sq for sq, p in board.piece_map().items()
+               if p.color == side and p.piece_type != chess.KING and board.attacks(sq) & zone]
+        if att:
+            out.append(Feature("king_zone_attackers", code(side), names(att), len(att)))
+        if dfd:
+            out.append(Feature("king_zone_defenders", code(side), names(dfd), len(dfd)))
+    return out

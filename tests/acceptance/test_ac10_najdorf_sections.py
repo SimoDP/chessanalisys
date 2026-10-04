@@ -12,12 +12,12 @@ from chessanalyst.golden.packs import load_frozen_pack
 from chessanalyst.pack.section_plan import fill_opp
 from chessanalyst.render.report import REPORT_TITLE
 
-EXPECTED = {   # sections after matrix, milestone and §8.2-bis (column 1, user to move)
-    "1500": ["S01", "S03", "S05", "S06", "S07", "S08", "S10"],
-    "1900": ["S01", "S03", "S04", "S05", "S06", "S07", "S08", "S10"],
+EXPECTED = {   # sections after matrix, milestone and §8.2-bis (column 1, user to move); S02 and S09 from M3
+    "1500": ["S01", "S02", "S03", "S05", "S06", "S07", "S08", "S09", "S10"],
+    "1900": ["S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10"],
     # 2400: S04 absorbed in S03, S05 and S10 excluded (band_2400); S08 by c8 (natural_trap, hard_move):
     # no such move in the frozen pack (Stockfish 19), so S08 is omitted with «no_classified_move»
-    "2400": ["S01", "S03", "S06", "S07"],
+    "2400": ["S01", "S02", "S03", "S06", "S07", "S09"],
 }
 ANCHORS = ["1500", "1900", "2400"]
 

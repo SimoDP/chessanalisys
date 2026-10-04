@@ -15,6 +15,12 @@ def test_record_fixtures(cfg, request):
     import os
 
     groups = os.environ.get("CHESSANALYST_RECORD_GROUPS")       # e.g. "najdorf" (comma separated)
+    if os.environ.get("CHESSANALYST_RECORD_MAIA_ONLY"):          # M3: only the missing Maia-2 answers
+        from chessanalyst.golden.record import record_maia
+
+        written = record_maia(cfg, groups=groups.split(",") if groups else None)
+        assert all(p.stat().st_size > 0 for p in written)
+        return
     written = record_fixtures(cfg, groups=groups.split(",") if groups else None,
                               extend=bool(os.environ.get("CHESSANALYST_RECORD_EXTEND")))
     assert all(p.stat().st_size > 0 for p in written)

@@ -122,3 +122,51 @@ def pawn_features(board: chess.Board, geo: FeatureGeometry) -> list[Feature]:
                 if pc and pc.piece_type == chess.KNIGHT and pc.color == side:
                     out.append(Feature("knight_outpost", s, names([sq])))
     return out
+
+
+def _defends(side: chess.Color, p: chess.Square, q: chess.Square) -> bool:
+    """Pawn ``p`` of ``side`` defends square ``q`` (diagonally in front)."""
+    dr = 1 if side == chess.WHITE else -1
+    return chess.square_rank(q) - chess.square_rank(p) == dr and abs(chess.square_file(q) - chess.square_file(p)) == 1
+
+
+def pawn_chains(board: chess.Board, side: chess.Color, min_len: int) -> list[list[chess.Square]]:
+    """Maximal diagonal chains of ``side``'s pawns, each defended by the previous one."""
+    own = sorted(pawns(board, side))
+    nxt = {p: [q for q in own if _defends(side, p, q)] for p in own}
+    bases = [p for p in own if not any(_defends(side, q, p) for q in own)]
+    chains: list[list[chess.Square]] = []
+
+    def walk(path: list[chess.Square]) -> None:
+        if not nxt[path[-1]]:
+            if len(path) >= min_len:
+                chains.append(path)
+            return
+        for q in nxt[path[-1]]:
+            walk(path + [q])
+
+    for b in bases:
+        walk([b])
+    seen, out = set(), []
+    for c in chains:
+        key = frozenset(c)
+        if key not in seen:
+            seen.add(key)
+            out.append(c)
+    return out
+
+
+def pawn_m3_features(board: chess.Board, geo: FeatureGeometry) -> list[Feature]:
+    out: list[Feature] = []
+    for side in (chess.WHITE, chess.BLACK):
+        s = code(side)
+        for c in pawn_chains(board, side, geo.pawn_chain_min):
+            out.append(Feature("pawn_chain", s, names(c)))
+        files = _files(geo.minority_pawn_files)
+        mine = sum(1 for p in pawns(board, side) if chess.square_file(p) in files)
+        theirs = sum(1 for p in pawns(board, not side) if chess.square_file(p) in files)
+        heavy = [sq for t in (chess.ROOK, chess.QUEEN) for sq in board.pieces(t, side)
+                 if chess.square_file(sq) in _files(geo.minority_piece_files)]
+        if mine == geo.minority_own_pawns and theirs == geo.minority_opp_pawns and heavy:
+            out.append(Feature("minority_attack", s, names(heavy)))
+    return out

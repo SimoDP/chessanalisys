@@ -42,8 +42,14 @@ class ClassificationAssertion(_M):
     category: Literal["natural_trap", "hard_move", "solid", "practical_alt", "improbable_error"]
 
 
-Assertion = Annotated[Union[FeatureAssertion, EvalBandAssertion, MaiaBandAssertion, ClassificationAssertion],
-                      Field(discriminator="kind")]
+class CategoryAdviceAssertion(_M):
+    kind: Literal["category_advice"]
+    id: str
+    advice: Literal["no_worry", "monitor", "attention", "critical"]
+
+
+Assertion = Annotated[Union[FeatureAssertion, EvalBandAssertion, MaiaBandAssertion, ClassificationAssertion,
+                            CategoryAdviceAssertion], Field(discriminator="kind")]
 
 
 class ParagraphLite(_M):
@@ -66,7 +72,7 @@ class ListBlock(_M):
 
 class Line(_M):
     type: Literal["line"]
-    pv: Annotated[str, Field(pattern=r"^PV[1-9][0-9]*$")]
+    pv: Annotated[str, Field(pattern=r"^(PV|L)[1-9][0-9]*$")]     # L<n>: filtered line (M3)
     plies: Annotated[int, Field(ge=1)]
     caption: ParagraphLite = None  # type: ignore[assignment]  # absent, never null (Appendix F)
 

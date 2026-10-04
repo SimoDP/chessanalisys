@@ -11,10 +11,10 @@ anchors:                        # [lo, hi) su elo_ref_fide
   "2400": {lo: 2150, hi: null}
 band_params:
   "lt1200":    {plies_max: 3,  explained_min: 1, K: 2, listed_max: 3,  L_max: 40, prose_words: 450,  A: 0.6, B: 1.2}
-  "1200_1600": {plies_max: 4,  explained_min: 2, K: 3, listed_max: 4,  L_max: 40, prose_words: 500,  A: 0.5, B: 1.0}   # M1b: 650 → 500 (fewshot 1500)
-  "1600_2000": {plies_max: 8,  explained_min: 3, K: 5, listed_max: 12, L_max: 35, prose_words: 1400, A: 0.3, B: 0.5}
+  "1200_1600": {plies_max: 4,  explained_min: 2, K: 3, listed_max: 4,  L_max: 40, prose_words: 560,  A: 0.5, B: 1.0}   # M1b: 650 → 500 (fewshot 1500); M3: 560 (S02, S09)
+  "1600_2000": {plies_max: 8,  explained_min: 3, K: 5, listed_max: 12, L_max: 35, prose_words: 1560, A: 0.3, B: 0.5}   # M3: 1400 → 1560 (S02, S09)
   "2000_2400": {plies_max: 10, explained_min: 3, K: 4, listed_max: 12, L_max: 30, prose_words: 1100, A: 0.1, B: 0.2}
-  "ge2400":    {plies_max: 12, explained_min: 4, K: 5, listed_max: 12, L_max: 25, prose_words: 610,  A: 0.0, B: 0.0}   # M1b: 800 → 610 (fewshot 2400)
+  "ge2400":    {plies_max: 12, explained_min: 4, K: 5, listed_max: 12, L_max: 25, prose_words: 690,  A: 0.0, B: 0.0}   # M1b: 800 → 610 (fewshot 2400); M3: 690 (S02, S09)
 detail:                         # usato da M4
   "1": {words: 0.35, plies_delta: -2}
   "2": {words: 0.6,  plies_delta: -1}
@@ -56,4 +56,110 @@ features:                                        # §5.1, definizioni geometrich
   outpost_ranks: [4, 6]
   queenside_files: "abcd"
   kingside_files: "efgh"
+  # M3 (§5.1): soglie delle feature «M3»
+  inactive_mobility_max: 2                       # inactive_piece: mobilità <= 2
+  bishop_open_min_moves: 7                       # bishop_diagonal_open: almeno 7 mosse pseudo-legali
+  tempo_plies: 6                                 # tempo_count: prime 6 semimosse della PV migliore
+  tempo_threat_see_min: 3                        # minaccia di cattura con SEE >= 3
+  minority_pawn_files: "abc"                     # minority_attack: pedoni sulle colonne a-c
+  minority_own_pawns: 2
+  minority_opp_pawns: 3
+  minority_piece_files: "bc"                     # torre o donna sulla colonna b o c
+  space_min_diff: 3                              # space_advantage: differenza >= 3
+  pawn_chain_min: 3                              # pawn_chain: almeno 3 pedoni
 golden: {ac09_max_diff_cp: 25, ac09_top_n: 6}    # AC-09
+# M3 (§5-bis): Category Scoring Engine. Ipotesi iniziali, da calibrare in M5 (§0.5, D-21); OQ-M3-1…
+scoring:
+  categories: [king_safety, pawn_structure, space_center, piece_activity, initiative_tempo,
+               threats_dynamics, material, transition_plans, practical_complexity]
+  lines:
+    null_lines: 3                 # linee di E1 (mossa nulla) considerate come minacce
+    impact_min_cp: 50             # una linea entra nel calcolo se il danno è almeno 0,50
+    impact_cap_cp: 1000           # tetto dell'impatto (anche per i matti)
+    mate_cp: 1000                 # un matto vale questo nell'impatto
+    att_plies: 6                  # P_att: mosse dell'attaccante nelle prime 6 semimosse della linea
+    parry_share: 0.5              # mossa nulla: una mossa alla radice para se perde meno di metà dell'impatto
+    quiescence_see_min: 1         # foglia dopo quiescenza: catture con SEE >= 1
+    quiescence_max_plies: 4
+  theta:                          # θ(Elo) in pedoni di danno atteso, per fascia (decrescente)
+    "lt1200": 0.30
+    "1200_1600": 0.25
+    "1600_2000": 0.15
+    "2000_2400": 0.10
+    "ge2400": 0.05
+  decisive_cp: 200                # perdita decisiva (banda decisive di §6.4): entra sempre
+  visible_p_att_min: 0.10         # sotto questa P_att una linea che entra sempre è «invisibile»
+  override: {p_att_min: 0.10, t_max: 29}     # §5-bis.4 punto 5: T <= 30; 29 perché sia «critico» (< 30)
+  k: {king_safety: 0.5, pawn_structure: 0.8, space_center: 0.8, piece_activity: 0.8, initiative_tempo: 0.6,
+      threats_dynamics: 0.5, material: 0.5, transition_plans: 0.8, practical_complexity: 1.0}
+  w: {king_safety: 0.8, pawn_structure: 0.3, space_center: 0.3, piece_activity: 0.4, initiative_tempo: 0.6,
+      threats_dynamics: 0.8, material: 0.7, transition_plans: 0.5, practical_complexity: 0.0}
+  tags:                           # confronto inizio linea / foglia (§5-bis.4 punto 1)
+    material_min: 1
+    center_shift_min: 3
+    mobility_shift_min: 8
+    tempo_min: 2
+    leaf_plies: 6                 # foglia = dopo 6 semimosse della linea (poi quiescenza)
+  # punti di penalità per T_stat (100 - somma); own = feature del lato, opp = dell'avversario;
+  # relative: conta solo l'eccesso rispetto ai punti dell'avversario (categorie lente: nell'apertura entrambi
+  # hanno pezzi da sviluppare e non è un motivo di preoccupazione)
+  static:
+    king_safety:
+      own: {pawn_shield_weakened: 15, open_file_to_king: 10, castling_lost: 15, king_zone_attackers: 8, pin: 5}
+      opp: {}
+      per_value: [king_zone_attackers]          # moltiplicate per value
+    pawn_structure:
+      own: {isolated_pawn: 10, doubled_pawn: 8, backward_pawn: 10, weak_square: 4}
+      opp: {passed_pawn: 12, outpost: 5}
+      per_value: []
+    space_center:
+      relative: true
+      own: {}
+      opp: {space_advantage: 6}
+      per_value: [space_advantage]
+      center_points: 6                          # per attaccante in meno al centro
+    piece_activity:
+      relative: true
+      own: {inactive_piece: 8}
+      opp: {bishop_pair: 8, knight_outpost: 10, rook_seventh: 10, rook_open_file: 4, bishop_diagonal_open: 4}
+      per_value: []
+    initiative_tempo:
+      relative: true
+      own: {undeveloped_pieces: 6}
+      opp: {development_lead: 10, tempo_count: 8}
+      per_value: [development_lead, tempo_count]
+    threats_dynamics:
+      own: {hanging_piece: 25, fork: 30, skewer: 25, overloaded_piece: 15, pin: 10}
+      opp: {check_available: 5, unresolved_capture: 20}
+      per_value: []
+    material:
+      own: {}
+      opp: {exchange_up: 15}
+      per_value: []
+      pawn_points: 12                           # per pedone di svantaggio materiale
+    transition_plans:
+      own: {}
+      opp: {passed_pawn: 8, pawn_majority: 5}
+      per_value: []
+    practical_complexity: {own: {}, opp: {}, per_value: []}
+  complexity:                     # practical_complexity (meta): entropia di Maia-2 e mosse uniche
+    entropy_max_bits: 4.0
+    unique_gap_cp: 100
+    entropy_weight: 0.5
+    unique_weight: 0.5
+  relevance:                      # §5-bis.4 punto 6
+    # proximity pesata da min(1, risk / θ); decision = quota delle linee principali (PV delle candidate spiegate
+    # o delle risposte) con il tag della categoria
+    weights: {worry: 0.4, balance: 0.15, proximity: 0.2, decision: 0.25}
+    proximity_plies: 8
+    phase:
+      opening:    {king_safety: 0.9, pawn_structure: 0.8, space_center: 1.0, piece_activity: 1.0, initiative_tempo: 1.0,
+                   threats_dynamics: 1.0, material: 1.0, transition_plans: 0.4, practical_complexity: 0.8}
+      middlegame: {king_safety: 1.0, pawn_structure: 0.9, space_center: 0.8, piece_activity: 1.0, initiative_tempo: 0.9,
+                   threats_dynamics: 1.0, material: 1.0, transition_plans: 0.7, practical_complexity: 0.8}
+      endgame:    {king_safety: 0.5, pawn_structure: 1.0, space_center: 0.4, piece_activity: 1.0, initiative_tempo: 0.6,
+                   threats_dynamics: 1.0, material: 1.0, transition_plans: 1.0, practical_complexity: 0.8}
+  advice:                         # bande di T dell'utente (§5-bis.2), limite inferiore incluso
+    no_worry: 85
+    monitor: 60
+    attention: 30

@@ -12,6 +12,7 @@ RID = rf"R{INT}"
 RUID = rf"R{INT}\.u{INT}"
 NID = rf"N{INT}"
 PVID = rf"PV{INT}"
+LID = rf"L{INT}"            # filtered line (§5-bis.3, M3)
 SQ = r"[a-h][1-8]"
 # SAN of python-chess, with the annotation characters "+#!?" accepted and ignored
 SAN = r"(?:O-O-O|O-O|[KQRBN][a-h]?[1-8]?x?[a-h][1-8]|[a-h](?:x[a-h])?[1-8](?:=[QRBN])?)[+#!?]*"
@@ -20,11 +21,11 @@ MOVE_AT = rf"({SAN})@({NID})"
 PATTERNS: dict[str, re.Pattern] = {
     "mv": re.compile(rf"mv:({CID}|{RUID}|{RID})(:bare)?"),
     "m": re.compile(rf"m:{MOVE_AT}(:num)?"),
-    "ev": re.compile(rf"ev:(?:({CID}|{RUID}|{RID}|{NID})|{MOVE_AT})"),
-    "loss": re.compile(rf"loss:(?:({CID}|{RUID})|{MOVE_AT})"),
+    "ev": re.compile(rf"ev:(?:({CID}|{RUID}|{RID}|{NID}|{LID})|{MOVE_AT})"),
+    "loss": re.compile(rf"loss:(?:({CID}|{RUID}|{LID})|{MOVE_AT})"),
     "pct": re.compile(rf"pct:(?:({CID})\.(p_user|p_up)|({RUID})\.(p_user)|({RID})\.(p_opp)|root\.(win|draw|loss)"
                       rf"|{MOVE_AT})"),
-    "pv": re.compile(rf"pv:({PVID}):({INT})"),
+    "pv": re.compile(rf"pv:({PVID}|{LID}):({INT})"),
     "plan": re.compile(rf"plan:([wb]):({SAN}(?:,{SAN})*)@({NID})"),
     "diag": re.compile(rf"diag:({SQ})-({SQ})"),
     "elo": re.compile(r"elo:(user|opp)(:full)?"),

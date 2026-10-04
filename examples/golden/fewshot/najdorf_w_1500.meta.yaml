@@ -3,7 +3,7 @@ anchor: "1500"
 pack: examples/golden/packs/najdorf_w_1500.pack.json
 raw: examples/golden/raw/najdorf_w_1500.md
 validated: false          # §8-bis.5: da rivedere da un giocatore di circa 1500
-needs_review: [S03, S05, S06, S07, S08]
+needs_review: [S02, S03, S05, S06, S07, S08, S09]
 notes:
   - "S03: la raccomandazione calcolata è 6.f3 (debole, nessuna mossa unica): il blocco principi e il piano semplice sono riscritti per l'arrocco lungo; 6.Be2 del raw resta come alternativa con arrocco corto (S04 assorbita)."
   - "S05: l'alfiere f1 va in e2 solo con l'arrocco corto."
@@ -12,3 +12,4 @@ notes:
   - "S08: aggiunte la ritirata sbagliata ...e5 Nf5 e la mossa difficile 6.h3 (categoria calcolata)."
   - "M2 (Stockfish 19, ℓ1–ℓ3, D-66): ID riallineati al nuovo pacchetto; spiegate 6.f3, 6.Be3, 6.Bg5 (ora C11, «alternativa pratica»); raccomandata 6.f3; 6.Be2 è C6."
   - "M2 · S08: 6.h3 non è più una «mossa difficile»: la voce è sostituita da 6.Bg5, alternativa pratica (must_cover)."
+  - "M3 · S02 (radar semplificato, T4 senza note) e S09 scritte sul pacchetto: nessuna categoria da attenzione, nessuna linea filtrata."

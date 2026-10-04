@@ -14,6 +14,20 @@ Posizione teorica, vantaggio minimo: da +0,34 a +0,04 tra le cinque mosse spiega
 
 Fattori decisivi: la corsa g4 → g5 contro ...b5 → ...b4 con gli arrocchi opposti; la casa d5 dopo ...e5 (+0,28); la diagonale a7–g1 con la donna nera in b6; la stabilità di e4.
 
+## Fattori decisivi
+
+| Categoria | T (tu)* | R | Nota |
+| --- | --- | --- | --- |
+| Attività dei pezzi | 100 | 26 | — |
+| Struttura pedonale | 100 | 12 | — |
+| Spazio e centro | 100 | 7 | — |
+| Complessità pratica | 80 | 7 | — |
+| Sicurezza del re | 98 | 1 | — |
+
+* Punteggi poco affidabili: Maia-2 poco affidabile a questo livello o valutazioni instabili.
+
+Fattori di lungo periodo: l'attività (26), con quattro pezzi neri ancora chiusi, e la struttura (12), che le linee di 6.f3 e 6.Be3 fissano al centro. Nessun fattore tattico; complessità pratica media (80).
+
 ## Piani per struttura
 
 - **Inglese (Be3 → f3 → Qd2 → O-O-O):** arrocco lungo, poi g4 → g5 → h4; il Nero risponde con ...b5 → ...b4 e con la rottura in d5 nei momenti giusti. È una corsa: un tempo decide. Il motore tiene i due ordini 6.f3 (+0,34) e 6.Be3 (+0,32) quasi alla pari e le loro linee principali si incontrano dopo sette semimosse; con 6.f3 il salto del cavallo in g4 non esiste.
@@ -110,15 +124,19 @@ Tra la prima e la quinta mossa spiegata ci sono 0,30: la scelta è di sistema, n
 
 6.f3 è l'ordine che lascia meno scelte al Nero; 6.Qd3 (+0,20) e 6.Bd3 (+0,19) cambiano struttura cedendo poco più di un decimo.
 
+## Minacce invisibili al tuo livello
+
+Nessuna linea supera la soglia di rischio, che a questo livello è la più bassa: con una mossa in più il Nero otterrebbe -0,07. Nell'albero dei test di move order non c'è una perdita decisiva nascosta.
+
 ## Rapporto tecnico
 
 - Versioni: Stockfish 19 · Maia-2 0.11.0 (modello rapid, cpu) · modello di linguaggio: nessuno (esempio di riferimento)
 - Profilo deep · tempo dei motori 1483,6 s · nodi analizzati 72 · profondità minima 18 e massima 31
 - Nodi sotto la profondità minima: nessuno
 - Elo dichiarato 2400 FIDE · Elo Maia-2 2400 · fascia ge2400 · ancora 2400 · confidenza di Maia-2 bassa
-- Sezioni omesse: S02 (milestone), S05 (band_2400), S08 (no_classified_move), S09 (milestone), S10 (band_2400), S11 (milestone), S12 (matrix), S13 (matrix) · assorbite: S04 in S03
+- Sezioni omesse: S05 (band_2400), S08 (no_classified_move), S10 (band_2400), S11 (milestone), S12 (matrix), S13 (matrix) · assorbite: S04 in S03
 - Fasi omesse: nessuna · nodi omessi: nessuno
-- Contenuto teorico: 3 blocchi, 18% delle parole
+- Contenuto teorico: 3 blocchi, 16% delle parole
 - Controlli: V01 superato · V02 superato · V03 superato · V04 superato · V05 superato · V06 superato · V07 superato · V08 superato · V09 superato · V10 superato · V11 superato
 - Retry: 0
 - Rimossi in modalità degradata: nessuno

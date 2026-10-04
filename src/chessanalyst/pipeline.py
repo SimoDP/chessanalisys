@@ -56,4 +56,5 @@ def analyse_position(cfg: Config, pos: Position, us: UserSettings, analyzer: Cac
     profile = compute_profile(pos.board, cfg, lines, bp.K, feats, in_book=in_book,
                               quiet=exp.quiet, spread_cp=exp.spread_cp, tablebase=probe is not None)
     return build_pack(cfg, pos, us, exp, maia.info(), feats, profile, opening,
-                      stockfish_info(analyzer.engine, us.budget_profile), maia.bucket, tablebase=tb_entry)
+                      stockfish_info(analyzer.engine, us.budget_profile), maia.bucket, tablebase=tb_entry,
+                      policy=maia.policy)

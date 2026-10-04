@@ -310,6 +310,80 @@ class FeatureGeometry(Strict):
     outpost_ranks: tuple[int, int]
     queenside_files: str
     kingside_files: str
+    inactive_mobility_max: int
+    bishop_open_min_moves: int
+    tempo_plies: int
+    tempo_threat_see_min: int
+    minority_pawn_files: str
+    minority_own_pawns: int
+    minority_opp_pawns: int
+    minority_piece_files: str
+    space_min_diff: int
+    pawn_chain_min: int
+
+
+class ScoringLines(Strict):
+    null_lines: int
+    impact_min_cp: int
+    impact_cap_cp: int
+    mate_cp: int
+    att_plies: int
+    parry_share: float
+    quiescence_see_min: int
+    quiescence_max_plies: int
+
+
+class ScoringOverride(Strict):
+    p_att_min: float
+    t_max: int
+
+
+class ScoringTags(Strict):
+    material_min: int
+    center_shift_min: int
+    mobility_shift_min: int
+    tempo_min: int
+    leaf_plies: int
+
+
+class StaticCategory(Strict):
+    own: dict[str, float]
+    opp: dict[str, float]
+    per_value: list[str]
+    relative: bool = False
+    center_points: float | None = None
+    pawn_points: float | None = None
+
+
+class ScoringComplexity(Strict):
+    entropy_max_bits: float
+    unique_gap_cp: int
+    entropy_weight: float
+    unique_weight: float
+
+
+class ScoringRelevance(Strict):
+    weights: dict[str, float]
+    proximity_plies: int
+    phase: dict[str, dict[str, float]]
+
+
+class ScoringCfg(Strict):
+    """§5-bis (M3). Initial hypotheses, calibrated in M5 (§0.5)."""
+
+    categories: list[str]
+    lines: ScoringLines
+    theta: dict[str, float]
+    decisive_cp: int
+    visible_p_att_min: float
+    override: ScoringOverride
+    k: dict[str, float]
+    w: dict[str, float]
+    tags: ScoringTags
+    static: dict[str, StaticCategory]
+    complexity: ScoringComplexity
+    relevance: ScoringRelevance
+    advice: dict[str, int]
 
 
 class GoldenThresholds(Strict):
@@ -332,6 +406,7 @@ class ThresholdsCfg(Strict):
     maia: MaiaThresholds
     features: FeatureGeometry
     golden: GoldenThresholds
+    scoring: ScoringCfg
 
 
 # --- smaller files ----------------------------------------------------------

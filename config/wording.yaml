@@ -19,6 +19,21 @@ categories:
   solid: "mossa solida"
   practical_alt: "alternativa pratica"
   improbable_error: "errore improbabile"
+score_categories:                 # §5-bis.1 (M3), nomi nella tabella T4
+  king_safety: "Sicurezza del re"
+  pawn_structure: "Struttura pedonale"
+  space_center: "Spazio e centro"
+  piece_activity: "Attività dei pezzi"
+  initiative_tempo: "Iniziativa e tempi"
+  threats_dynamics: "Minacce e dinamica"
+  material: "Materiale"
+  transition_plans: "Transizioni e piani"
+  practical_complexity: "Complessità pratica"
+advice:                           # bande della tranquillità T dell'utente (§5-bis.2, §6.4)
+  no_worry: "non preoccuparti"
+  monitor: "monitora"
+  attention: "attenzione"
+  critical: "critico"
 p_up_group:
   higher: "giocatori di circa trecento punti più forti"     # da aggiornare se cambia up_delta
   top: "giocatori della fascia più forte del modello"
@@ -26,6 +41,7 @@ colors: {w: "il Bianco", b: "il Nero"}
 fixed:
   maia_low_confidence: "A questo livello Maia-2, il modello del comportamento umano, distingue poco tra i giocatori più forti: le probabilità indicate sono poco affidabili e le indicazioni si basano soprattutto sul motore."
   maia_low_confidence_table: "* Probabilità di Maia-2 poco affidabili a questo livello."
+  score_low_confidence_table: "* Punteggi poco affidabili: Maia-2 poco affidabile a questo livello o valutazioni instabili."
   section_unavailable: "Questa sezione non è disponibile: il testo prodotto non ha superato i controlli."
   unverified_mark: "⚠ non verificato"
   theory_footnote: "† contenuto teorico, non verificato dai motori"

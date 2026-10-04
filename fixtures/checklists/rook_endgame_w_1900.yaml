@@ -3,7 +3,7 @@ id: rook_endgame_w_1900
 position: fixtures/positions/rook_endgame.fen    # 8/5pk1/6p1/r7/8/6P1/5PK1/3R4 w - - 0 40
 user: {color: w, elo: 1900, elo_scale: fide}
 matrix_column: 3                                 # finale (8 pezzi: oltre le tablebase 3-4-5)
-sections: [S01, S06, S07, S08, S10, S12]
+sections: [S01, S02, S06, S07, S08, S10, S12]   # M3: S02; S09 omessa per c9 (nessuna linea invisibile)
 # Tre mosse che devono comparire nei token: la raccomandata e due alternative spiegate (patta in ogni caso).
 moves: [Rd7, Rd6, Rb1]
 # Due errori tipici. La posizione è patta con quasi ogni mossa: gli errori sono di concetto. L'unico errore

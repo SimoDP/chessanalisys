@@ -27,16 +27,44 @@ def _block_after(root, heading: str, fence: str = "```") -> str:
 
 
 def test_system_prompt_is_appendix_e1(root):
-    assert SYSTEM_PROMPT == _block_after(root, "### E.1 System prompt")
+    """Appendix E.1 verbatim, plus the M3 changes (each applied exactly once, OQ-M3-6)."""
+    from chessanalyst.llm.prompt import APPENDIX_E1, M3_PROMPT_CHANGES
+
+    assert APPENDIX_E1 == _block_after(root, "### E.1 System prompt")
+    text = APPENDIX_E1
+    for old, new in M3_PROMPT_CHANGES:
+        assert text.count(old) == 1
+        text = text.replace(old, new)
+    assert SYSTEM_PROMPT == text
+    assert "S02 la tabella T4" in SYSTEM_PROMPT and "S09 le linee con visible_at_level false" in SYSTEM_PROMPT
+
+
+def _without_m3(out):
+    """The output without the M3 extensions (``category_advice`` assertions), for the comparison with Appendix F."""
+    out = json.loads(json.dumps(out))
+
+    def walk(node):
+        if isinstance(node, dict):
+            if isinstance(node.get("assertions"), list):
+                node["assertions"] = [a for a in node["assertions"] if a.get("kind") != "category_advice"]
+            for v in node.values():
+                walk(v)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v)
+    walk(out)
+    return out
 
 
 def test_tool_schema_equivalent_to_appendix_f(root):
+    """Appendix F plus the M3 extensions: ``category_advice`` assertions and ``line`` blocks on ``L<n>`` (OQ-M3-6)."""
     appendix = json.loads(_block_after(root, "## Appendice F."))
     ours = tool_definition()
     assert ours["name"] == appendix["name"] == TOOL_NAME and ours["description"] == appendix["description"]
     a = jsonschema.Draft202012Validator(appendix["input_schema"])
     b = jsonschema.Draft202012Validator(ours["input_schema"])
-    samples = [recorded(n)["content"][0]["input"] for n in EXPECTED if recorded(n)["content"][0]["type"] == "tool_use"]
+    samples = [_without_m3(recorded(n)["content"][0]["input"]) for n in EXPECTED
+               if recorded(n)["content"][0]["type"] == "tool_use"]
     good = samples[0]
     samples += [
         {**good, "schema_version": "2"}, {**good, "extra": 1}, {"schema_version": "1", "sections": [], "notes": []},
@@ -50,6 +78,15 @@ def test_tool_schema_equivalent_to_appendix_f(root):
     ]
     for s in samples:
         assert a.is_valid(s) == b.is_valid(s), s
+    # M3: accepted by ours only
+    m3 = [{**good, "sections": [{"id": "S02", "blocks": [{"type": "p", "text": "x", "source": "mixed", "assertions": [
+              {"kind": "category_advice", "id": "king_safety", "advice": "monitor"}]}]}]},
+          {**good, "sections": [{"id": "S09", "blocks": [{"type": "line", "pv": "L1", "plies": 2}]}]}]
+    for s in m3:
+        assert b.is_valid(s) and not a.is_valid(s)
+    bad = {**good, "sections": [{"id": "S02", "blocks": [{"type": "p", "text": "x", "source": "mixed", "assertions": [
+        {"kind": "category_advice", "id": "king_safety", "advice": "relax"}]}]}]}
+    assert not b.is_valid(bad)
 
 
 def test_user_message_structure(cfg):

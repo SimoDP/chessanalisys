@@ -19,7 +19,10 @@ from chessanalyst.inputs.position import Position
 from chessanalyst.pack import tables as T
 from chessanalyst.pack.schema import Pack
 from chessanalyst.pack.section_plan import PlanInput, build_section_plan
+from chessanalyst.scoring.categories import line_tags, score_categories
 from chessanalyst.scoring.classify import classify
+from chessanalyst.scoring.filter import PolicyFn, build_lines, filter_lines, main_lines, side_value
+from chessanalyst.scoring.radar import build_t4
 from chessanalyst.scoring.recommend import Cand, recommend
 
 @dataclass
@@ -141,9 +144,33 @@ def _node_dict(rec: NodeRec, nid: str, parent: str | None, color: chess.Color, m
     }
 
 
+def score_pack(cfg: Config, us: UserSettings, nodes: list[dict], candidates: list[dict], features: list[Feature],
+               phase: str, saturated: bool, policy: PolicyFn, main_pvs: list[dict]) -> tuple[list[dict], list[dict]]:
+    """Category Scoring Engine on the built nodes (§5-bis): filtered lines with tags, then the categories."""
+    sc = cfg.thresholds.scoring
+    root = nodes[0]
+    mover = root["side_to_move"]
+    losses: dict[str, int] = {}
+    if root["multipv"]:
+        best = side_value(root["multipv"][0], mover, us.code, sc.lines.mate_cp)
+        for ln in root["multipv"]:
+            losses[ln["uci"]] = max(0, best - side_value(ln, mover, us.code, sc.lines.mate_cp))
+    for c in candidates:
+        losses.setdefault(c["uci"], c["loss_cp"])
+    opp = "b" if us.code == "w" else "w"
+    elo = {us.code: us.elo_maia, opp: us.opp_elo_maia}
+    kept = filter_lines(build_lines(nodes, us.code, elo, sc, policy, losses), us.band, sc)
+    main = main_lines(nodes, main_pvs, us.code)
+    for ln in kept + main:
+        ln.tags = line_tags(ln, cfg)
+    cats = score_categories(cfg, nodes, features, kept, us.code, phase, saturated, us.band, main)
+    return cats, [ln.to_dict() for ln in kept]
+
+
 def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, maia_info: dict[str, str],
                features: list[Feature], profile: dict[str, Any], opening: dict | None,
-               stockfish: dict[str, Any], maia_limits_bucket, tablebase: dict | None = None) -> Pack:
+               stockfish: dict[str, Any], maia_limits_bucket, tablebase: dict | None = None,
+               policy: PolicyFn | None = None) -> Pack:
     color = us.color
     root = pos.board
     bp = cfg.thresholds.band_params[us.band]
@@ -292,6 +319,17 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
     # -- Maia block ----------------------------------------------------------
     lim = cfg.maia2_limits
     sat = us.elo_maia >= lim.top_bucket_lower
+
+    # -- Category Scoring Engine (§5-bis, M3) ------------------------------------
+    categories_out: list[dict] = []
+    lines_out: list[dict] = []
+    if policy is not None:
+        if exp.user_to_move:
+            main_pvs = [dict(pvs[c["pv"]], mate_user=c["mate_user"]) for c in candidates if c["explained"]]
+        else:
+            main_pvs = [dict(pvs[f"PV{r['id'][1:]}"], mate_user=r["mate_user"]) for r in replies]
+        categories_out, lines_out = score_pack(cfg, us, nodes, candidates, features, profile["phase"], sat, policy,
+                                               main_pvs)
     es_root = exp.root.maia["expected_score"]
     maia = {
         "model_type": maia_info["model_type"], "package_version": maia_info["package_version"],
@@ -318,6 +356,9 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
     else:
         rb = {r["id"]: exp.r_nodes[r["uci"]].board for r in replies}
         tables["T1"] = T.build_t1_alt(cfg, root, replies, rb, us.opp_elo_declared, sat, tb=tablebase is not None)
+    t4 = build_t4(cfg, us.anchor, categories_out, us.code) if profile["matrix_column"] != 4 else None   # S02 (§8.2)
+    if t4 is not None:
+        tables["T4"] = t4
 
     # -- section plan ------------------------------------------------------------
     spt = cfg.thresholds.section_plan
@@ -330,7 +371,8 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
                    has_t2="T2" in tables, has_t3="T3" in tables, maia_low=sat, detail=us.detail_level,
                    focus_squares=focus_squares(root, features, [p["plies"] for p in list(pvs.values())[:spt.c5_pvs]],
                                                spt.c5_pv_plies) if profile["matrix_column"] == 2 else [],
-                   tablebase=tablebase is not None)
+                   tablebase=tablebase is not None, has_t4="T4" in tables,
+                   invisible_lines=[ln["id"] for ln in lines_out if not ln["visible_at_level"]])
     plan, omitted_sections, plan_warnings = build_section_plan(cfg, pi)
     warnings += plan_warnings
     if (us.elo_ref_fide >= cfg.thresholds.elo_rules.e3_mandatory_from
@@ -369,6 +411,8 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
         "maia": maia,
         "recommendation": recommendation,
         "features": [f.to_dict() for f in features],
+        "categories": categories_out,
+        "filtered_lines": lines_out,
         "tablebase": tablebase,
         "tables": tables,
         "nodes": nodes,

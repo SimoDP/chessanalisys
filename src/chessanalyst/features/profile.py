@@ -8,12 +8,12 @@ import chess
 
 from chessanalyst.config import Config
 from chessanalyst.engines.types import EngineLine
-from chessanalyst.features.activity import activity_features
-from chessanalyst.features.king import castling_state, king_features
+from chessanalyst.features.activity import activity_features, activity_m3_features
+from chessanalyst.features.king import castling_state, king_features, king_zone_features
 from chessanalyst.features.material import material_features
 from chessanalyst.features.model import Feature
-from chessanalyst.features.pawns import pawn_features
-from chessanalyst.features.tactics import tactic_features
+from chessanalyst.features.pawns import pawn_features, pawn_m3_features
+from chessanalyst.features.tactics import tactic_features, tactic_m3_features
 from chessanalyst.features.values import MINORS, code, material, nonpawn_material
 
 
@@ -22,12 +22,23 @@ def castling_profile(board: chess.Board) -> dict[str, str]:
 
 
 def extract_features(board: chess.Board, cfg: Config, e0_lines: list[EngineLine]) -> list[Feature]:
-    """M1 subset of §5.1, on the root."""
-    see_min = cfg.thresholds.profile.unresolved_capture_see_min
+    """§5.1 on the root: the M1 keys, then (from M3) the M3 keys."""
     mate = e0_lines[0].mate_white if e0_lines else None
-    feats = (material_features(board) + pawn_features(board, cfg.thresholds.features) + king_features(board)
-             + activity_features(board, castling_profile(board)) + tactic_features(board, see_min, mate))
-    return feats
+    return static_features(board, cfg, mate) + m3_features(board, cfg, e0_lines[0].pv if e0_lines else [])
+
+
+def static_features(board: chess.Board, cfg: Config, mate_white: int | None = None) -> list[Feature]:
+    """The M1 keys (no engine data besides the mate of the first E0 line)."""
+    see_min = cfg.thresholds.profile.unresolved_capture_see_min
+    return (material_features(board) + pawn_features(board, cfg.thresholds.features) + king_features(board)
+            + activity_features(board, castling_profile(board)) + tactic_features(board, see_min, mate_white))
+
+
+def m3_features(board: chess.Board, cfg: Config, best_pv: list[str]) -> list[Feature]:
+    """The M3 keys of §5.1 (``tempo_count`` needs the best PV)."""
+    geo = cfg.thresholds.features
+    return (king_zone_features(board) + activity_m3_features(board, geo) + pawn_m3_features(board, geo)
+            + tactic_m3_features(board, best_pv, geo))
 
 
 def mover_cp(line: EngineLine, turn: chess.Color) -> int:

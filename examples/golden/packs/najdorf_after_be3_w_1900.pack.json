@@ -1,8 +1,8 @@
 {
   "schema_version": "0.9",
   "app_version": "0.1.0",
-  "created_utc": "2026-10-04T17:32:59+00:00",
-  "config_hash": "6465ac1f3baa7a83a32f446dd03b02a3354a659a",
+  "created_utc": "2026-10-04T18:24:30+00:00",
+  "config_hash": "bc1f0e396adedab04654492eefe2ebf3d6ea6d12",
   "position": {
     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N1B3/PPP2PPP/R2QKB1R b KQkq - 1 6",
     "epd": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N1B3/PPP2PPP/R2QKB1R b KQkq -",
@@ -417,9 +417,521 @@
         "w": 5,
         "b": 3
       }
+    },
+    {
+      "key": "king_zone_defenders",
+      "side": "w",
+      "squares": [
+        "a1",
+        "c3",
+        "d1",
+        "d4",
+        "e3",
+        "f1",
+        "h1"
+      ],
+      "value": 7
+    },
+    {
+      "key": "king_zone_defenders",
+      "side": "b",
+      "squares": [
+        "b8",
+        "c8",
+        "d8",
+        "f6",
+        "f8",
+        "h8"
+      ],
+      "value": 6
+    },
+    {
+      "key": "piece_mobility",
+      "side": "w",
+      "squares": [
+        "a1",
+        "c3",
+        "d1",
+        "d4",
+        "e3",
+        "f1",
+        "h1"
+      ],
+      "value": {
+        "a1": 2,
+        "c3": 4,
+        "d1": 8,
+        "d4": 4,
+        "e3": 4,
+        "f1": 3,
+        "h1": 1
+      }
+    },
+    {
+      "key": "inactive_piece",
+      "side": "w",
+      "squares": [
+        "a1"
+      ],
+      "value": null
+    },
+    {
+      "key": "inactive_piece",
+      "side": "w",
+      "squares": [
+        "h1"
+      ],
+      "value": null
+    },
+    {
+      "key": "piece_mobility",
+      "side": "b",
+      "squares": [
+        "a8",
+        "b8",
+        "c8",
+        "d8",
+        "f6",
+        "f8",
+        "h8"
+      ],
+      "value": {
+        "a8": 1,
+        "b8": 2,
+        "c8": 3,
+        "d8": 4,
+        "f6": 5,
+        "f8": 0,
+        "h8": 1
+      }
+    },
+    {
+      "key": "inactive_piece",
+      "side": "b",
+      "squares": [
+        "a8"
+      ],
+      "value": null
+    },
+    {
+      "key": "inactive_piece",
+      "side": "b",
+      "squares": [
+        "b8"
+      ],
+      "value": null
+    },
+    {
+      "key": "inactive_piece",
+      "side": "b",
+      "squares": [
+        "f8"
+      ],
+      "value": null
+    },
+    {
+      "key": "inactive_piece",
+      "side": "b",
+      "squares": [
+        "h8"
+      ],
+      "value": null
+    },
+    {
+      "key": "tempo_count",
+      "side": "b",
+      "squares": [],
+      "value": 2
     }
   ],
-  "categories": [],
+  "categories": [
+    {
+      "id": "king_safety",
+      "T": {
+        "w": 98,
+        "b": 100
+      },
+      "R": 8,
+      "balance": -2,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 90,
+          "b": 100
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.8,
+        "k": 0.5,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 33,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          5
+        ],
+        "lines": [],
+        "pvs": [
+          "PV2"
+        ],
+        "nodes": []
+      }
+    },
+    {
+      "id": "pawn_structure",
+      "T": {
+        "w": 100,
+        "b": 100
+      },
+      "R": 7,
+      "balance": 0,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 100
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.3,
+        "k": 0.8,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 33,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [],
+        "lines": [],
+        "pvs": [
+          "PV3"
+        ],
+        "nodes": []
+      }
+    },
+    {
+      "id": "space_center",
+      "T": {
+        "w": 100,
+        "b": 92
+      },
+      "R": 13,
+      "balance": 8,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 88
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.3,
+        "k": 0.8,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 33,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          11
+        ],
+        "lines": [],
+        "pvs": [
+          "PV3"
+        ],
+        "nodes": []
+      }
+    },
+    {
+      "id": "piece_activity",
+      "T": {
+        "w": 100,
+        "b": 90
+      },
+      "R": 30,
+      "balance": 10,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 84
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.4,
+        "k": 0.8,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 100,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          15,
+          16,
+          18,
+          19,
+          20,
+          21
+        ],
+        "lines": [],
+        "pvs": [
+          "PV1",
+          "PV2",
+          "PV3"
+        ],
+        "nodes": []
+      }
+    },
+    {
+      "id": "initiative_tempo",
+      "T": {
+        "w": 100,
+        "b": 98
+      },
+      "R": 9,
+      "balance": 2,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 96
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.6,
+        "k": 0.6,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 33,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          8,
+          9,
+          10,
+          22
+        ],
+        "lines": [],
+        "pvs": [
+          "PV2"
+        ],
+        "nodes": []
+      }
+    },
+    {
+      "id": "threats_dynamics",
+      "T": {
+        "w": 100,
+        "b": 100
+      },
+      "R": 8,
+      "balance": 0,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 100
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.8,
+        "k": 0.5,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 33,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [],
+        "lines": [],
+        "pvs": [
+          "PV1"
+        ],
+        "nodes": []
+      }
+    },
+    {
+      "id": "material",
+      "T": {
+        "w": 100,
+        "b": 100
+      },
+      "R": 0,
+      "balance": 0,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 100
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.7,
+        "k": 0.5,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [],
+        "lines": [],
+        "pvs": [],
+        "nodes": []
+      }
+    },
+    {
+      "id": "transition_plans",
+      "T": {
+        "w": 100,
+        "b": 100
+      },
+      "R": 0,
+      "balance": 0,
+      "advice": "no_worry",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 100
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.5,
+        "k": 0.8,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [],
+        "lines": [],
+        "pvs": [],
+        "nodes": []
+      }
+    },
+    {
+      "id": "practical_complexity",
+      "T": {
+        "w": 78,
+        "b": 81
+      },
+      "R": 7,
+      "balance": -3,
+      "advice": "monitor",
+      "confidence": "low",
+      "components": {
+        "T_stat": {
+          "w": 78,
+          "b": 81
+        },
+        "T_dyn": {
+          "w": 78,
+          "b": 81
+        },
+        "w": 0.0,
+        "k": 1.0,
+        "risk": {
+          "w": 0.0,
+          "b": 0.0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [],
+        "lines": [],
+        "pvs": [],
+        "nodes": [
+          "N1",
+          "N3",
+          "N4",
+          "N5"
+        ]
+      }
+    }
+  ],
   "filtered_lines": [],
   "tablebase": null,
   "tables": {
@@ -486,6 +998,116 @@
         }
       ],
       "footnote": "* Probabilità di Maia-2 poco affidabili a questo livello."
+    },
+    "T4": {
+      "id": "T4",
+      "section": "S02",
+      "columns": [
+        {
+          "key": "category",
+          "header": "Categoria",
+          "kind": "data"
+        },
+        {
+          "key": "T",
+          "header": "T (tu)*",
+          "kind": "data"
+        },
+        {
+          "key": "R",
+          "header": "R",
+          "kind": "data"
+        },
+        {
+          "key": "nota",
+          "header": "Nota",
+          "kind": "text"
+        }
+      ],
+      "rows": [
+        {
+          "id": "piece_activity",
+          "cells": {
+            "category": "Attività dei pezzi",
+            "T": "100",
+            "R": "30",
+            "nota": null
+          }
+        },
+        {
+          "id": "space_center",
+          "cells": {
+            "category": "Spazio e centro",
+            "T": "100",
+            "R": "13",
+            "nota": null
+          }
+        },
+        {
+          "id": "initiative_tempo",
+          "cells": {
+            "category": "Iniziativa e tempi",
+            "T": "100",
+            "R": "9",
+            "nota": null
+          }
+        },
+        {
+          "id": "king_safety",
+          "cells": {
+            "category": "Sicurezza del re",
+            "T": "98",
+            "R": "8",
+            "nota": null
+          }
+        },
+        {
+          "id": "threats_dynamics",
+          "cells": {
+            "category": "Minacce e dinamica",
+            "T": "100",
+            "R": "8",
+            "nota": null
+          }
+        },
+        {
+          "id": "pawn_structure",
+          "cells": {
+            "category": "Struttura pedonale",
+            "T": "100",
+            "R": "7",
+            "nota": null
+          }
+        },
+        {
+          "id": "practical_complexity",
+          "cells": {
+            "category": "Complessità pratica",
+            "T": "78",
+            "R": "7",
+            "nota": null
+          }
+        },
+        {
+          "id": "material",
+          "cells": {
+            "category": "Materiale",
+            "T": "100",
+            "R": "0",
+            "nota": null
+          }
+        },
+        {
+          "id": "transition_plans",
+          "cells": {
+            "category": "Transizioni e piani",
+            "T": "100",
+            "R": "0",
+            "nota": null
+          }
+        }
+      ],
+      "footnote": "* Punteggi poco affidabili: Maia-2 poco affidabile a questo livello o valutazioni instabili."
     }
   },
   "nodes": [
@@ -3110,7 +3732,7 @@
       "required": true,
       "absorbed_into": null,
       "omitted": null,
-      "word_budget": 130,
+      "word_budget": 120,
       "max_pv_plies": 8,
       "theory_allowed": false,
       "tables": [],
@@ -3120,14 +3742,16 @@
     },
     {
       "id": "S02",
-      "title": null,
-      "required": false,
+      "title": "Radar delle categorie",
+      "required": true,
       "absorbed_into": null,
-      "omitted": "milestone",
-      "word_budget": null,
+      "omitted": null,
+      "word_budget": 90,
       "max_pv_plies": 8,
       "theory_allowed": false,
-      "tables": [],
+      "tables": [
+        "T4"
+      ],
       "must_cover": [],
       "focus_squares": [],
       "maia_low_confidence": false
@@ -3166,7 +3790,7 @@
       "required": true,
       "absorbed_into": null,
       "omitted": null,
-      "word_budget": 290,
+      "word_budget": 280,
       "max_pv_plies": 8,
       "theory_allowed": true,
       "tables": [],
@@ -3180,7 +3804,7 @@
       "required": true,
       "absorbed_into": null,
       "omitted": null,
-      "word_budget": 430,
+      "word_budget": 420,
       "max_pv_plies": 8,
       "theory_allowed": true,
       "tables": [],
@@ -3224,11 +3848,11 @@
     },
     {
       "id": "S09",
-      "title": null,
-      "required": false,
+      "title": "Minacce invisibili al tuo livello",
+      "required": true,
       "absorbed_into": null,
-      "omitted": "milestone",
-      "word_budget": null,
+      "omitted": null,
+      "word_budget": 110,
       "max_pv_plies": 8,
       "theory_allowed": false,
       "tables": [],
@@ -3295,20 +3919,12 @@
   ],
   "omitted_sections": [
     {
-      "id": "S02",
-      "reason": "milestone"
-    },
-    {
       "id": "S03",
       "reason": "opponent_to_move"
     },
     {
       "id": "S08",
       "reason": "opponent_to_move"
-    },
-    {
-      "id": "S09",
-      "reason": "milestone"
     },
     {
       "id": "S11",
