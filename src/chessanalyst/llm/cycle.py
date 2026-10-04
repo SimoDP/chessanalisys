@@ -93,11 +93,22 @@ def run_model(cfg: Config, pack: dict, client: LLMClient, *, example: Example | 
         degraded = degrade(pack, final.output, final.errors, llm.on_fail)
         output = degraded.output
         log.warning("Modalità degradata: rimossi %s, marcati %s", degraded.removed, degraded.marked)
+    critic = None
+    if llm.critic:                      # M4, optional (§10.2): marks, never removes
+        from chessanalyst.llm.critic import run_critic
+
+        output, critic = run_critic(cfg, pack, output, client)
+        if critic.raw is not None:
+            raw.append(critic.raw)
     info = RenderInfo(llm_model=client.model, references_validated=example.validated, retries=retries,
                       checks=check_outcomes(final, degraded),
-                      removed=degraded.removed if degraded else [], marked=degraded.marked if degraded else [],
+                      removed=degraded.removed if degraded else [],
+                      marked=(degraded.marked if degraded else []) + (critic.marked if critic else []),
+                      critic=None if critic is None else (None if critic.error else len(critic.findings)),
                       warnings=(degraded.warnings if degraded else []) + list(warnings or []),
                       theory_blocks=len(final.theory_blocks), theory_share=final.theory_share)
     document = render_markdown(cfg, pack, output, info)
     vj = verification_json(attempts, degraded, hints, final)
+    if critic is not None:
+        vj["critic"] = {"findings": critic.findings, "marked": critic.marked, "error": critic.error}
     return CycleResult(document, vj, raw, retries, degraded is not None)

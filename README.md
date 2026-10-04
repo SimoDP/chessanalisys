@@ -3,9 +3,10 @@
 App locale che, data una posizione e un livello Elo, produce un'analisi testuale calibrata sul livello.
 Fonte di verità: [`docs/Chess_Position_Analyst_Documentazione_tecnica_v0_9_1.md`](docs/Chess_Position_Analyst_Documentazione_tecnica_v0_9_1.md).
 
-**Stato: milestone M3 (Category Scoring Engine).** Radar delle categorie (S02, tabella T4) con tranquillità T
-e rilevanza R, linee del motore filtrate da Maia-2 per Elo e «Minacce invisibili al tuo livello» (S09), feature
-«M3» (§5-bis). Da M2: Stockfish 19 (D-66), move order E3 fino a ℓ3, tablebase Syzygy, aperture per sequenza,
+**Stato: milestone M4 (calibrazione e modalità).** Dettaglio 1–5 (`--detail`), modalità *entrambi*
+(`--color both`, `--elo-white`, `--elo-black`: due prospettive in un solo `analysis.md`), S11 «Note da maestro»,
+Elo dai tag PGN nel flusso interattivo, critico opzionale (`llm.critic`). Da M3: radar delle categorie (S02,
+tabella T4), linee filtrate da Maia-2 per Elo e «Minacce invisibili al tuo livello» (S09). Da M2: Stockfish 19 (D-66), move order E3 fino a ℓ3, tablebase Syzygy, aperture per sequenza,
 matrice completa delle sezioni (S12 finale, S13 tattica forzata). Disponibili il flusso interattivo `chessanalyst` e
 `chessanalyst analyze` (motori → `pack.json` → modello, verifica e render → `analysis.md`),
 `chessanalyst rerun <cartella>`, `chessanalyst doctor`, `chessanalyst golden --data/--packs/--render`.
@@ -36,10 +37,11 @@ python3.12 -m venv .venv
 .venv/bin/chessanalyst                                    # flusso interattivo
 .venv/bin/chessanalyst analyze --yes --elo 1900           # posizione d'esempio
 .venv/bin/chessanalyst analyze --input pgn --file partita.pgn --at 17b --budget fast --yes
+.venv/bin/chessanalyst analyze --yes --color both --elo-white 1900 --elo-black 1600 --detail 3
 ```
 
 Rapporti: `docs/M0_REPORT.md`, `docs/M1A_REPORT.md`, `docs/M1B_REPORT.md`, `docs/M1C_REPORT.md`,
-`docs/M2_REPORT.md`, `docs/M3_REPORT.md`; questioni aperte: `docs/OPEN_QUESTIONS.md`.
+`docs/M2_REPORT.md`, `docs/M3_REPORT.md`, `docs/M4_REPORT.md`; questioni aperte: `docs/OPEN_QUESTIONS.md`.
 Registrazioni dei motori per i test: `pytest -m engines --record` (solo le risposte di Maia-2 che mancano:
 `CHESSANALYST_RECORD_MAIA_ONLY=1 pytest -m engines --record`); risposte difettose del modello
 (Appendice G.6): `python -m tests.fault_fixtures`.

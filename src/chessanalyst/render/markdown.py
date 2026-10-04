@@ -31,6 +31,7 @@ class RenderInfo:
     warnings: list[str] = field(default_factory=list)
     theory_blocks: int = 0
     theory_share: float = 0.0
+    critic: int | None = None          # M4: number of findings of the critic (None = not run or failed)
 
 
 class Renderer:

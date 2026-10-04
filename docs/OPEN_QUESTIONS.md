@@ -528,3 +528,82 @@ Stockfish e gli ID dei pacchetti congelati non cambiano.
 - La regola 12 del prompt aggiunge: «Anche nelle notes valgono le regole del testo libero: niente token, mosse o
   cifre; i numeri in lettere».
 - Nei fewshot S02 è allungata con le note della tabella T4.
+
+## M4 — Calibrazione e modalità
+
+### OQ-M4-1 · Titoli delle sezioni riammesse dal dettaglio 5
+**Problema.** §8.2-bis esclude S05 e S10 all'ancora 2400 «salvo dettaglio 5», ma i loro titoli a 2400 sono `null`
+(Appendice D.6), e un titolo nullo significa «sezione omessa».
+**Default.** `section_titles.yaml` ha due chiavi in più, `S05_detail5` e `S10_detail5`, con i titoli dell'ancora
+1900 («Cosa vuole ogni pezzo», «Come ragionare»). S11 all'ancora 1500 resta esclusa anche col dettaglio 5:
+§8.2-bis non prevede eccezioni e il titolo manca.
+
+### OQ-M4-2 · Dettaglio: sezioni, tabelle, K, E3
+**Default** (`thresholds.yaml: detail`, `detail.py`):
+- **Sezioni.** Con i dettagli 1–2 restano solo le sezioni obbligatorie (✔) della colonna della matrice; le
+  condizionali (◐) sono omesse con motivo `detail`. Col dettaglio 3 si aggiunge S08 (secondo c8). Il 4 è
+  invariato. Il 5 aggiunge S11 (c11) e toglie le esclusioni dell'ancora 2400.
+- **Tabelle.** T2 c'è solo con i dettagli 4–5 (a 1900 col 5), T3 dal 3.
+  - **T4 resta sempre con S02**, anche se §7.2 elenca «solo T1» per i dettagli 1–2: la tabella del radar è il
+    contenuto di S02, che la matrice rende obbligatoria.
+  - Col dettaglio 5 T4 ha anche la colonna «T (avversario)» e la vista ridotta manda `T_opp` (§5-bis.2, O-5).
+- **K effettivo.** `explained_min` (dettagli 1–2), `explained_min + 1` al massimo K (dettaglio 3), K della fascia
+  (4–5). Vale per la selezione delle candidate spiegate e per le risposte in modalità avversario.
+  - `quiet` e il profilo tattico restano sul K della fascia: sono proprietà della posizione.
+- **Linee.** `plies_max` col dettaglio sta tra 2 e 12 (`plies_bounds`).
+- **E3.** Sotto `e3_mandatory_from` (2150) si esegue solo con dettaglio ≥ 4 (§7.1). Altrimenti è registrata in
+  `omitted_phases` con motivo `detail`.
+
+### OQ-M4-3 · Il critico
+§10.2 dice solo «seconda chiamata che cerca incoerenze logiche tra frasi e dati e controlla la corrispondenza
+testo↔asserzioni».
+**Default** (`llm/critic.py`):
+- **Attivazione e modello.** Si attiva con `llm.critic: true` ed è spento per default (Appendice D). Usa lo stesso
+  modello della chiamata principale (O-7).
+- **Che cosa riceve.** Il testo con i token già risolti, le asserzioni di ogni blocco e la vista ridotta del
+  pacchetto.
+- **Che cosa consegna.** Con lo strumento `submit_review` consegna `{section, block, kind, explanation}`.
+- **Effetto.** Ogni segnalazione marca il blocco «⚠ non verificato», come V06, senza rimuoverlo. Il rapporto conta
+  le segnalazioni. Le spiegazioni vanno solo in `verification.json` (testo libero del modello, mai copiato nel
+  documento).
+- **Errori.** Una chiamata fallita o una risposta non valida è un avviso, mai un errore dell'analisi.
+
+**Prova con il modello di sviluppo.** DeepSeek usa lo strumento correttamente, ma sul fewshot 1900 segnala blocchi
+che nella spiegazione stessa definisce «coerenti»:
+- prima stesura del prompt: 10 segnalazioni, di cui 4 «coerente» e 2 sbagliate;
+- dopo due regole aggiunte (valori sempre dal punto di vista dell'utente; elencare solo i blocchi incoerenti): 5
+  segnalazioni, di cui 4 «coerente».
+
+Il critico resta spento: va valutato con il modello di produzione (D-67).
+
+### OQ-M4-4 · Modalità «entrambi»: file e Elo
+**Default.**
+- **Elo.** Ogni colore ha il suo Elo, `--elo-white` e `--elo-black`, entrambi per default `--elo` (D-16). In ogni
+  prospettiva l'Elo dell'altro colore è quello dell'avversario. `--opp-elo` con `--color both` è rifiutato
+  (codice 2), come `--elo-white`/`--elo-black` senza `--color both`.
+- **File.** Si scrivono `pack_white.json`, `pack_black.json`, `llm_raw_<colore>.json` e
+  `verification_<colore>.json`. C'è un solo `analysis.md`: prima il colore al tratto, separato da `---`.
+- **Rerun.** `rerun` riconosce la cartella con due pacchetti e rifà entrambe le prospettive.
+- **Motori.** Le due esplorazioni usano lo stesso `CachedAnalyzer`, quindi Stockfish analizza ogni nodo una volta
+  (AC-20).
+
+### OQ-M4-5 · Elo dai tag PGN
+**Default.** Solo nel flusso interattivo, dopo la lettura del PGN.
+- Se `WhiteElo` e `BlackElo` sono interi positivi, il programma li propone («Usarli? [s/n]») e chiede sempre la
+  scala.
+- L'utente prende l'Elo del suo colore, l'avversario l'altro; con «entrambi» valgono per i due colori.
+- Gli Elo dei tag valgono per quell'analisi e non entrano nel profilo salvato.
+- `analyze` non li usa: la riga di comando è esplicita e non ha domande.
+
+### OQ-M4-6 · AC-12 sulle registrazioni
+Il criterio parla di «output». La verifica usa i pacchetti costruiti dalle registrazioni a 1200, 1900 e 2500 FIDE:
+- insieme delle sezioni, candidate spiegate e lunghezza massima delle linee vengono dal SectionPlan;
+- le parole sono quelle del budget.
+
+Così la differenza viene dal programma e non dal modello. Per il test il gruppo di registrazione `najdorf` ha due
+esecuzioni in più (1200, 2500); sono servite solo due ricerche nuove. 1200 FIDE cade nella fascia 1200_1600 (limite
+inferiore incluso).
+
+### OQ-M4-7 · Budget delle parole con S11
+Come in M1b e M3 (§0.5), `prose_words` di ge2400 sale da 720 a 790, così le sezioni esistenti tengono il loro
+budget e S11 (peso 0,10) ne riceve circa settanta parole.

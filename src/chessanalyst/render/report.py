@@ -92,8 +92,10 @@ def report_lines(cfg: Config, pack: dict, output: dict, info: "RenderInfo") -> l
         f"- Marcati come non verificati: {'; '.join(info.marked) if info.marked else none}",
         f"- Avvisi: {', '.join(other_w) if other_w else none}",
         f"- Note del modello: {'; '.join(output.get('notes') or []) or 'nessuna'}",
-        "- Le asserzioni tipizzate sono verificate contro il pacchetto; la corrispondenza tra frase e "
-        "asserzione non è controllata.",
+        ("- Le asserzioni tipizzate sono verificate contro il pacchetto; la corrispondenza tra frase e "
+         "asserzione non è controllata." if info.critic is None else
+         f"- Le asserzioni tipizzate sono verificate contro il pacchetto; il critico ha controllato frasi, dati e "
+         f"asserzioni: {info.critic} segnalazioni (blocchi marcati, dettagli in verification.json)."),
         "",
     ]
     return lines
