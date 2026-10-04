@@ -17,7 +17,7 @@ from chessanalyst.verify.assertions import check_assertion
 from chessanalyst.verify.contamination import Contamination
 from chessanalyst.verify.resolve import ResolveError, Resolved, Resolver
 from chessanalyst.verify.scan import Scanner
-from chessanalyst.verify.tokens import find_tokens
+from chessanalyst.verify.tokens import TokenSyntaxError, find_tokens, parse_token
 from chessanalyst.verify.wordcount import count_words, tolerance
 
 CODES = ("V01", "V02", "V03", "V04", "V05", "V06", "V07", "V08", "V09", "V10")
@@ -87,6 +87,18 @@ class Result:
 
     def has_retry_errors(self) -> bool:
         return any(e.code != "V07" or e.sub != "d" for e in self.errors)
+
+
+def data_class(raw: str) -> str | None:
+    """Data class of a token from its syntax alone (None if the syntax is invalid)."""
+    try:
+        t = parse_token(raw)
+    except TokenSyntaxError:
+        return None
+    if t.kind == "pct":
+        return "pct_root" if t.ref == "root" else "pct_maia"
+    return {"ev": "ev", "loss": "loss", "pv": "pv", "plan": "plan", "sc": "sc", "m": "move", "mv": "move"}.get(
+        t.kind, "other")
 
 
 def extract_output(response: dict) -> tuple[dict | None, list[VError]]:
@@ -193,12 +205,16 @@ class Checker:
         for hit in self.scanner.markup_hits(u.text):
             errs.append(E("V01", hit, "markup non ammesso"))
         resolved: list[Resolved] = []
+        failed: set[str] = set()
         max_plies = self.plan[u.section]["max_pv_plies"] if u.section in self.plan else None
         for raw in find_tokens(u.text):
             try:
                 r = self.resolver.resolve(raw)
             except ResolveError as e:
                 errs.append(E(e.code, raw, e.message))
+                kind = data_class(raw)          # an unresolved token still counts for V08/V10
+                if kind:
+                    failed.add(kind)
                 continue
             resolved.append(r)
             cites |= r.cites
@@ -212,7 +228,7 @@ class Checker:
                 errs.append(E("V06", f"{a['kind']} {a.get('key') or a.get('ref')}", why))
         if u.source is None:
             return errs
-        data = {r.data for r in resolved}
+        data = {r.data for r in resolved} | failed
         if u.in_line:
             data.add("line")
         if u.source == "theory":

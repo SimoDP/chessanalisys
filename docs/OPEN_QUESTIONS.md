@@ -134,3 +134,70 @@ della condizione c3 (§8.2, matrice fissa per §0.5), la soglia `p ≥ 0,001` de
 i 40 caratteri dello slug della cartella (§2-bis.5), le soglie di AC-09 (0,25 pedoni, prime 6) e i limiti di
 formato della scacchiera (colonne c–f, ali). Se si preferisce averli in `config/`, va aggiunta una chiave
 all'Appendice D: è una decisione dell'utente.
+
+## M1b
+
+Dubbi minori risolti con un default (istruzione 9); nessuno tocca architettura, schema, token o criteri.
+
+### OQ-M1b-1 · Pacchetti golden costruiti dalle registrazioni
+`golden --packs` usa per default i motori veri (con una cache nuova). I pacchetti congelati sono stati
+prodotti con `golden --packs --recorded`, cioè la stessa pipeline sulle registrazioni di M1a: così in M1c
+`analyze --elo 1900 --budget deep` con `FakeEngine` (AC-01) ricostruisce esattamente il pacchetto su cui è
+scritto `good_najdorf_1900.json`. Se si rigenerano i pacchetti con i motori veri vanno rifatte anche le
+registrazioni, e i fewshot riallineati. Il pacchetto della fixture AC-21 (`najdorf_after_be3_w_1900`) è
+congelato accanto ai tre, per `_s07_alt.json`.
+
+### OQ-M1b-2 · Token su nodi non citabili
+Un token che cita un nodo con `citable: false` è un errore V02 (il modello non riceve quei nodi, §6.1).
+`ev:SAN@N` cerca la mossa nel `multipv` del nodo e poi nelle ricerche ristrette (`root_moves`) della stessa
+posizione (§9-bis.2).
+
+### OQ-M1b-3 · Segni di scacco nella resa
+In ingresso `+ # ! ?` si accettano e si ignorano; in uscita `m`, `mv`, `pv` e `plan` usano la SAN di
+python-chess, con `+`/`#` (come le PV del pacchetto).
+
+### OQ-M1b-4 · `must_cover`
+Un ID è «citato» se è l'argomento di un token della sezione (`mv:C1`, `ev:C1`, `pct:C1.p_user`…);
+`R1.u1` non cita `R1`. Le righe di una tabella non contano: servono token nel testo, anche nelle celle.
+
+### OQ-M1b-5 · Token non risolto e V08/V10
+Un token sintatticamente valido ma non risolto (V02, V04) conta comunque per la sua classe nelle regole
+di V08 e V10, per non generare errori a cascata.
+
+### OQ-M1b-6 · Dettagli della modalità degradata (§10.2)
+Un errore V01 di markup in un blocco lo rimuove come un V03; un errore in una cella di `text_table` rimuove
+l'intera tabella; un errore nella didascalia di `line` rimuove la didascalia; la quota `theory` oltre il
+tetto (errore senza blocco) diventa un avviso.
+
+### OQ-M1b-7 · Marca † e nota
+La † segue ogni paragrafo, voce e cella `theory`; nelle `text_table` una sola † per riga. La nota «† contenuto
+teorico…» chiude il documento, dopo il rapporto.
+
+### OQ-M1b-8 · Testata e rapporto
+I modelli delle righe sono quelli di §8.6 (in `render/report.py`); da `config/wording.yaml` vengono gli
+avvisi. «Avversario: {Elo} {scala} → {Elo Maia}». Il pacchetto non registra il tempo totale dell'esecuzione:
+il rapporto riporta il «tempo dei motori», somma dei `time_s` dei nodi, così il documento è riproducibile
+(AC-27).
+
+### OQ-M1b-9 · Esito di `golden --render`
+Se un fewshot non supera la verifica il comando elenca gli errori, non scrive il suo `rendered` e termina
+con codice 3. `_s07_alt.json` si verifica sul pacchetto AC-21 con il piano ristretto a S07; ha anche un
+`_s07_alt.meta.yaml`.
+
+### OQ-M1b-10 · Formato delle risposte registrate (Appendice G.6)
+`fixtures/recorded/llm/*.json` contengono i campi della risposta dell'API letti dalla verifica
+(`stop_reason`, `content` con il blocco `tool_use`). Ogni file difettoso è `good_najdorf_1900.json` con un
+solo difetto, generato da `python -m tests.fault_fixtures`. `bad_contamination.json` è scritto sul
+pacchetto sintetico del finale di torri (`rook_endgame.pack.json`, congelato accanto) e, essendo corto,
+produce anche V07(d). In più c'è `bad_long_line.json` per AC-08.
+
+### OQ-M1b-11 · Misura delle parole e valori di §0.5
+Regola e decisioni in `docs/golden_diff.md`: `prose_words` di `1200_1600` 650 → 500 e di `ge2400`
+800 → 610, pesi dell'ancora 1500 aggiornati; 1900 e i tetti `theory_max_share` invariati.
+
+### OQ-M1b-12 · `_terms.txt`
+Una riga per gruppo di alias, commenti con `#`. Oltre ai termini richiesti c'è `Siciliana|Sicilian`.
+
+### OQ-M1b-13 · Articoli davanti alle percentuali
+Il token produce solo il numero («8%»): frasi come «il {{pct}}» danno «il 8%». I fewshot sono scritti per
+evitarlo; per le risposte del modello non c'è un controllo (sarebbe una regola di stile, non di verifica).

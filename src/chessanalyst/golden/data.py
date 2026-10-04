@@ -40,6 +40,7 @@ RAW_DIR = Path("examples/golden/raw")
 NODES_FILE = Path("fixtures/golden_nodes.json")
 MAIA_FILE = Path("fixtures/golden_maia.json")
 DIFF_FILE = Path("docs/golden_diff.md")
+KEEP_MARK = "<!-- keep: M1b -->"   # golden --data rewrites the file but keeps everything from this mark on
 GUIDE_FILE = Path("docs/CALIBRATION_GUIDE.md")
 GUIDE_INTRO = "Guida qualitativa per chi scrive prompt ed esempi; non normativa oltre §7."
 
@@ -325,7 +326,11 @@ def write_diff(cfg: Config, nodes_data: dict[str, Any], maia_data: dict[str, Any
         L.append(f"| najdorf_w_{anchor} | {per} | {sum(counts.values())} | {budget} ({band}) |")
     L.append("")
     text = "\n".join(L)
-    (cfg.project_root / DIFF_FILE).write_text(text, encoding="utf-8")
+    path = cfg.project_root / DIFF_FILE
+    old = path.read_text(encoding="utf-8") if path.is_file() else ""
+    if KEEP_MARK in old:
+        text += "\n" + old[old.index(KEEP_MARK):]
+    path.write_text(text, encoding="utf-8")
     return text
 
 

@@ -173,7 +173,7 @@ def _console():
 
 def _finish(outdir) -> None:
     print(f"Pacchetto di evidenze salvato in {outdir / 'pack.json'}")
-    print("L'analisi testuale (modello di linguaggio, verifica e render) arriva con M1b/M1c.")
+    print("L'analisi testuale (chiamata al modello di linguaggio) arriva con M1c.")
 
 
 def _settings_from(cfg, values):

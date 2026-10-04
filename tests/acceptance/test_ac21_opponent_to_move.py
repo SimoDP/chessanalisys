@@ -33,3 +33,35 @@ def test_opponent_pack(cfg, root):
     t1 = pack["tables"]["T1"]
     assert [c["key"] for c in t1["columns"]] == ["reply", "p_opp", "eval", "user_best", "prepare"]
     assert [row["id"] for row in t1["rows"]] == [r["id"] for r in replies]
+
+
+# -- M1b: the document --------------------------------------------------------------------
+
+def test_opponent_document(cfg, root):
+    """Frozen AC-21 pack + the ``_s07_alt.json`` fragment: missing sections get the fixed
+    text (degraded mode), S03/S08 are omitted with reason, S07 has the alternative title and T1."""
+    import json
+
+    from chessanalyst.golden.packs import load_frozen_pack
+    from chessanalyst.render.markdown import RenderInfo, render_markdown
+    from chessanalyst.render.report import REPORT_TITLE
+    from chessanalyst.verify.checker import verify_response
+    from chessanalyst.verify.degrade import degrade
+
+    pack = load_frozen_pack(cfg, "najdorf_after_be3_w_1900")
+    frag = json.loads((root / "examples" / "golden" / "fewshot" / "_s07_alt.json").read_text(encoding="utf-8"))
+    res = verify_response(cfg, pack, frag)
+    assert {e.code + (e.sub or "") for e in res.errors} == {"V07a"}       # only the missing sections
+    d = degrade(pack, res.output, res.errors)
+    doc = render_markdown(cfg, pack, d.output, RenderInfo(removed=d.removed))
+    titles = re.findall(r"^## (.+)$", doc, re.M)
+    assert "Risposte probabili del Nero e come prepararsi" in titles
+    assert "Le tre cose da fare adesso" not in titles and "I sistemi che puoi scegliere" not in titles
+    s07 = doc.split("## Risposte probabili del Nero e come prepararsi")[1].split("\n## ")[0]
+    assert "| Risposta | Probabilità a 1900* | Valutazione | La tua risposta migliore | Come prepararsi |" in s07
+    assert "| 6...e5 | 69% | +0,33 | 7.Nb3 (+0,34) |" in s07
+    report = doc.split(f"## {REPORT_TITLE}")[1]
+    assert "S03 (opponent_to_move)" in report and "S08 (opponent_to_move)" in report
+    assert "E2b (opponent_to_move)" in report and "E3 (opponent_to_move)" in report
+    s01 = doc.split("## Sintesi")[1].split("\n## ")[0]
+    assert cfg.wording["fixed"]["section_unavailable"] in s01

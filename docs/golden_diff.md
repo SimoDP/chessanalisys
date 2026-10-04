@@ -128,3 +128,29 @@ Escluse tabelle numeriche, righe `[MAIA]`, titoli, commenti e nota di stato; le 
 | najdorf_w_1500 | S01 33, S03 77, S05 61, S06 24, S08 52, S10 35, S02 37 | 319 | 650 (1200_1600) |
 | najdorf_w_1900 | S01 80, S03 33, S04 98, S05 163, S06 152, S07 36, S08 27, S10 65 | 654 | 1400 (1600_2000) |
 | najdorf_w_2400 | S01 81, S07 38, S03 109 | 228 | 800 (ge2400) |
+
+<!-- keep: M1b -->
+## Misura delle parole dei fewshot (M1b, §8-bis.4 punto 6, §0.5)
+
+Conteggio di §9-bis.8 su tutte le parole scritte nei fewshot (paragrafi, voci, celle di testo, intestazioni
+di `text_table`). Regola applicata: si aggiorna `prose_words` della fascia dell'ancora se il totale si
+discosta di oltre il 15%; si aggiornano i pesi di un'ancora se la quota di almeno una sezione si discosta di
+oltre il 15% dalla quota configurata (pesi rinormalizzati sulle sezioni presenti).
+
+| Fewshot | Parole per sezione | Totale | `prose_words` prima | Scarto | Decisione |
+| --- | --- | --- | --- | --- | --- |
+| najdorf_w_1500 | S01 46, S03 124, S05 94, S06 65, S07 56, S08 84, S10 37 | 506 | 650 (1200_1600) | −22% | `prose_words` 650 → 500; pesi 1500 aggiornati (S10 pesava 0,13 delle sezioni presenti, misura 0,07) |
+| najdorf_w_1900 | S01 91, S03 177, S04 136, S05 222, S06 258, S07 155, S08 80, S10 98 | 1217 | 1400 (1600_2000) | −13% | nessuna modifica (quote entro il 15%; la più lontana è S06, −14%) |
+| najdorf_w_2400 | S01 90, S03 190, S06 143, S07 130, S08 56 | 609 | 800 (ge2400) | −24% | `prose_words` 800 → 610; pesi invariati (quote entro il 15%) |
+
+Pesi dell'ancora 1500 (`config/section_budget.yaml`): S01 0,08 → 0,09; S03 0,25 → 0,23; S05 0,15 → 0,18;
+S06 0,10 → 0,12; S07 0,10; S08 0,14 → 0,16; S10 0,12 → 0,07 (S02, S09, S12, S13 invariati: non misurabili in M1).
+Le fasce non coperte da un'ancora (`lt1200`, `2000_2400`) restano alle ipotesi iniziali.
+
+Quota `theory` misurata: 1500 0,50 (tetto 0,70), 1900 0,42 (tetto 0,50), 2400 0,13 (tetto 0,35). I tetti
+restano invariati: sono limiti superiori, e la misura serve a evitare che V08 blocchi gli esempi (§14),
+cosa che non accade.
+
+Dopo le modifiche i pacchetti golden sono stati rigenerati (`golden --packs --recorded --force`): cambiano
+solo `word_budget`, `config_hash` e `created_utc` (`prose_words` e i pesi non intervengono nell'esplorazione, che rigioca le stesse registrazioni). `_s07_alt.json` misura 194
+parole contro un budget di 230 (S07 nella modalità avversario, ancora 1900).

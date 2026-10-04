@@ -1,0 +1,69 @@
+{
+ "stop_reason": "tool_use",
+ "content": [
+  {
+   "type": "tool_use",
+   "id": "toolu_recorded",
+   "name": "submit_analysis",
+   "input": {
+    "schema_version": "1",
+    "sections": [
+     {
+      "id": "S01",
+      "blocks": [
+       {
+        "type": "p",
+        "source": "engine",
+        "text": "Il finale è vicino all'equilibrio: {{ev:N1}}. Non è una struttura da Najdorf."
+       }
+      ]
+     },
+     {
+      "id": "S06",
+      "blocks": [
+       {
+        "type": "p",
+        "source": "engine",
+        "text": "Il finale è vicino all'equilibrio: {{ev:N1}}. Non è una struttura da Najdorf."
+       },
+       {
+        "type": "table",
+        "ref": "T3"
+       }
+      ]
+     },
+     {
+      "id": "S07",
+      "blocks": [
+       {
+        "type": "p",
+        "source": "engine",
+        "text": "Il finale è vicino all'equilibrio: {{ev:N1}}. Non è una struttura da Najdorf."
+       },
+       {
+        "type": "table",
+        "ref": "T1"
+       },
+       {
+        "type": "p",
+        "source": "engine",
+        "text": "{{mv:C1}} ({{ev:C1}}). {{mv:C2}} ({{ev:C2}}). {{mv:C3}} ({{ev:C3}}). {{mv:C4}} ({{ev:C4}}). {{mv:C14}} ({{ev:C14}})."
+       }
+      ]
+     },
+     {
+      "id": "S10",
+      "blocks": [
+       {
+        "type": "p",
+        "source": "engine",
+        "text": "Il finale è vicino all'equilibrio: {{ev:N1}}. Non è una struttura da Najdorf."
+       }
+      ]
+     }
+    ],
+    "notes": []
+   }
+  }
+ ]
+}

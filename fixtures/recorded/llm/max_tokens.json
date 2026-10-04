@@ -1,0 +1,9 @@
+{
+ "stop_reason": "max_tokens",
+ "content": [
+  {
+   "type": "text",
+   "text": "Analisi interrotta per limite di token."
+  }
+ ]
+}
