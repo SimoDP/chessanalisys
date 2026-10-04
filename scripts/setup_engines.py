@@ -33,7 +33,11 @@ from chessanalyst.engines import syzygy  # noqa: E402
 from chessanalyst.engines.openings import TSV_FILES, build_index_from_dir, write_index  # noqa: E402
 
 OPENINGS_URL = "https://raw.githubusercontent.com/lichess-org/chess-openings/master/{name}"
-SYZYGY_URL = "https://tablebase.lichess.ovh/tables/standard/3-4-5/"
+# WDL and DTZ files live in two folders (verified in M0).
+SYZYGY_URLS = (
+    "https://tablebase.lichess.ovh/tables/standard/3-4-5-wdl/",
+    "https://tablebase.lichess.ovh/tables/standard/3-4-5-dtz/",
+)
 # Release assets of the official repository (naming scheme since Stockfish 16).
 # Verified only by name in M0 (github.com release downloads were blocked by the
 # sandbox network policy, see docs/OPEN_QUESTIONS.md).
@@ -174,21 +178,26 @@ def setup_syzygy(cfg, args) -> Path | None:
     if syzygy.complete_up_to(dest) >= 5:
         print(f"Syzygy: 3-4-5 già complete in {dest}")
         return dest
-    try:
-        listing = fetch(SYZYGY_URL).decode("utf-8", "replace")
-    except OSError as e:
-        print(f"Syzygy: elenco non raggiungibile ({e})")
-        return None
-    names = sorted(set(re.findall(r'href="([KQRBNP]+v[KQRBNP]+\.rtb[wz])"', listing)))
-    if not ask(f"Scaricare {len(names)} file Syzygy 3-4-5 (circa 1 GB)?", args.yes):
+    files: list[tuple[str, str]] = []
+    for base in SYZYGY_URLS:
+        try:
+            listing = fetch(base).decode("utf-8", "replace")
+        except OSError as e:
+            print(f"Syzygy: elenco non raggiungibile ({e})")
+            return None
+        names = sorted(set(re.findall(r'href="([KQRBNP]+v[KQRBNP]+\.rtb[wz])"', listing)))
+        files.extend((base, n) for n in names)
+    if not ask(f"Scaricare {len(files)} file Syzygy 3-4-5 (circa 1 GB)?", args.yes):
         return None
     dest.mkdir(parents=True, exist_ok=True)
-    for i, name in enumerate(names, 1):
+    for i, (base, name) in enumerate(files, 1):
         target = dest / name
         if target.is_file() and target.stat().st_size > 0:
             continue
-        print(f"Syzygy [{i}/{len(names)}] {name}")
-        target.write_bytes(fetch(SYZYGY_URL + name))
+        print(f"Syzygy [{i}/{len(files)}] {name}")
+        part = target.with_name(target.name + ".part")
+        part.write_bytes(fetch(base + name))
+        part.replace(target)
     return dest
 
 

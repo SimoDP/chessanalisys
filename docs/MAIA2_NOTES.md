@@ -13,12 +13,16 @@ Le differenze restano confinate in `src/chessanalyst/engines/maia2.py` (unico mo
 | Fasce Elo lette dal codice | Verificato: coincidono con il segnaposto di `config/maia2_limits.yaml` |
 | Lato di `win_prob` | Verificato sul codice: **Bianco** (l'adattatore converte in «chi muove») |
 | Comportamento oltre il limite alto | Verificato sul codice: ogni Elo ≥ 2000 cade nella fascia 10 |
-| Test di §3.2 sul modello vero | **Non eseguiti in questo ambiente**: i pesi non sono scaricabili (vedi sotto) |
-| Tempo per posizione su CPU/GPU | **Da misurare** con `chessanalyst doctor` dopo il download dei pesi |
+| Test di §3.2 sul modello vero | Superati (`pytest -m engines`): chiavi tutte legali, somma 1 ± 1e-6, risposta identica con orologi diversi, Bianco e Nero al tratto |
+| Tempo per posizione su CPU/GPU | CPU (4 core x86-64, torch 2.8.0): ≈ 0,02 s per chiamata (39 chiamate di `golden --data`, massimo 0,03 s); caricamento del modello ≈ 2,6 s alla prima chiamata. GPU non misurata |
 
-I test di §3.2 sono già scritti (`tests/engines/test_real_engines.py::test_maia_real`, marker `engines`) e
-vanno lanciati con `pytest -m engines` dove i pesi sono presenti. Gli stessi controlli sono coperti senza
-pesi da `tests/engines/test_maia_adapter.py` con `FakeMaiaBackend`.
+I test di §3.2 sono in `tests/engines/test_real_engines.py::test_maia_real` (marker `engines`); gli stessi
+controlli sono coperti senza pesi da `tests/engines/test_maia_adapter.py` con `FakeMaiaBackend`.
+
+**Saturazione osservata.** In `fixtures/golden_maia.json` le ancore 1900 (2025 Lichess) e 2400 (2400 Lichess)
+producono policy e risultato atteso **identici** su tutti i nodi: entrambe cadono nella fascia 10. È l'esito
+previsto da D-24 (`maia.confidence = "low"`, `p_up = null`). A 1500 FIDE (1700, fascia 7) la policy differisce
+(radice: Bg5 29%, Be3 17%, Bc4 15%; a 1900/2400: Bg5 32%, Be3 20%, f3 13%).
 
 ## API reale
 
@@ -80,14 +84,7 @@ cambiare). Tabella per le ancore con la conversione segnaposto (§3-bis):
 Ingresso = FEN singola (nessuna storia, D-04). Il modello non usa i contatori della FEN: l'adattatore
 interroga sull'EPD con contatori neutri `0 1` e la cache usa l'EPD come chiave.
 
-## Pesi non scaricabili in questo ambiente
+## Download dei pesi
 
-Nella sessione cloud in cui è stato fatto M0 la politica di rete blocca `drive.google.com` (403 dal proxy):
-`scripts/setup_engines.py` e `chessanalyst doctor` lo riportano come errore. Sulla macchina dell'utente:
-
-```bash
-.venv/bin/python scripts/setup_engines.py      # scarica rapid_model.pt in data/maia2_models/
-.venv/bin/chessanalyst doctor                  # chiamata di prova e tempi
-.venv/bin/pytest -m engines                    # test di §3.2 sul modello vero
-.venv/bin/chessanalyst golden --data --reuse-nodes   # produce fixtures/golden_maia.json
-```
+`scripts/setup_engines.py` chiama `from_pretrained` una volta: `rapid_model.pt` (279 704 570 byte) finisce in
+`data/maia2_models/` con verifica SHA-256. Servono `drive.google.com` e `drive.usercontent.google.com`.

@@ -5,18 +5,14 @@ schema, token o criteri di accettazione.
 
 ## M0
 
-### OQ-M0-1 · Rete dell'ambiente cloud: pesi di Maia-2 e Syzygy non scaricabili
+### OQ-M0-1 · Rete dell'ambiente cloud (risolta)
 
-- **Problema.** M0 è stato eseguito in una sessione cloud la cui politica di rete blocca `drive.google.com`
-  (pesi di Maia-2), `tablebase.lichess.ovh` (Syzygy) e i download delle release su `github.com`.
-- **Prova.** `scripts/setup_engines.py --yes`: «Tunnel connection failed: 403 Forbidden» per i tre host;
-  `raw.githubusercontent.com` (aperture) e PyPI sono raggiungibili.
-- **Effetto.** Non sono stati prodotti `fixtures/golden_maia.json` né la misura dei tempi di Maia-2; i test
-  di §3.2 sul modello vero (`pytest -m engines`) si saltano; `doctor` riporta `ERRORE` su Maia-2 e `AVVISO`
-  su Syzygy. Tutto il codice relativo è scritto e testato con i fake.
-- **Proposta.** Sulla macchina dell'utente (o abilitando i tre host nell'ambiente cloud):
-  `python scripts/setup_engines.py`, `chessanalyst doctor`, `pytest -m engines`,
-  `chessanalyst golden --data --reuse-nodes`. Nessuna modifica di progetto.
+- **Problema.** Alla prima esecuzione di M0 la rete dell'ambiente cloud bloccava `drive.google.com`
+  (pesi di Maia-2) e `tablebase.lichess.ovh` (Syzygy).
+- **Soluzione.** L'utente ha impostato l'accesso di rete completo; pesi, Syzygy 3-4-5 e
+  `fixtures/golden_maia.json` sono stati prodotti. Resta bloccato il download delle release di Stockfish da
+  `github.com` (403), non necessario perché Stockfish 16 è installato dal sistema (OQ-M0-2).
+- **Nota.** Le Syzygy sono in due cartelle (`3-4-5-wdl/` e `3-4-5-dtz/`); `setup_engines.py` le legge entrambe.
 
 ### OQ-M0-2 · Versione di Stockfish fissata a 16
 
@@ -45,8 +41,8 @@ schema, token o criteri di accettazione.
 
 ### OQ-M0-5 · PyTorch con CUDA su Linux
 
-- **Problema.** Da PyPI `torch` 2.8 su Linux è la build CUDA (pacchetti `nvidia-*`, diversi GB); l'indice
-  CPU di `download.pytorch.org` era bloccato. `requirements.lock` riflette quindi la build CUDA.
+- **Problema.** Da PyPI `torch` 2.8 su Linux è la build CUDA (pacchetti `nvidia-*`, diversi GB).
+  `requirements.lock` riflette quindi la build CUDA.
 - **Proposta.** Su macchine senza GPU installare prima `torch==2.8.0` dall'indice CPU
   (`--index-url https://download.pytorch.org/whl/cpu`), poi il resto. CPU è sufficiente (§3.2).
 
@@ -69,3 +65,9 @@ schema, token o criteri di accettazione.
   per intero anche se contiene altro testo (1900, S03: «Alternative pratiche…»); le tabelle di solo
   testo (1900, S05) contano cella per cella; una tabella con almeno un valore `±d,dd` è numerica ed esclusa
   (anche le sue colonne di testo). La misura definitiva è quella dei fewshot in M1b.
+
+### OQ-M0-9 · Variabilità del benchmark
+
+- **Osservazione.** Sulla stessa macchina il benchmark di `doctor` ha misurato 7,9 s, 7,4 s e 4,7 s.
+- **Default adottato.** `reference_time_s: 7.9` (prima misura, in condizioni di carico simili a quelle di
+  `golden --data`). Le stime per profilo sono indicative; si ricalibra in M1a con i tempi reali della pipeline.

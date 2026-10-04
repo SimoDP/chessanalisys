@@ -111,7 +111,13 @@ Valori oltre la soglia: **2** su 51.
 
 ## Maia-2
 
-**Non eseguito**: Pesi di Maia-2 (rapid) assenti in /home/user/chessanalisys/data/maia2_models: esegui `python scripts/setup_engines.py`. `fixtures/golden_maia.json` non è stato prodotto; va rigenerato con `chessanalyst golden --data` su una macchina con i pesi di Maia-2.
+maia2 0.11.0, modello rapid, dispositivo cpu.
+
+| Ancora | Elo Maia | Fascia | Satura | Prime 3 alla radice | Risultato atteso (radice) |
+| --- | --- | --- | --- | --- | --- |
+| 1500 | 1700 | 7 | no | Bg5 29%, Be3 17%, Bc4 15% | 0.52 |
+| 1900 | 2025 | 10 | sì | Bg5 32%, Be3 20%, f3 13% | 0.50 |
+| 2400 | 2400 | 10 | sì | Bg5 32%, Be3 20%, f3 13% | 0.50 |
 
 ## Parole di prosa dei raw (prima stima, §9-bis.8)
 

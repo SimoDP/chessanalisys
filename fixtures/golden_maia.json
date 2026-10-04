@@ -1,0 +1,3083 @@
+{
+ "schema": 1,
+ "created_utc": "2026-10-04T09:39:52+00:00",
+ "maia": {
+  "package_version": "0.11.0",
+  "model_type": "rapid",
+  "device": "cpu"
+ },
+ "anchors": {
+  "1500": {
+   "elo_fide": 1500,
+   "elo_maia": 1700,
+   "bucket": 7,
+   "saturated": false,
+   "nodes": [
+    {
+     "path": [],
+     "label": "radice",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 6",
+     "elo_self": 1700,
+     "elo_oppo": 1700,
+     "policy": [
+      {
+       "san": "Bg5",
+       "uci": "c1g5",
+       "p": 0.2912
+      },
+      {
+       "san": "Be3",
+       "uci": "c1e3",
+       "p": 0.1718
+      },
+      {
+       "san": "Bc4",
+       "uci": "f1c4",
+       "p": 0.1527
+      },
+      {
+       "san": "Bd3",
+       "uci": "f1d3",
+       "p": 0.0884
+      },
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.0838
+      },
+      {
+       "san": "Be2",
+       "uci": "f1e2",
+       "p": 0.0679
+      },
+      {
+       "san": "a4",
+       "uci": "a2a4",
+       "p": 0.0484
+      },
+      {
+       "san": "a3",
+       "uci": "a2a3",
+       "p": 0.0252
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.023
+      },
+      {
+       "san": "f4",
+       "uci": "f2f4",
+       "p": 0.0102
+      },
+      {
+       "san": "g3",
+       "uci": "g2g3",
+       "p": 0.0088
+      },
+      {
+       "san": "Nf3",
+       "uci": "d4f3",
+       "p": 0.0064
+      },
+      {
+       "san": "Bf4",
+       "uci": "c1f4",
+       "p": 0.0059
+      },
+      {
+       "san": "Rg1",
+       "uci": "h1g1",
+       "p": 0.0027
+      },
+      {
+       "san": "b3",
+       "uci": "b2b3",
+       "p": 0.0026
+      },
+      {
+       "san": "Nb3",
+       "uci": "d4b3",
+       "p": 0.0023
+      },
+      {
+       "san": "Bd2",
+       "uci": "c1d2",
+       "p": 0.0016
+      },
+      {
+       "san": "Nd5",
+       "uci": "c3d5",
+       "p": 0.0014
+      },
+      {
+       "san": "Qf3",
+       "uci": "d1f3",
+       "p": 0.0014
+      },
+      {
+       "san": "g4",
+       "uci": "g2g4",
+       "p": 0.001
+      }
+     ],
+     "expected_score_side_to_move": 0.5173,
+     "entropy_bits": 3.084,
+     "time_s": 0.025
+    },
+    {
+     "path": [
+      "Be3"
+     ],
+     "label": "6.Be3",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N1B3/PPP2PPP/R2QKB1R b KQkq - 1 6",
+     "elo_self": 1700,
+     "elo_oppo": 1700,
+     "policy": [
+      {
+       "san": "e5",
+       "uci": "e7e5",
+       "p": 0.5426
+      },
+      {
+       "san": "e6",
+       "uci": "e7e6",
+       "p": 0.1881
+      },
+      {
+       "san": "Ng4",
+       "uci": "f6g4",
+       "p": 0.0974
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.0856
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0394
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0166
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0086
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0073
+      },
+      {
+       "san": "Bg4",
+       "uci": "c8g4",
+       "p": 0.0071
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0045
+      }
+     ],
+     "expected_score_side_to_move": 0.4511,
+     "entropy_bits": 2.072,
+     "time_s": 0.017
+    },
+    {
+     "path": [
+      "Be2"
+     ],
+     "label": "6.Be2",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP1BPPP/R1BQK2R b KQkq - 1 6",
+     "elo_self": 1700,
+     "elo_oppo": 1700,
+     "policy": [
+      {
+       "san": "e5",
+       "uci": "e7e5",
+       "p": 0.5525
+      },
+      {
+       "san": "e6",
+       "uci": "e7e6",
+       "p": 0.2679
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.0874
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0417
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0241
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0091
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0085
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.005
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.0013
+      }
+     ],
+     "expected_score_side_to_move": 0.4768,
+     "entropy_bits": 1.809,
+     "time_s": 0.016
+    },
+    {
+     "path": [
+      "Bg5"
+     ],
+     "label": "6.Bg5",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/6B1/3NP3/2N5/PPP2PPP/R2QKB1R b KQkq - 1 6",
+     "elo_self": 1700,
+     "elo_oppo": 1700,
+     "policy": [
+      {
+       "san": "e6",
+       "uci": "e7e6",
+       "p": 0.7277
+      },
+      {
+       "san": "e5",
+       "uci": "e7e5",
+       "p": 0.1422
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0623
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.0254
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0104
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.0104
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0081
+      },
+      {
+       "san": "Qa5",
+       "uci": "d8a5",
+       "p": 0.004
+      },
+      {
+       "san": "Bg4",
+       "uci": "c8g4",
+       "p": 0.0019
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0019
+      },
+      {
+       "san": "Qb6",
+       "uci": "d8b6",
+       "p": 0.0017
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0013
+      },
+      {
+       "san": "Ng4",
+       "uci": "f6g4",
+       "p": 0.0013
+      },
+      {
+       "san": "Nfd7",
+       "uci": "f6d7",
+       "p": 0.001
+      }
+     ],
+     "expected_score_side_to_move": 0.4684,
+     "entropy_bits": 1.433,
+     "time_s": 0.015
+    },
+    {
+     "path": [
+      "f4"
+     ],
+     "label": "6.f4",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NPP2/2N5/PPP3PP/R1BQKB1R b KQkq - 0 6",
+     "elo_self": 1700,
+     "elo_oppo": 1700,
+     "policy": [
+      {
+       "san": "e6",
+       "uci": "e7e6",
+       "p": 0.3716
+      },
+      {
+       "san": "e5",
+       "uci": "e7e5",
+       "p": 0.2917
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.1002
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0543
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0534
+      },
+      {
+       "san": "Bg4",
+       "uci": "c8g4",
+       "p": 0.0408
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0344
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0306
+      },
+      {
+       "san": "Qb6",
+       "uci": "d8b6",
+       "p": 0.0078
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0059
+      },
+      {
+       "san": "Qa5",
+       "uci": "d8a5",
+       "p": 0.004
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.0022
+      }
+     ],
+     "expected_score_side_to_move": 0.4556,
+     "entropy_bits": 2.529,
+     "time_s": 0.018
+    },
+    {
+     "path": [
+      "Be3",
+      "Ng4"
+     ],
+     "label": "6.Be3 Ng4",
+     "fen": "rnbqkb1r/1p2pppp/p2p4/8/3NP1n1/2N1B3/PPP2PPP/R2QKB1R w KQkq - 2 7",
+     "elo_self": 1700,
+     "elo_oppo": 1700,
+     "policy": [
+      {
+       "san": "Bg5",
+       "uci": "e3g5",
+       "p": 0.2922
+      },
+      {
+       "san": "Bf4",
+       "uci": "e3f4",
+       "p": 0.1829
+      },
+      {
+       "san": "Qd2",
+       "uci": "d1d2",
+       "p": 0.1336
+      },
+      {
+       "san": "Bd2",
+       "uci": "e3d2",
+       "p": 0.1177
+      },
+      {
+       "san": "Bc1",
+       "uci": "e3c1",
+       "p": 0.0726
+      },
+      {
+       "san": "Qf3",
+       "uci": "d1f3",
+       "p": 0.0437
+      },
+      {
+       "san": "Bc4",
+       "uci": "f1c4",
+       "p": 0.041
+      },
+      {
+       "san": "Be2",
+       "uci": "f1e2",
+       "p": 0.0348
+      },
+      {
+       "san": "Qe2",
+       "uci": "d1e2",
+       "p": 0.0184
+      },
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.0178
+      },
+      {
+       "san": "Nf5",
+       "uci": "d4f5",
+       "p": 0.0098
+      },
+      {
+       "san": "Qd3",
+       "uci": "d1d3",
+       "p": 0.0084
+      },
+      {
+       "san": "Bd3",
+       "uci": "f1d3",
+       "p": 0.0079
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.0071
+      },
+      {
+       "san": "Nd5",
+       "uci": "c3d5",
+       "p": 0.0046
+      },
+      {
+       "san": "Qxg4",
+       "uci": "d1g4",
+       "p": 0.0018
+      },
+      {
+       "san": "f4",
+       "uci": "f2f4",
+       "p": 0.0015
+      },
+      {
+       "san": "Nf3",
+       "uci": "d4f3",
+       "p": 0.0012
+      }
+     ],
+     "expected_score_side_to_move": 0.5293,
+     "entropy_bits": 3.099,
+     "time_s": 0.019
+    },
+    {
+     "path": [
+      "Be3",
+      "e5",
+      "Nb3"
+     ],
+     "label": "6.Be3 e5 7.Nb3",
+     "fen": "rnbqkb1r/1p3ppp/p2p1n2/4p3/4P3/1NN1B3/PPP2PPP/R2QKB1R b KQkq - 1 7",
+     "elo_self": 1700,
+     "elo_oppo": 1700,
+     "policy": [
+      {
+       "san": "Be6",
+       "uci": "c8e6",
+       "p": 0.6543
+      },
+      {
+       "san": "Be7",
+       "uci": "f8e7",
+       "p": 0.2366
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0328
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0286
+      },
+      {
+       "san": "Ng4",
+       "uci": "f6g4",
+       "p": 0.02
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0093
+      },
+      {
+       "san": "Bg4",
+       "uci": "c8g4",
+       "p": 0.0061
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.0052
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.0023
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0017
+      },
+      {
+       "san": "h5",
+       "uci": "h7h5",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.4486,
+     "entropy_bits": 1.529,
+     "time_s": 0.022
+    },
+    {
+     "path": [
+      "Be3",
+      "e5",
+      "Nb3",
+      "Be6"
+     ],
+     "label": "6.Be3 e5 7.Nb3 Be6",
+     "fen": "rn1qkb1r/1p3ppp/p2pbn2/4p3/4P3/1NN1B3/PPP2PPP/R2QKB1R w KQkq - 2 8",
+     "elo_self": 1700,
+     "elo_oppo": 1700,
+     "policy": [
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.5219
+      },
+      {
+       "san": "Qd2",
+       "uci": "d1d2",
+       "p": 0.2153
+      },
+      {
+       "san": "Be2",
+       "uci": "f1e2",
+       "p": 0.1085
+      },
+      {
+       "san": "Bd3",
+       "uci": "f1d3",
+       "p": 0.0561
+      },
+      {
+       "san": "Nd5",
+       "uci": "c3d5",
+       "p": 0.0365
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.0158
+      },
+      {
+       "san": "f4",
+       "uci": "f2f4",
+       "p": 0.0097
+      },
+      {
+       "san": "Bg5",
+       "uci": "e3g5",
+       "p": 0.0084
+      },
+      {
+       "san": "Qf3",
+       "uci": "d1f3",
+       "p": 0.0051
+      },
+      {
+       "san": "Qd3",
+       "uci": "d1d3",
+       "p": 0.0046
+      },
+      {
+       "san": "a4",
+       "uci": "a2a4",
+       "p": 0.0034
+      },
+      {
+       "san": "a3",
+       "uci": "a2a3",
+       "p": 0.0031
+      },
+      {
+       "san": "Nd2",
+       "uci": "b3d2",
+       "p": 0.0029
+      },
+      {
+       "san": "Qe2",
+       "uci": "d1e2",
+       "p": 0.0021
+      },
+      {
+       "san": "Bc4",
+       "uci": "f1c4",
+       "p": 0.0016
+      },
+      {
+       "san": "g3",
+       "uci": "g2g3",
+       "p": 0.0016
+      },
+      {
+       "san": "g4",
+       "uci": "g2g4",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.5257,
+     "entropy_bits": 2.177,
+     "time_s": 0.014
+    },
+    {
+     "path": [
+      "Be3",
+      "e6"
+     ],
+     "label": "6.Be3 e6",
+     "fen": "rnbqkb1r/1p3ppp/p2ppn2/8/3NP3/2N1B3/PPP2PPP/R2QKB1R w KQkq - 0 7",
+     "elo_self": 1700,
+     "elo_oppo": 1700,
+     "policy": [
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.418
+      },
+      {
+       "san": "Qd2",
+       "uci": "d1d2",
+       "p": 0.177
+      },
+      {
+       "san": "Be2",
+       "uci": "f1e2",
+       "p": 0.1122
+      },
+      {
+       "san": "Bd3",
+       "uci": "f1d3",
+       "p": 0.1071
+      },
+      {
+       "san": "Bc4",
+       "uci": "f1c4",
+       "p": 0.0891
+      },
+      {
+       "san": "f4",
+       "uci": "f2f4",
+       "p": 0.0205
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.0162
+      },
+      {
+       "san": "a3",
+       "uci": "a2a3",
+       "p": 0.0156
+      },
+      {
+       "san": "g4",
+       "uci": "g2g4",
+       "p": 0.0106
+      },
+      {
+       "san": "a4",
+       "uci": "a2a4",
+       "p": 0.0085
+      },
+      {
+       "san": "Qf3",
+       "uci": "d1f3",
+       "p": 0.0055
+      },
+      {
+       "san": "Bg5",
+       "uci": "e3g5",
+       "p": 0.0045
+      },
+      {
+       "san": "g3",
+       "uci": "g2g3",
+       "p": 0.0037
+      },
+      {
+       "san": "Nb3",
+       "uci": "d4b3",
+       "p": 0.0033
+      },
+      {
+       "san": "Nf3",
+       "uci": "d4f3",
+       "p": 0.0028
+      },
+      {
+       "san": "Qd3",
+       "uci": "d1d3",
+       "p": 0.0024
+      },
+      {
+       "san": "Qe2",
+       "uci": "d1e2",
+       "p": 0.0012
+      }
+     ],
+     "expected_score_side_to_move": 0.5336,
+     "entropy_bits": 2.622,
+     "time_s": 0.015
+    },
+    {
+     "path": [
+      "Bg5",
+      "e6",
+      "f4"
+     ],
+     "label": "6.Bg5 e6 7.f4",
+     "fen": "rnbqkb1r/1p3ppp/p2ppn2/6B1/3NPP2/2N5/PPP3PP/R2QKB1R b KQkq - 0 7",
+     "elo_self": 1700,
+     "elo_oppo": 1700,
+     "policy": [
+      {
+       "san": "Be7",
+       "uci": "f8e7",
+       "p": 0.7681
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0709
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.0618
+      },
+      {
+       "san": "Qb6",
+       "uci": "d8b6",
+       "p": 0.0366
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0252
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0174
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0074
+      },
+      {
+       "san": "Qa5",
+       "uci": "d8a5",
+       "p": 0.0049
+      },
+      {
+       "san": "e5",
+       "uci": "e6e5",
+       "p": 0.003
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.0026
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0013
+      }
+     ],
+     "expected_score_side_to_move": 0.4538,
+     "entropy_bits": 1.381,
+     "time_s": 0.017
+    },
+    {
+     "path": [
+      "Be2",
+      "e5",
+      "Nb3"
+     ],
+     "label": "6.Be2 e5 7.Nb3",
+     "fen": "rnbqkb1r/1p3ppp/p2p1n2/4p3/4P3/1NN5/PPP1BPPP/R1BQK2R b KQkq - 1 7",
+     "elo_self": 1700,
+     "elo_oppo": 1700,
+     "policy": [
+      {
+       "san": "Be6",
+       "uci": "c8e6",
+       "p": 0.5346
+      },
+      {
+       "san": "Be7",
+       "uci": "f8e7",
+       "p": 0.3656
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0396
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0249
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.0136
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0117
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.0024
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0022
+      },
+      {
+       "san": "h5",
+       "uci": "h7h5",
+       "p": 0.0019
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0013
+      }
+     ],
+     "expected_score_side_to_move": 0.4957,
+     "entropy_bits": 1.585,
+     "time_s": 0.015
+    },
+    {
+     "path": [
+      "Be2",
+      "e5",
+      "Nb3",
+      "Be7"
+     ],
+     "label": "6.Be2 e5 7.Nb3 Be7",
+     "fen": "rnbqk2r/1p2bppp/p2p1n2/4p3/4P3/1NN5/PPP1BPPP/R1BQK2R w KQkq - 2 8",
+     "elo_self": 1700,
+     "elo_oppo": 1700,
+     "policy": [
+      {
+       "san": "Be3",
+       "uci": "c1e3",
+       "p": 0.3962
+      },
+      {
+       "san": "O-O",
+       "uci": "e1g1",
+       "p": 0.3329
+      },
+      {
+       "san": "Bg5",
+       "uci": "c1g5",
+       "p": 0.0732
+      },
+      {
+       "san": "g4",
+       "uci": "g2g4",
+       "p": 0.0706
+      },
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.0502
+      },
+      {
+       "san": "f4",
+       "uci": "f2f4",
+       "p": 0.0184
+      },
+      {
+       "san": "a4",
+       "uci": "a2a4",
+       "p": 0.0172
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.0119
+      },
+      {
+       "san": "Bf3",
+       "uci": "e2f3",
+       "p": 0.0084
+      },
+      {
+       "san": "Nd5",
+       "uci": "c3d5",
+       "p": 0.0051
+      },
+      {
+       "san": "a3",
+       "uci": "a2a3",
+       "p": 0.0039
+      },
+      {
+       "san": "h4",
+       "uci": "h2h4",
+       "p": 0.0035
+      },
+      {
+       "san": "Bd2",
+       "uci": "c1d2",
+       "p": 0.0026
+      },
+      {
+       "san": "Qd3",
+       "uci": "d1d3",
+       "p": 0.0014
+      }
+     ],
+     "expected_score_side_to_move": 0.5136,
+     "entropy_bits": 2.343,
+     "time_s": 0.014
+    },
+    {
+     "path": [
+      "f4",
+      "e5",
+      "Nb3"
+     ],
+     "label": "6.f4 e5 7.Nb3",
+     "fen": "rnbqkb1r/1p3ppp/p2p1n2/4p3/4PP2/1NN5/PPP3PP/R1BQKB1R b KQkq - 1 7",
+     "elo_self": 1700,
+     "elo_oppo": 1700,
+     "policy": [
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.2169
+      },
+      {
+       "san": "Be7",
+       "uci": "f8e7",
+       "p": 0.2092
+      },
+      {
+       "san": "Bg4",
+       "uci": "c8g4",
+       "p": 0.1578
+      },
+      {
+       "san": "exf4",
+       "uci": "e5f4",
+       "p": 0.1357
+      },
+      {
+       "san": "Be6",
+       "uci": "c8e6",
+       "p": 0.1144
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0623
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0536
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0173
+      },
+      {
+       "san": "Ng4",
+       "uci": "f6g4",
+       "p": 0.009
+      },
+      {
+       "san": "Qb6",
+       "uci": "d8b6",
+       "p": 0.008
+      },
+      {
+       "san": "Nxe4",
+       "uci": "f6e4",
+       "p": 0.0047
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.0027
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.0026
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0017
+      },
+      {
+       "san": "Qe7",
+       "uci": "d8e7",
+       "p": 0.0014
+      }
+     ],
+     "expected_score_side_to_move": 0.4596,
+     "entropy_bits": 2.955,
+     "time_s": 0.019
+    }
+   ]
+  },
+  "1900": {
+   "elo_fide": 1900,
+   "elo_maia": 2025,
+   "bucket": 10,
+   "saturated": true,
+   "nodes": [
+    {
+     "path": [],
+     "label": "radice",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 6",
+     "elo_self": 2025,
+     "elo_oppo": 2025,
+     "policy": [
+      {
+       "san": "Bg5",
+       "uci": "c1g5",
+       "p": 0.3178
+      },
+      {
+       "san": "Be3",
+       "uci": "c1e3",
+       "p": 0.1978
+      },
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.1267
+      },
+      {
+       "san": "Be2",
+       "uci": "f1e2",
+       "p": 0.0965
+      },
+      {
+       "san": "Bc4",
+       "uci": "f1c4",
+       "p": 0.0898
+      },
+      {
+       "san": "a4",
+       "uci": "a2a4",
+       "p": 0.0385
+      },
+      {
+       "san": "Bd3",
+       "uci": "f1d3",
+       "p": 0.0319
+      },
+      {
+       "san": "Rg1",
+       "uci": "h1g1",
+       "p": 0.0257
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.0256
+      },
+      {
+       "san": "a3",
+       "uci": "a2a3",
+       "p": 0.0206
+      },
+      {
+       "san": "f4",
+       "uci": "f2f4",
+       "p": 0.0098
+      },
+      {
+       "san": "g3",
+       "uci": "g2g3",
+       "p": 0.0079
+      },
+      {
+       "san": "Bf4",
+       "uci": "c1f4",
+       "p": 0.0024
+      },
+      {
+       "san": "Nb3",
+       "uci": "d4b3",
+       "p": 0.0023
+      },
+      {
+       "san": "g4",
+       "uci": "g2g4",
+       "p": 0.0014
+      },
+      {
+       "san": "Nf3",
+       "uci": "d4f3",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.504,
+     "entropy_bits": 2.962,
+     "time_s": 0.014
+    },
+    {
+     "path": [
+      "Be3"
+     ],
+     "label": "6.Be3",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N1B3/PPP2PPP/R2QKB1R b KQkq - 1 6",
+     "elo_self": 2025,
+     "elo_oppo": 2025,
+     "policy": [
+      {
+       "san": "e5",
+       "uci": "e7e5",
+       "p": 0.6947
+      },
+      {
+       "san": "Ng4",
+       "uci": "f6g4",
+       "p": 0.1472
+      },
+      {
+       "san": "e6",
+       "uci": "e7e6",
+       "p": 0.0868
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.0343
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0183
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0054
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0052
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0033
+      },
+      {
+       "san": "Bg4",
+       "uci": "c8g4",
+       "p": 0.0019
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0013
+      }
+     ],
+     "expected_score_side_to_move": 0.4541,
+     "entropy_bits": 1.506,
+     "time_s": 0.015
+    },
+    {
+     "path": [
+      "Be2"
+     ],
+     "label": "6.Be2",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP1BPPP/R1BQK2R b KQkq - 1 6",
+     "elo_self": 2025,
+     "elo_oppo": 2025,
+     "policy": [
+      {
+       "san": "e5",
+       "uci": "e7e5",
+       "p": 0.8302
+      },
+      {
+       "san": "e6",
+       "uci": "e7e6",
+       "p": 0.108
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.0305
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0156
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0054
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.004
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0039
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.477,
+     "entropy_bits": 0.946,
+     "time_s": 0.023
+    },
+    {
+     "path": [
+      "Bg5"
+     ],
+     "label": "6.Bg5",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/6B1/3NP3/2N5/PPP2PPP/R2QKB1R b KQkq - 1 6",
+     "elo_self": 2025,
+     "elo_oppo": 2025,
+     "policy": [
+      {
+       "san": "e6",
+       "uci": "e7e6",
+       "p": 0.7984
+      },
+      {
+       "san": "e5",
+       "uci": "e7e5",
+       "p": 0.1025
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.069
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.008
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0071
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0041
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.0027
+      },
+      {
+       "san": "Qa5",
+       "uci": "d8a5",
+       "p": 0.0024
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.002
+      },
+      {
+       "san": "Qb6",
+       "uci": "d8b6",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.461,
+     "entropy_bits": 1.103,
+     "time_s": 0.021
+    },
+    {
+     "path": [
+      "f4"
+     ],
+     "label": "6.f4",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NPP2/2N5/PPP3PP/R1BQKB1R b KQkq - 0 6",
+     "elo_self": 2025,
+     "elo_oppo": 2025,
+     "policy": [
+      {
+       "san": "e5",
+       "uci": "e7e5",
+       "p": 0.4438
+      },
+      {
+       "san": "e6",
+       "uci": "e7e6",
+       "p": 0.2932
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.08
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0502
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.04
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.026
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.026
+      },
+      {
+       "san": "Bg4",
+       "uci": "c8g4",
+       "p": 0.0234
+      },
+      {
+       "san": "Qb6",
+       "uci": "d8b6",
+       "p": 0.0078
+      },
+      {
+       "san": "h5",
+       "uci": "h7h5",
+       "p": 0.0032
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0029
+      },
+      {
+       "san": "Ng4",
+       "uci": "f6g4",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.4506,
+     "entropy_bits": 2.275,
+     "time_s": 0.031
+    },
+    {
+     "path": [
+      "Be3",
+      "Ng4"
+     ],
+     "label": "6.Be3 Ng4",
+     "fen": "rnbqkb1r/1p2pppp/p2p4/8/3NP1n1/2N1B3/PPP2PPP/R2QKB1R w KQkq - 2 7",
+     "elo_self": 2025,
+     "elo_oppo": 2025,
+     "policy": [
+      {
+       "san": "Bg5",
+       "uci": "e3g5",
+       "p": 0.5336
+      },
+      {
+       "san": "Bc1",
+       "uci": "e3c1",
+       "p": 0.1674
+      },
+      {
+       "san": "Bf4",
+       "uci": "e3f4",
+       "p": 0.1258
+      },
+      {
+       "san": "Bd2",
+       "uci": "e3d2",
+       "p": 0.0537
+      },
+      {
+       "san": "Qd2",
+       "uci": "d1d2",
+       "p": 0.0469
+      },
+      {
+       "san": "Qf3",
+       "uci": "d1f3",
+       "p": 0.0184
+      },
+      {
+       "san": "Bc4",
+       "uci": "f1c4",
+       "p": 0.018
+      },
+      {
+       "san": "Be2",
+       "uci": "f1e2",
+       "p": 0.0109
+      },
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.0058
+      },
+      {
+       "san": "Nf5",
+       "uci": "d4f5",
+       "p": 0.0045
+      },
+      {
+       "san": "Nd5",
+       "uci": "c3d5",
+       "p": 0.0037
+      },
+      {
+       "san": "Qe2",
+       "uci": "d1e2",
+       "p": 0.003
+      },
+      {
+       "san": "Qd3",
+       "uci": "d1d3",
+       "p": 0.0023
+      },
+      {
+       "san": "Bd3",
+       "uci": "f1d3",
+       "p": 0.002
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.5027,
+     "entropy_bits": 2.221,
+     "time_s": 0.015
+    },
+    {
+     "path": [
+      "Be3",
+      "e5",
+      "Nb3"
+     ],
+     "label": "6.Be3 e5 7.Nb3",
+     "fen": "rnbqkb1r/1p3ppp/p2p1n2/4p3/4P3/1NN1B3/PPP2PPP/R2QKB1R b KQkq - 1 7",
+     "elo_self": 2025,
+     "elo_oppo": 2025,
+     "policy": [
+      {
+       "san": "Be6",
+       "uci": "c8e6",
+       "p": 0.8261
+      },
+      {
+       "san": "Be7",
+       "uci": "f8e7",
+       "p": 0.1345
+      },
+      {
+       "san": "Ng4",
+       "uci": "f6g4",
+       "p": 0.0111
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.011
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0064
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0035
+      },
+      {
+       "san": "h5",
+       "uci": "h7h5",
+       "p": 0.0029
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.0016
+      },
+      {
+       "san": "Bg4",
+       "uci": "c8g4",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.4596,
+     "entropy_bits": 0.906,
+     "time_s": 0.02
+    },
+    {
+     "path": [
+      "Be3",
+      "e5",
+      "Nb3",
+      "Be6"
+     ],
+     "label": "6.Be3 e5 7.Nb3 Be6",
+     "fen": "rn1qkb1r/1p3ppp/p2pbn2/4p3/4P3/1NN1B3/PPP2PPP/R2QKB1R w KQkq - 2 8",
+     "elo_self": 2025,
+     "elo_oppo": 2025,
+     "policy": [
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.7246
+      },
+      {
+       "san": "Be2",
+       "uci": "f1e2",
+       "p": 0.0983
+      },
+      {
+       "san": "Qd2",
+       "uci": "d1d2",
+       "p": 0.0807
+      },
+      {
+       "san": "Nd5",
+       "uci": "c3d5",
+       "p": 0.0291
+      },
+      {
+       "san": "Bd3",
+       "uci": "f1d3",
+       "p": 0.0269
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.013
+      },
+      {
+       "san": "Bg5",
+       "uci": "e3g5",
+       "p": 0.0066
+      },
+      {
+       "san": "f4",
+       "uci": "f2f4",
+       "p": 0.0065
+      },
+      {
+       "san": "a4",
+       "uci": "a2a4",
+       "p": 0.0036
+      },
+      {
+       "san": "g4",
+       "uci": "g2g4",
+       "p": 0.0021
+      },
+      {
+       "san": "a3",
+       "uci": "a2a3",
+       "p": 0.0015
+      },
+      {
+       "san": "Qd3",
+       "uci": "d1d3",
+       "p": 0.0014
+      },
+      {
+       "san": "Qf3",
+       "uci": "d1f3",
+       "p": 0.0012
+      },
+      {
+       "san": "Nd2",
+       "uci": "b3d2",
+       "p": 0.001
+      }
+     ],
+     "expected_score_side_to_move": 0.5064,
+     "entropy_bits": 1.559,
+     "time_s": 0.02
+    },
+    {
+     "path": [
+      "Be3",
+      "e6"
+     ],
+     "label": "6.Be3 e6",
+     "fen": "rnbqkb1r/1p3ppp/p2ppn2/8/3NP3/2N1B3/PPP2PPP/R2QKB1R w KQkq - 0 7",
+     "elo_self": 2025,
+     "elo_oppo": 2025,
+     "policy": [
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.5381
+      },
+      {
+       "san": "Qd2",
+       "uci": "d1d2",
+       "p": 0.131
+      },
+      {
+       "san": "Be2",
+       "uci": "f1e2",
+       "p": 0.1175
+      },
+      {
+       "san": "Bc4",
+       "uci": "f1c4",
+       "p": 0.0504
+      },
+      {
+       "san": "Bd3",
+       "uci": "f1d3",
+       "p": 0.0462
+      },
+      {
+       "san": "g4",
+       "uci": "g2g4",
+       "p": 0.0394
+      },
+      {
+       "san": "f4",
+       "uci": "f2f4",
+       "p": 0.0191
+      },
+      {
+       "san": "a4",
+       "uci": "a2a4",
+       "p": 0.0131
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.0124
+      },
+      {
+       "san": "a3",
+       "uci": "a2a3",
+       "p": 0.0117
+      },
+      {
+       "san": "g3",
+       "uci": "g2g3",
+       "p": 0.0044
+      },
+      {
+       "san": "Rg1",
+       "uci": "h1g1",
+       "p": 0.0041
+      },
+      {
+       "san": "Nb3",
+       "uci": "d4b3",
+       "p": 0.0037
+      },
+      {
+       "san": "Bg5",
+       "uci": "e3g5",
+       "p": 0.0031
+      },
+      {
+       "san": "Qf3",
+       "uci": "d1f3",
+       "p": 0.0023
+      },
+      {
+       "san": "Qd3",
+       "uci": "d1d3",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.5068,
+     "entropy_bits": 2.359,
+     "time_s": 0.02
+    },
+    {
+     "path": [
+      "Bg5",
+      "e6",
+      "f4"
+     ],
+     "label": "6.Bg5 e6 7.f4",
+     "fen": "rnbqkb1r/1p3ppp/p2ppn2/6B1/3NPP2/2N5/PPP3PP/R2QKB1R b KQkq - 0 7",
+     "elo_self": 2025,
+     "elo_oppo": 2025,
+     "policy": [
+      {
+       "san": "Be7",
+       "uci": "f8e7",
+       "p": 0.5234
+      },
+      {
+       "san": "Qb6",
+       "uci": "d8b6",
+       "p": 0.1931
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0954
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0731
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.056
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0329
+      },
+      {
+       "san": "Qa5",
+       "uci": "d8a5",
+       "p": 0.014
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0067
+      },
+      {
+       "san": "e5",
+       "uci": "e6e5",
+       "p": 0.0017
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0014
+      },
+      {
+       "san": "h5",
+       "uci": "h7h5",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.4376,
+     "entropy_bits": 2.129,
+     "time_s": 0.018
+    },
+    {
+     "path": [
+      "Be2",
+      "e5",
+      "Nb3"
+     ],
+     "label": "6.Be2 e5 7.Nb3",
+     "fen": "rnbqkb1r/1p3ppp/p2p1n2/4p3/4P3/1NN5/PPP1BPPP/R1BQK2R b KQkq - 1 7",
+     "elo_self": 2025,
+     "elo_oppo": 2025,
+     "policy": [
+      {
+       "san": "Be6",
+       "uci": "c8e6",
+       "p": 0.672
+      },
+      {
+       "san": "Be7",
+       "uci": "f8e7",
+       "p": 0.2887
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0098
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.008
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0078
+      },
+      {
+       "san": "h5",
+       "uci": "h7h5",
+       "p": 0.0057
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0051
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0016
+      }
+     ],
+     "expected_score_side_to_move": 0.5118,
+     "entropy_bits": 1.19,
+     "time_s": 0.016
+    },
+    {
+     "path": [
+      "Be2",
+      "e5",
+      "Nb3",
+      "Be7"
+     ],
+     "label": "6.Be2 e5 7.Nb3 Be7",
+     "fen": "rnbqk2r/1p2bppp/p2p1n2/4p3/4P3/1NN5/PPP1BPPP/R1BQK2R w KQkq - 2 8",
+     "elo_self": 2025,
+     "elo_oppo": 2025,
+     "policy": [
+      {
+       "san": "Be3",
+       "uci": "c1e3",
+       "p": 0.451
+      },
+      {
+       "san": "O-O",
+       "uci": "e1g1",
+       "p": 0.2624
+      },
+      {
+       "san": "g4",
+       "uci": "g2g4",
+       "p": 0.1428
+      },
+      {
+       "san": "Bg5",
+       "uci": "c1g5",
+       "p": 0.0599
+      },
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.0364
+      },
+      {
+       "san": "a4",
+       "uci": "a2a4",
+       "p": 0.019
+      },
+      {
+       "san": "f4",
+       "uci": "f2f4",
+       "p": 0.0086
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.0066
+      },
+      {
+       "san": "Bf3",
+       "uci": "e2f3",
+       "p": 0.0033
+      },
+      {
+       "san": "Rg1",
+       "uci": "h1g1",
+       "p": 0.0023
+      },
+      {
+       "san": "a3",
+       "uci": "a2a3",
+       "p": 0.0021
+      },
+      {
+       "san": "Nd5",
+       "uci": "c3d5",
+       "p": 0.0016
+      },
+      {
+       "san": "h4",
+       "uci": "h2h4",
+       "p": 0.0015
+      }
+     ],
+     "expected_score_side_to_move": 0.5019,
+     "entropy_bits": 2.181,
+     "time_s": 0.016
+    },
+    {
+     "path": [
+      "f4",
+      "e5",
+      "Nb3"
+     ],
+     "label": "6.f4 e5 7.Nb3",
+     "fen": "rnbqkb1r/1p3ppp/p2p1n2/4p3/4PP2/1NN5/PPP3PP/R1BQKB1R b KQkq - 1 7",
+     "elo_self": 2025,
+     "elo_oppo": 2025,
+     "policy": [
+      {
+       "san": "Be6",
+       "uci": "c8e6",
+       "p": 0.2322
+      },
+      {
+       "san": "Be7",
+       "uci": "f8e7",
+       "p": 0.2186
+      },
+      {
+       "san": "Bg4",
+       "uci": "c8g4",
+       "p": 0.1222
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.1127
+      },
+      {
+       "san": "exf4",
+       "uci": "e5f4",
+       "p": 0.1109
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0931
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0438
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0374
+      },
+      {
+       "san": "Ng4",
+       "uci": "f6g4",
+       "p": 0.0088
+      },
+      {
+       "san": "h5",
+       "uci": "h7h5",
+       "p": 0.0085
+      },
+      {
+       "san": "Qb6",
+       "uci": "d8b6",
+       "p": 0.0042
+      },
+      {
+       "san": "Nxe4",
+       "uci": "f6e4",
+       "p": 0.0023
+      },
+      {
+       "san": "Qe7",
+       "uci": "d8e7",
+       "p": 0.0013
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.0013
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.0012
+      }
+     ],
+     "expected_score_side_to_move": 0.4555,
+     "entropy_bits": 2.964,
+     "time_s": 0.014
+    }
+   ]
+  },
+  "2400": {
+   "elo_fide": 2400,
+   "elo_maia": 2400,
+   "bucket": 10,
+   "saturated": true,
+   "nodes": [
+    {
+     "path": [],
+     "label": "radice",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 6",
+     "elo_self": 2400,
+     "elo_oppo": 2400,
+     "policy": [
+      {
+       "san": "Bg5",
+       "uci": "c1g5",
+       "p": 0.3178
+      },
+      {
+       "san": "Be3",
+       "uci": "c1e3",
+       "p": 0.1978
+      },
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.1267
+      },
+      {
+       "san": "Be2",
+       "uci": "f1e2",
+       "p": 0.0965
+      },
+      {
+       "san": "Bc4",
+       "uci": "f1c4",
+       "p": 0.0898
+      },
+      {
+       "san": "a4",
+       "uci": "a2a4",
+       "p": 0.0385
+      },
+      {
+       "san": "Bd3",
+       "uci": "f1d3",
+       "p": 0.0319
+      },
+      {
+       "san": "Rg1",
+       "uci": "h1g1",
+       "p": 0.0257
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.0256
+      },
+      {
+       "san": "a3",
+       "uci": "a2a3",
+       "p": 0.0206
+      },
+      {
+       "san": "f4",
+       "uci": "f2f4",
+       "p": 0.0098
+      },
+      {
+       "san": "g3",
+       "uci": "g2g3",
+       "p": 0.0079
+      },
+      {
+       "san": "Bf4",
+       "uci": "c1f4",
+       "p": 0.0024
+      },
+      {
+       "san": "Nb3",
+       "uci": "d4b3",
+       "p": 0.0023
+      },
+      {
+       "san": "g4",
+       "uci": "g2g4",
+       "p": 0.0014
+      },
+      {
+       "san": "Nf3",
+       "uci": "d4f3",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.504,
+     "entropy_bits": 2.962,
+     "time_s": 0.014
+    },
+    {
+     "path": [
+      "Be3"
+     ],
+     "label": "6.Be3",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N1B3/PPP2PPP/R2QKB1R b KQkq - 1 6",
+     "elo_self": 2400,
+     "elo_oppo": 2400,
+     "policy": [
+      {
+       "san": "e5",
+       "uci": "e7e5",
+       "p": 0.6947
+      },
+      {
+       "san": "Ng4",
+       "uci": "f6g4",
+       "p": 0.1472
+      },
+      {
+       "san": "e6",
+       "uci": "e7e6",
+       "p": 0.0868
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.0343
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0183
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0054
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0052
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0033
+      },
+      {
+       "san": "Bg4",
+       "uci": "c8g4",
+       "p": 0.0019
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0013
+      }
+     ],
+     "expected_score_side_to_move": 0.4541,
+     "entropy_bits": 1.506,
+     "time_s": 0.018
+    },
+    {
+     "path": [
+      "Be2"
+     ],
+     "label": "6.Be2",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP1BPPP/R1BQK2R b KQkq - 1 6",
+     "elo_self": 2400,
+     "elo_oppo": 2400,
+     "policy": [
+      {
+       "san": "e5",
+       "uci": "e7e5",
+       "p": 0.8302
+      },
+      {
+       "san": "e6",
+       "uci": "e7e6",
+       "p": 0.108
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.0305
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0156
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0054
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.004
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0039
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.477,
+     "entropy_bits": 0.946,
+     "time_s": 0.018
+    },
+    {
+     "path": [
+      "Bg5"
+     ],
+     "label": "6.Bg5",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/6B1/3NP3/2N5/PPP2PPP/R2QKB1R b KQkq - 1 6",
+     "elo_self": 2400,
+     "elo_oppo": 2400,
+     "policy": [
+      {
+       "san": "e6",
+       "uci": "e7e6",
+       "p": 0.7984
+      },
+      {
+       "san": "e5",
+       "uci": "e7e5",
+       "p": 0.1025
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.069
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.008
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0071
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0041
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.0027
+      },
+      {
+       "san": "Qa5",
+       "uci": "d8a5",
+       "p": 0.0024
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.002
+      },
+      {
+       "san": "Qb6",
+       "uci": "d8b6",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.461,
+     "entropy_bits": 1.103,
+     "time_s": 0.02
+    },
+    {
+     "path": [
+      "f4"
+     ],
+     "label": "6.f4",
+     "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NPP2/2N5/PPP3PP/R1BQKB1R b KQkq - 0 6",
+     "elo_self": 2400,
+     "elo_oppo": 2400,
+     "policy": [
+      {
+       "san": "e5",
+       "uci": "e7e5",
+       "p": 0.4438
+      },
+      {
+       "san": "e6",
+       "uci": "e7e6",
+       "p": 0.2932
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.08
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0502
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.04
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.026
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.026
+      },
+      {
+       "san": "Bg4",
+       "uci": "c8g4",
+       "p": 0.0234
+      },
+      {
+       "san": "Qb6",
+       "uci": "d8b6",
+       "p": 0.0078
+      },
+      {
+       "san": "h5",
+       "uci": "h7h5",
+       "p": 0.0032
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0029
+      },
+      {
+       "san": "Ng4",
+       "uci": "f6g4",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.4506,
+     "entropy_bits": 2.275,
+     "time_s": 0.019
+    },
+    {
+     "path": [
+      "Be3",
+      "Ng4"
+     ],
+     "label": "6.Be3 Ng4",
+     "fen": "rnbqkb1r/1p2pppp/p2p4/8/3NP1n1/2N1B3/PPP2PPP/R2QKB1R w KQkq - 2 7",
+     "elo_self": 2400,
+     "elo_oppo": 2400,
+     "policy": [
+      {
+       "san": "Bg5",
+       "uci": "e3g5",
+       "p": 0.5336
+      },
+      {
+       "san": "Bc1",
+       "uci": "e3c1",
+       "p": 0.1674
+      },
+      {
+       "san": "Bf4",
+       "uci": "e3f4",
+       "p": 0.1258
+      },
+      {
+       "san": "Bd2",
+       "uci": "e3d2",
+       "p": 0.0537
+      },
+      {
+       "san": "Qd2",
+       "uci": "d1d2",
+       "p": 0.0469
+      },
+      {
+       "san": "Qf3",
+       "uci": "d1f3",
+       "p": 0.0184
+      },
+      {
+       "san": "Bc4",
+       "uci": "f1c4",
+       "p": 0.018
+      },
+      {
+       "san": "Be2",
+       "uci": "f1e2",
+       "p": 0.0109
+      },
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.0058
+      },
+      {
+       "san": "Nf5",
+       "uci": "d4f5",
+       "p": 0.0045
+      },
+      {
+       "san": "Nd5",
+       "uci": "c3d5",
+       "p": 0.0037
+      },
+      {
+       "san": "Qe2",
+       "uci": "d1e2",
+       "p": 0.003
+      },
+      {
+       "san": "Qd3",
+       "uci": "d1d3",
+       "p": 0.0023
+      },
+      {
+       "san": "Bd3",
+       "uci": "f1d3",
+       "p": 0.002
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.5027,
+     "entropy_bits": 2.221,
+     "time_s": 0.014
+    },
+    {
+     "path": [
+      "Be3",
+      "e5",
+      "Nb3"
+     ],
+     "label": "6.Be3 e5 7.Nb3",
+     "fen": "rnbqkb1r/1p3ppp/p2p1n2/4p3/4P3/1NN1B3/PPP2PPP/R2QKB1R b KQkq - 1 7",
+     "elo_self": 2400,
+     "elo_oppo": 2400,
+     "policy": [
+      {
+       "san": "Be6",
+       "uci": "c8e6",
+       "p": 0.8261
+      },
+      {
+       "san": "Be7",
+       "uci": "f8e7",
+       "p": 0.1345
+      },
+      {
+       "san": "Ng4",
+       "uci": "f6g4",
+       "p": 0.0111
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.011
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0064
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0035
+      },
+      {
+       "san": "h5",
+       "uci": "h7h5",
+       "p": 0.0029
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.0016
+      },
+      {
+       "san": "Bg4",
+       "uci": "c8g4",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.4596,
+     "entropy_bits": 0.906,
+     "time_s": 0.019
+    },
+    {
+     "path": [
+      "Be3",
+      "e5",
+      "Nb3",
+      "Be6"
+     ],
+     "label": "6.Be3 e5 7.Nb3 Be6",
+     "fen": "rn1qkb1r/1p3ppp/p2pbn2/4p3/4P3/1NN1B3/PPP2PPP/R2QKB1R w KQkq - 2 8",
+     "elo_self": 2400,
+     "elo_oppo": 2400,
+     "policy": [
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.7246
+      },
+      {
+       "san": "Be2",
+       "uci": "f1e2",
+       "p": 0.0983
+      },
+      {
+       "san": "Qd2",
+       "uci": "d1d2",
+       "p": 0.0807
+      },
+      {
+       "san": "Nd5",
+       "uci": "c3d5",
+       "p": 0.0291
+      },
+      {
+       "san": "Bd3",
+       "uci": "f1d3",
+       "p": 0.0269
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.013
+      },
+      {
+       "san": "Bg5",
+       "uci": "e3g5",
+       "p": 0.0066
+      },
+      {
+       "san": "f4",
+       "uci": "f2f4",
+       "p": 0.0065
+      },
+      {
+       "san": "a4",
+       "uci": "a2a4",
+       "p": 0.0036
+      },
+      {
+       "san": "g4",
+       "uci": "g2g4",
+       "p": 0.0021
+      },
+      {
+       "san": "a3",
+       "uci": "a2a3",
+       "p": 0.0015
+      },
+      {
+       "san": "Qd3",
+       "uci": "d1d3",
+       "p": 0.0014
+      },
+      {
+       "san": "Qf3",
+       "uci": "d1f3",
+       "p": 0.0012
+      },
+      {
+       "san": "Nd2",
+       "uci": "b3d2",
+       "p": 0.001
+      }
+     ],
+     "expected_score_side_to_move": 0.5064,
+     "entropy_bits": 1.559,
+     "time_s": 0.02
+    },
+    {
+     "path": [
+      "Be3",
+      "e6"
+     ],
+     "label": "6.Be3 e6",
+     "fen": "rnbqkb1r/1p3ppp/p2ppn2/8/3NP3/2N1B3/PPP2PPP/R2QKB1R w KQkq - 0 7",
+     "elo_self": 2400,
+     "elo_oppo": 2400,
+     "policy": [
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.5381
+      },
+      {
+       "san": "Qd2",
+       "uci": "d1d2",
+       "p": 0.131
+      },
+      {
+       "san": "Be2",
+       "uci": "f1e2",
+       "p": 0.1175
+      },
+      {
+       "san": "Bc4",
+       "uci": "f1c4",
+       "p": 0.0504
+      },
+      {
+       "san": "Bd3",
+       "uci": "f1d3",
+       "p": 0.0462
+      },
+      {
+       "san": "g4",
+       "uci": "g2g4",
+       "p": 0.0394
+      },
+      {
+       "san": "f4",
+       "uci": "f2f4",
+       "p": 0.0191
+      },
+      {
+       "san": "a4",
+       "uci": "a2a4",
+       "p": 0.0131
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.0124
+      },
+      {
+       "san": "a3",
+       "uci": "a2a3",
+       "p": 0.0117
+      },
+      {
+       "san": "g3",
+       "uci": "g2g3",
+       "p": 0.0044
+      },
+      {
+       "san": "Rg1",
+       "uci": "h1g1",
+       "p": 0.0041
+      },
+      {
+       "san": "Nb3",
+       "uci": "d4b3",
+       "p": 0.0037
+      },
+      {
+       "san": "Bg5",
+       "uci": "e3g5",
+       "p": 0.0031
+      },
+      {
+       "san": "Qf3",
+       "uci": "d1f3",
+       "p": 0.0023
+      },
+      {
+       "san": "Qd3",
+       "uci": "d1d3",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.5068,
+     "entropy_bits": 2.359,
+     "time_s": 0.018
+    },
+    {
+     "path": [
+      "Bg5",
+      "e6",
+      "f4"
+     ],
+     "label": "6.Bg5 e6 7.f4",
+     "fen": "rnbqkb1r/1p3ppp/p2ppn2/6B1/3NPP2/2N5/PPP3PP/R2QKB1R b KQkq - 0 7",
+     "elo_self": 2400,
+     "elo_oppo": 2400,
+     "policy": [
+      {
+       "san": "Be7",
+       "uci": "f8e7",
+       "p": 0.5234
+      },
+      {
+       "san": "Qb6",
+       "uci": "d8b6",
+       "p": 0.1931
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0954
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0731
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.056
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0329
+      },
+      {
+       "san": "Qa5",
+       "uci": "d8a5",
+       "p": 0.014
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0067
+      },
+      {
+       "san": "e5",
+       "uci": "e6e5",
+       "p": 0.0017
+      },
+      {
+       "san": "Bd7",
+       "uci": "c8d7",
+       "p": 0.0014
+      },
+      {
+       "san": "h5",
+       "uci": "h7h5",
+       "p": 0.0011
+      }
+     ],
+     "expected_score_side_to_move": 0.4376,
+     "entropy_bits": 2.129,
+     "time_s": 0.017
+    },
+    {
+     "path": [
+      "Be2",
+      "e5",
+      "Nb3"
+     ],
+     "label": "6.Be2 e5 7.Nb3",
+     "fen": "rnbqkb1r/1p3ppp/p2p1n2/4p3/4P3/1NN5/PPP1BPPP/R1BQK2R b KQkq - 1 7",
+     "elo_self": 2400,
+     "elo_oppo": 2400,
+     "policy": [
+      {
+       "san": "Be6",
+       "uci": "c8e6",
+       "p": 0.672
+      },
+      {
+       "san": "Be7",
+       "uci": "f8e7",
+       "p": 0.2887
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.0098
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.008
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0078
+      },
+      {
+       "san": "h5",
+       "uci": "h7h5",
+       "p": 0.0057
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0051
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0016
+      }
+     ],
+     "expected_score_side_to_move": 0.5118,
+     "entropy_bits": 1.19,
+     "time_s": 0.025
+    },
+    {
+     "path": [
+      "Be2",
+      "e5",
+      "Nb3",
+      "Be7"
+     ],
+     "label": "6.Be2 e5 7.Nb3 Be7",
+     "fen": "rnbqk2r/1p2bppp/p2p1n2/4p3/4P3/1NN5/PPP1BPPP/R1BQK2R w KQkq - 2 8",
+     "elo_self": 2400,
+     "elo_oppo": 2400,
+     "policy": [
+      {
+       "san": "Be3",
+       "uci": "c1e3",
+       "p": 0.451
+      },
+      {
+       "san": "O-O",
+       "uci": "e1g1",
+       "p": 0.2624
+      },
+      {
+       "san": "g4",
+       "uci": "g2g4",
+       "p": 0.1428
+      },
+      {
+       "san": "Bg5",
+       "uci": "c1g5",
+       "p": 0.0599
+      },
+      {
+       "san": "f3",
+       "uci": "f2f3",
+       "p": 0.0364
+      },
+      {
+       "san": "a4",
+       "uci": "a2a4",
+       "p": 0.019
+      },
+      {
+       "san": "f4",
+       "uci": "f2f4",
+       "p": 0.0086
+      },
+      {
+       "san": "h3",
+       "uci": "h2h3",
+       "p": 0.0066
+      },
+      {
+       "san": "Bf3",
+       "uci": "e2f3",
+       "p": 0.0033
+      },
+      {
+       "san": "Rg1",
+       "uci": "h1g1",
+       "p": 0.0023
+      },
+      {
+       "san": "a3",
+       "uci": "a2a3",
+       "p": 0.0021
+      },
+      {
+       "san": "Nd5",
+       "uci": "c3d5",
+       "p": 0.0016
+      },
+      {
+       "san": "h4",
+       "uci": "h2h4",
+       "p": 0.0015
+      }
+     ],
+     "expected_score_side_to_move": 0.5019,
+     "entropy_bits": 2.181,
+     "time_s": 0.018
+    },
+    {
+     "path": [
+      "f4",
+      "e5",
+      "Nb3"
+     ],
+     "label": "6.f4 e5 7.Nb3",
+     "fen": "rnbqkb1r/1p3ppp/p2p1n2/4p3/4PP2/1NN5/PPP3PP/R1BQKB1R b KQkq - 1 7",
+     "elo_self": 2400,
+     "elo_oppo": 2400,
+     "policy": [
+      {
+       "san": "Be6",
+       "uci": "c8e6",
+       "p": 0.2322
+      },
+      {
+       "san": "Be7",
+       "uci": "f8e7",
+       "p": 0.2186
+      },
+      {
+       "san": "Bg4",
+       "uci": "c8g4",
+       "p": 0.1222
+      },
+      {
+       "san": "Nc6",
+       "uci": "b8c6",
+       "p": 0.1127
+      },
+      {
+       "san": "exf4",
+       "uci": "e5f4",
+       "p": 0.1109
+      },
+      {
+       "san": "Nbd7",
+       "uci": "b8d7",
+       "p": 0.0931
+      },
+      {
+       "san": "b5",
+       "uci": "b7b5",
+       "p": 0.0438
+      },
+      {
+       "san": "Qc7",
+       "uci": "d8c7",
+       "p": 0.0374
+      },
+      {
+       "san": "Ng4",
+       "uci": "f6g4",
+       "p": 0.0088
+      },
+      {
+       "san": "h5",
+       "uci": "h7h5",
+       "p": 0.0085
+      },
+      {
+       "san": "Qb6",
+       "uci": "d8b6",
+       "p": 0.0042
+      },
+      {
+       "san": "Nxe4",
+       "uci": "f6e4",
+       "p": 0.0023
+      },
+      {
+       "san": "Qe7",
+       "uci": "d8e7",
+       "p": 0.0013
+      },
+      {
+       "san": "h6",
+       "uci": "h7h6",
+       "p": 0.0013
+      },
+      {
+       "san": "g6",
+       "uci": "g7g6",
+       "p": 0.0012
+      }
+     ],
+     "expected_score_side_to_move": 0.4555,
+     "entropy_bits": 2.964,
+     "time_s": 0.019
+    }
+   ]
+  }
+ }
+}
