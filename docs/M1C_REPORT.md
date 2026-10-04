@@ -20,7 +20,9 @@ ancora e `_s07_alt.json` in modalità avversario; politica di rete (429/5xx/529 
 `retry-after`, 400/401/403 senza tentativi, `temperature` rifiutata); riservatezza (nomi, tag e percorsi di un
 PGN non arrivano al messaggio).
 
-Suite: `pytest` → 473 test superati e 3 saltati (le risposte reali), senza motori né rete.
+Suite: `pytest` → 474 test superati e 3 saltati (le risposte reali), senza motori né rete (verificato il
+4 ottobre 2026 con l'indice delle aperture costruito da `scripts/setup_engines.py --skip stockfish maia syzygy`;
+senza l'indice AC-01 fallisce sul titolo dell'apertura).
 
 ## Che cosa manca per chiudere M1c
 
@@ -30,6 +32,15 @@ AC-10 e AC-21 nella parte «modello» richiedono una chiamata vera: con `OPENROU
 .venv/bin/pytest -m llm --record      # registra real_najdorf_w_1500/1900 e real_najdorf_after_be3_w_1900
 .venv/bin/pytest                      # i tre test non sono più saltati
 ```
+
+### Tentativo di registrazione del 4 ottobre 2026
+
+Non riuscito, M1c **resta aperta**. Nell'ambiente cloud `OPENROUTER_API_KEY` non è impostata e il proxy
+non autentica le richieste a `openrouter.ai` (ogni chiamata, anche a `/api/v1/chat/completions` con un
+messaggio di prova, risponde `401 No cookie auth credentials found`). Il test di registrazione quindi si
+salta e nessuna risposta di DeepSeek è stata ancora vista né verificata. Prompt ed esempi non sono stati
+toccati. Per chiudere basta ripetere i due comandi qui sopra in una sessione in cui la chiave è disponibile
+(variabile d'ambiente dell'ambiente cloud oppure in locale).
 
 ## Uso
 
