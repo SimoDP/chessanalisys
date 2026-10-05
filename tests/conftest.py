@@ -24,6 +24,26 @@ def _no_real_api(request, monkeypatch):
             monkeypatch.delenv(var, raising=False)
 
 
+@pytest.fixture(scope="session", autouse=True)
+def _sections_document():
+    """D-72: the recorded responses, fewshots and AC tests of v0.9.1 are written for the S01…S13 document, so
+    the suite loads the config with ``llm.document: sections``; the document of the key points (the default)
+    is tested with an explicit config (tests/test_outline.py) and its default in test_default_is_keypoints."""
+    from chessanalyst import config as config_mod
+
+    real = config_mod.load_yaml
+
+    def load_yaml(path: Path):
+        data = real(path)
+        if Path(path).name == "default.yaml" and isinstance(data, dict):
+            data = dict(data, llm=dict(data["llm"], document="sections"))
+        return data
+
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(config_mod, "load_yaml", load_yaml)
+        yield
+
+
 @pytest.fixture(scope="session")
 def root() -> Path:
     return ROOT

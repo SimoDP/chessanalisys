@@ -46,7 +46,7 @@ llm:
   # dà nella risposta). Vuoto: nel rapporto compaiono i token senza costo. Esempio:
   # prices: {"claude-sonnet-5-5": {input: …, cached_input: …, output: …}}
   prices: {}
-  document: sections      # sections (v0.9.1) | keypoints (D-72: una sezione per punto chiave della scaletta)
+  document: keypoints     # keypoints (D-72: una sezione per punto chiave, predefinito) | sections (scaletta v0.9.1)
 render:
   mark_theory: footnote
 output:

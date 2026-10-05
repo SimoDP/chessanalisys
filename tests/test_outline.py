@@ -103,6 +103,11 @@ def test_cycle_with_the_key_points_document(cfg):
     titles = re.findall(r"^## (.+)$", res.document, re.M)
     assert titles[:4] == ["Verdetto", "Cosa giocherà il Bianco e come rispondere", "Il piano", "Come ragionare"]
     assert res.info.document == "keypoints"
+    from chessanalyst.plan.outline import document_pack
+    from chessanalyst.render.html import render_html_part
+
+    part = render_html_part(kcfg, document_pack(kcfg, pack, res.info.document), res.output, res.info)
+    assert "Come ragionare" in part.body
 
 
 def test_feature_assertions_on_facts_are_pruned(cfg):
@@ -115,3 +120,11 @@ def test_feature_assertions_on_facts_are_pruned(cfg):
             good, {"kind": "feature", "key": "pinned", "side": "b", "squares": ["c5"]}]}]}]}}]}
     assert prune_assertions(pack, resp) == 1
     assert resp["content"][0]["input"]["sections"][0]["blocks"][0]["assertions"] == [good]
+
+
+def test_default_is_keypoints(root):
+    """D-72: the document of the key points is the default of the app (the suite runs with sections)."""
+    import yaml
+
+    raw = yaml.safe_load((root / "config/default.yaml").read_text(encoding="utf-8"))
+    assert raw["llm"]["document"] == "keypoints"
