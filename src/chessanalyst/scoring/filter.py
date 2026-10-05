@@ -5,6 +5,8 @@ A line ℓ is the first MultiPV line of an analysed node, read as an attack of t
 
 * ``threat``: the lines of the null move (E1). The impact is what A gains with the free tempo with
   respect to the root, and D walks into it if at the root it plays a move that does not parry it.
+  With the opponent to move, also the opponent's first lines at the root: the impact is what it gains with
+  respect to the Maia-2 average of its root moves, and the user cannot avoid it (``p_walk`` = 1).
 * ``refutation``: the node X was reached by a move ``m`` of D (E2, E3 ℓ1–ℓ3, replies). The impact is
   the loss of ``m``, and D walks into it with the probability that the game gets to X and D plays ``m``.
 
@@ -124,6 +126,14 @@ def attacker_probability(board: chess.Board, plies: list[str], attacker: chess.C
     return round(p, 4), moves
 
 
+def _expected_value(node: dict[str, Any], user: str, mate_cp: int) -> float | None:
+    """Value for the user of the move the side to move plays, on average (Maia-2 probabilities of the MultiPV
+    moves, renormalised)."""
+    ps = [(_policy_p(node, ln["uci"]), side_value(ln, user, user, mate_cp)) for ln in node["multipv"]]
+    total = sum(p for p, _ in ps)
+    return sum(p * v for p, v in ps) / total if total > 0 else None
+
+
 def build_lines(nodes: list[dict[str, Any]], user: str, elo: dict[str, int], sc: ScoringCfg,
                 policy: PolicyFn, root_losses: dict[str, int]) -> list[ScoredLine]:
     """Every line of the two kinds with ``impact >= impact_min_cp`` (before the Elo filter)."""
@@ -142,6 +152,12 @@ def build_lines(nodes: list[dict[str, Any]], user: str, elo: dict[str, int], sc:
                           impact_cp=min(impact, lc.impact_cap_cp), p_att=p_att, p_walk=round(p_walk, 4),
                           attacker_moves=moves, user=user)
 
+    if root["side_to_move"] != user and root["multipv"] and root.get("maia"):
+        ref = _expected_value(root, user, lc.mate_cp)
+        for line in root["multipv"][: lc.root_threat_lines]:
+            impact = ref - side_value(line, user, user, lc.mate_cp) if ref is not None else 0
+            if impact >= lc.impact_min_cp:
+                out.append(make("threat", root, line["rank"], None, round(impact), 1.0))
     for node in nodes:
         if not node["citable"] or not node["multipv"]:
             continue

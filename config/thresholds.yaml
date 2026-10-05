@@ -79,6 +79,7 @@ scoring:
                threats_dynamics, material, transition_plans, practical_complexity]
   lines:
     null_lines: 3                 # linee di E1 (mossa nulla) considerate come minacce
+    root_threat_lines: 3          # avversario al tratto: sue prime linee alla radice considerate come minacce
     impact_min_cp: 50             # una linea entra nel calcolo se il danno è almeno 0,50
     impact_cap_cp: 1000           # tetto dell'impatto (anche per i matti)
     mate_cp: 1000                 # un matto vale questo nell'impatto
@@ -168,3 +169,44 @@ scoring:
     no_worry: 85
     monitor: 60
     attention: 30
+keypoints:                      # scaletta dei punti chiave (fase B, plan/keypoints.py): selezione e ordine
+  order:                        # ordine dei tipi, per chi muove alla radice
+    user_to_move: [verdict, recommendation, main_danger, likely_reply, opportunity, systems, plan]
+    opp_to_move: [verdict, main_danger, likely_reply, opportunity, plan]
+  max_points: {"1": 3, "2": 4, "3": 5, "4": 6, "5": 7}   # punti per livello di dettaglio (il verdetto conta)
+  max_replies: {"1": 1, "2": 2, "3": 2, "4": 3, "5": 3}  # risposte dell'avversario in likely_reply
+  positional_min_cp: 100        # verdetto: vantaggio «posizionale» se il materiale è pari e |valutazione| >= 1,00
+  only_move_gap_cp: 150         # mossa unica: la seconda perde almeno 1,50
+  danger_min_cp: 150            # main_danger: danno rispetto alla media di Maia-2 (o impatto della linea L)
+  likely_min_p: 0.10            # likely_reply: risposte dell'avversario almeno al 10%
+  trap_p_min: 0.20              # trappola naturale: risposta dell'utente almeno al 20% …
+  trap_loss_min_cp: 80          # … che perde almeno 0,80
+  answer_loss_max_cp: 30        # risposte giuste: entro 0,30 dalla migliore
+  opportunity_gain_cp: 100      # opportunity: mossa probabile dell'avversario che regala almeno 1,00 …
+  opportunity_min_p: 0.05       # … giocata almeno nel 5% dei casi
+  systems_loss_max_cp: 30       # systems: candidate spiegate entro 0,30 dalla migliore …
+  systems_min_moves: 3          # … almeno tre (posizione con più piani equivalenti)
+  plan_max_facts: 5
+  # feature del piano, in ordine di priorità: (chiave, di chi deve essere la feature: user | opp); prima ancora i
+  # pezzi attaccati più volte di quante sono difesi (dell'utente da difendere, dell'avversario come bersagli)
+  plan_features:
+    - [isolated_pawn, opp]
+    - [backward_pawn, opp]
+    - [doubled_pawn, opp]
+    - [passed_pawn, user]
+    - [passed_pawn, opp]
+    - [check_available, opp]
+    - [knight_outpost, user]
+    - [outpost, user]
+    - [rook_open_file, user]
+    - [rook_seventh, user]
+    - [bishop_diagonal_open, user]
+    - [bishop_pair, user]
+    - [bishop_pair, opp]
+    - [inactive_piece, opp]
+    - [inactive_piece, user]
+    - [pawn_majority, user]
+    - [open_file_to_king, opp]
+    - [pawn_shield_weakened, opp]
+    - [open_file_to_king, user]
+  island_diff_min: 1            # isole di pedoni: fatto del piano se l'avversario ne ha almeno una in più

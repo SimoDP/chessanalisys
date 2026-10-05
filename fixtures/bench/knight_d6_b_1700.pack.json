@@ -694,11 +694,11 @@
       "id": "king_safety",
       "T": {
         "w": 100,
-        "b": 100
+        "b": 6
       },
-      "R": 15,
-      "balance": 0,
-      "advice": "no_worry",
+      "R": 87,
+      "balance": -94,
+      "advice": "critical",
       "confidence": "normal",
       "components": {
         "T_stat": {
@@ -707,15 +707,15 @@
         },
         "T_dyn": {
           "w": 100,
-          "b": 100
+          "b": 1
         },
         "w": 0.95,
         "k": 0.075,
         "risk": {
           "w": 0,
-          "b": 0
+          "b": 0.3152
         },
-        "proximity": 0,
+        "proximity": 100,
         "decision": 60,
         "override": {
           "w": false,
@@ -724,7 +724,9 @@
       },
       "trace": {
         "features": [],
-        "lines": [],
+        "lines": [
+          "L1"
+        ],
         "pvs": [
           "PV1",
           "PV2",
@@ -819,7 +821,7 @@
           15
         ],
         "lines": [
-          "L5"
+          "L6"
         ],
         "pvs": [],
         "nodes": []
@@ -829,11 +831,11 @@
       "id": "piece_activity",
       "T": {
         "w": 29,
-        "b": 96
+        "b": 44
       },
-      "R": 83,
-      "balance": 67,
-      "advice": "no_worry",
+      "R": 76,
+      "balance": 15,
+      "advice": "attention",
       "confidence": "normal",
       "components": {
         "T_stat": {
@@ -842,13 +844,13 @@
         },
         "T_dyn": {
           "w": 3,
-          "b": 100
+          "b": 7
         },
         "w": 0.55,
         "k": 0.12,
         "risk": {
           "w": 0.4239,
-          "b": 0
+          "b": 0.3152
         },
         "proximity": 100,
         "decision": 100,
@@ -871,7 +873,8 @@
           "L3",
           "L4",
           "L5",
-          "L6"
+          "L6",
+          "L7"
         ],
         "pvs": [
           "PV1",
@@ -921,8 +924,8 @@
           26
         ],
         "lines": [
-          "L5",
-          "L6"
+          "L6",
+          "L7"
         ],
         "pvs": [],
         "nodes": []
@@ -932,11 +935,11 @@
       "id": "threats_dynamics",
       "T": {
         "w": 6,
-        "b": 100
+        "b": 6
       },
-      "R": 87,
-      "balance": 94,
-      "advice": "no_worry",
+      "R": 73,
+      "balance": 0,
+      "advice": "critical",
       "confidence": "normal",
       "components": {
         "T_stat": {
@@ -945,13 +948,13 @@
         },
         "T_dyn": {
           "w": 1,
-          "b": 100
+          "b": 1
         },
         "w": 0.95,
         "k": 0.075,
         "risk": {
           "w": 0.3918,
-          "b": 0
+          "b": 0.3152
         },
         "proximity": 100,
         "decision": 60,
@@ -967,7 +970,8 @@
         "lines": [
           "L1",
           "L2",
-          "L4"
+          "L3",
+          "L5"
         ],
         "pvs": [
           "PV1",
@@ -981,11 +985,11 @@
       "id": "material",
       "T": {
         "w": 100,
-        "b": 100
+        "b": 16
       },
-      "R": 5,
-      "balance": 0,
-      "advice": "no_worry",
+      "R": 71,
+      "balance": -84,
+      "advice": "critical",
       "confidence": "normal",
       "components": {
         "T_stat": {
@@ -994,15 +998,15 @@
         },
         "T_dyn": {
           "w": 100,
-          "b": 100
+          "b": 1
         },
         "w": 0.85,
         "k": 0.075,
         "risk": {
           "w": 0,
-          "b": 0
+          "b": 0.3152
         },
-        "proximity": 0,
+        "proximity": 100,
         "decision": 20,
         "override": {
           "w": false,
@@ -1011,7 +1015,9 @@
       },
       "trace": {
         "features": [],
-        "lines": [],
+        "lines": [
+          "L1"
+        ],
         "pvs": [
           "PV1"
         ],
@@ -1053,7 +1059,7 @@
       "trace": {
         "features": [],
         "lines": [
-          "L5"
+          "L6"
         ],
         "pvs": [
           "PV4"
@@ -1111,6 +1117,78 @@
   "filtered_lines": [
     {
       "id": "L1",
+      "kind": "threat",
+      "start_node": "N1",
+      "rank": 1,
+      "entry": null,
+      "attacker": "w",
+      "defender": "b",
+      "against_user": true,
+      "plies": [
+        "Nd6",
+        "h6",
+        "Nxe8",
+        "Bxe8",
+        "Rac1",
+        "Ra6",
+        "Nd2",
+        "Ra8",
+        "Nc4",
+        "Bc6",
+        "Be4",
+        "a4",
+        "a3",
+        "b3",
+        "Nd6",
+        "Nc8",
+        "Nxc8",
+        "Rxc8",
+        "Rc5",
+        "Rc7",
+        "Rec1",
+        "Rd7",
+        "Rxc6",
+        "bxc6",
+        "Rxc6",
+        "g6",
+        "Qa6",
+        "Ne7",
+        "Rd6",
+        "Nf5",
+        "Bxf5",
+        "gxf5",
+        "Qxa4",
+        "Rxd6",
+        "exd6"
+      ],
+      "eval_end_user_cp": -329,
+      "mate_user": null,
+      "impact_cp": 89,
+      "p_att": 0.3542,
+      "p_walk": 1.0,
+      "risk": 0.3152,
+      "attacker_moves": [
+        {
+          "san": "Nd6",
+          "p": 0.4777
+        },
+        {
+          "san": "Nxe8",
+          "p": 0.7414
+        }
+      ],
+      "tags": [
+        "king_safety",
+        "piece_activity",
+        "threats_dynamics",
+        "material"
+      ],
+      "primary": "material",
+      "visible_at_level": true,
+      "reason": "theta"
+    },
+    {
+      "id": "L2",
       "kind": "threat",
       "start_node": "N2",
       "rank": 1,
@@ -1174,7 +1252,7 @@
       "reason": "theta"
     },
     {
-      "id": "L2",
+      "id": "L3",
       "kind": "threat",
       "start_node": "N2",
       "rank": 2,
@@ -1231,7 +1309,7 @@
       "reason": "decisive"
     },
     {
-      "id": "L3",
+      "id": "L4",
       "kind": "refutation",
       "start_node": "N4",
       "rank": 1,
@@ -1287,7 +1365,7 @@
       "reason": "decisive"
     },
     {
-      "id": "L4",
+      "id": "L5",
       "kind": "refutation",
       "start_node": "N5",
       "rank": 1,
@@ -1335,7 +1413,7 @@
       "reason": "decisive"
     },
     {
-      "id": "L5",
+      "id": "L6",
       "kind": "refutation",
       "start_node": "N6",
       "rank": 1,
@@ -1403,7 +1481,7 @@
       "reason": "decisive"
     },
     {
-      "id": "L6",
+      "id": "L7",
       "kind": "refutation",
       "start_node": "N7",
       "rank": 1,
@@ -1579,12 +1657,12 @@
       ],
       "rows": [
         {
-          "id": "threats_dynamics",
+          "id": "king_safety",
           "cells": {
-            "category": "Minacce e dinamica",
-            "T": "100",
+            "category": "Sicurezza del re",
+            "T": "6",
             "R": "87",
-            "T_opp": "6",
+            "T_opp": "100",
             "nota": null
           }
         },
@@ -1592,9 +1670,29 @@
           "id": "piece_activity",
           "cells": {
             "category": "Attività dei pezzi",
-            "T": "96",
-            "R": "83",
+            "T": "44",
+            "R": "76",
             "T_opp": "29",
+            "nota": null
+          }
+        },
+        {
+          "id": "threats_dynamics",
+          "cells": {
+            "category": "Minacce e dinamica",
+            "T": "6",
+            "R": "73",
+            "T_opp": "6",
+            "nota": null
+          }
+        },
+        {
+          "id": "material",
+          "cells": {
+            "category": "Materiale",
+            "T": "16",
+            "R": "71",
+            "T_opp": "100",
             "nota": null
           }
         },
@@ -1605,26 +1703,6 @@
             "T": "74",
             "R": "32",
             "T_opp": "21",
-            "nota": null
-          }
-        },
-        {
-          "id": "king_safety",
-          "cells": {
-            "category": "Sicurezza del re",
-            "T": "100",
-            "R": "15",
-            "T_opp": "100",
-            "nota": null
-          }
-        },
-        {
-          "id": "pawn_structure",
-          "cells": {
-            "category": "Struttura pedonale",
-            "T": "91",
-            "R": "13",
-            "T_opp": "90",
             "nota": null
           }
         }
@@ -4989,10 +5067,10 @@
       "theory_allowed": false,
       "tables": [],
       "must_cover": [
-        "L2",
         "L3",
-        "L5",
-        "L6"
+        "L4",
+        "L6",
+        "L7"
       ],
       "focus_squares": [],
       "maia_low_confidence": false

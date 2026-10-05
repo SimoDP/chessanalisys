@@ -49,6 +49,8 @@ def build_parser() -> argparse.ArgumentParser:
     bn.add_argument("--position", action="append", dest="positions", help="solo questa posizione (ripetibile)")
     bn.add_argument("--freeze", action="store_true", help="congela con i motori i pacchetti che mancano")
     bn.add_argument("--force", action="store_true", help="--freeze: rigenera anche i pacchetti esistenti")
+    bn.add_argument("--rescore", action="store_true",
+                    help="ricalcola categorie e linee filtrate dei pacchetti con Maia-2 (senza Stockfish)")
     bn.add_argument("--verbose", action="store_true", dest="verbose_a")
     cb = sub.add_parser("calibrate", help="M5: campione Lichess, annotazione con i motori, fit delle costanti")
     cmode = cb.add_mutually_exclusive_group(required=True)
@@ -246,6 +248,13 @@ def _cmd_bench(args: argparse.Namespace) -> int:
         finally:
             engines.close()
         for w in written:
+            print(f"Scritto {w.relative_to(cfg.project_root)}")
+        return exit_codes.OK
+    if args.rescore:
+        from chessanalyst.engines.cache import Cache
+        from chessanalyst.engines.factory import make_maia
+
+        for w in bench.rescore_packs(cfg, make_maia(cfg, Cache(":memory:")).policy):
             print(f"Scritto {w.relative_to(cfg.project_root)}")
         return exit_codes.OK
     from chessanalyst.llm.client import make_client

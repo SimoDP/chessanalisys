@@ -426,3 +426,36 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
         "constraints": {"max_pv_plies": plies_max, "plan_max_moves": cfg.default.llm.plan_max_moves},
     }
     return Pack.model_validate(pack)
+
+
+def rescore_pack(cfg: Config, pack: dict[str, Any], policy: PolicyFn) -> dict[str, Any]:
+    """Category Scoring Engine again on a frozen pack (nodes, candidates and features unchanged): categories,
+    filtered lines, T4 and the lines S09 must cover. Used when the scoring changes and the engines are not
+    available (the bench packs, the user's real case). The sections stay the same: if S09 should appear or
+    disappear the pack must be built again."""
+    from types import SimpleNamespace
+
+    u = pack["user"]
+    us = SimpleNamespace(code=u["color"], elo_maia=u["elo_maia"], opp_elo_maia=u["opp_elo_maia"], band=u["band"])
+    eng = pack["engine"]
+    pvs = {p["id"]: p for p in eng["pvs"]}
+    if pack["position"]["user_to_move"]:
+        main_pvs = [dict(pvs[c["pv"]], mate_user=c["mate_user"]) for c in eng["candidates"] if c["explained"]]
+    else:
+        main_pvs = [dict(pvs[f"PV{r['id'][1:]}"], mate_user=r["mate_user"]) for r in eng["replies"]]
+    features = [Feature(**f) for f in pack["features"]]
+    cats, lines = score_pack(cfg, us, pack["nodes"], eng["candidates"], features, pack["profile"]["phase"],
+                             pack["maia"]["saturated"], policy, main_pvs)
+    invisible = [ln["id"] for ln in lines if not ln["visible_at_level"]]
+    plan = {s["id"]: s for s in pack["section_plan"]}
+    c9_applies = cfg.thresholds.detail[str(u["detail_level"])].sections != "all"   # detail 5 keeps S09
+    if ((plan["S09"]["omitted"] == "no_invisible_line" and invisible)
+            or (plan["S09"]["required"] and not invisible and c9_applies)):
+        raise ValueError("S09 cambierebbe: il pacchetto va ricostruito con i motori")
+    out = dict(pack, categories=cats, filtered_lines=lines, tables=dict(pack["tables"]))
+    if "T4" in pack["tables"]:
+        opp_t = cfg.thresholds.detail[str(u["detail_level"])].opp_t
+        out["tables"]["T4"] = build_t4(cfg, u["anchor"], cats, u["color"], opp_t)
+    out["section_plan"] = [dict(s, must_cover=invisible) if s["id"] == "S09" and s["required"] else s
+                           for s in pack["section_plan"]]
+    return out

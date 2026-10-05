@@ -350,6 +350,7 @@ class FeatureGeometry(Strict):
 
 class ScoringLines(Strict):
     null_lines: int
+    root_threat_lines: int
     impact_min_cp: int
     impact_cap_cp: int
     mate_cp: int
@@ -417,6 +418,26 @@ class GoldenThresholds(Strict):
     ac09_top_n: int
 
 
+class KeypointsCfg(Strict):
+    order: dict[str, list[str]]
+    max_points: dict[str, int]
+    max_replies: dict[str, int]
+    positional_min_cp: int
+    only_move_gap_cp: int
+    danger_min_cp: int
+    likely_min_p: float
+    trap_p_min: float
+    trap_loss_min_cp: int
+    answer_loss_max_cp: int
+    opportunity_gain_cp: int
+    opportunity_min_p: float
+    systems_loss_max_cp: int
+    systems_min_moves: int
+    plan_max_facts: int
+    plan_features: list[tuple[str, str]]
+    island_diff_min: int
+
+
 class ThresholdsCfg(Strict):
     elo_input: EloInput
     bands: dict[str, Range]
@@ -434,6 +455,7 @@ class ThresholdsCfg(Strict):
     features: FeatureGeometry
     golden: GoldenThresholds
     scoring: ScoringCfg
+    keypoints: KeypointsCfg
 
 
 # --- smaller files ----------------------------------------------------------

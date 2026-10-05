@@ -1,6 +1,5 @@
 # Banco di prova (OQ-BENCH). Caso reale dell'utente (D-71): il Nero al tratto vince con 18...e4.
 id: e4_wins_w_1700
-pack: fixtures/user_cases/e4_wins_w_1700.pack.json
 user: {color: w, elo: 1700, elo_scale: fide}
 stockfish_user: "-4,77"
 verdict: {bands: [decisive_minus]}          # banda di N1 per l'utente

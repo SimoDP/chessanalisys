@@ -80,6 +80,24 @@ def freeze_packs(cfg: Config, analyzer, maia, openings, *, tablebase=None, force
     return written
 
 
+def rescore_packs(cfg: Config, policy, progress: Callable[[str], None] = print) -> list[Path]:
+    """Category Scoring Engine again on every bench pack (``rescore_pack``, Maia-2 only, no Stockfish), written
+    to ``bench.dir``: a pack taken from elsewhere (``pack:``) is copied there and the spec must drop ``pack:``."""
+    from chessanalyst.pack.builder import rescore_pack
+
+    written = []
+    for name in bench_cfg(cfg)["positions"]:
+        spec = load_spec(cfg, name)
+        old = load_pack(cfg, spec)
+        new = rescore_pack(cfg, old, policy)
+        out = cfg.project_root / bench_cfg(cfg)["dir"] / f"{name}.pack.json"
+        if new != old or out != pack_file(cfg, spec):
+            progress(f"{name}: categorie ricalcolate")
+            out.write_text(json.dumps(new, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            written.append(out)
+    return written
+
+
 # --- what the document says --------------------------------------------------
 
 
@@ -289,6 +307,9 @@ def compare(cfg: Config, new: dict, old: dict | None) -> str:
             f"{bench_cfg(cfg)['runs']} con verdetto corretto, tutti i punti chiave, zero errori V12 finali e "
             f"analisi completa; costo medio fino a {goal['max_mean_cost_usd']} $.", "",
             "| Posizione | Prima | Adesso |", "| --- | --- | --- |"]
+    if old:                                   # a partial bench (--position) is compared on its positions only
+        names = {p["position"] for p in new["positions"]}
+        old = dict(old, positions=[p for p in old["positions"] if p["position"] in names])
     prev = {p["position"]: p for p in (old or {}).get("positions", [])}
     rows = [f"| {p['position']} | {_cell(prev[p['position']]) if p['position'] in prev else '—'} | {_cell(p)} |"
             for p in new["positions"]]
