@@ -65,6 +65,9 @@ class BoardClaims:
 
         phrase = (rf"\b(?P<piece>{piece})\b(?:\s+(?:{adjectives})\b){{0,2}}\s+(?:(?:in|su|di|da)\s+)?"
                   rf"(?P<sq>{SQUARE})\b")
+        self.undef_re = re.compile(rf"{phrase}(?:\W+\w+){{0,{gap}}}?\W+(?:{'|'.join(cfg['undefended'])})\b",
+                                   re.IGNORECASE)
+        self.clause_end = re.compile(cfg["clause_end"], re.IGNORECASE)
         self.pin_res = [
             re.compile(rf"{phrase}(?:\W+\w+){{0,{gap}}}?\W+(?:{alt(cfg['pin_passive'])})\b", re.IGNORECASE),
             re.compile(rf"\b(?:{alt(cfg['pin_active'])})\b(?:\W+\w+){{0,{gap}}}?\W+{phrase}", re.IGNORECASE)]
@@ -145,18 +148,43 @@ class BoardClaims:
                 if not any((c, ptype, sq) in self.pinned for c in (True, False)):
                     out.append(Claim(m.group(0), f"nessun pezzo così in {m.group('sq')} è inchiodato, né ora né "
                                                  "nelle linee del pacchetto"))
-            if hypothetical:
+            if about_moves:
                 continue
+
+            def before_hypothesis(m: re.Match) -> bool:
+                """A word of movement or hypothesis before the end of the claim («se il Nero la attacca» after it
+                does not make «la donna in c4 non ha difensori» hypothetical)."""
+                head = {w.lower() for w in re.findall(r"[A-Za-zÀ-ÿ']+", sentence[:m.end()])}
+                head |= {w.split("'")[-1] for w in head if "'" in w}
+                return bool(head & self.hyp)
+
             for m in self.rel_re.finditer(sentence):
-                ptype = self.names[m.group("piece").lower()]
-                sq1, sq2 = chess.parse_square(m.group("sq1")), chess.parse_square(m.group("sq2"))
-                p = self.root.piece_at(sq1)
-                if p is None or p.piece_type != ptype or sq1 == sq2:
+                if before_hypothesis(m):
                     continue
-                if sq2 not in self.root.attacks(sq1):
-                    kind = self.rel[m.group("verb").lower()]
-                    verb = "non attacca" if kind == "attack" else "non difende"
-                    out.append(Claim(m.group(0), f"il pezzo in {m.group('sq1')} {verb} {m.group('sq2')}"))
+                ptype = self.names[m.group("piece").lower()]
+                sq1 = chess.parse_square(m.group("sq1"))
+                p = self.root.piece_at(sq1)
+                if p is None or p.piece_type != ptype:
+                    continue
+                # every square hit by the verb in its clause: «attacca la casa g2 e la donna in c4»
+                clause = self.clause_end.split(sentence[m.end("verb"):], maxsplit=1)[0]
+                kind = self.rel[m.group("verb").lower()]
+                for name in re.findall(rf"\b{SQUARE}\b", clause):
+                    sq2 = chess.parse_square(name)
+                    if sq2 != sq1 and sq2 not in self.root.attacks(sq1):
+                        verb = "non attacca" if kind == "attack" else "non difende"
+                        out.append(Claim(m.group(0), f"il pezzo in {m.group('sq1')} {verb} {name}"))
+            for m in self.undef_re.finditer(sentence):
+                if before_hypothesis(m):
+                    continue
+                ptype = self.names[m.group("piece").lower()]
+                sq = chess.parse_square(m.group("sq"))
+                p = self.root.piece_at(sq)
+                if p is None or p.piece_type != ptype:
+                    continue
+                guards = sorted(chess.square_name(g) for g in self.root.attackers(p.color, sq))
+                if guards:
+                    out.append(Claim(m.group(0), f"il pezzo in {m.group('sq')} è difeso da {', '.join(guards)}"))
         return out
 
     def _describe(self, piece: chess.Piece | None, sq: str) -> str:

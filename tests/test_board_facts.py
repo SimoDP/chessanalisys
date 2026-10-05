@@ -73,6 +73,12 @@ def test_v12_finds_the_invented_pieces(cfg, case):
     ("La torre nera in c8 difende c5.", False),                    # no move word: the square is empty now
     ("I pedoni b2 e b3 sono doppiati.", True),
     ("I pedoni b2 e c4 sono doppiati.", False),
+    # real DeepSeek sentences after D-71: the second square of the verb, and «undefended» with a later «se»
+    ("Il Nero ha il cavallo in f4, che attacca la casa g2 e la donna in c4.", False),
+    ("Il cavallo nero in f4 attacca g2, mentre la donna in c4 guarda c5.", True),
+    ("La donna in c4 è forte ma isolata: non ha pezzi che la difendono se il Nero la attacca.", False),
+    ("Il pedone nero in a7 è indifeso.", False),               # the rook a8 defends it
+    ("Dopo e4 il cavallo in c3 è indifeso.", True),            # about a move: not checked
 ])
 def test_v12_sentences(cfg, case, text, ok):
     pack, _ = case
