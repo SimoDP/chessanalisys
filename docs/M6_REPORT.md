@@ -96,3 +96,19 @@ rigorosa (D-70), stessa regressione (7 pacchetti × 3 giri, `docs/regression/202
 
 Gli errori al *primo* tentativo calano poco (bande V06, source V10, lunghezze V07d): la differenza la fanno i
 retry, che ora convergono, il fornitore (nessun JSON malformato) e la riparazione delle dimenticanze innocue.
+
+## Dopo il rilascio: D-71
+
+La regressione dopo D-71 (`docs/regression/20261005T142841.md`) è scesa a 9 risposte complete su 21. Un confronto A/B
+nelle stesse ore (7 pacchetti × 3 giri per versione, tutte servite da DeepInfra) mostra che il calo viene dal modello
+e dal fornitore in quel momento, non dalle modifiche:
+
+|  | D-70 | D-71 |
+| --- | --- | --- |
+| Risposte complete | 12 su 21 | 11 su 21 |
+| Analisi senza risposta valida | 3 | 0 |
+| Errori V10 al primo tentativo | 44 | 19 |
+| Parti rimosse in media | 0,6 | 1,1 |
+
+Con D-71 i pezzi inventati e i giudizi contrari alla valutazione vengono trovati (V12) invece di arrivare
+nel documento; le parti rimosse in più sono quelle frasi.
