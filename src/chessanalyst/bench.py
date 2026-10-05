@@ -236,7 +236,8 @@ def run_bench(cfg: Config, client: Any, *, runs: int | None = None, positions: l
                 per.append(score_run(cfg, spec, pack, None, None, clock() - t0, str(e)))
         out.append(aggregate(name, spec, per))
     return {"created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "model": client.model,
-            "config_hash": cfg.config_hash, "runs": runs, "positions": out}
+            "config_hash": cfg.config_hash, "runs": runs, "document": cfg.default.llm.document,
+            "calls": cfg.default.llm.calls, "positions": out}
 
 
 def _mean(xs: list) -> float | None:
@@ -301,7 +302,8 @@ def _totals(cfg: Config, s: dict) -> str:
 def compare(cfg: Config, new: dict, old: dict | None) -> str:
     goal = bench_cfg(cfg)["goal"]
     head = [f"# Banco di prova — {new['created_utc']}", "",
-            f"Modello: `{new['model']}` · config_hash `{new['config_hash']}` · {new['runs']} giri per posizione"
+            f"Modello: `{new['model']}` · documento {new.get('document', 'sections')} · chiamate "
+            f"{new.get('calls', 'single')} · config_hash `{new['config_hash']}` · {new['runs']} giri per posizione"
             + (f" · confronto con il {old['created_utc']}" if old else " · primo riferimento"), "",
             f"Traguardo (OQ-BENCH): su ogni posizione almeno {goal['min_passing_runs']} giri su "
             f"{bench_cfg(cfg)['runs']} con verdetto corretto, tutti i punti chiave, zero errori V12 finali e "

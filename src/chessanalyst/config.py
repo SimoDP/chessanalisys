@@ -139,6 +139,9 @@ class LlmCfg(Strict):
     openrouter: OpenRouterCfg
     anthropic: AnthropicCfg
     prices: dict[str, TokenPrice] = {}
+    document: Literal["sections", "keypoints"] = "sections"     # D-72: una sezione per punto chiave
+    calls: Literal["single", "per_section"] = "single"          # D-72: una chiamata o una per sezione
+    max_parallel: int = 4
 
 
 class RenderCfg(Strict):
@@ -436,6 +439,12 @@ class KeypointsCfg(Strict):
     plan_max_facts: int
     plan_features: list[tuple[str, str]]
     island_diff_min: int
+    sections: dict[str, str]
+    words: dict[str, dict[str, int]]
+    words_min: int
+    words_max: int
+    pv_plies: int
+    reasoning_items: dict[str, int]
 
 
 class ThresholdsCfg(Strict):

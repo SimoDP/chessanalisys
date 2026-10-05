@@ -46,6 +46,8 @@ def build_parser() -> argparse.ArgumentParser:
     bn = sub.add_parser("bench", help="banco di prova: analisi sui pacchetti congelati e punti chiave (OQ-BENCH)")
     bn.add_argument("--model", help="modello da provare (predefinito: llm.model)")
     bn.add_argument("--runs", type=int, help="giri per posizione (predefinito: bench.runs)")
+    bn.add_argument("--document", choices=["sections", "keypoints"], help="struttura del documento (D-72)")
+    bn.add_argument("--calls", choices=["single", "per_section"], help="una chiamata o una per sezione (D-72)")
     bn.add_argument("--position", action="append", dest="positions", help="solo questa posizione (ripetibile)")
     bn.add_argument("--freeze", action="store_true", help="congela con i motori i pacchetti che mancano")
     bn.add_argument("--force", action="store_true", help="--freeze: rigenera anche i pacchetti esistenti")
@@ -261,8 +263,9 @@ def _cmd_bench(args: argparse.Namespace) -> int:
 
     if args.runs is not None and args.runs < 1:
         raise UsageError("--runs deve essere almeno 1")
-    if args.model:
-        llm = cfg.default.llm.model_copy(update={"model": args.model})
+    update = {k: v for k, v in (("model", args.model), ("document", args.document), ("calls", args.calls)) if v}
+    if update:
+        llm = cfg.default.llm.model_copy(update=update)
         cfg = cfg.model_copy(update={"default": cfg.default.model_copy(update={"llm": llm})})
     summary = bench.run_bench(cfg, make_client(cfg), runs=args.runs, positions=args.positions)
     j, m = bench.write_bench(cfg, summary)
