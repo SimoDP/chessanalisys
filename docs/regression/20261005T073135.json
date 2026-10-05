@@ -1,0 +1,689 @@
+{
+ "created_utc": "2026-10-05T07:31:35+00:00",
+ "model": "deepseek/deepseek-v4.1-flash",
+ "config_hash": "85a4808a78d79368c92c60cfc6b53c2bbc40fc34",
+ "packs": [
+  {
+   "pack": "najdorf_w_1500",
+   "runs": [
+    {
+     "pack": "najdorf_w_1500",
+     "attempts": [
+      {}
+     ],
+     "retries": 0,
+     "complete": true,
+     "removed": 0,
+     "marked": 0,
+     "sections_off_budget": 0,
+     "theory_share": 0.41,
+     "usage": {
+      "calls": 1,
+      "input_tokens": 38505,
+      "cached_tokens": 4096,
+      "output_tokens": 2746,
+      "cost_usd": 0.006458
+     }
+    },
+    {
+     "pack": "najdorf_w_1500",
+     "attempts": [
+      {
+       "V01": 1
+      },
+      {
+       "V07(d)": 1
+      },
+      {
+       "V07(d)": 1
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 0,
+     "marked": 0,
+     "sections_off_budget": 1,
+     "theory_share": 0.399,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 123549,
+      "cached_tokens": 117888,
+      "output_tokens": 7637,
+      "cost_usd": 0.006768
+     }
+    },
+    {
+     "pack": "najdorf_w_1500",
+     "attempts": [
+      {
+       "V01": 1
+      },
+      {
+       "V01": 1
+      },
+      {
+       "V07(d)": 2
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 0,
+     "marked": 0,
+     "sections_off_budget": 3,
+     "theory_share": 0.392,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 115878,
+      "cached_tokens": 115328,
+      "output_tokens": 7553,
+      "cost_usd": 0.005964
+     }
+    }
+   ],
+   "n": 3,
+   "complete": 1,
+   "failed": 0,
+   "removed": 0.0,
+   "marked": 0.0,
+   "sections_off_budget": 1.3,
+   "cost_usd": 0.0064,
+   "output_tokens": 5978.66667
+  },
+  {
+   "pack": "najdorf_w_1900",
+   "runs": [
+    {
+     "pack": "najdorf_w_1900",
+     "attempts": [
+      {
+       "V01": 1
+      },
+      {
+       "V07(d)": 2
+      },
+      {}
+     ],
+     "retries": 2,
+     "complete": true,
+     "removed": 0,
+     "marked": 0,
+     "sections_off_budget": 0,
+     "theory_share": 0.38,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 155388,
+      "cached_tokens": 115712,
+      "output_tokens": 18077,
+      "cost_usd": 0.034289
+     }
+    },
+    {
+     "pack": "najdorf_w_1900",
+     "attempts": [
+      {
+       "V07(d)": 4
+      },
+      {}
+     ],
+     "retries": 1,
+     "complete": true,
+     "removed": 0,
+     "marked": 0,
+     "sections_off_budget": 0,
+     "theory_share": 0.349,
+     "usage": {
+      "calls": 2,
+      "input_tokens": 97219,
+      "cached_tokens": 96768,
+      "output_tokens": 11538,
+      "cost_usd": 0.014562
+     }
+    },
+    {
+     "pack": "najdorf_w_1900",
+     "attempts": [
+      {
+       "V07(d)": 2
+      },
+      {
+       "V07(a)": 9
+      },
+      {
+       "V07(a)": 9
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 9,
+     "marked": 0,
+     "sections_off_budget": 9,
+     "theory_share": 0.0,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 149646,
+      "cached_tokens": 148736,
+      "output_tokens": 6572,
+      "cost_usd": 0.009052
+     }
+    }
+   ],
+   "n": 3,
+   "complete": 2,
+   "failed": 0,
+   "removed": 3.0,
+   "marked": 0.0,
+   "sections_off_budget": 3.0,
+   "cost_usd": 0.0193,
+   "output_tokens": 12062.33333
+  },
+  {
+   "pack": "najdorf_w_2400",
+   "runs": [
+    {
+     "pack": "najdorf_w_2400",
+     "attempts": [
+      {
+       "V04": 4,
+       "V07(d)": 1,
+       "V10": 4
+      },
+      {
+       "V01": 5
+      },
+      {
+       "V04": 4,
+       "V07(d)": 1,
+       "V10": 1
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 5,
+     "marked": 0,
+     "sections_off_budget": 1,
+     "theory_share": 0.106,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 140126,
+      "cached_tokens": 54912,
+      "output_tokens": 8973,
+      "cost_usd": 0.025943
+     }
+    },
+    {
+     "pack": "najdorf_w_2400",
+     "attempts": [
+      {
+       "V01": 1
+      },
+      {
+       "V04": 1,
+       "V06": 1,
+       "V07(d)": 1,
+       "V10": 5
+      },
+      {
+       "V10": 2
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 2,
+     "marked": 0,
+     "sections_off_budget": 0,
+     "theory_share": 0.135,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 139103,
+      "cached_tokens": 132480,
+      "output_tokens": 8616,
+      "cost_usd": 0.007661
+     }
+    },
+    {
+     "pack": "najdorf_w_2400",
+     "attempts": [
+      {
+       "V01": 1
+      },
+      {
+       "V04": 1
+      },
+      {
+       "V04": 1
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 1,
+     "marked": 0,
+     "sections_off_budget": 0,
+     "theory_share": 0.064,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 139625,
+      "cached_tokens": 132864,
+      "output_tokens": 9593,
+      "cost_usd": 0.008237
+     }
+    }
+   ],
+   "n": 3,
+   "complete": 0,
+   "failed": 0,
+   "removed": 2.7,
+   "marked": 0.0,
+   "sections_off_budget": 0.3,
+   "cost_usd": 0.01395,
+   "output_tokens": 9060.66667
+  },
+  {
+   "pack": "najdorf_after_be3_w_1900",
+   "runs": [
+    {
+     "pack": "najdorf_after_be3_w_1900",
+     "failed": "Nessuna risposta valida del modello dopo i retry"
+    },
+    {
+     "pack": "najdorf_after_be3_w_1900",
+     "attempts": [
+      {
+       "V01": 1
+      },
+      {
+       "V02": 8,
+       "V03": 2,
+       "V06": 5,
+       "V10": 1
+      },
+      {
+       "V06": 2
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 0,
+     "marked": 2,
+     "sections_off_budget": 0,
+     "theory_share": 0.283,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 71254,
+      "cached_tokens": 70016,
+      "output_tokens": 13837,
+      "cost_usd": 0.017396
+     }
+    },
+    {
+     "pack": "najdorf_after_be3_w_1900",
+     "attempts": [
+      {
+       "V03": 2,
+       "V06": 4,
+       "V07(d)": 3,
+       "V09": 4,
+       "V10": 4
+      },
+      {
+       "V06": 1,
+       "V07(d)": 1
+      },
+      {
+       "V10": 1
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 1,
+     "marked": 0,
+     "sections_off_budget": 0,
+     "theory_share": 0.327,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 72517,
+      "cached_tokens": 71296,
+      "output_tokens": 14632,
+      "cost_usd": 0.018352
+     }
+    }
+   ],
+   "n": 3,
+   "complete": 0,
+   "failed": 1,
+   "removed": 0.5,
+   "marked": 1.0,
+   "sections_off_budget": 0.0,
+   "cost_usd": 0.01787,
+   "output_tokens": 14234.5
+  },
+  {
+   "pack": "fried_liver_w_1500",
+   "runs": [
+    {
+     "pack": "fried_liver_w_1500",
+     "attempts": [
+      {
+       "V01": 1
+      },
+      {
+       "V06": 4,
+       "V07(d)": 2,
+       "V10": 1
+      },
+      {
+       "V07(d)": 2
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 0,
+     "marked": 0,
+     "sections_off_budget": 4,
+     "theory_share": 0.374,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 102214,
+      "cached_tokens": 38144,
+      "output_tokens": 7441,
+      "cost_usd": 0.010363
+     }
+    },
+    {
+     "pack": "fried_liver_w_1500",
+     "attempts": [
+      {
+       "V02": 1,
+       "V03": 4,
+       "V06": 6,
+       "V07(d)": 4,
+       "V10": 1
+      },
+      {
+       "V03": 4,
+       "V07(d)": 4
+      },
+      {
+       "V03": 4,
+       "V07(d)": 1,
+       "V08": 1
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 3,
+     "marked": 0,
+     "sections_off_budget": 2,
+     "theory_share": 0.362,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 103590,
+      "cached_tokens": 97280,
+      "output_tokens": 7253,
+      "cost_usd": 0.006352
+     }
+    },
+    {
+     "pack": "fried_liver_w_1500",
+     "attempts": [
+      {
+       "V02": 2,
+       "V03": 2,
+       "V06": 3,
+       "V07(d)": 4,
+       "V10": 3
+      },
+      {
+       "V07(d)": 1
+      },
+      {}
+     ],
+     "retries": 2,
+     "complete": true,
+     "removed": 0,
+     "marked": 0,
+     "sections_off_budget": 2,
+     "theory_share": 0.429,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 104148,
+      "cached_tokens": 97664,
+      "output_tokens": 8069,
+      "cost_usd": 0.006842
+     }
+    }
+   ],
+   "n": 3,
+   "complete": 1,
+   "failed": 0,
+   "removed": 1.0,
+   "marked": 0.0,
+   "sections_off_budget": 2.7,
+   "cost_usd": 0.00785,
+   "output_tokens": 7587.66667
+  },
+  {
+   "pack": "rook_endgame_w_1900",
+   "runs": [
+    {
+     "pack": "rook_endgame_w_1900",
+     "attempts": [
+      {
+       "V04": 13,
+       "V07(d)": 3,
+       "V08": 1,
+       "V10": 10
+      },
+      {
+       "V06": 2,
+       "V07(d)": 1,
+       "V10": 10
+      },
+      {
+       "V07(d)": 1
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 0,
+     "marked": 0,
+     "sections_off_budget": 1,
+     "theory_share": 0.323,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 145260,
+      "cached_tokens": 110464,
+      "output_tokens": 13808,
+      "cost_usd": 0.027671
+     }
+    },
+    {
+     "pack": "rook_endgame_w_1900",
+     "attempts": [
+      {
+       "V04": 18,
+       "V06": 1,
+       "V07(d)": 2,
+       "V10": 6
+      },
+      {
+       "V04": 14,
+       "V06": 1,
+       "V07(d)": 2,
+       "V10": 5
+      },
+      {
+       "V07(d)": 1,
+       "V10": 6
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 6,
+     "marked": 0,
+     "sections_off_budget": 1,
+     "theory_share": 0.244,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 146732,
+      "cached_tokens": 143872,
+      "output_tokens": 14452,
+      "cost_usd": 0.019064
+     }
+    },
+    {
+     "pack": "rook_endgame_w_1900",
+     "attempts": [
+      {
+       "V02": 2,
+       "V03": 1,
+       "V06": 1,
+       "V07(d)": 1,
+       "V10": 4
+      },
+      {
+       "V02": 2,
+       "V03": 1,
+       "V07(d)": 1,
+       "V10": 4
+      },
+      {
+       "V02": 2,
+       "V03": 1,
+       "V07(d)": 1,
+       "V10": 4
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 7,
+     "marked": 0,
+     "sections_off_budget": 1,
+     "theory_share": 0.246,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 143186,
+      "cached_tokens": 141952,
+      "output_tokens": 13738,
+      "cost_usd": 0.017708
+     }
+    }
+   ],
+   "n": 3,
+   "complete": 0,
+   "failed": 0,
+   "removed": 4.3,
+   "marked": 0.0,
+   "sections_off_budget": 1.0,
+   "cost_usd": 0.02148,
+   "output_tokens": 13999.33333
+  },
+  {
+   "pack": "lucena_w_1900",
+   "runs": [
+    {
+     "pack": "lucena_w_1900",
+     "attempts": [
+      {
+       "V02": 2,
+       "V06": 2,
+       "V07(d)": 5,
+       "V10": 2
+      },
+      {
+       "V07(d)": 4,
+       "V10": 1
+      },
+      {
+       "V07(d)": 1
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 0,
+     "marked": 0,
+     "sections_off_budget": 1,
+     "theory_share": 0.31,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 132106,
+      "cached_tokens": 100608,
+      "output_tokens": 9491,
+      "cost_usd": 0.021442
+     }
+    },
+    {
+     "pack": "lucena_w_1900",
+     "attempts": [
+      {
+       "V06": 3,
+       "V07(d)": 4,
+       "V10": 13
+      },
+      {
+       "V06": 5,
+       "V07(d)": 4,
+       "V10": 3
+      },
+      {
+       "V06": 2,
+       "V07(d)": 4,
+       "V10": 2
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 2,
+     "marked": 2,
+     "sections_off_budget": 4,
+     "theory_share": 0.215,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 132565,
+      "cached_tokens": 130688,
+      "output_tokens": 8338,
+      "cost_usd": 0.011353
+     }
+    },
+    {
+     "pack": "lucena_w_1900",
+     "attempts": [
+      {
+       "V06": 2,
+       "V07(d)": 4,
+       "V10": 6
+      },
+      {
+       "V07(d)": 2,
+       "V10": 5
+      },
+      {
+       "V07(d)": 1,
+       "V10": 6
+      }
+     ],
+     "retries": 2,
+     "complete": false,
+     "removed": 6,
+     "marked": 0,
+     "sections_off_budget": 1,
+     "theory_share": 0.448,
+     "usage": {
+      "calls": 3,
+      "input_tokens": 132114,
+      "cached_tokens": 128384,
+      "output_tokens": 9354,
+      "cost_usd": 0.013114
+     }
+    }
+   ],
+   "n": 3,
+   "complete": 0,
+   "failed": 0,
+   "removed": 2.7,
+   "marked": 0.7,
+   "sections_off_budget": 2.0,
+   "cost_usd": 0.0153,
+   "output_tokens": 9061.0
+  }
+ ]
+}
