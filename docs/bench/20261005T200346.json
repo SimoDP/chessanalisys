@@ -1,0 +1,227 @@
+{
+ "created_utc": "2026-10-05T20:03:46+00:00",
+ "model": "google/gemini-2.5-flash-lite",
+ "config_hash": "d7e1b03c74f12188b5fc44159d77778fe17edc92",
+ "runs": 3,
+ "document": "keypoints",
+ "positions": [
+  {
+   "position": "e4_wins_w_1700",
+   "n": 3,
+   "runs": [
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 4.3
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 4.0
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 4.0
+    }
+   ],
+   "passed": 0,
+   "verdict": 0,
+   "key_points": {
+    "e4_vince": 0,
+    "qd4_solo_kh1": 0,
+    "qxd4_trappola": 0
+   },
+   "all_key_points": 0,
+   "v12_zero": 0,
+   "complete": 0,
+   "failed": 3,
+   "words": null,
+   "cost_usd": null,
+   "input_tokens": null,
+   "seconds": 4.1
+  },
+  {
+   "position": "iso_e3_w_1700",
+   "n": 3,
+   "runs": [
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 4.5
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 4.2
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 3.8
+    }
+   ],
+   "passed": 0,
+   "verdict": 0,
+   "key_points": {
+    "materiale_pari": 0,
+    "solo_b3": 0,
+    "dopo_ne5_bxc5": 0,
+    "pedone_e3_torri": 0
+   },
+   "all_key_points": 0,
+   "v12_zero": 0,
+   "complete": 0,
+   "failed": 3,
+   "words": null,
+   "cost_usd": null,
+   "input_tokens": null,
+   "seconds": 4.16667
+  },
+  {
+   "position": "knight_a4_w_1700",
+   "n": 3,
+   "runs": [
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 6.1
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 4.8
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 3.9
+    }
+   ],
+   "passed": 0,
+   "verdict": 0,
+   "key_points": {
+    "na4_forchetta": 0,
+    "c5_inchiodato": 0,
+    "b2_indifeso": 0,
+    "tre_isole": 0
+   },
+   "all_key_points": 0,
+   "v12_zero": 0,
+   "complete": 0,
+   "failed": 3,
+   "words": null,
+   "cost_usd": null,
+   "input_tokens": null,
+   "seconds": 4.93333
+  },
+  {
+   "position": "rook_checks_b_1700",
+   "n": 3,
+   "runs": [
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 3.6
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 3.2
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 3.1
+    }
+   ],
+   "passed": 0,
+   "verdict": 0,
+   "key_points": {
+    "pedone_in_piu_scacchi": 0,
+    "patta_facile": 0
+   },
+   "all_key_points": 0,
+   "v12_zero": 0,
+   "complete": 0,
+   "failed": 3,
+   "words": null,
+   "cost_usd": null,
+   "input_tokens": null,
+   "seconds": 3.3
+  },
+  {
+   "position": "knight_d6_b_1700",
+   "n": 3,
+   "runs": [
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 49.9
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 17.4
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 3.4
+    }
+   ],
+   "passed": 0,
+   "verdict": 0,
+   "key_points": {
+    "salto_d6": 0,
+    "alfiere_g2_diagonale": 0,
+    "donna_d3_h7_g5": 0,
+    "colonna_c_inutile": 0
+   },
+   "all_key_points": 0,
+   "v12_zero": 0,
+   "complete": 0,
+   "failed": 3,
+   "words": null,
+   "cost_usd": null,
+   "input_tokens": null,
+   "seconds": 23.56667
+  },
+  {
+   "position": "bogo_c5_w_1700",
+   "n": 3,
+   "runs": [
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 4.1
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 5.4
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 4.3
+    }
+   ],
+   "passed": 0,
+   "verdict": 0,
+   "key_points": {
+    "alfieri_c5": 0,
+    "spinta_d5": 0,
+    "nc6_fianchetto": 0
+   },
+   "all_key_points": 0,
+   "v12_zero": 0,
+   "complete": 0,
+   "failed": 3,
+   "words": null,
+   "cost_usd": null,
+   "input_tokens": null,
+   "seconds": 4.6
+  }
+ ]
+}

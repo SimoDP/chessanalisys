@@ -48,6 +48,7 @@ llm:
     provider_by_model:
       "google/gemini-2.5-flash-lite": {order: [google-vertex]}
       "mistralai/mistral-small-2603": {order: [mistral]}
+      "openai/gpt-4.1-nano": {order: [openai], require_parameters: false}   # non accetta reasoning
   anthropic: {timeout_s: 600}
   # M6: prezzi in dollari per milione di token, per modello, solo se il fornitore non dà il costo (OpenRouter lo
   # dà nella risposta). Vuoto: nel rapporto compaiono i token senza costo. Esempio:

@@ -1,0 +1,78 @@
+{
+ "created_utc": "2026-10-05T20:13:48+00:00",
+ "model": "openai/gpt-4.1-nano",
+ "config_hash": "d7e1b03c74f12188b5fc44159d77778fe17edc92",
+ "runs": 3,
+ "document": "keypoints",
+ "positions": [
+  {
+   "position": "e4_wins_w_1700",
+   "n": 3,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "e4_vince": false,
+      "qd4_solo_kh1": false,
+      "qxd4_trappola": false
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 306,
+     "attempts": 3,
+     "final_errors": [
+      "V07(c)",
+      "V07(d)"
+     ],
+     "cost_usd": 0.001903,
+     "input_tokens": 16345,
+     "seconds": 23.6,
+     "passed": false
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 11.4
+    },
+    {
+     "verdict": false,
+     "forbidden_said": [],
+     "key_points": {
+      "e4_vince": false,
+      "qd4_solo_kh1": false,
+      "qxd4_trappola": false
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 85,
+     "attempts": 3,
+     "final_errors": [
+      "V02",
+      "V07(a)",
+      "V07(d)"
+     ],
+     "cost_usd": 0.000711,
+     "input_tokens": 14076,
+     "seconds": 8.1,
+     "passed": false
+    }
+   ],
+   "passed": 0,
+   "verdict": 1,
+   "key_points": {
+    "e4_vince": 0,
+    "qd4_solo_kh1": 0,
+    "qxd4_trappola": 0
+   },
+   "all_key_points": 0,
+   "v12_zero": 2,
+   "complete": 0,
+   "failed": 1,
+   "words": 195.5,
+   "cost_usd": 0.00131,
+   "input_tokens": 15210.5,
+   "seconds": 14.36667
+  }
+ ]
+}

@@ -1,0 +1,415 @@
+{
+ "created_utc": "2026-10-05T20:08:08+00:00",
+ "model": "mistralai/mistral-small-2603",
+ "config_hash": "d7e1b03c74f12188b5fc44159d77778fe17edc92",
+ "runs": 3,
+ "document": "keypoints",
+ "positions": [
+  {
+   "position": "e4_wins_w_1700",
+   "n": 3,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "e4_vince": true,
+      "qd4_solo_kh1": true,
+      "qxd4_trappola": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 336,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.004453,
+     "input_tokens": 20787,
+     "seconds": 23.7,
+     "passed": false
+    },
+    {
+     "verdict": false,
+     "forbidden_said": [],
+     "key_points": {
+      "e4_vince": false,
+      "qd4_solo_kh1": true,
+      "qxd4_trappola": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 410,
+     "attempts": 3,
+     "final_errors": [
+      "V02",
+      "V07(d)"
+     ],
+     "cost_usd": 0.003283,
+     "input_tokens": 21588,
+     "seconds": 31.2,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "e4_vince": true,
+      "qd4_solo_kh1": true,
+      "qxd4_trappola": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 432,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.004936,
+     "input_tokens": 21047,
+     "seconds": 25.8,
+     "passed": false
+    }
+   ],
+   "passed": 0,
+   "verdict": 2,
+   "key_points": {
+    "e4_vince": 2,
+    "qd4_solo_kh1": 3,
+    "qxd4_trappola": 3
+   },
+   "all_key_points": 2,
+   "v12_zero": 3,
+   "complete": 0,
+   "failed": 0,
+   "words": 392.66667,
+   "cost_usd": 0.00422,
+   "input_tokens": 21140.66667,
+   "seconds": 26.9
+  },
+  {
+   "position": "iso_e3_w_1700",
+   "n": 3,
+   "runs": [
+    {
+     "failed": "API non raggiungibile dopo 3 tentativi (HTTP 429)",
+     "passed": false,
+     "seconds": 9.1
+    },
+    {
+     "failed": "API non raggiungibile dopo 3 tentativi (HTTP 429)",
+     "passed": false,
+     "seconds": 18.2
+    },
+    {
+     "failed": "Nessuna risposta valida del modello dopo i retry",
+     "passed": false,
+     "seconds": 31.1
+    }
+   ],
+   "passed": 0,
+   "verdict": 0,
+   "key_points": {
+    "materiale_pari": 0,
+    "solo_b3": 0,
+    "dopo_ne5_bxc5": 0,
+    "pedone_e3_torri": 0
+   },
+   "all_key_points": 0,
+   "v12_zero": 0,
+   "complete": 0,
+   "failed": 3,
+   "words": null,
+   "cost_usd": null,
+   "input_tokens": null,
+   "seconds": 19.46667
+  },
+  {
+   "position": "knight_a4_w_1700",
+   "n": 3,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "na4_forchetta": true,
+      "c5_inchiodato": true,
+      "b2_indifeso": true,
+      "tre_isole": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 354,
+     "attempts": 3,
+     "final_errors": [
+      "V07(c)",
+      "V07(d)",
+      "V10"
+     ],
+     "cost_usd": 0.002745,
+     "input_tokens": 18181,
+     "seconds": 23.8,
+     "passed": false
+    },
+    {
+     "failed": "API non raggiungibile dopo 3 tentativi (HTTP 429)",
+     "passed": false,
+     "seconds": 16.0
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "na4_forchetta": true,
+      "c5_inchiodato": false,
+      "b2_indifeso": false,
+      "tre_isole": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 330,
+     "attempts": 3,
+     "final_errors": [
+      "V07(c)",
+      "V07(d)"
+     ],
+     "cost_usd": 0.002689,
+     "input_tokens": 18674,
+     "seconds": 21.2,
+     "passed": false
+    }
+   ],
+   "passed": 0,
+   "verdict": 2,
+   "key_points": {
+    "na4_forchetta": 2,
+    "c5_inchiodato": 1,
+    "b2_indifeso": 1,
+    "tre_isole": 2
+   },
+   "all_key_points": 1,
+   "v12_zero": 2,
+   "complete": 0,
+   "failed": 1,
+   "words": 342.0,
+   "cost_usd": 0.00272,
+   "input_tokens": 18427.5,
+   "seconds": 20.33333
+  },
+  {
+   "position": "rook_checks_b_1700",
+   "n": 3,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "pedone_in_piu_scacchi": true,
+      "patta_facile": false
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 188,
+     "attempts": 2,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.001539,
+     "input_tokens": 8916,
+     "seconds": 21.3,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "pedone_in_piu_scacchi": false,
+      "patta_facile": false
+     },
+     "v12_final": 1,
+     "complete": false,
+     "words": 285,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)",
+      "V12"
+     ],
+     "cost_usd": 0.002405,
+     "input_tokens": 15585,
+     "seconds": 17.7,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "pedone_in_piu_scacchi": true,
+      "patta_facile": false
+     },
+     "v12_final": 1,
+     "complete": false,
+     "words": 254,
+     "attempts": 3,
+     "final_errors": [
+      "V12"
+     ],
+     "cost_usd": 0.002172,
+     "input_tokens": 15884,
+     "seconds": 27.3,
+     "passed": false
+    }
+   ],
+   "passed": 0,
+   "verdict": 3,
+   "key_points": {
+    "pedone_in_piu_scacchi": 2,
+    "patta_facile": 0
+   },
+   "all_key_points": 0,
+   "v12_zero": 1,
+   "complete": 0,
+   "failed": 0,
+   "words": 242.33333,
+   "cost_usd": 0.00204,
+   "input_tokens": 13461.66667,
+   "seconds": 22.1
+  },
+  {
+   "position": "knight_d6_b_1700",
+   "n": 3,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "salto_d6": true,
+      "alfiere_g2_diagonale": true,
+      "donna_d3_h7_g5": false,
+      "colonna_c_inutile": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 452,
+     "attempts": 3,
+     "final_errors": [
+      "V10"
+     ],
+     "cost_usd": 0.005301,
+     "input_tokens": 21844,
+     "seconds": 36.1,
+     "passed": false
+    },
+    {
+     "failed": "API non raggiungibile dopo 3 tentativi (HTTP 429)",
+     "passed": false,
+     "seconds": 25.5
+    },
+    {
+     "failed": "API non raggiungibile dopo 3 tentativi (HTTP 429)",
+     "passed": false,
+     "seconds": 23.2
+    }
+   ],
+   "passed": 0,
+   "verdict": 1,
+   "key_points": {
+    "salto_d6": 1,
+    "alfiere_g2_diagonale": 1,
+    "donna_d3_h7_g5": 0,
+    "colonna_c_inutile": 1
+   },
+   "all_key_points": 0,
+   "v12_zero": 1,
+   "complete": 0,
+   "failed": 2,
+   "words": 452.0,
+   "cost_usd": 0.0053,
+   "input_tokens": 21844.0,
+   "seconds": 28.26667
+  },
+  {
+   "position": "bogo_c5_w_1700",
+   "n": 3,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "alfieri_c5": false,
+      "spinta_d5": false,
+      "nc6_fianchetto": false
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 305,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.002951,
+     "input_tokens": 18019,
+     "seconds": 23.3,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "alfieri_c5": true,
+      "spinta_d5": false,
+      "nc6_fianchetto": true
+     },
+     "v12_final": 1,
+     "complete": false,
+     "words": 292,
+     "attempts": 3,
+     "final_errors": [
+      "V06",
+      "V07(d)",
+      "V12",
+      "V13"
+     ],
+     "cost_usd": 0.003155,
+     "input_tokens": 17679,
+     "seconds": 21.2,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "alfieri_c5": true,
+      "spinta_d5": false,
+      "nc6_fianchetto": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 371,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.002781,
+     "input_tokens": 18818,
+     "seconds": 27.0,
+     "passed": false
+    }
+   ],
+   "passed": 0,
+   "verdict": 3,
+   "key_points": {
+    "alfieri_c5": 2,
+    "spinta_d5": 0,
+    "nc6_fianchetto": 2
+   },
+   "all_key_points": 0,
+   "v12_zero": 2,
+   "complete": 0,
+   "failed": 0,
+   "words": 322.66667,
+   "cost_usd": 0.00296,
+   "input_tokens": 18172.0,
+   "seconds": 23.83333
+  }
+ ]
+}
