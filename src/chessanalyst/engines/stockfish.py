@@ -68,7 +68,7 @@ class StockfishEngine:
         try:
             eng = chess.engine.SimpleEngine.popen_uci(self.command)
         except (FileNotFoundError, PermissionError, OSError, chess.engine.EngineError) as e:
-            raise EnvironmentProblem(f"Impossibile avviare Stockfish ({self.command}): {e}") from e
+            raise EnvironmentProblem(f"Impossibile avviare Stockfish ({self.command}): {e or type(e).__name__}") from e
         opts: dict[str, object] = {}
         if "Threads" in eng.options:
             opts["Threads"] = self.threads

@@ -149,3 +149,14 @@ def test_one_analysis_at_a_time_and_errors(cfg, tmp_path, monkeypatch):
     finally:
         srv.shutdown()
         srv.server_close()
+
+
+def test_polling_is_not_logged(server, caplog):
+    import logging
+
+    app, port = server
+    with caplog.at_level(logging.DEBUG, logger="chessanalyst.ui.server"):
+        call(port, "GET", "/api/job/none")
+        call(port, "GET", "/api/analyses")
+    lines = [r.getMessage() for r in caplog.records if r.name == "chessanalyst.ui.server"]
+    assert not any("/api/job/" in m for m in lines) and any("/api/analyses" in m for m in lines)

@@ -44,3 +44,10 @@ def test_tool_use_extraction():
         {"type": "tool_use", "name": "submit_analysis", "input": out}]}) == (out, [])
     _, errs = extract_output({"stop_reason": "end_turn", "content": [{"type": "text", "text": "ciao"}]})
     assert [e.code for e in errs] == ["V01"]
+
+
+def test_v01_names_the_missing_field(cfg):
+    """The retry message says which field is wrong (a real DeepSeek response: «Field required» without a path)."""
+    res = verify_response(cfg, load_frozen_pack(cfg, "najdorf_w_1900"), _with({"type": "p", "text": "x"}))
+    lines = [e.line({}) for e in res.errors]
+    assert any("campo sections.0.blocks.0" in ln and "source" in ln for ln in lines), lines

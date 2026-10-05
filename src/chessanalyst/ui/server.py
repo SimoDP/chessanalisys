@@ -228,7 +228,10 @@ def make_handler(app: App, port_ref: list[int]):
         server_version = "chessanalyst"
         sys_version = ""
 
-        def log_message(self, fmt: str, *args) -> None:       # to run.log/console at DEBUG, never the bodies
+        def log_message(self, fmt: str, *args) -> None:       # at DEBUG, never the bodies
+            # the page polls the job every ui.poll_ms: those requests would fill run.log of the running analysis
+            if self.command == "GET" and urlsplit(self.path).path.startswith("/api/job/"):
+                return
             log.debug("ui: " + fmt, *args)
 
         # -- helpers -------------------------------------------------------------------------------------------

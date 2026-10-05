@@ -56,6 +56,8 @@ class VError:
             parts.append(f"blocco {self.block}" + (f", {self.cell}" if self.cell else ""))
         elif self.cell and self.cell.startswith(NOTE_CELL + " "):
             parts.append(self.cell)
+        elif self.cell and self.code == "V01":         # schema error: the path of the field (sections.0.blocks.2…)
+            parts.append(f"campo {self.cell}")
         parts.append(f"«{self.text}»")
         if self.detail:
             parts.append(self.detail)
