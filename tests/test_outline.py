@@ -115,27 +115,3 @@ def test_feature_assertions_on_facts_are_pruned(cfg):
             good, {"kind": "feature", "key": "pinned", "side": "b", "squares": ["c5"]}]}]}]}}]}
     assert prune_assertions(pack, resp) == 1
     assert resp["content"][0]["input"]["sections"][0]["blocks"][0]["assertions"] == [good]
-
-
-def test_one_call_per_section(cfg):
-    kcfg = _kp_cfg(cfg, calls="per_section", max_parallel=1)
-    pack = _pack(cfg, "rook_checks_b_1700")
-    texts = {
-        "S01": ("mixed", "La partita è equilibrata ({{ev:N1}}): il finale è patta.",
-                [{"kind": "eval_band", "ref": "N1", "band": "equal"}]),
-        "S07": ("mixed", "Contro {{mv:R1}} rispondi {{mv:R1.u1}}; contro {{mv:R2}} rispondi {{mv:R2.u1}}.", []),
-        "S05": ("theory", "Spingi il pedone passato con calma e tieni il re vicino.", []),
-        "S10": ("theory", "Prima di muovere controlla gli scacchi dell'avversario.", [])}
-
-    class BySection(FakeLLM):                  # the answer of the section the message asks for
-        def create(self, **kw):
-            super().create(**kw)
-            sid = re.search(r'<punto id="(S\d+)"', kw["messages"][0]["content"]).group(1)
-            return _sections({sid: texts[sid]})
-
-    client = BySection([{}] * 20)
-    res = run_model(kcfg, pack, client)
-    first = [r["messages"][0]["content"] for r in client.requests]
-    assert all(m.count("<punto ") == 1 for m in first)
-    assert {re.search(r'<punto id="(S\d+)"', m).group(1) for m in first} == set(texts)
-    assert [s["id"] for s in res.output["sections"]] == list(texts)

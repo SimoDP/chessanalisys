@@ -238,8 +238,8 @@ def section_block(cfg: Config, pack: dict, kp: dict, section: dict, resolver: Re
     return "\n".join(lines)
 
 
-def build_user_message_kp(cfg: Config, pack: dict, sections: list[str] | None = None) -> str:
-    """The message of the keypoint document; ``sections`` limits it to some sections (one call per section)."""
+def build_user_message_kp(cfg: Config, pack: dict) -> str:
+    """The message of the keypoint document: one block per key point, in the code's order."""
     u = pack["user"]
     plan = {s["id"]: s for s in pack["section_plan"]}
     resolver = Resolver(pack, cfg.wording)
@@ -247,13 +247,11 @@ def build_user_message_kp(cfg: Config, pack: dict, sections: list[str] | None = 
     mode = "tocca a te" if pack["position"]["user_to_move"] else "tocca all'avversario"
     blocks, all_facts = [], ""
     for kp in pack["key_points"]:
-        if sections is not None and kp["section"] not in sections:
-            continue
         blocks.append(section_block(cfg, pack, kp, plan[kp["section"]], resolver))
         all_facts += json.dumps(kp["facts"], ensure_ascii=False)
     head = [f"Giochi con {me}, {mode}. Livello: {LEVEL[u['band']]}. «Tu» è sempre il giocatore.",
             *_legend(cfg, all_facts), ""]
-    ids = [kp["section"] for kp in pack["key_points"] if sections is None or kp["section"] in sections]
+    ids = [kp["section"] for kp in pack["key_points"]]
     tail = ["", f"Consegna con submit_analysis le sezioni {', '.join(ids)}, in quest'ordine."]
     return "\n".join(head + blocks + tail)
 

@@ -140,8 +140,6 @@ class LlmCfg(Strict):
     anthropic: AnthropicCfg
     prices: dict[str, TokenPrice] = {}
     document: Literal["sections", "keypoints"] = "sections"     # D-72: una sezione per punto chiave
-    calls: Literal["single", "per_section"] = "single"          # D-72: una chiamata o una per sezione
-    max_parallel: int = 4
 
 
 class RenderCfg(Strict):

@@ -765,3 +765,13 @@ usare `rerun`, Markdown e PGN funzionano.
   banco il verdetto atteso è la banda di N1 del pacchetto: «vantaggio netto» a +1,71 (`knight_a4_w_1700`) e
   «vantaggio minimo» a +0,48 (`bogo_c5_w_1700`) sono corretti, quindi i due divieti in contrasto
   («netto vantaggio», «vantaggio») non sono in `must_not`.
+- **Fase C, documento per punti chiave (D-72, 5 ottobre 2026).** Banco con `--document keypoints`, 3 giri per
+  posizione (`docs/bench/20261005T183048`, `…185243`, `…190331`): giri superati 2, poi 9, poi 12 su 18 (con la
+  scaletta v0.9.1: 1 su 18, `…171407`); token in ingresso medi da circa 93 000 a circa 14 000; costo medio da
+  0,0094 $ a 0,0018 $; parole da circa 1 980 a circa 460; V12 finali a zero in tutti i giri dell'ultimo banco.
+  Una chiamata per sezione in parallelo (`…191009`) è più veloce (circa 21 s contro 32) ma peggiore (4 su 18,
+  0,0022 $): scartata e tolta dal codice.
+- **Correzione del banco.** Il termine «scacch» di `rook_checks_b_1700` non riconosceva «scacco» (la frase
+  dell'utente dice «dare scacco»): ora è `scacc(?:o|hi)`. Nel banco «completa» vuol dire ultimo tentativo senza
+  errori, compresi gli sforamenti del budget di parole (V07 d): nell'ultimo banco 3 dei 6 giri non superati
+  hanno solo quello, un quarto anche un punto chiave mancante; gli altri due mancano «colonna c inutile».

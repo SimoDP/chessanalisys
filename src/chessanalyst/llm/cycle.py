@@ -10,7 +10,6 @@ the last response that passed V01; if none did: exit code 5.
 from __future__ import annotations
 
 import logging
-from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 
 from chessanalyst.config import Config
@@ -98,41 +97,6 @@ def _call_loop(cfg: Config, client: LLMClient, checker: Checker, system: list[di
         messages = messages + _retry_turn(response, retry_message(error_lines(res.errors, hints)))
 
 
-def _only_section(pack: dict, sid: str) -> dict:
-    """The pack whose plan asks for one section only (D-72, one call per section)."""
-    plan = [s if s["id"] == sid else dict(s, required=False, omitted=s.get("omitted") or "keypoints")
-            for s in pack["section_plan"]]
-    return dict(pack, section_plan=plan)
-
-
-def _per_section(cfg: Config, pack: dict, client: LLMClient, raw: list[dict], hints: dict) -> _Loop:
-    """D-72: one short call per section, in parallel; the sections are joined and verified together."""
-    ids = [kp["section"] for kp in pack["key_points"]]
-
-    def one(sid: str) -> tuple[_Loop, list[dict]]:
-        sub_raw: list[dict] = []
-        sub = _only_section(pack, sid)
-        system = [{"type": "text", "text": SYSTEM_PROMPT_KP, "cache_control": {"type": "ephemeral"}}]
-        messages = [{"role": "user", "content": build_user_message_kp(cfg, pack, [sid])}]
-        return _call_loop(cfg, client, Checker(cfg, sub), system, messages, sub_raw, hints, prune=True), sub_raw
-
-    with ThreadPoolExecutor(max_workers=cfg.default.llm.max_parallel) as pool:
-        done = list(pool.map(one, ids))
-    sections, merged = [], _Loop()
-    for sid, (loop, sub_raw) in zip(ids, done):
-        raw += sub_raw
-        merged.retries += loop.retries
-        merged.json_repairs += loop.json_repairs
-        merged.pruned += loop.pruned
-        final = next((r for r in reversed(loop.attempts) if r.output is not None), None)
-        if final is not None:
-            sections += [s for s in final.output["sections"] if s["id"] == sid]
-    if sections:
-        merged.attempts.append(Checker(cfg, pack).check({"schema_version": "1", "sections": sections,
-                                                         "notes": []}))
-    return merged
-
-
 def run_model(cfg: Config, pack: dict, client: LLMClient, *, example: Example | None = None,
               warnings: list[str] | None = None, raw: list[dict] | None = None) -> CycleResult:
     """``raw`` collects every response as it arrives (saved in ``llm_raw.json`` even on failure).
@@ -144,13 +108,10 @@ def run_model(cfg: Config, pack: dict, client: LLMClient, *, example: Example | 
     if keypoints:
         pack = outline_pack(cfg, pack)
         example = example or Example(anchor=pack["user"]["anchor"], output_json="", epd="", validated=False)
-        if llm.calls == "per_section":
-            loop = _per_section(cfg, pack, client, raw, hints)
-        else:
-            system = [{"type": "text", "text": SYSTEM_PROMPT_KP, "cache_control": {"type": "ephemeral"}}]
-            messages = [{"role": "user", "content": [{"type": "text", "text": build_user_message_kp(cfg, pack),
-                                                      "cache_control": {"type": "ephemeral"}}]}]
-            loop = _call_loop(cfg, client, Checker(cfg, pack), system, messages, raw, hints, prune=True)
+        system = [{"type": "text", "text": SYSTEM_PROMPT_KP, "cache_control": {"type": "ephemeral"}}]
+        messages = [{"role": "user", "content": [{"type": "text", "text": build_user_message_kp(cfg, pack),
+                                                  "cache_control": {"type": "ephemeral"}}]}]
+        loop = _call_loop(cfg, client, Checker(cfg, pack), system, messages, raw, hints, prune=True)
     else:
         example = example or example_for(cfg, pack)
         checker = Checker(cfg, pack, fewshot_epd=example.epd, terms=example.terms)
