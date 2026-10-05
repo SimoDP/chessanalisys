@@ -33,6 +33,7 @@ class RenderInfo:
     theory_share: float = 0.0
     critic: int | None = None          # M4: number of findings of the critic (None = not run or failed)
     usage: dict | None = None          # M6: tokens and cost of the model calls (llm/usage.py)
+    document: str = "sections"         # D-72: «keypoints» = the plan comes from plan/outline.py
 
 
 class Renderer:
@@ -107,6 +108,9 @@ class Renderer:
             return out + [self.fixed["section_unavailable"], ""]
         for blk in sec["blocks"]:
             out += self.block(blk) + [""]
+        for t in entry.get("auto_tables") or []:          # D-72: the render places the tables of the point
+            if t in self.pack["tables"]:
+                out += self.data_table({"type": "table", "ref": t}) + [""]
         return out
 
     def document(self, output: dict, info: RenderInfo) -> str:

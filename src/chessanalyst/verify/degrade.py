@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 
 from chessanalyst.verify.checker import NOTE_CELL, VError
 
-REMOVE = {"V01", "V02", "V03", "V04", "V05", "V08", "V09", "V10", "V12"}
+REMOVE = {"V01", "V02", "V03", "V04", "V05", "V08", "V09", "V10", "V12", "V13"}
 
 
 @dataclass

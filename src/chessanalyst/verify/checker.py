@@ -18,12 +18,12 @@ from chessanalyst.verify.assertions import eval_band_of, check_assertion
 from chessanalyst.verify.contamination import Contamination
 from chessanalyst.verify.resolve import ResolveError, Resolved, Resolver
 from chessanalyst.verify.scan import Scanner
-from chessanalyst.verify.tokens import TokenSyntaxError, find_tokens, parse_token
+from chessanalyst.verify.tokens import TokenSyntaxError, find_tokens, parse_token, token_refs
 from chessanalyst.verify.wordcount import count_words, tolerance
 
 MOVE_TABLES = ("T1", "T2")          # D-71: tables whose rows are moves (candidates or replies)
 NOTE_CELL = "nota"                  # cell of an error in ``notes`` (section and block are None)
-CODES = ("V01", "V02", "V03", "V04", "V05", "V06", "V07", "V08", "V09", "V10", "V12")
+CODES = ("V01", "V02", "V03", "V04", "V05", "V06", "V07", "V08", "V09", "V10", "V12", "V13")
 THEORY_FORBIDDEN = {"ev", "loss", "pct_maia", "pct_root", "pv", "sc"}
 SOURCE_RULES = {   # §10.1, V10: (needs one of, may not contain)
     "engine": ({"ev", "loss", "pv", "pct_root", "line"}, {"pct_maia", "plan", "sc"}),
@@ -283,7 +283,13 @@ class Checker:
         resolved: list[Resolved] = []
         failed: set[str] = set()
         max_plies = self.plan[u.section]["max_pv_plies"] if u.section in self.plan else None
+        allowed = self.plan.get(u.section, {}).get("cites_allowed")      # D-72: one fact, one section
         for raw in find_tokens(u.text):
+            refs = token_refs(raw)
+            cites |= refs
+            out = sorted(refs - set(allowed)) if allowed is not None else []
+            if out:
+                errs.append(E("V13", raw, f"{', '.join(out)} non è un dato di questa sezione"))
             try:
                 r = self.resolver.resolve(raw)
             except ResolveError as e:

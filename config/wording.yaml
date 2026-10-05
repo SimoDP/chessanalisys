@@ -38,6 +38,15 @@ p_up_group:
   higher: "giocatori di circa trecento punti più forti"     # da aggiornare se cambia up_delta
   top: "giocatori della fascia più forte del modello"
 colors: {w: "il Bianco", b: "il Nero"}
+keypoint_titles:                 # D-72: titoli delle sezioni del documento per punti chiave
+  verdict: "Verdetto"
+  recommendation: "La mossa da giocare"
+  systems: "Mosse equivalenti"
+  plan: "Il piano"
+  main_danger: "Il pericolo"
+  likely_reply: "Cosa giocherà {opp} e come rispondere"
+  opportunity: "Le occasioni"
+  reasoning: "Come ragionare"
 fixed:
   maia_low_confidence: "A questo livello Maia-2, il modello del comportamento umano, distingue poco tra i giocatori più forti: le probabilità indicate sono poco affidabili e le indicazioni si basano soprattutto sul motore."
   maia_low_confidence_table: "* Probabilità di Maia-2 poco affidabili a questo livello."
@@ -95,6 +104,7 @@ verify_hints:
   V09: "Il termine appartiene a un'altra apertura: non usarlo."
   V10: "La fonte (source) non corrisponde ai token usati."
   V12: "Pezzi e case si prendono da facts.board e facts.moves: correggi la frase o toglila."
+  V13: "In ogni sezione usa solo i token del suo punto: quel dato appartiene a un'altra sezione o a nessuna."
 # M2: con la tablebase l'esito esatto prevale sulla valutazione ed è espresso a parole (§3.3, OQ-M2-4)
 tablebase:
   results:

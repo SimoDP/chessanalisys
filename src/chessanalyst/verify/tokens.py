@@ -105,3 +105,20 @@ def parse_token(raw: str) -> Token:
     elif kind == "sc":
         t.ref, t.field = g[0], g[1]
     return t
+
+
+CITING_KINDS = ("mv", "m", "ev", "loss", "pct", "pv")
+
+
+def token_refs(raw: str) -> set[str]:
+    """What a data token is about (D-72): its ID (C1, R1.u1, N4, L2, PV3, ``root``) or ``SAN@N`` for a move in a
+    node. Tokens that cite no move or value (plan, diag, elo, txt, opening, sc) give the empty set."""
+    try:
+        t = parse_token(raw)
+    except TokenSyntaxError:
+        return set()
+    if t.kind not in CITING_KINDS:
+        return set()
+    if t.ref:
+        return {t.ref}
+    return {f"{t.san}@{t.node}"} if t.san and t.node else set()

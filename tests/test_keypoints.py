@@ -19,7 +19,8 @@ def _kp(cfg, name: str) -> dict[str, dict]:
 
 def test_user_case_e4_wins(cfg):
     kp, _ = _kp(cfg, "e4_wins_w_1700")
-    assert list(kp) == ["verdict", "main_danger", "likely_reply", "opportunity", "plan"]
+    assert list(kp) == ["verdict", "main_danger", "likely_reply", "opportunity", "plan", "reasoning"]
+    assert "R5" not in kp["verdict"]["ids"] and kp["verdict"]["facts"]["best"]["told_in"] == "main_danger"
     v = kp["verdict"]["facts"]
     assert v["band"] == "decisive_minus" and v["better"] == "opp" and v["best"]["ref"] == "R5"
     assert any(a["square"] == "c3" and a["discovered"] for a in v["best"]["move"]["attacks"])   # why: Bf6 on Nc3
@@ -46,7 +47,8 @@ def test_every_reply_is_in_one_point_only(cfg):
 def test_only_move_and_only_answer(cfg):
     kp, _ = _kp(cfg, "iso_e3_w_1700")
     r = kp["recommendation"]["facts"]
-    assert r["ref"] == "C1" and r["san"] == "b3" and r["only_move"] and r["trap"]["ref"] == "C2"
+    assert r["ref"] == "C1" and r["san"] == "b3" and r["only_move"] and r["second"]["ref"] == "C2"
+    assert r["second"]["is_trap"] and "trap" not in r
     assert kp["verdict"]["facts"]["positional"] is True                # equal material, +2,58
     ne5 = next(x for x in kp["likely_reply"]["facts"]["replies"] if x["san"] == "Ne5")
     assert ne5["ref"] == "Ne5@N3" and ne5["answer"]["ref"] == "bxc5@N8" and ne5["only_answer"]

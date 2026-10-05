@@ -17,7 +17,8 @@ Types (``thresholds.yaml: keypoints``, order per side to move):
 - ``opportunity``: probable replies that give the user something (eval jump over the reference);
 - ``systems`` (user to move): several equivalent candidates (no single best move);
 - ``plan``: the features for the quiet moves (weaknesses of the opponent, own assets, pawn islands, the
-  opponent's typical move).
+  opponent's typical move);
+- ``reasoning``: «how to think here», a short list (theory), last.
 
 Every reply is in one point only: a reply that is an opportunity or the main danger is not repeated in
 ``likely_reply``. Nothing here reads the engines: only the pack.
@@ -204,6 +205,9 @@ def _recommendation(c: _Ctx) -> dict | None:
     traps = [o for o in others if o.get("category") == "natural_trap"]
     if traps:
         t = max(traps, key=lambda o: o["p_user"])
+        if second is not None and t["id"] == second["id"]:      # the second best is also the natural trap
+            facts["second"]["is_trap"] = True
+            return {"type": "recommendation", "ids": ids, "facts": facts}
         facts["trap"] = {"ref": t["id"], "san": t["san"], "p_user": t["p_user"], "loss_cp": t["loss_cp"],
                          "band": c.band(t["eval_user_cp"], t["mate_user"])}
         if t["id"] not in ids:
@@ -343,11 +347,18 @@ def key_points(cfg: Config, pack: dict) -> list[dict]:
     built["likely_reply"] = _likely(c, replies, at, used)
     built["systems"] = _systems(c)
     built["plan"] = _plan(c)
+    built["reasoning"] = {"type": "reasoning", "ids": [],
+                          "facts": {"items": cfg.thresholds.keypoints.reasoning_items[c.detail]}}
     if built["systems"] is not None and built["recommendation"] is not None:
         built["recommendation"]["facts"]["only_move"] = False
     order = cfg.thresholds.keypoints.order["user_to_move" if c.user_to_move else "opp_to_move"]
     points = [built[t] for t in order if built.get(t) is not None]
     points = points[: cfg.thresholds.keypoints.max_points[c.detail]]
+    elsewhere = {i for p in points if p["type"] != "verdict" for i in p["ids"]}
+    v = points[0]
+    if "best" in v["facts"] and v["facts"]["best"]["ref"] in elsewhere:     # one fact, one section
+        v["ids"] = [i for i in v["ids"] if i != v["facts"]["best"]["ref"]]
+        v["facts"]["best"]["told_in"] = next(p["type"] for p in points[1:] if v["facts"]["best"]["ref"] in p["ids"])
     for k, p in enumerate(points, 1):
         p["id"], p["priority"] = f"K{k}", k
     return [{"id": p["id"], "type": p["type"], "priority": p["priority"], "ids": p["ids"], "facts": p["facts"]}

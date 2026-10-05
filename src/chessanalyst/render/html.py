@@ -323,7 +323,13 @@ def folder_parts(cfg: Config, folder: Path) -> list[HtmlPart]:
         first = "w" if chess.Board(packs["w"]["position"]["fen"]).turn == chess.WHITE else "b"
         order = [first, "b" if first == "w" else "w"]
         pairs = [(packs[c], load(f"render_{'white' if c == 'w' else 'black'}.json")) for c in order]
-    return [render_html_part(cfg, pack, r["output"], RenderInfo(**r["info"])) for pack, r in pairs]
+    from chessanalyst.plan.outline import document_pack
+
+    parts = []
+    for pack, r in pairs:
+        info = RenderInfo(**r["info"])
+        parts.append(render_html_part(cfg, document_pack(cfg, pack, info.document), r["output"], info))
+    return parts
 
 
 def write_html(cfg: Config, folder: Path) -> Path | None:
