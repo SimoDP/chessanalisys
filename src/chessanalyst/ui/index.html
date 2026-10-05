@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chess Position Analyst</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1d1f;--muted:#666;--line:#ddd;--accent:#7a4b12;--light:#efe6d6;--dark:#b58863;
+--card:#fff;--err:#a3261b;--ok:#2e6b2e}
+@media (prefers-color-scheme:dark){:root{--bg:#17171a;--fg:#e8e6e1;--muted:#a3a19c;--line:#38383d;--accent:#e0b46a;
+--card:#202024;--err:#ff8a7a;--ok:#8fd18f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{max-width:1180px;margin:0 auto;padding:20px 16px 0}
+h1{font-size:1.5em;margin:0}
+.sub{color:var(--muted);margin:2px 0 0}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:24px;max-width:1180px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px}
+h2{font-size:1.1em;margin:0 0 12px}
+label{display:block;font-size:.9em;color:var(--muted);margin:10px 0 4px}
+input,select,textarea{width:100%;font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);
+border-radius:6px;padding:7px 9px}
+textarea{min-height:120px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85em}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0 12px}
+.seg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg label{flex:1;margin:0;text-align:center;padding:7px 4px;cursor:pointer;color:var(--fg);font-size:.95em}
+.seg input{display:none}
+.seg label:has(input:checked){background:var(--accent);color:var(--bg)}
+button{font:inherit;padding:8px 16px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);
+color:var(--bg);cursor:pointer}
+button.alt{background:transparent;color:var(--accent)}
+button:disabled{opacity:.5;cursor:default}
+.actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.err{color:var(--err);margin-top:10px;white-space:pre-wrap}
+.hidden{display:none!important}
+#board svg{width:100%;max-width:360px;height:auto;display:block}
+table.kv{border-collapse:collapse;width:100%;font-size:.9em;margin-top:10px}
+table.kv td{padding:4px 6px;border-top:1px solid var(--line);vertical-align:top}
+table.kv td:first-child{color:var(--muted);white-space:nowrap}
+table.kv td:last-child{word-break:break-all}
+#log{font-size:.9em;color:var(--muted);margin:8px 0 0;padding-left:18px}
+.list{list-style:none;margin:0;padding:0}
+.list li{padding:10px 0;border-top:1px solid var(--line)}
+.list li:first-child{border-top:0}
+.list a{color:var(--accent)}
+.list .t{font-weight:600}
+.list .m{font-size:.85em;color:var(--muted)}
+.list .dl a{font-size:.85em;margin-right:10px}
+.tags{font-size:.9em;margin-top:8px;padding:8px;border:1px dashed var(--line);border-radius:6px}
+.spin{display:inline-block;width:1em;height:1em;border:2px solid var(--line);border-top-color:var(--accent);
+border-radius:50%;animation:s 1s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes s{to{transform:rotate(360deg)}}
+@media (max-width:860px){.wrap{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><!--PIECES--></defs></svg>
+<header>
+  <h1>Chess Position Analyst</h1>
+  <p class="sub">Analisi di una posizione per il tuo livello. I motori girano su questo computer; al modello di
+    linguaggio vanno solo i dati della posizione, mai il PGN, i nomi o i percorsi.</p>
+</header>
+<div class="wrap">
+<main>
+  <section class="card" id="formCard">
+    <h2>1 · Posizione</h2>
+    <div class="seg" role="radiogroup">
+      <label><input type="radio" name="method" value="example" checked>Esempio</label>
+      <label><input type="radio" name="method" value="fen">FEN</label>
+      <label><input type="radio" name="method" value="pgn">PGN</label>
+    </div>
+    <div id="srcBox" class="hidden">
+      <label for="text" id="textLabel">Testo</label>
+      <textarea id="text" spellcheck="false"></textarea>
+      <label for="file">oppure carica un file (.pgn, .fen, .txt)</label>
+      <input type="file" id="file" accept=".pgn,.fen,.txt,text/plain">
+    </div>
+    <div id="pgnBox" class="row hidden">
+      <div id="gameBox" class="hidden"><label for="game">Partita</label><select id="game"></select></div>
+      <div><label for="at">Mossa (vuoto = posizione finale; es. 17b = dopo la 17ª del Nero)</label>
+        <input id="at" autocomplete="off"></div>
+    </div>
+
+    <h2 style="margin-top:22px">2 · Giocatore</h2>
+    <div class="seg" role="radiogroup">
+      <label><input type="radio" name="color" value="white">Bianco</label>
+      <label><input type="radio" name="color" value="black">Nero</label>
+      <label><input type="radio" name="color" value="both">Entrambi</label>
+    </div>
+    <div class="row" id="eloOne">
+      <div><label for="elo">Il tuo Elo</label><input id="elo" type="number" inputmode="numeric"></div>
+      <div><label for="opp_elo">Elo dell'avversario (vuoto = uguale)</label>
+        <input id="opp_elo" type="number" inputmode="numeric"></div>
+    </div>
+    <div class="row hidden" id="eloBoth">
+      <div><label for="elo_white">Elo del Bianco</label><input id="elo_white" type="number" inputmode="numeric"></div>
+      <div><label for="elo_black">Elo del Nero</label><input id="elo_black" type="number" inputmode="numeric"></div>
+    </div>
+    <div class="row">
+      <div><label for="elo_scale">Scala dell'Elo</label>
+        <select id="elo_scale"><option value="fide">FIDE</option><option value="lichess">Lichess</option>
+          <option value="chesscom" id="optChesscom">chess.com</option></select></div>
+    </div>
+
+    <h2 style="margin-top:22px">3 · Analisi</h2>
+    <div class="row">
+      <div><label for="budget">Profondità</label>
+        <select id="budget"><option value="fast">Veloce</option><option value="standard">Standard</option>
+          <option value="deep">Profonda</option></select></div>
+      <div><label for="detail">Dettaglio del testo</label>
+        <select id="detail"><option value="1">1 · essenziale</option><option value="2">2</option>
+          <option value="3">3</option><option value="4">4 · normale</option><option value="5">5 · completo</option></select></div>
+    </div>
+    <div class="actions"><button id="previewBtn">Controlla la posizione</button></div>
+    <div class="err" id="formErr" role="alert"></div>
+  </section>
+
+  <section class="card hidden" id="confirmCard">
+    <h2>Conferma</h2>
+    <p class="sub" style="margin:0 0 8px">È la posizione giusta? I motori partono solo dopo la conferma.</p>
+    <div id="board"></div>
+    <table class="kv" id="kv"></table>
+    <div class="tags hidden" id="tagBox"></div>
+    <div class="actions">
+      <button id="goBtn">Analizza</button><button class="alt" id="fixBtn">Correggi</button>
+    </div>
+    <div class="err" id="confirmErr" role="alert"></div>
+  </section>
+
+  <section class="card hidden" id="runCard">
+    <h2 id="runTitle"><span class="spin"></span>Analisi in corso</h2>
+    <p class="sub" style="margin:0" id="runNote">Con il profilo profondo servono alcuni minuti. Puoi lasciare aperta questa pagina.</p>
+    <ul id="log"></ul>
+    <div class="err" id="runErr" role="alert"></div>
+    <div class="actions hidden" id="doneBox"><a id="openLink" target="_blank" rel="noopener"><button>Apri l'analisi</button></a>
+      <button class="alt" id="againBtn">Nuova analisi</button></div>
+  </section>
+</main>
+<aside>
+  <section class="card">
+    <h2>Analisi salvate</h2>
+    <ul class="list" id="list"><li class="m">Nessuna analisi.</li></ul>
+  </section>
+</aside>
+</div>
+<script>
+const DATA=/*DATA*/null;const D=DATA.defaults;const $=id=>document.getElementById(id);
+function radio(n){return document.querySelector(`input[name="${n}"]:checked`).value}
+function setRadio(n,v){const r=document.querySelector(`input[name="${n}"][value="${v}"]`);if(r)r.checked=true}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+// defaults (profile and configuration)
+setRadio('color',D.color);$('elo').value=D.elo;$('opp_elo').value=D.opp_elo??'';$('elo_white').value=D.elo_white??D.elo;
+$('elo_black').value=D.elo_black??D.elo;$('elo_scale').value=D.elo_scale;$('budget').value=D.budget;$('detail').value=D.detail;
+for(const id of ['elo','opp_elo','elo_white','elo_black']){$(id).min=D.elo_min;$(id).max=D.elo_max}
+if(!D.chesscom)$('optChesscom').remove();
+function sync(){const m=radio('method');$('srcBox').classList.toggle('hidden',m==='example');
+  $('pgnBox').classList.toggle('hidden',m!=='pgn');$('textLabel').textContent=m==='fen'?'FEN':'PGN (una o più partite)';
+  const both=radio('color')==='both';$('eloOne').classList.toggle('hidden',both);$('eloBoth').classList.toggle('hidden',!both)}
+document.querySelectorAll('input[type=radio]').forEach(r=>r.addEventListener('change',()=>{sync();
+  if(r.name==='method'){$('gameBox').classList.add('hidden');$('game').innerHTML=''}}));sync();
+$('text').addEventListener('input',()=>{$('gameBox').classList.add('hidden');$('game').innerHTML=''});
+$('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;$('text').value=await f.text();
+  $('gameBox').classList.add('hidden');$('game').innerHTML=''});
+function request(){const r={method:radio('method'),color:radio('color'),elo_scale:$('elo_scale').value,
+  budget:$('budget').value,detail:$('detail').value};
+  if(r.method!=='example')r.text=$('text').value;if(r.method==='pgn'){r.at=$('at').value.trim();if($('game').value)r.game=$('game').value}
+  if(r.color==='both'){r.elo_white=$('elo_white').value;r.elo_black=$('elo_black').value;r.elo=r.elo_white}
+  else{r.elo=$('elo').value;r.opp_elo=$('opp_elo').value}return r}
+async function post(url,body){const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json',
+  'X-Token':DATA.token},body:JSON.stringify(body)});let j={};try{j=await res.json()}catch(e){}
+  if(!res.ok)throw new Error(j.error||('Errore '+res.status));return j}
+function draw(fen,last){const rows=fen.split(' ')[0].split('/');const flip=radio('color')==='black';
+  const hl=last?[last.slice(0,2),last.slice(2,4)]:[];let s='<svg viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">';
+  for(let r=0;r<8;r++){let f=0;for(const ch of rows[r]){if(/\d/.test(ch)){for(let k=0;k<+ch;k++){sq(r,f);f++}}else{sq(r,f,ch);f++}}}
+  function sq(r,f,p){const x=(flip?7-f:f)*45,y=(flip?7-r:r)*45,name='abcdefgh'[f]+(8-r);
+    const col=hl.includes(name)?'#d6b656':((r+f)%2?'var(--dark)':'var(--light)');
+    s+=`<rect x="${x}" y="${y}" width="45" height="45" fill="${col}"/>`;if(p){const c=p===p.toUpperCase()?'white':'black';
+    const n={p:'pawn',n:'knight',b:'bishop',r:'rook',q:'queen',k:'king'}[p.toLowerCase()];
+    s+=`<use href="#${c}-${n}" transform="translate(${x},${y})"/>`}}
+  $('board').innerHTML=s+'</svg>'}
+$('previewBtn').onclick=async()=>{$('formErr').textContent='';$('previewBtn').disabled=true;
+  try{const j=await post('/api/preview',request());
+    if(j.games){$('game').innerHTML='<option value="">— scegli —</option>'+j.games.map(g=>`<option value="${g.index}">${g.index}. ${esc(g.label)}</option>`).join('');
+      $('gameBox').classList.remove('hidden');$('formErr').textContent='Il PGN contiene più partite: scegli quale.';return}
+    draw(j.fen,j.last);$('kv').innerHTML=j.rows.map(([k,v])=>`<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join('');
+    const t=j.tag_elos;$('tagBox').classList.toggle('hidden',!t);
+    if(t){$('tagBox').innerHTML=`La partita indica Elo Bianco ${t.w} e Nero ${t.b}. <button class="alt" id="useTags" type="button">Usali</button>`;
+      $('useTags').onclick=()=>{const c=radio('color');if(c==='both'){$('elo_white').value=t.w;$('elo_black').value=t.b}
+        else{const me=c==='white'?'w':'b';$('elo').value=t[me];$('opp_elo').value=t[me==='w'?'b':'w']}
+        const opts=[...$('elo_scale').options].map(o=>`<option value="${o.value}">${esc(o.text)}</option>`).join('');
+        $('tagBox').innerHTML=`Usati gli Elo della partita. In che scala sono? <select id="tagScale" style="width:auto">${opts}</select>`;
+        $('tagScale').value=$('elo_scale').value;$('tagScale').onchange=e=>{$('elo_scale').value=e.target.value}}}
+    $('formCard').classList.add('hidden');$('confirmCard').classList.remove('hidden');window.scrollTo(0,0)}
+  catch(e){$('formErr').textContent=e.message}finally{$('previewBtn').disabled=false}};
+$('fixBtn').onclick=()=>{$('confirmCard').classList.add('hidden');$('formCard').classList.remove('hidden');$('confirmErr').textContent=''};
+$('goBtn').onclick=async()=>{$('confirmErr').textContent='';$('goBtn').disabled=true;
+  try{const j=await post('/api/analyze',request());$('confirmCard').classList.add('hidden');$('runCard').classList.remove('hidden');
+    $('log').innerHTML='';$('runErr').textContent='';$('doneBox').classList.add('hidden');
+    $('runTitle').innerHTML='<span class="spin"></span>Analisi in corso';$('runNote').classList.remove('hidden');poll(j.job)}
+  catch(e){$('confirmErr').textContent=e.message}finally{$('goBtn').disabled=false}};
+async function poll(id){let j;try{j=await (await fetch('/api/job/'+id)).json()}catch(e){return setTimeout(()=>poll(id),D.poll_ms)}
+  $('log').innerHTML=j.messages.slice(-8).map(m=>`<li>${esc(m)}</li>`).join('');
+  if(j.state==='running')return setTimeout(()=>poll(id),D.poll_ms);
+  $('runNote').classList.add('hidden');
+  if(j.state==='done'){$('runTitle').textContent='Analisi pronta';$('openLink').href=`/a/${encodeURIComponent(j.folder)}/analysis.html`}
+  else{$('runTitle').textContent='Analisi non completata';$('runErr').textContent=j.error}
+  $('doneBox').classList.remove('hidden');$('openLink').classList.toggle('hidden',j.state!=='done');loadList()}
+$('againBtn').onclick=()=>{$('runCard').classList.add('hidden');$('formCard').classList.remove('hidden')};
+async function loadList(){const xs=await (await fetch('/api/analyses')).json();
+  $('list').innerHTML=xs.length?xs.map(a=>{const n=encodeURIComponent(a.name),d=new Date(a.mtime*1000);
+    const open=a.html?`<a href="/a/${n}/analysis.html" target="_blank" rel="noopener">${esc(a.title)}</a>`:esc(a.title);
+    return `<li><div class="t">${open}</div><div class="m">${d.toLocaleString('it-IT')}${a.both?' · entrambi i colori':''}</div>
+      <div class="dl"><a href="/a/${n}/export.md">Markdown</a><a href="/a/${n}/export.pgn">PGN</a>${a.html?`<a href="/a/${n}/export.html">HTML</a>`:''}</div></li>`}).join('')
+    :'<li class="m">Nessuna analisi.</li>'}
+loadList();
+</script>
+</body>
+</html>

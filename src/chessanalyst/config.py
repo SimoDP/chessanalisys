@@ -150,6 +150,17 @@ class OutputCfg(Strict):
     slug_max_chars: int
 
 
+class ExportCfg(Strict):
+    pgn_plies: int
+
+
+class UiCfg(Strict):
+    port: int
+    open_browser: bool
+    max_request_kb: int
+    poll_ms: int
+
+
 class DefaultCfg(Strict):
     user: UserCfg
     input: InputCfg
@@ -158,6 +169,8 @@ class DefaultCfg(Strict):
     llm: LlmCfg
     render: RenderCfg
     output: OutputCfg
+    export: ExportCfg
+    ui: UiCfg
 
 
 # --- exploration.yaml -------------------------------------------------------

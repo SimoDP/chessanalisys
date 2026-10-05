@@ -112,3 +112,11 @@ html:                              # pagina analysis.html (M6)
   next: "Avanti nella linea (→)"
   flip: "Gira la scacchiera"
   pieces_credit: "Pezzi di Colin M. L. Burnett, dalla libreria python-chess (GPL-3.0+)."
+export:                            # chessanalyst export (M6)
+  pgn_event: "Chess Position Analyst"
+  pgn_intro: "Valutazioni dal punto di vista di chi gioca con {color}; analisi completa in analysis.html."
+  candidate: "candidata, {eval}"
+  reply: "risposta dell'avversario, {eval}"
+  line_threat: "{id}: minaccia"
+  line_refutation: "{id}: confutazione di {entry}"
+  line_end: "fine linea {eval}"

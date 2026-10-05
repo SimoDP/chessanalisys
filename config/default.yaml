@@ -47,3 +47,10 @@ render:
 output:
   dir: output
   slug_max_chars: 40      # §2-bis.5 (D-65)
+export:                   # M6: chessanalyst export
+  pgn_plies: 12           # semimosse per variante nel PGN (le PV del motore arrivano a decine)
+ui:                       # M6: chessanalyst ui, pagina web locale (solo 127.0.0.1)
+  port: 8765              # 0 = una porta libera qualsiasi
+  open_browser: true
+  max_request_kb: 512     # limite del corpo di una richiesta (PGN incollato)
+  poll_ms: 1500           # intervallo con cui la pagina chiede l'avanzamento

@@ -1,7 +1,8 @@
 """Command line interface (§2-bis.1, argparse, D-56).
 
 M1c: interactive flow, ``analyze`` and ``rerun`` (pack, model, verification,
-render), ``doctor``, ``golden --data/--packs/--render``. Options of later
+render), ``doctor``, ``golden --data/--packs/--render``. M5: ``regression``, ``calibrate``.
+M6: ``export`` and ``ui`` (local web page). Options of later
 milestones are refused explicitly with exit code 2 (D-30, ``settings.py``).
 """
 
@@ -71,6 +72,15 @@ def build_parser() -> argparse.ArgumentParser:
     r = sub.add_parser("rerun", help="rifà modello, verifica e render da pack.json")
     r.add_argument("folder", help="cartella di output con pack.json")
     r.add_argument("--verbose", action="store_true", dest="verbose_a")
+    e = sub.add_parser("export", help="M6: esporta un'analisi in HTML, Markdown o PGN")
+    e.add_argument("folder", help="cartella di output dell'analisi")
+    e.add_argument("--format", choices=["html", "md", "pgn"], required=True)
+    e.add_argument("--to", help="cartella di destinazione (predefinita: la cartella dell'analisi)")
+    u = sub.add_parser("ui", help="M6: interfaccia nel browser, su questo computer")
+    u.add_argument("--port", type=int, help="porta (predefinita in config: ui.port; 0 = una libera)")
+    u.add_argument("--no-browser", action="store_true", help="non aprire il browser")
+    u.add_argument("--out", help="cartella delle analisi (predefinita: output.dir)")
+    u.add_argument("--verbose", action="store_true", dest="verbose_a")
     return p
 
 
@@ -247,6 +257,35 @@ def _cmd_rerun(args: argparse.Namespace) -> int:
     return exit_codes.OK
 
 
+def _cmd_export(args: argparse.Namespace) -> int:
+    from pathlib import Path
+
+    from chessanalyst.config import load_config
+    from chessanalyst.export import export
+
+    cfg = load_config()
+    dest = export(cfg, Path(args.folder).expanduser(), args.format, Path(args.to).expanduser() if args.to else None)
+    print(f"Esportato {dest}")
+    return exit_codes.OK
+
+
+def _cmd_ui(args: argparse.Namespace) -> int:
+    from pathlib import Path
+
+    from chessanalyst.config import load_config
+    from chessanalyst.ui.server import serve
+
+    cfg = load_config()
+    out_base = Path(args.out).expanduser() if args.out else cfg.resolve_path(cfg.default.output.dir)
+    try:
+        serve(cfg, out_base, port=args.port, open_browser=False if args.no_browser else None)
+    except OSError as e:
+        from chessanalyst.errors import UsageError
+
+        raise UsageError(f"Impossibile aprire la porta: {e.strerror or e}") from None
+    return exit_codes.OK
+
+
 def _cmd_analyze(args: argparse.Namespace) -> int:
     from pathlib import Path
 
@@ -342,6 +381,10 @@ def main(argv: list[str] | None = None) -> int:
             return _cmd_analyze(args)
         if args.command == "rerun":
             return _cmd_rerun(args)
+        if args.command == "export":
+            return _cmd_export(args)
+        if args.command == "ui":
+            return _cmd_ui(args)
         if args.command == "regression":
             return _cmd_regression(args)
         if args.command == "calibrate":
