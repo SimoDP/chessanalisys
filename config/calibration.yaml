@@ -34,3 +34,13 @@ regression:
           fried_liver_w_1500, rook_endgame_w_1900, lucena_w_1900]
   dir: "docs/regression"
   runs: 3                     # ripetizioni per pacchetto: le risposte del modello variano da un giro all'altro
+bench:                        # banco di prova (OQ-BENCH): pacchetti congelati e punti chiave in fixtures/bench/
+  dir: "fixtures/bench"
+  out_dir: "docs/bench"
+  positions: [e4_wins_w_1700, iso_e3_w_1700, knight_a4_w_1700, rook_checks_b_1700, knight_d6_b_1700,
+              bogo_c5_w_1700]
+  freeze: {profile: standard, detail: 5}   # come il caso reale dell'utente (fixtures/user_cases/e4_wins_w_1700)
+  runs: 5
+  goal:                       # traguardo di uscita (OQ-BENCH)
+    min_passing_runs: 4       # giri superati su `runs`, per ogni posizione
+    max_mean_cost_usd: 0.01   # costo medio per analisi

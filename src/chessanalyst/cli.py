@@ -43,6 +43,13 @@ def build_parser() -> argparse.ArgumentParser:
                    help="--packs: usa le registrazioni di fixtures/recorded invece dei motori")
     rg = sub.add_parser("regression", help="M5: rilancia il modello sui pacchetti congelati e confronta i rapporti")
     rg.add_argument("--verbose", action="store_true", dest="verbose_a")
+    bn = sub.add_parser("bench", help="banco di prova: analisi sui pacchetti congelati e punti chiave (OQ-BENCH)")
+    bn.add_argument("--model", help="modello da provare (predefinito: llm.model)")
+    bn.add_argument("--runs", type=int, help="giri per posizione (predefinito: bench.runs)")
+    bn.add_argument("--position", action="append", dest="positions", help="solo questa posizione (ripetibile)")
+    bn.add_argument("--freeze", action="store_true", help="congela con i motori i pacchetti che mancano")
+    bn.add_argument("--force", action="store_true", help="--freeze: rigenera anche i pacchetti esistenti")
+    bn.add_argument("--verbose", action="store_true", dest="verbose_a")
     cb = sub.add_parser("calibrate", help="M5: campione Lichess, annotazione con i motori, fit delle costanti")
     cmode = cb.add_mutually_exclusive_group(required=True)
     cmode.add_argument("--sample", action="store_true", help="estrae le posizioni dal database aperto di Lichess")
@@ -222,6 +229,40 @@ def _cmd_regression(args: argparse.Namespace) -> int:
     return exit_codes.OK
 
 
+def _cmd_bench(args: argparse.Namespace) -> int:
+    from chessanalyst import bench
+    from chessanalyst.config import load_config
+    from chessanalyst.errors import UsageError
+
+    cfg = load_config()
+    if args.freeze:
+        from chessanalyst.engines.cache import Cache
+        from chessanalyst.run import load_openings, open_engines
+
+        engines = open_engines(cfg, Cache(":memory:"))   # fresh cache: the packs come from this run only
+        try:
+            written = bench.freeze_packs(cfg, engines.analyzer, engines.maia, load_openings(cfg),
+                                         tablebase=engines.tablebase, force=args.force)
+        finally:
+            engines.close()
+        for w in written:
+            print(f"Scritto {w.relative_to(cfg.project_root)}")
+        return exit_codes.OK
+    from chessanalyst.llm.client import make_client
+
+    if args.runs is not None and args.runs < 1:
+        raise UsageError("--runs deve essere almeno 1")
+    if args.model:
+        llm = cfg.default.llm.model_copy(update={"model": args.model})
+        cfg = cfg.model_copy(update={"default": cfg.default.model_copy(update={"llm": llm})})
+    summary = bench.run_bench(cfg, make_client(cfg), runs=args.runs, positions=args.positions)
+    j, m = bench.write_bench(cfg, summary)
+    reached, cost = bench.goal_reached(cfg, summary)
+    print(f"Scritti {j.relative_to(cfg.project_root)} e {m.relative_to(cfg.project_root)} · traguardo "
+          f"{'raggiunto' if reached else 'non raggiunto'}")
+    return exit_codes.OK
+
+
 def _cmd_calibrate(args: argparse.Namespace) -> int:
     from chessanalyst.config import load_config
 
@@ -387,6 +428,8 @@ def main(argv: list[str] | None = None) -> int:
             return _cmd_ui(args)
         if args.command == "regression":
             return _cmd_regression(args)
+        if args.command == "bench":
+            return _cmd_bench(args)
         if args.command == "calibrate":
             return _cmd_calibrate(args)
         if args.command == "doctor":

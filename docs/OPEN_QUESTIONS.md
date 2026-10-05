@@ -733,3 +733,31 @@ usare `rerun`, Markdown e PGN funzionano.
   `app_version`.
 - **Pacchetti golden.** Restano quelli congelati, con `app_version` 0.1.0: i fewshot sono scritti su di essi (D-49).
 - **Tag git.** Non si crea senza il via dell'utente.
+
+## Dopo v1.0 — banco di prova
+
+### OQ-BENCH · Banco di prova e traguardo di uscita (decisione dell'utente)
+- **Problema.** Le analisi sono poco utili e a volte false (caso reale `fixtures/user_cases/e4_wins_w_1700`). La
+  regressione (§12.2) conta errori e retry ma non dice se l'analisi racconta le cose giuste: serve un banco di
+  prova che misuri il contenuto, prima di cambiare scaletta, prompt o modello.
+- **Banco.** `fixtures/bench/<id>.yaml`: posizione (FEN, colore, Elo 1700 FIDE), bande attese di N1 (`verdict`),
+  da due a quattro punti chiave (`must_say`) e parole vietate nel verdetto (`must_not`). Un punto chiave è un
+  elenco di termini che devono comparire nella stessa sezione: `ref` (un ID citato in un token: `R5`, `R1.u3`,
+  `C1`), `move` (una mossa citata con qualunque token, per ID o `SAN@N`, eventualmente nella casa `node`) o
+  `text` (parole, per i concetti posizionali senza un ID: «isolato» con «e3»). Accanto, il pacchetto congelato
+  (`<id>.pack.json`, o `pack:`); `chessanalyst bench --freeze` costruisce con i motori quelli che mancano
+  (`calibration.yaml: bench.freeze`, profilo standard e dettaglio 5 come il caso reale). Le sei posizioni sono il
+  caso reale e le cinque fornite dall'utente.
+- **Misura.** `chessanalyst bench [--model X] [--runs N]` rilancia solo modello, verifica e render sui pacchetti
+  congelati e scrive `docs/bench/<data>.json` e `….md` con il confronto col giro precedente. Per ogni giro:
+  verdetto corretto (asserzione `eval_band` su N1 con una banda attesa nella sezione del verdetto del documento
+  finale, e nessuna parola di `must_not`), punti chiave presenti, errori V12 nell'ultimo tentativo, analisi
+  completa (ultimo tentativo senza errori), parole, costo, token in ingresso e tempo.
+- **Traguardo di uscita** (`calibration.yaml: bench.goal`). Su **tutte** le posizioni, in almeno **4 giri su 5**:
+  verdetto corretto, tutti i punti chiave, zero frasi false finali (V12) e analisi completa; **costo medio per
+  analisi sotto 0,01 $**. Quando il traguardo è raggiunto ci si ferma: niente ritocchi oltre.
+- **Regola di lavoro.** Ogni modifica si misura col banco prima e dopo, con almeno 3 giri; i numeri vanno in
+  `docs/bench/`. Una modifica che non migliora il banco si toglie.
+- **Limiti noti.** I punti chiave si riconoscono dai token citati e da parole chiave, non dal senso della frase:
+  «R1.u3 perde» conta come presente se R1.u3 è citata. Le frasi false le trova V12; le altre restano un limite
+  del banco.
