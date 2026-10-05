@@ -775,3 +775,7 @@ usare `rerun`, Markdown e PGN funzionano.
   dell'utente dice «dare scacco»): ora è `scacc(?:o|hi)`. Nel banco «completa» vuol dire ultimo tentativo senza
   errori, compresi gli sforamenti del budget di parole (V07 d): nell'ultimo banco 3 dei 6 giri non superati
   hanno solo quello, un quarto anche un punto chiave mancante; gli altri due mancano «colonna c inutile».
+- **Fase D, confronto dei modelli (D-73, 5 ottobre 2026).** Nessun modello economico supera DeepSeek v4.1 flash
+  (11 giri su 18, 0,0014 $): resta il modello di produzione. Il traguardo resta da raggiungere; le cause
+  principali dei giri non superati sono gli sforamenti del budget di parole e due punti chiave posizionali
+  («colonna c inutile», «spinta d5»).

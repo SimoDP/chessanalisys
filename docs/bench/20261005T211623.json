@@ -1,0 +1,504 @@
+{
+ "created_utc": "2026-10-05T21:16:23+00:00",
+ "model": "deepseek/deepseek-v4-flash",
+ "config_hash": "d7e1b03c74f12188b5fc44159d77778fe17edc92",
+ "runs": 3,
+ "document": "keypoints",
+ "positions": [
+  {
+   "position": "e4_wins_w_1700",
+   "n": 3,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "e4_vince": true,
+      "qd4_solo_kh1": true,
+      "qxd4_trappola": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 384,
+     "attempts": 3,
+     "final_errors": [
+      "V03",
+      "V07(d)",
+      "V10"
+     ],
+     "cost_usd": 0.005657,
+     "input_tokens": 22951,
+     "seconds": 179.9,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "e4_vince": true,
+      "qd4_solo_kh1": true,
+      "qxd4_trappola": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 491,
+     "attempts": 2,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.003381,
+     "input_tokens": 13353,
+     "seconds": 118.0,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "e4_vince": true,
+      "qd4_solo_kh1": true,
+      "qxd4_trappola": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 484,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.003006,
+     "input_tokens": 23362,
+     "seconds": 349.7,
+     "passed": false
+    }
+   ],
+   "passed": 0,
+   "verdict": 3,
+   "key_points": {
+    "e4_vince": 3,
+    "qd4_solo_kh1": 3,
+    "qxd4_trappola": 3
+   },
+   "all_key_points": 3,
+   "v12_zero": 3,
+   "complete": 0,
+   "failed": 0,
+   "words": 453.0,
+   "cost_usd": 0.00401,
+   "input_tokens": 19888.66667,
+   "seconds": 215.86667
+  },
+  {
+   "position": "iso_e3_w_1700",
+   "n": 3,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "materiale_pari": true,
+      "solo_b3": true,
+      "dopo_ne5_bxc5": true,
+      "pedone_e3_torri": false
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 425,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.003765,
+     "input_tokens": 18536,
+     "seconds": 214.2,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "materiale_pari": true,
+      "solo_b3": true,
+      "dopo_ne5_bxc5": true,
+      "pedone_e3_torri": false
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 343,
+     "attempts": 2,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.001319,
+     "input_tokens": 13051,
+     "seconds": 181.6,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "materiale_pari": true,
+      "solo_b3": true,
+      "dopo_ne5_bxc5": true,
+      "pedone_e3_torri": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 373,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.003802,
+     "input_tokens": 22591,
+     "seconds": 173.9,
+     "passed": false
+    }
+   ],
+   "passed": 0,
+   "verdict": 3,
+   "key_points": {
+    "materiale_pari": 3,
+    "solo_b3": 3,
+    "dopo_ne5_bxc5": 3,
+    "pedone_e3_torri": 1
+   },
+   "all_key_points": 1,
+   "v12_zero": 3,
+   "complete": 0,
+   "failed": 0,
+   "words": 380.33333,
+   "cost_usd": 0.00296,
+   "input_tokens": 18059.33333,
+   "seconds": 189.9
+  },
+  {
+   "position": "knight_a4_w_1700",
+   "n": 3,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "na4_forchetta": true,
+      "c5_inchiodato": true,
+      "b2_indifeso": true,
+      "tre_isole": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 303,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.002547,
+     "input_tokens": 20677,
+     "seconds": 217.7,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "na4_forchetta": true,
+      "c5_inchiodato": true,
+      "b2_indifeso": true,
+      "tre_isole": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 267,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.002164,
+     "input_tokens": 19944,
+     "seconds": 227.2,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "na4_forchetta": true,
+      "c5_inchiodato": true,
+      "b2_indifeso": false,
+      "tre_isole": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 278,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.001647,
+     "input_tokens": 19559,
+     "seconds": 149.6,
+     "passed": false
+    }
+   ],
+   "passed": 0,
+   "verdict": 3,
+   "key_points": {
+    "na4_forchetta": 3,
+    "c5_inchiodato": 3,
+    "b2_indifeso": 2,
+    "tre_isole": 3
+   },
+   "all_key_points": 2,
+   "v12_zero": 3,
+   "complete": 0,
+   "failed": 0,
+   "words": 282.66667,
+   "cost_usd": 0.00212,
+   "input_tokens": 20060.0,
+   "seconds": 198.16667
+  },
+  {
+   "position": "rook_checks_b_1700",
+   "n": 3,
+   "runs": [
+    {
+     "verdict": false,
+     "forbidden_said": [
+      "vantaggio"
+     ],
+     "key_points": {
+      "pedone_in_piu_scacchi": true,
+      "patta_facile": false
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 267,
+     "attempts": 2,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.000938,
+     "input_tokens": 9546,
+     "seconds": 78.9,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "pedone_in_piu_scacchi": true,
+      "patta_facile": false
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 306,
+     "attempts": 1,
+     "final_errors": [],
+     "cost_usd": 0.000683,
+     "input_tokens": 4209,
+     "seconds": 64.6,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "pedone_in_piu_scacchi": true,
+      "patta_facile": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 318,
+     "attempts": 1,
+     "final_errors": [],
+     "cost_usd": 0.00066,
+     "input_tokens": 4209,
+     "seconds": 69.3,
+     "passed": true
+    }
+   ],
+   "passed": 1,
+   "verdict": 2,
+   "key_points": {
+    "pedone_in_piu_scacchi": 3,
+    "patta_facile": 1
+   },
+   "all_key_points": 1,
+   "v12_zero": 3,
+   "complete": 2,
+   "failed": 0,
+   "words": 297.0,
+   "cost_usd": 0.00076,
+   "input_tokens": 5988.0,
+   "seconds": 70.93333
+  },
+  {
+   "position": "knight_d6_b_1700",
+   "n": 3,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "salto_d6": true,
+      "alfiere_g2_diagonale": true,
+      "donna_d3_h7_g5": false,
+      "colonna_c_inutile": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 359,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.002602,
+     "input_tokens": 21961,
+     "seconds": 220.5,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "salto_d6": true,
+      "alfiere_g2_diagonale": true,
+      "donna_d3_h7_g5": false,
+      "colonna_c_inutile": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 366,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.002404,
+     "input_tokens": 22282,
+     "seconds": 245.7,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "salto_d6": true,
+      "alfiere_g2_diagonale": true,
+      "donna_d3_h7_g5": false,
+      "colonna_c_inutile": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 438,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.003753,
+     "input_tokens": 22619,
+     "seconds": 191.6,
+     "passed": false
+    }
+   ],
+   "passed": 0,
+   "verdict": 3,
+   "key_points": {
+    "salto_d6": 3,
+    "alfiere_g2_diagonale": 3,
+    "donna_d3_h7_g5": 0,
+    "colonna_c_inutile": 3
+   },
+   "all_key_points": 0,
+   "v12_zero": 3,
+   "complete": 0,
+   "failed": 0,
+   "words": 387.66667,
+   "cost_usd": 0.00292,
+   "input_tokens": 22287.33333,
+   "seconds": 219.26667
+  },
+  {
+   "position": "bogo_c5_w_1700",
+   "n": 3,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "alfieri_c5": false,
+      "spinta_d5": true,
+      "nc6_fianchetto": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 310,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.002263,
+     "input_tokens": 19432,
+     "seconds": 196.7,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "alfieri_c5": false,
+      "spinta_d5": true,
+      "nc6_fianchetto": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 284,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)"
+     ],
+     "cost_usd": 0.002421,
+     "input_tokens": 19836,
+     "seconds": 206.1,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "alfieri_c5": false,
+      "spinta_d5": false,
+      "nc6_fianchetto": true
+     },
+     "v12_final": 0,
+     "complete": false,
+     "words": 306,
+     "attempts": 3,
+     "final_errors": [
+      "V07(d)",
+      "V08"
+     ],
+     "cost_usd": 0.002412,
+     "input_tokens": 19646,
+     "seconds": 216.3,
+     "passed": false
+    }
+   ],
+   "passed": 0,
+   "verdict": 3,
+   "key_points": {
+    "alfieri_c5": 0,
+    "spinta_d5": 2,
+    "nc6_fianchetto": 3
+   },
+   "all_key_points": 0,
+   "v12_zero": 3,
+   "complete": 0,
+   "failed": 0,
+   "words": 300.0,
+   "cost_usd": 0.00237,
+   "input_tokens": 19638.0,
+   "seconds": 206.36667
+  }
+ ]
+}
