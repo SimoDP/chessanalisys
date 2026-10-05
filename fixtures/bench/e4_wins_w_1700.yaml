@@ -1,0 +1,17 @@
+# Banco di prova (OQ-BENCH). Caso reale dell'utente (D-71): il Nero al tratto vince con 18...e4.
+id: e4_wins_w_1700
+pack: fixtures/user_cases/e4_wins_w_1700.pack.json
+user: {color: w, elo: 1700, elo_scale: fide}
+stockfish_user: "-4,77"
+verdict: {bands: [decisive_minus]}          # banda di N1 per l'utente
+must_say:
+  - id: e4_vince
+    text: "18...e4 (R5) vince per il Nero (-4,77), anche se a 1700 la gioca il 3%"
+    all: [{move: e4, node: N1}]
+  - id: qd4_solo_kh1
+    text: "dopo 18...Qd4+ (R1) l'unica risposta che tiene è 19.Kh1 (R1.u1)"
+    all: [{ref: R1}, {ref: R1.u1}]
+  - id: qxd4_trappola
+    text: "19.Qxd4 (R1.u3), la risposta naturale (93%), perde"
+    all: [{ref: R1.u3}]
+must_not: ["equilibrat", "stai bene", "sei meglio"]

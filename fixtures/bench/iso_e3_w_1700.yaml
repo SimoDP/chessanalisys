@@ -1,0 +1,20 @@
+# Banco di prova (OQ-BENCH). Posizione fornita dall'utente; giudizio e punti chiave scritti dall'utente.
+id: iso_e3_w_1700
+fen: "r4r1k/7p/p2p4/1pp2P2/1Pn5/4p1NR/1PP3PP/4R1K1 w - - 2 28"
+user: {color: w, elo: 1700, elo_scale: fide}
+stockfish_user: "+2,8 per l'utente; +2,58 nel pacchetto congelato"
+verdict: {bands: [decisive_plus]}           # banda di N1 nel pacchetto (+2,58)
+must_say:
+  - id: materiale_pari
+    text: "il vantaggio è posizionale: il materiale è identico"
+    all: [{text: "material\\w*\\W+(?:\\w+\\W+){0,3}(?:pari|identic|ugual|stess|equivalent)|(?:pari|identic|ugual|stess|parità)\\w*\\W+(?:\\w+\\W+){0,2}material"}]
+  - id: solo_b3
+    text: "il Bianco mantiene il vantaggio solo con 28.b3 (C1); 28.bxc5 (C2) lo butta via"
+    all: [{move: b3, node: N1}]
+  - id: dopo_ne5_bxc5
+    text: "dopo 28.b3 Ne5 l'unica mossa che mantiene il vantaggio è 29.bxc5"
+    all: [{move: Ne5, node: N3}, {move: bxc5, node: N8}]
+  - id: pedone_e3_torri
+    text: "il vantaggio sta nel pedone e3 del Nero, debole e poco difeso, e nelle torri bianche attive contro pedone e re"
+    all: [{text: "\\be3\\b"}, {text: "pedon"}, {text: "debol|isolat|poco difes|indifes|bersagli|attacc|cade|cadr"}, {text: "torr"}]
+must_not: ["equilibrat", "sto bene", "stai bene"]

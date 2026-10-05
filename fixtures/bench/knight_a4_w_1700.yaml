@@ -1,0 +1,20 @@
+# Banco di prova (OQ-BENCH). Posizione fornita dall'utente; giudizio e punti chiave scritti dall'utente.
+id: knight_a4_w_1700
+fen: "r1b2rk1/4ppbp/pqp2np1/2p5/8/2NPBN2/PPP2PPP/R2QR1K1 w - - 3 13"
+user: {color: w, elo: 1700, elo_scale: fide}
+stockfish_user: "+1,43 per l'utente; +1,71 nel pacchetto congelato"
+verdict: {bands: [clear_plus]}              # banda di N1 nel pacchetto (+1,71): «vantaggio netto» (wording.yaml)
+must_say:
+  - id: na4_forchetta
+    text: "il vantaggio viene da 13.Na4 (C1), che attacca insieme la donna in b6 e il pedone c5"
+    all: [{move: Na4, node: N1}, {text: "donna|forchett|doppio attacco"}]
+  - id: c5_inchiodato
+    text: "il pedone c5 è inchiodato dall'alfiere e3, dello stesso colore dell'alfiere in fianchetto del Nero"
+    all: [{text: "\\bc5\\b"}, {text: "inchiod"}]
+  - id: b2_indifeso
+    text: "la donna nera attacca il pedone b2, che non è difeso: bisogna difenderlo"
+    all: [{text: "\\bb2\\b"}, {text: "indifes|non (?:è )?difes|senza difes|attacc|minacc|difender"}]
+  - id: tre_isole
+    text: "il Nero ha tre isole di pedoni"
+    all: [{text: "\\bisol[ae]\\b"}]
+must_not: ["equilibrat"]   # l'utente vieta anche «netto vantaggio»: in contrasto con la banda clear_plus (domanda aperta)

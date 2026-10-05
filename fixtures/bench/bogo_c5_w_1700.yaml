@@ -1,0 +1,17 @@
+# Banco di prova (OQ-BENCH). Posizione fornita dall'utente; giudizio e punti chiave scritti dall'utente.
+id: bogo_c5_w_1700
+fen: "rnbqk2r/pp1p1ppp/4pn2/2p5/1bPP4/5N2/PP1BPPPP/RN1QKB1R w KQkq c6 0 5"
+user: {color: w, elo: 1700, elo_scale: fide}
+stockfish_user: "+0,4 per l'utente; +0,48 nel pacchetto congelato"
+verdict: {bands: [slight_plus]}             # banda di N1 nel pacchetto (+0,48): «vantaggio minimo» (wording.yaml)
+must_say:
+  - id: alfieri_c5
+    text: "gli alfieri b4 e d2 si guardano; c5 attacca il centro e difende l'alfiere, e dopo 5.Bxb4 cxb4 il pedone nero in b4 guadagna spazio sul lato di donna"
+    all: [{move: Bxb4, node: N1}, {any: [{move: cxb4, node: N3}, {text: "\\bc5\\b"}]}, {text: "spazio|lato di donna"}]
+  - id: spinta_d5
+    text: "per il Nero è fondamentale la spinta d5, per non farsi soffocare nello spazio"
+    all: [{any: [{move: d5}, {text: "\\bd5\\b"}]}, {text: "spazio|soffoc|oppress|centro"}]
+  - id: nc6_fianchetto
+    text: "poi il Nero metterà il cavallo in c6 e l'alfiere campochiaro in fianchetto, o sul lato di re se il centro si apre"
+    all: [{any: [{move: Nc6}, {text: "\\bc6\\b"}]}, {text: "fianchett|alfiere"}]
+must_not: ["leggero vantaggio"]   # l'utente vieta anche «vantaggio»: in contrasto con la banda slight_plus (domanda aperta)

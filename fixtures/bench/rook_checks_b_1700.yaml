@@ -1,0 +1,14 @@
+# Banco di prova (OQ-BENCH). Posizione fornita dall'utente; giudizio e punti chiave scritti dall'utente.
+id: rook_checks_b_1700
+fen: "8/8/4r3/8/5k2/R4p2/8/5K2 w - - 2 92"
+user: {color: b, elo: 1700, elo_scale: fide}
+stockfish_user: "0,00"
+verdict: {bands: [equal]}
+must_say:
+  - id: pedone_in_piu_scacchi
+    text: "il pedone in più non si porta a promozione: la torre bianca continua a dare scacco al re nero, che non ha riparo"
+    all: [{text: "pedone in più|pedone di più|un pedone sopra"}, {text: "scacch"}]
+  - id: patta_facile
+    text: "la posizione è patta ed è molto facile per il Bianco salvarla"
+    all: [{text: "\\bpatt[ae]\\b"}, {text: "facil|semplic|senza fatica|tranquill|comod"}]
+must_not: ["stai bene", "vantaggio"]

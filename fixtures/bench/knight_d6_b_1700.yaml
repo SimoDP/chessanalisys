@@ -1,0 +1,20 @@
+# Banco di prova (OQ-BENCH). Posizione fornita dall'utente; giudizio e punti chiave scritti dall'utente.
+id: knight_d6_b_1700
+fen: "3qr1k1/1p1bnppp/2r1p3/p2nP3/1p1PN3/3Q1NP1/PP3PBP/R3R1K1 w - - 3 17"
+user: {color: b, elo: 1700, elo_scale: fide}
+stockfish_user: "-2,31 per l'utente; -3,29 nel pacchetto congelato"
+verdict: {bands: [decisive_minus]}          # banda di N1 nel pacchetto (-3,29)
+must_say:
+  - id: salto_d6
+    text: "il vantaggio del Bianco sta tutto nel salto del cavallo in d6 (17.Nd6, R1)"
+    all: [{move: Nd6, node: N1}]
+  - id: alfiere_g2_diagonale
+    text: "l'alfiere bianco in g2 ha la grande diagonale h1-a8 libera, senza pedoni che lo blocchino"
+    all: [{any: [{ref: "diag:h1-a8"}, {ref: "diag:a8-h1"}, {text: "diagonal"}]}, {text: "alfier"}]
+  - id: donna_d3_h7_g5
+    text: "la donna bianca in d3 è difficile da scacciare, punta a h7 e prepara i salti dei cavalli in g5"
+    all: [{text: "donna"}, {text: "\\bh7\\b"}, {text: "\\bg5\\b"}]
+  - id: colonna_c_inutile
+    text: "la colonna c del Nero non serve: il Nero ha problemi più grandi"
+    all: [{text: "colonna\\s+(?:aperta\\s+)?c\\b"}, {text: "inutil|non serve|non conta|non basta|non (?:ti )?aiuta|problem|secondari"}]
+must_not: ["equilibrat", "stai bene"]
