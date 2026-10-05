@@ -118,6 +118,12 @@ class AnthropicCfg(Strict):
     timeout_s: float
 
 
+class TokenPrice(Strict):
+    input: float
+    cached_input: float
+    output: float
+
+
 class LlmCfg(Strict):
     provider: Literal["openrouter", "anthropic"]
     model: str
@@ -132,6 +138,7 @@ class LlmCfg(Strict):
     view: LlmViewCfg
     openrouter: OpenRouterCfg
     anthropic: AnthropicCfg
+    prices: dict[str, TokenPrice] = {}
 
 
 class RenderCfg(Strict):

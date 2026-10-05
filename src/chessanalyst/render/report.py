@@ -56,6 +56,17 @@ def _path(pack: dict, path: list[str]) -> str:
     return numbered(chess.Board(pack["position"]["fen"]), path)
 
 
+def _thousands(n: int) -> str:
+    return f"{n:,}".replace(",", ".")
+
+
+def _usage_line(u: dict) -> str:
+    """M6: tokens and cost of the model calls (cost from the provider, or from ``llm.prices``)."""
+    cost = "costo non disponibile" if u["cost_usd"] is None else f"costo {u['cost_usd']:.4f} $".replace(".", ",")
+    return (f"- Uso del modello: {u['calls']} chiamate · token in ingresso {_thousands(u['input_tokens'])} "
+            f"(in cache {_thousands(u['cached_tokens'])}) · in uscita {_thousands(u['output_tokens'])} · {cost}")
+
+
 def _fmt_s(x: float) -> str:
     return f"{x:.1f}".replace(".", ",")
 
@@ -88,6 +99,7 @@ def report_lines(cfg: Config, pack: dict, output: dict, info: "RenderInfo") -> l
         f"- Contenuto teorico: {info.theory_blocks} blocchi, {round(info.theory_share * 100)}% delle parole",
         f"- Controlli: {checks}",
         f"- Retry: {info.retries}",
+        *([_usage_line(info.usage)] if info.usage and info.usage["calls"] else []),
         f"- Rimossi in modalità degradata: {'; '.join(info.removed) if info.removed else none}",
         f"- Marcati come non verificati: {'; '.join(info.marked) if info.marked else none}",
         f"- Avvisi: {', '.join(other_w) if other_w else none}",

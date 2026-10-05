@@ -186,11 +186,13 @@ def to_openai(model: str, request: dict, temperature: float | None, cache_contro
                 msg["tool_calls"] = calls
             msgs.append(msg)
             continue
+        texts = [b for b in content if b.get("type") == "text"]
         for b in content:
             if b.get("type") == "tool_result":
                 msgs.append({"role": "tool", "tool_call_id": b["tool_use_id"], "content": b["content"]})
-            elif b.get("type") == "text":
-                msgs.append({"role": "user", "content": b["text"]})
+        if texts:   # one user message: parts with their breakpoints, or (no cache_control) the joined text
+            msgs.append({"role": "user", "content": [dict(b) for b in texts] if cache_control
+                         else "\n".join(b["text"] for b in texts)})
     body = {"model": model, "messages": msgs, "max_tokens": request["max_tokens"],
             "tools": [{"type": "function", "function": {"name": t["name"], "description": t["description"],
                                                          "parameters": t["input_schema"]}} for t in request["tools"]],

@@ -164,8 +164,9 @@ def _sections(cfg: Config, pack: dict) -> list[str]:
     return lines
 
 
-def build_user_message(cfg: Config, pack: dict, example: Example) -> str:
-    """Appendix E.2."""
+def build_user_blocks(cfg: Config, pack: dict, example: Example) -> tuple[str, str]:
+    """Appendix E.2 in two parts: the example (the same for every pack of the anchor) and the pack with the
+    instructions. ``"\n".join`` of the two is the message of E.2; each part carries a cache breakpoint (M6)."""
     u = pack["user"]
     share = round(cfg.thresholds.theory_max_share[u["anchor"]] * 100)
     mode = "tocca a te" if pack["position"]["user_to_move"] else "tocca all'avversario"
@@ -173,13 +174,19 @@ def build_user_message(cfg: Config, pack: dict, example: Example) -> str:
              f"<analisi>{example.output_json}</analisi>"]
     if not pack["position"]["user_to_move"] and example.alt_json is not None:
         parts.append(f"<analisi_s07_alternativa>{example.alt_json}</analisi_s07_alternativa>")
-    parts += ["</esempio>", "", "<pacchetto>", llm_view_json(pack, cfg.default.llm.view), "</pacchetto>", "", "<istruzioni>",
-              f"Modalità: {mode}. "
-              f"Fascia: {u['band']}. Ancora: {u['anchor']}. Giochi con {cfg.wording['colors'][u['color']]}.",
-              "Sezioni da scrivere, in ordine:", *_sections(cfg, pack),
-              f"Quota massima di contenuto theory: {number_words(share)} per cento delle parole.",
-              "Chiama submit_analysis con l'analisi completa.", "</istruzioni>"]
-    return "\n".join(parts)
+    parts.append("</esempio>")
+    rest = ["", "<pacchetto>", llm_view_json(pack, cfg.default.llm.view), "</pacchetto>", "", "<istruzioni>",
+            f"Modalità: {mode}. "
+            f"Fascia: {u['band']}. Ancora: {u['anchor']}. Giochi con {cfg.wording['colors'][u['color']]}.",
+            "Sezioni da scrivere, in ordine:", *_sections(cfg, pack),
+            f"Quota massima di contenuto theory: {number_words(share)} per cento delle parole.",
+            "Chiama submit_analysis con l'analisi completa.", "</istruzioni>"]
+    return "\n".join(parts), "\n".join(rest)
+
+
+def build_user_message(cfg: Config, pack: dict, example: Example) -> str:
+    """Appendix E.2."""
+    return "\n".join(build_user_blocks(cfg, pack, example))
 
 
 def retry_message(error_lines: list[str]) -> str:

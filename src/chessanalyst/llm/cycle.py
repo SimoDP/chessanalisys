@@ -16,7 +16,8 @@ from chessanalyst.config import Config
 from chessanalyst.errors import ModelError
 from chessanalyst.llm.client import LLMClient
 from chessanalyst.llm.fewshot import Example, example_for
-from chessanalyst.llm.prompt import SYSTEM_PROMPT, build_user_message, retry_message
+from chessanalyst.llm.usage import usage_summary
+from chessanalyst.llm.prompt import SYSTEM_PROMPT, build_user_blocks, retry_message
 from chessanalyst.llm.schema import TOOL_NAME, tool_definition
 from chessanalyst.render.markdown import RenderInfo, render_markdown
 from chessanalyst.verify.checker import Checker, Result, error_lines
@@ -60,7 +61,11 @@ def run_model(cfg: Config, pack: dict, client: LLMClient, *, example: Example | 
     example = example or example_for(cfg, pack)
     checker = Checker(cfg, pack, fewshot_epd=example.epd, terms=example.terms)
     system = [{"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}]
-    messages: list[dict] = [{"role": "user", "content": build_user_message(cfg, pack, example)}]
+    # M6: two cache breakpoints, the example (shared by every pack of the anchor) and the whole first message
+    # (re-read by every retry); clients without cache_control receive the same text as one string
+    ephemeral = {"type": "ephemeral"}
+    messages: list[dict] = [{"role": "user", "content": [
+        {"type": "text", "text": part, "cache_control": ephemeral} for part in build_user_blocks(cfg, pack, example)]}]
     tools = [tool_definition()]
     tool_choice = {"type": "tool", "name": TOOL_NAME}
 
@@ -105,10 +110,12 @@ def run_model(cfg: Config, pack: dict, client: LLMClient, *, example: Example | 
                       removed=degraded.removed if degraded else [],
                       marked=(degraded.marked if degraded else []) + (critic.marked if critic else []),
                       critic=None if critic is None else (None if critic.error else len(critic.findings)),
+                      usage=usage_summary(cfg, raw, client.model),
                       warnings=(degraded.warnings if degraded else []) + list(warnings or []),
                       theory_blocks=len(final.theory_blocks), theory_share=final.theory_share)
     document = render_markdown(cfg, pack, output, info)
     vj = verification_json(attempts, degraded, hints, final)
+    vj["usage"] = info.usage
     if critic is not None:
         vj["critic"] = {"findings": critic.findings, "marked": critic.marked, "error": critic.error}
     return CycleResult(document, vj, raw, retries, degraded is not None)

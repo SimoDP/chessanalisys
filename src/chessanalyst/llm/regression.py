@@ -35,6 +35,7 @@ def summarize(name: str, verification: dict[str, Any] | None, retries: int, erro
         "marked": len(verification["final"]["marked"]),
         "sections_off_budget": off,
         "theory_share": verification["theory_share"],
+        "usage": verification.get("usage"),
     }
 
 
@@ -68,7 +69,14 @@ def aggregate(name: str, runs: list[dict]) -> dict:
         "removed": round(sum(r["removed"] for r in ok) / len(ok), 1) if ok else None,
         "marked": round(sum(r["marked"] for r in ok) / len(ok), 1) if ok else None,
         "sections_off_budget": round(sum(r["sections_off_budget"] for r in ok) / len(ok), 1) if ok else None,
+        "cost_usd": _mean([(r.get("usage") or {}).get("cost_usd") for r in ok]),
+        "output_tokens": _mean([(r.get("usage") or {}).get("output_tokens") for r in ok]),
     }
+
+
+def _mean(xs: list) -> float | None:
+    xs = [x for x in xs if x is not None]
+    return round(sum(xs) / len(xs), 5) if xs else None
 
 
 def _line(s: dict) -> str:
@@ -81,7 +89,8 @@ def _line(s: dict) -> str:
     if s["removed"] is None:
         return f"nessuna risposta valida in {s['n']} giri"
     return (f"complete {s['complete']}/{s['n']} · rimossi in media {s['removed']} · marcati {s['marked']} · "
-            f"sezioni fuori budget {s['sections_off_budget']}" + (f" · falliti {s['failed']}" if s["failed"] else ""))
+            f"sezioni fuori budget {s['sections_off_budget']}" + (f" · falliti {s['failed']}" if s["failed"] else "")
+            + (f" · costo medio {s['cost_usd']:.4f} $" if s.get("cost_usd") is not None else ""))
 
 
 def compare(new: dict, old: dict | None) -> str:

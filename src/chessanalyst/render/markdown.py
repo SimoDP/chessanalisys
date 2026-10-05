@@ -32,6 +32,7 @@ class RenderInfo:
     theory_blocks: int = 0
     theory_share: float = 0.0
     critic: int | None = None          # M4: number of findings of the critic (None = not run or failed)
+    usage: dict | None = None          # M6: tokens and cost of the model calls (llm/usage.py)
 
 
 class Renderer:

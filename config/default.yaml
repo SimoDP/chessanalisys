@@ -38,6 +38,10 @@ llm:
     cache_control_prefixes: ["anthropic/"]       # cache_control solo per questi modelli
     extra_body: {reasoning: {enabled: false}}    # niente ragionamento esteso (§9.1)
   anthropic: {timeout_s: 600}
+  # M6: prezzi in dollari per milione di token, per modello, solo se il fornitore non dà il costo (OpenRouter lo
+  # dà nella risposta). Vuoto: nel rapporto compaiono i token senza costo. Esempio:
+  # prices: {"claude-sonnet-5-5": {input: …, cached_input: …, output: …}}
+  prices: {}
 render:
   mark_theory: footnote
 output:

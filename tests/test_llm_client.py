@@ -259,3 +259,28 @@ def test_cache_control_kept_for_claude_models(cfg):
     system = [{"type": "text", "text": "SYS", "cache_control": {"type": "ephemeral"}}]
     c.create(system=system, messages=[], tools=[TOOL], tool_choice={"name": "submit_analysis"}, max_tokens=1)
     assert t.calls[0]["body"]["messages"][0] == {"role": "system", "content": system}
+
+
+def test_cache_breakpoints_on_the_first_message(cfg):
+    """M6 (cost): the first user message has two parts with cache_control (example, then pack); a model
+    without cache_control receives exactly the text of Appendix E.2 as one string."""
+    from chessanalyst.golden.packs import load_frozen_pack
+    from chessanalyst.llm.client import to_openai
+    from chessanalyst.llm.fewshot import example_for
+    from chessanalyst.llm.prompt import build_user_blocks, build_user_message
+
+    pack = load_frozen_pack(cfg, "najdorf_w_1900")
+    ex = example_for(cfg, pack)
+    a, b = build_user_blocks(cfg, pack, ex)
+    assert a.startswith("<esempio") and a.endswith("</esempio>") and "<pacchetto>" in b
+    eph = {"type": "ephemeral"}
+    request = {"system": [{"type": "text", "text": "s", "cache_control": eph}],
+               "messages": [{"role": "user", "content": [{"type": "text", "text": a, "cache_control": eph},
+                                                         {"type": "text", "text": b, "cache_control": eph}]}],
+               "tools": [{"name": "t", "description": "d", "input_schema": {}}],
+               "tool_choice": {"type": "tool", "name": "t"}, "max_tokens": 10}
+    plain = to_openai("deepseek/x", request, None, cache_control=False)
+    assert plain["messages"][1] == {"role": "user", "content": build_user_message(cfg, pack, ex)}
+    cached = to_openai("anthropic/x", request, None, cache_control=True)
+    parts = cached["messages"][1]["content"]
+    assert [p["text"] for p in parts] == [a, b] and all(p["cache_control"] == eph for p in parts)
