@@ -73,12 +73,16 @@ def run_model(cfg: Config, pack: dict, client: LLMClient, *, example: Example | 
 
     raw = [] if raw is None else raw
     attempts: list[Result] = []
-    retries = budget_retries = 0
+    retries = budget_retries = json_repairs = 0
     while True:
         log.info("Chiamata al modello %s (tentativo %d)", client.model, len(attempts) + 1)
         response = client.create(system=system, messages=messages, tools=tools, tool_choice=tool_choice,
                                  max_tokens=llm.max_tokens)
         raw.append(response)
+        fixed = sum(b.get("repaired", 0) for b in response.get("content", []))
+        if fixed:                       # D-70: tool arguments closed too early, repaired by the client
+            json_repairs += fixed
+            log.warning("JSON della risposta riparato (%d chiusure anticipate)", fixed)
         res = checker.check(response)
         attempts.append(res)
         log.info("Verifica: %s", ", ".join(error_lines(res.errors, {})) or "nessun errore")
@@ -118,6 +122,7 @@ def run_model(cfg: Config, pack: dict, client: LLMClient, *, example: Example | 
     document = render_markdown(cfg, pack, output, info)
     vj = verification_json(attempts, degraded, hints, final)
     vj["usage"] = info.usage
+    vj["json_repairs"] = json_repairs
     if critic is not None:
         vj["critic"] = {"findings": critic.findings, "marked": critic.marked, "error": critic.error}
     return CycleResult(document, vj, raw, retries, degraded is not None, output, info)

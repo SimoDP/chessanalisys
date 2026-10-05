@@ -27,12 +27,12 @@ def _block_after(root, heading: str, fence: str = "```") -> str:
 
 
 def test_system_prompt_is_appendix_e1(root):
-    """Appendix E.1 verbatim, plus the M3 changes (each applied exactly once, OQ-M3-6)."""
-    from chessanalyst.llm.prompt import APPENDIX_E1, M3_PROMPT_CHANGES
+    """Appendix E.1 verbatim, plus the M3 changes (OQ-M3-6) and the D-70 changes, each applied exactly once."""
+    from chessanalyst.llm.prompt import APPENDIX_E1, D70_PROMPT_CHANGES, M3_PROMPT_CHANGES
 
     assert APPENDIX_E1 == _block_after(root, "### E.1 System prompt")
     text = APPENDIX_E1
-    for old, new in M3_PROMPT_CHANGES:
+    for old, new in M3_PROMPT_CHANGES + D70_PROMPT_CHANGES:
         assert text.count(old) == 1
         text = text.replace(old, new)
     assert SYSTEM_PROMPT == text
@@ -97,12 +97,37 @@ def test_user_message_structure(cfg):
         assert tag in msg
     assert "<analisi_s07_alternativa>" not in msg
     assert "Modalità: tocca a te. Fascia: 1200_1600. Ancora: 1500. Giochi con il Bianco." in msg
-    assert "- S07 «Mosse candidate»: circa" in msg and "deve citare C1, C2, C11" in msg
+    assert "- S07 «Mosse candidate»: tra " in msg and "deve citare C1, C2, C11" in msg
     assert "con colonne di testo per_chi" in msg
     assert "Quota massima di contenuto theory: settanta per cento delle parole." in msg
     assert "{{ev:N1}} → +0,34" in msg.split("</legenda>")[0]
     view = json.loads(msg.split("<pacchetto>\n")[1].split("\n</pacchetto>")[0])
     assert "tables" not in view
+
+
+def test_d70_bands_ranges_and_checklist(cfg):
+    """D-70: bands precomputed as V06 computes them, word ranges equal to what V07 accepts, final checklist."""
+    from chessanalyst.verify.assertions import check_assertion
+    from chessanalyst.verify.resolve import Resolver
+    from chessanalyst.verify.wordcount import tolerance
+
+    pack = load_frozen_pack(cfg, "najdorf_after_be3_w_1900")
+    msg = build_user_message(cfg, pack, example_for(cfg, pack))
+    view = json.loads(msg.split("<pacchetto>\n")[1].split("\n</pacchetto>")[0])
+    bands = view["bands"]
+    assert bands["eval_band"] and bands["maia_band"]
+    r = Resolver(pack, cfg.wording)
+    for kind, table in bands.items():           # every listed band passes V06 as it is
+        for ref, band in table.items():
+            assert check_assertion({"kind": kind, "ref": ref, "band": band}, pack, r, cfg.wording) is None, ref
+    tol = cfg.verify["word_tolerance"]
+    for s in (s for s in pack["section_plan"] if s["required"]):
+        lo, hi = re.search(rf"- {s['id']} «[^»]+»: tra (\d+) e (\d+) parole", msg).groups()
+        assert abs(int(lo) - s["word_budget"]) <= tolerance(s["word_budget"], tol) < abs(int(lo) - 1 - s["word_budget"])
+        assert abs(int(hi) - s["word_budget"]) <= tolerance(s["word_budget"], tol) < abs(int(hi) + 1 - s["word_budget"])
+    ids = ", ".join(s["id"] for s in pack["section_plan"] if s["required"])
+    assert f"1. sections contiene esattamente {ids}, in quest'ordine" in msg
+    assert "decisive_minus = «svantaggio decisivo»" in msg
 
 
 def test_opponent_mode_adds_s07_alt(cfg):

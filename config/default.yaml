@@ -36,7 +36,11 @@ llm:
     base_url: "https://openrouter.ai/api/v1"
     timeout_s: 600
     cache_control_prefixes: ["anthropic/"]       # cache_control solo per questi modelli
-    extra_body: {reasoning: {enabled: false}}    # niente ragionamento esteso (§9.1)
+    extra_body:
+      reasoning: {enabled: false}                # niente ragionamento esteso (§9.1)
+      # D-70: fornitore che serve il modello. Su DeepInfra 0 JSON malformati su 10 risposte, su AtlasCloud 3 su 5;
+      # se DeepInfra non risponde OpenRouter passa agli altri (allow_fallbacks), mai ad AtlasCloud.
+      provider: {order: [deepinfra], ignore: [atlas-cloud], allow_fallbacks: true}
   anthropic: {timeout_s: 600}
   # M6: prezzi in dollari per milione di token, per modello, solo se il fornitore non dà il costo (OpenRouter lo
   # dà nella risposta). Vuoto: nel rapporto compaiono i token senza costo. Esempio:

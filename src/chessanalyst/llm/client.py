@@ -204,6 +204,27 @@ def to_openai(model: str, request: dict, temperature: float | None, cache_contro
     return body
 
 
+PREMATURE_CLOSE = "]}"
+
+
+def parse_arguments(text: str) -> tuple[dict | None, int]:
+    """The tool arguments and the number of repairs (D-70). A model seen in the logs (DeepSeek via some
+    providers) closes ``sections`` and the root object after the first section and then goes on writing the
+    other sections: ``…}]}]}, {"id": "S02", …``. Each time the decoder stops on «Extra data» right after a
+    ``]}``, that ``]}`` is removed and the text is read again; anything else stays invalid (V01)."""
+    repairs = 0
+    while True:
+        try:
+            out = json.loads(text)
+            return (out if isinstance(out, dict) else None), repairs
+        except json.JSONDecodeError as e:
+            head = text[:e.pos].rstrip()
+            if e.msg != "Extra data" or not head.endswith(PREMATURE_CLOSE):
+                return None, repairs
+            text = head[: -len(PREMATURE_CLOSE)] + text[e.pos:]
+            repairs += 1
+
+
 def from_openai(data: dict) -> dict:
     """Chat completions response → Messages-format dict (the original is kept under ``provider_response``)."""
     choice = (data.get("choices") or [{}])[0]
@@ -213,11 +234,11 @@ def from_openai(data: dict) -> dict:
         content.append({"type": "text", "text": message["content"]})
     for call in message.get("tool_calls") or []:
         fn = call.get("function", {})
-        try:
-            args = json.loads(fn.get("arguments") or "")
-        except ValueError:
-            args = None                     # invalid JSON → V01 in the verification
-        content.append({"type": "tool_use", "id": call.get("id", ""), "name": fn.get("name"), "input": args})
+        args, repaired = parse_arguments(fn.get("arguments") or "")      # invalid JSON → None → V01
+        block = {"type": "tool_use", "id": call.get("id", ""), "name": fn.get("name"), "input": args}
+        if repaired:
+            block["repaired"] = repaired
+        content.append(block)
     return {"stop_reason": FINISH_TO_STOP.get(choice.get("finish_reason"), choice.get("finish_reason")),
             "content": content, "model": data.get("model"), "usage": data.get("usage"), "provider_response": data}
 

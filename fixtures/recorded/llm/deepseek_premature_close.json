@@ -1,0 +1,173 @@
+[
+ {
+  "id": "gen-1791194714-F15NfCNL8pKl8BglyEsN",
+  "object": "chat.completion",
+  "created": 1791194714,
+  "model": "deepseek/deepseek-v4.1-flash",
+  "provider": "AtlasCloud",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "tool_calls",
+    "native_finish_reason": "tool_calls",
+    "message": {
+     "role": "assistant",
+     "content": null,
+     "refusal": null,
+     "reasoning": null,
+     "tool_calls": [
+      {
+       "type": "function",
+       "index": 0,
+       "id": "call_00_k1xm307vf69b2rosoo18cssx",
+       "function": {
+        "name": "submit_analysis",
+        "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Tocca al Nero e la posizione è **in bilico**: il motore dà al Bianco un piccolo vantaggio ({{ev:N1}}), mentre se il Nero non fa nulla di concreto resti leggermente meglio ({{ev:N2}}). Il punto è che il Nero ha una mossa molto forte a disposizione, {{mv:R5}}, che ribalta la valutazione a tuo sfavore ({{ev:R5}}).\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"slight_plus\"}, {\"kind\": \"eval_band\", \"ref\": \"N2\", \"band\": \"equal\"}, {\"kind\": \"eval_band\", \"ref\": \"R5\", \"band\": \"losing\"}]}, {\"type\": \"p\", \"text\": \"Le altre risposte del Nero ti lasciano invece in vantaggio: dopo {{mv:R2}} il motore ti dà {{ev:R2}}, dopo {{mv:R4}} addirittura {{ev:R4}}. La differenza tra le due situazioni è tutta nella spinta di pedone centrale: se il Nero la trova, il tuo centro si sfalda.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"R2\", \"band\": \"slight_plus\"}, {\"kind\": \"eval_band\", \"ref\": \"R4\", \"band\": \"clear_plus\"}]}, {\"type\": \"p\", \"text\": \"Secondo Maia-2 il Nero sceglie {{mv:R1}} nel {{pct:R1.p_opp}} dei casi, {{mv:R2}} nel {{pct:R2.p_opp}} e {{mv:R3}} nel {{pct:R3.p_opp}}: la spinta che ti fa male è la meno probabile ({{pct:R5.p_opp}}).\", \"source\": \"maia\"}]}]}], \"notes\": []}"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 18961,
+   "completion_tokens": 518,
+   "total_tokens": 19479,
+   "cost": 0.002965653,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.002965653,
+    "upstream_inference_prompt_cost": 0.002673501,
+    "upstream_inference_completions_cost": 0.000292152
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 0,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ {
+  "id": "gen-1791194719-tAmm237i2Oes2yS5lW3s",
+  "object": "chat.completion",
+  "created": 1791194719,
+  "model": "deepseek/deepseek-v4.1-flash",
+  "provider": "AtlasCloud",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "tool_calls",
+    "native_finish_reason": "tool_calls",
+    "message": {
+     "role": "assistant",
+     "content": null,
+     "refusal": null,
+     "reasoning": null,
+     "tool_calls": [
+      {
+       "type": "function",
+       "index": 0,
+       "id": "call_00_mr79aed27q0pneebi7jxy4rq",
+       "function": {
+        "name": "submit_analysis",
+        "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Tocca al Nero e la posizione è **in bilico**: il motore dà al Bianco un piccolo vantaggio ({{ev:N1}}), mentre se il Nero non fa nulla di concreto resti leggermente meglio ({{ev:N2}}). Il punto è che il Nero ha una mossa molto forte a disposizione, {{mv:R5}}, che ribalta la valutazione a tuo sfavore ({{ev:R5}}).\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"slight_plus\"}, {\"kind\": \"eval_band\", \"ref\": \"N2\", \"band\": \"equal\"}, {\"kind\": \"eval_band\", \"ref\": \"R5\", \"band\": \"losing\"}]}, {\"type\": \"p\", \"text\": \"Le altre risposte del Nero ti lasciano invece in vantaggio: dopo {{mv:R2}} il motore ti dà {{ev:R2}}, dopo {{mv:R4}} addirittura {{ev:R4}}. La differenza tra le due situazioni è tutta nella spinta di pedone centrale: se il Nero la trova, il tuo centro si sfalda.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"R2\", \"band\": \"slight_plus\"}, {\"kind\": \"eval_band\", \"ref\": \"R4\", \"band\": \"clear_plus\"}]}, {\"type\": \"p\", \"text\": \"Secondo Maia-2 il Nero sceglie {{mv:R1}} nel {{pct:R1.p_opp}} dei casi, {{mv:R2}} nel {{pct:R2.p_opp}} e {{mv:R3}} nel {{pct:R3.p_opp}}: la spinta che ti fa male è la meno probabile ({{pct:R5.p_opp}}).\", \"source\": \"maia\"}]}]}, {\"id\": \"S02\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T4\", \"text_cells\": {\"threats_dynamics\": {\"nota\": {\"text\": \"Nessuna minaccia immediata su di te: la tranquillità è al massimo\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"no_worry\"}]}}, \"piece_activity\": {\"nota\": {\"text\": \"Il tuo alfiere in c1 è ancora chiuso, ma il resto dei pezzi è attivo\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"inactive_piece\", \"side\": \"w\", \"squares\": [\"c1\"]}, {\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"no_worry\"}]}}, \"material\": {\"nota\": {\"text\": \"Hai un pedone in più, ma il Nero ha la coppia degli alfieri\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"material_balance\", \"side\": null, \"squares\": []}, {\"kind\": \"feature\", \"key\": \"bishop_pair\", \"side\": \"b\", \"squares\": [\"b7\", \"f6\"]}, {\"kind\": \"category_advice\", \"id\": \"material\", \"advice\": \"no_worry\"}]}}, \"initiative_tempo\": {\"nota\": {\"text\": \"Il Nero ha il tratto, ma la sua iniziativa è limitata\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"initiative_tempo\", \"advice\": \"no_worry\"}]}}, \"pawn_structure\": {\"nota\": {\"text\": \"Hai pedoni doppiati in b2 e b3 e due isole; il Nero ha un pedone isolato in c5\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"doubled_pawn\", \"side\": \"w\", \"squares\": [\"b2\", \"b3\"]}, {\"kind\": \"feature\", \"key\": \"isolated_pawn\", \"side\": \"b\", \"squares\": [\"c5\"]}, {\"kind\": \"category_advice\", \"id\": \"pawn_structure\", \"advice\": \"no_worry\"}]}}}}, {\"type\": \"p\", \"text\": \"La categoria più rilevante qui è la dinamica delle minacce (rilevanza {{sc:threats_dynamics.R}}): il Nero ha mosse concrete che cambiano il carattere della partita, e la più pericolosa è la spinta di pedone centrale. Subito dopo viene l'attività dei pezzi ({{sc:piece_activity.R}}): il tuo alfiere in c1 è l'unico pezzo davvero passivo, e vale la pena attivarlo.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"no_worry\"}, {\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"no_worry\"}, {\"kind\": \"feature\", \"key\": \"inactive_piece\", \"side\": \"w\", \"squares\": [\"c1\"]}]}, {\"type\": \"p\", \"text\": \"Il materiale conta molto ({{sc:material.R}}): hai un pedone in più, ma il Nero ha la coppia degli alfieri e questo compensa in parte. La struttura pedonale è solida ({{sc:pawn_structure.R}}): i tuoi pedoni doppiati non sono un problema grave perché controllano case utili, mentre il pedone isolato nero in c5 è un bersaglio a lungo termine.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"doubled_pawn\", \"side\": \"w\", \"squares\": [\"b2\", \"b3\"]}, {\"kind\": \"feature\", \"key\": \"isolated_pawn\", \"side\": \"b\", \"squares\": [\"c5\"]}, {\"kind\": \"category_advice\", \"id\": \"material\", \"advice\": \"no_worry\"}, {\"kind\": \"category_advice\", \"id\": \"pawn_structure\", \"advice\": \"no_worry\"}]}, {\"type\": \"p\", \"text\": \"L'iniziativa è dalla tua parte ({{sc:initiative_tempo.R}}): anche se tocca al Nero, le sue mosse più naturali non ti creano problemi seri. Nessuna categoria richiede attenzione particolare: gioca con calma e sfrutta il pedone in più.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"initiative_tempo\", \"advice\": \"no_worry\"}]}]}, {\"id\": \"S05\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Donna in c4:** è il tuo pezzo più attivo e controlla la diagonale verso il re nero. Attenzione: se il Nero gioca {{mv:R1}} la donna è attaccata e devi decidere subito se scambiarla o ritirarla.\", \"source\": \"theory\"}, {\"text\": \"**Torre in a1:** sta sulla colonna semiaperta e punta al pedone debole in a7. Se il Nero gioca {{mv:R4}}, la cattura in a7 diventa forte ({{ev:R4.u1}}).\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"rook_open_file\", \"side\": \"w\", \"squares\": [\"a1\"]}]}, {\"text\": \"**Cavallo in c3:** controlla il centro e protegge il pedone in b3. È un pezzo solido, ma se il Nero spinge il pedone in e4 il cavallo deve ritirarsi.\", \"source\": \"theory\"}, {\"text\": \"**Cavallo in g3:** è un po' fuori gioco e non ha molte case buone. Se il Nero attacca con l'alfiere in h4, questo cavallo può diventare un problema.\", \"source\": \"theory\"}, {\"text\": \"**Alfiere in c1:** è il tuo pezzo più passivo, chiuso dietro i pedoni. Va sviluppato al più presto, magari in d2 o in e3, per dare respiro alla posizione.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"inactive_piece\", \"side\": \"w\", \"squares\": [\"c1\"]}]}, {\"text\": \"**Re in g1:** è al sicuro con l'arrocco corto già fatto e lo scudo di pedoni intatto. Non ci sono minacce concrete contro di lui.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"king_castled\", \"side\": \"w\", \"squares\": [\"g1\"]}, {\"kind\": \"feature\", \"key\": \"pawn_shield_intact\", \"side\": \"w\", \"squares\": [\"f3\", \"g2\", \"h2\"]}]}]}, {\"type\": \"p\", \"text\": \"Il Nero ha un cavallo molto attivo in f4 che punta al tuo re e un alfiere in f6 che controlla la diagonale lunga. La tua priorità è attivare l'alfiere in c1 e tenere d'occhio il cavallo nero, che può diventare pericoloso se sostenuto.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"king_zone_attackers\", \"side\": \"w\", \"squares\": [\"f4\"]}, {\"kind\": \"feature\", \"key\": \"king_zone_defenders\", \"side\": \"w\", \"squares\": [\"c4\", \"f1\", \"g3\"]}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"La mossa più frequente secondo Maia-2 è {{mv:R1}} ({{pct:R1.p_opp}}): la donna nera va in d4 con scacco e ti costringe a rispondere subito.\", \"source\": \"maia\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"R1.p_opp\", \"band\": \"frequent\"}]}, {\"text\": \"{{mv:R2}} ({{pct:R2.p_opp}}) porta l'alfiere in h4, attaccando il tuo cavallo in g3 e creando problemi sulla diagonale.\", \"source\": \"maia\"}, {\"text\": \"{{mv:R3}} ({{pct:R3.p_opp}}) è una mossa tranquilla: l'alfiere torna in e7 e il Nero consolida.\", \"source\": \"maia\"}, {\"text\": \"{{mv:R4}} ({{pct:R4.p_opp}}) mette la torre in c8 sulla colonna aperta, puntando al tuo pedone in c2.\", \"source\": \"maia\"}, {\"text\": \"{{mv:R5}} ({{pct:R5.p_opp}}) è la spinta di pedone che ti fa più male: il pedone avanza in e4 e il tuo centro crolla ({{ev:R5}}).\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"R5\", \"band\": \"losing\"}]}]}, {\"type\": \"p\", \"text\": \"In generale il Nero cerca di attivare i pezzi e di sfruttare la coppia degli alfieri. La sua idea principale è aprire la posizione per far valere gli alfieri, mentre tu devi mantenere la struttura compatta e sfruttare il pedone in più.\", \"source\": \"theory\"}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"R1\": {\"prepare\": {\"text\": \"Dopo {{mv:R1}} la donna nera dà scacco: la risposta migliore è {{mv:R1.u1}} ({{ev:R1.u1}}). Attenzione a non catturare la donna: {{mv:R1.u3}} perde {{loss:R1.u3}}\", \"source\": \"engine\"}}, \"R2\": {\"prepare\": {\"text\": \"Contro {{mv:R2}} l'alfiere attacca il cavallo: gioca {{mv:R2.u1}} ({{ev:R2.u1}}) o {{mv:R2.u2}}; evita {{mv:R2.u3}} che perde {{loss:R2.u3}}\", \"source\": \"engine\"}}, \"R3\": {\"prepare\": {\"text\": \"Dopo {{mv:R3}} la posizione è pari: {{mv:R3.u1}} ({{ev:R3.u1}}) è la mossa più naturale e mantiene l'equilibrio\", \"source\": \"engine\"}}, \"R4\": {\"prepare\": {\"text\": \"Se il Nero gioca {{mv:R4}}, hai l'occasione di catturare in a7: {{mv:R4.u1}} ({{ev:R4.u1}}) ti dà un chiaro vantaggio\", \"source\": \"engine\"}}, \"R5\": {\"prepare\": {\"text\": \"La spinta {{mv:R5}} è la più pericolosa: {{mv:R5.u1}} ({{ev:R5.u1}}) è la meno peggio, ma la posizione resta difficile\", \"source\": \"engine\"}}}}, {\"type\": \"p\", \"text\": \"Secondo Maia-2 il Nero gioca {{mv:R1}} nel {{pct:R1.p_opp}} dei casi, {{mv:R2}} nel {{pct:R2.p_opp}} e {{mv:R3}} nel {{pct:R3.p_opp}}. Le mosse {{mv:R4}} ({{pct:R4.p_opp}}) e {{mv:R5}} ({{pct:R5.p_opp}}) sono meno probabili ma vanno conosciute.\", \"source\": \"maia\"}, {\"type\": \"p\", \"text\": \"La buona notizia è che le risposte più probabili ti lasciano in vantaggio: dopo {{mv:R1}} resti leggermente meglio ({{ev:R1.u1}}), dopo {{mv:R2}} hai {{ev:R2}} e dopo {{mv:R4}} addirittura {{ev:R4}}. Solo la spinta di pedone centrale ribalta la valutazione.\", \"source\": \"engine\"}]}, {\"id\": \"S09\", \"blocks\": [{\"type\": \"p\", \"text\": \"Ci sono linee che a questo livello sfuggono facilmente. La linea {{pv:L3:6}} porta a una posizione pari ({{ev:L3}}), ma la probabilità che il Nero la trovi è bassissima ({{pct:L3.p_att}}): è una sequenza di mosse tranquille che richiede precisione.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"La linea {{pv:L4:6}} è una confutazione della donna in d4: dopo lo scacco la mossa giusta è {{mv:R1.u1}}, ma quasi nessuno la trova ({{pct:L4.p_att}}). La linea {{pv:L5:6}} mostra invece come sfruttare l'alfiere in h4: la cattura in c5 è forte ({{ev:L5}}), ma anche questa è poco visibile ({{pct:L5.p_att}}).\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"La linea {{pv:L7:6}} è la più spettacolare: dopo la torre in c8, la cattura in a7 seguita da altre catture dà un vantaggio netto ({{ev:L7}}), ma la probabilità che il Nero la trovi è praticamente nulla ({{pct:L7.p_att}}).\", \"source\": \"engine\"}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Cosa minaccia il Nero con la sua ultima mossa? Controlla soprattutto la spinta di pedone centrale.\", \"source\": \"theory\"}, {\"text\": \"Tutti i miei pezzi sono protetti? In particolare la donna in c4 e il cavallo in g3.\", \"source\": \"theory\"}, {\"text\": \"Posso attivare l'alfiere in c1? È il mio pezzo più passivo.\", \"source\": \"theory\"}, {\"text\": \"C'è una cattura o uno scacco che mi conviene? Guarda la torre in a1 e la donna in c4.\", \"source\": \"theory\"}, {\"text\": \"Il mio re è al sicuro? Sì, ma controlla che il cavallo nero in f4 non diventi pericoloso.\", \"source\": \"theory\"}]}]}, {\"id\": \"S13\", \"blocks\": [{\"type\": \"p\", \"text\": \"La linea forzata più importante è quella che parte da {{mv:R5}}: il pedone nero avanza in e4 e attacca il tuo cavallo in f3. La risposta migliore è {{mv:R5.u1}} ({{ev:R5.u1}}), ma la posizione resta difficile per te ({{ev:R5}}).\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"R5\", \"band\": \"losing\"}]}, {\"type\": \"p\", \"text\": \"Se invece catturi con il pedone, {{mv:R5.u2}} perde ancora di più ({{loss:R5.u2}}), e anche {{mv:R5.u3}} non salva la posizione ({{loss:R5.u3}}). Il problema è che il Nero guadagna spazio e attiva i pezzi mentre il tuo centro si disgrega.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"La linea principale del motore dopo la spinta è {{pv:PV5:6}}: il Nero cattura il cavallo, poi spinge ancora e la sua posizione diventa dominante. Non c'è modo di evitare questa continuazione se il Nero la trova: devi solo limitare i danni.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"La buona notizia è che questa spinta è poco probabile a questo livello ({{pct:R5.p_opp}}): Maia-2 la sceglie raramente. Le mosse che il Nero gioca davvero ti lasciano in vantaggio, come mostra la linea principale {{pv:PV1:6}} che porta a {{ev:PV1}}.\", \"source\": \"mixed\"}, {\"type\": \"p\", \"text\": \"Anche la linea {{pv:PV2:6}} è favorevole a te ({{ev:PV2}}): dopo l'alfiere in h4 la cattura in c5 è forte. E la linea {{pv:PV3:6}} porta a una posizione pari ({{ev:PV3}}), senza rischi.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"In sintesi: la tattica forzata che ti danneggia esiste ma è poco probabile; le continuazioni più naturali del Nero ti lasciano in vantaggio. Gioca con calma e non forzare.\", \"source\": \"theory\"}]}], \"notes\": [\"Il pacchetto non contiene una raccomandazione (recommendation è null) perché tocca all'avversario: non esiste quindi una mossa unica da consigliare.\", \"La categoria space_center ha tranquillità settantasette e consiglio monitor, ma non è tra le righe richieste nella tabella T4: l'ho comunque menzionata nel testo.\", \"Alcune linee filtrate hanno visible_at_level false ma riguardano occasioni per l'utente, non minacce contro di lui: le ho trattate come occasioni poco visibili.\"]}"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 19082,
+   "completion_tokens": 4607,
+   "total_tokens": 23689,
+   "cost": 0.0028849164,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 18944,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0028849164,
+    "upstream_inference_prompt_cost": 0.0002865684,
+    "upstream_inference_completions_cost": 0.002598348
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 0,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ {
+  "id": "gen-1791195209-qz8Ex8xHgYYjMQdFW0qY",
+  "object": "chat.completion",
+  "created": 1791195209,
+  "model": "deepseek/deepseek-v4.1-flash",
+  "provider": "AtlasCloud",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "tool_calls",
+    "native_finish_reason": "tool_calls",
+    "message": {
+     "role": "assistant",
+     "content": null,
+     "refusal": null,
+     "reasoning": null,
+     "tool_calls": [
+      {
+       "type": "function",
+       "index": 0,
+       "id": "call_00_5arq9umx41aawppiytd6jmut",
+       "function": {
+        "name": "submit_analysis",
+        "arguments": "{\"schema_version\": \"1\", \"sections\": [{\"id\": \"S01\", \"blocks\": [{\"type\": \"p\", \"text\": \"Tocca al Nero e la posizione è **in bilico**: il motore dà al Bianco un vantaggio minimo ({{ev:N1}}), con la vittoria bianca data al {{pct:root.win}} e il pareggio al {{pct:root.draw}}. Non c'è nulla di decisivo, ma il tuo avversario ha una mossa che cambia tutto.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N1\", \"band\": \"slight_plus\"}]}, {\"type\": \"p\", \"text\": \"Il punto è che il Nero può spingere il pedone in e4 e guadagnare un pedone: quella mossa vale {{ev:N7}} per te, cioè la partita è praticamente persa. Le altre mosse nere ti lasciano in partita, anzi spesso ti danno un piccolo vantaggio. Quindi la tua attenzione non va al piano, ma alla **sorveglianza**: devi capire subito se il Nero può giocare quella spinta e come rispondere.\", \"source\": \"engine\", \"assertions\": [{\"kind\": \"eval_band\", \"ref\": \"N7\", \"band\": \"losing\"}]}, {\"type\": \"p\", \"text\": \"Il tuo punteggio atteso secondo Maia-2 è {{pct:root.win}} di vittorie, ma il modello umano ti dà un punteggio atteso di {{pct:root.draw}} complessivo: in pratica, a questo livello, la partita è molto più aperta di quanto dica il motore. Il tuo avversario è un giocatore della tua stessa forza ({{elo:opp}}), quindi non troverà sempre la mossa migliore.\", \"source\": \"maia\"}]}]}, {\"id\": \"S02\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T4\", \"text_cells\": {\"threats_dynamics\": {\"nota\": {\"text\": \"Il Nero ha uno scacco disponibile e la spinta in e4: è la categoria più rilevante qui\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"no_worry\"}]}}, \"piece_activity\": {\"nota\": {\"text\": \"Il tuo cavallo in c3 e la donna in c4 sono attivi; l'alfiere in c1 è ancora fermo\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"inactive_piece\", \"side\": \"w\", \"squares\": [\"c1\"]}, {\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"no_worry\"}]}}, \"material\": {\"nota\": {\"text\": \"Hai un pedone in più, ma il Nero può recuperarlo con la spinta in e4\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"material_balance\", \"side\": null, \"squares\": []}, {\"kind\": \"category_advice\", \"id\": \"material\", \"advice\": \"no_worry\"}]}}, \"initiative_tempo\": {\"nota\": {\"text\": \"Il Nero ha il tratto e uno scacco in d4: l'iniziativa è sua per una mossa\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"initiative_tempo\", \"advice\": \"no_worry\"}]}}, \"pawn_structure\": {\"nota\": {\"text\": \"Hai pedoni doppiati in b2 e b3 e un pedone isolato nero in c5: struttura sana per te\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"doubled_pawn\", \"side\": \"w\", \"squares\": [\"b2\", \"b3\"]}, {\"kind\": \"feature\", \"key\": \"isolated_pawn\", \"side\": \"b\", \"squares\": [\"c5\"]}, {\"kind\": \"category_advice\", \"id\": \"pawn_structure\", \"advice\": \"no_worry\"}]}}}}, {\"type\": \"p\", \"text\": \"Le categorie più rilevanti sono **dinamica e minacce** (rilevanza {{sc:threats_dynamics.R}}) e **attività dei pezzi** ({{sc:piece_activity.R}}). La prima conta perché il Nero ha mosse concrete: lo scacco in d4 e la spinta in e4. La seconda perché il tuo alfiere in c1 non ha ancora mosso e il tuo cavallo in g3 è poco utile.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"threats_dynamics\", \"advice\": \"no_worry\"}, {\"kind\": \"category_advice\", \"id\": \"piece_activity\", \"advice\": \"no_worry\"}, {\"kind\": \"feature\", \"key\": \"inactive_piece\", \"side\": \"w\", \"squares\": [\"c1\"]}]}, {\"type\": \"p\", \"text\": \"Il **materiale** ({{sc:material.R}}) e l'**iniziativa** ({{sc:initiative_tempo.R}}) sono in equilibrio: hai un pedone in più, ma il Nero ha il tratto e può attaccare. La **struttura di pedoni** ({{sc:pawn_structure.R}}) è la tua risorsa: hai pedoni doppiati ma un pedone isolato nero in c5 da attaccare. Nessuna categoria è critica, ma la spinta in e4 va vista in anticipo.\", \"source\": \"mixed\", \"assertions\": [{\"kind\": \"category_advice\", \"id\": \"material\", \"advice\": \"no_worry\"}, {\"kind\": \"category_advice\", \"id\": \"initiative_tempo\", \"advice\": \"no_worry\"}, {\"kind\": \"category_advice\", \"id\": \"pawn_structure\", \"advice\": \"no_worry\"}, {\"kind\": \"feature\", \"key\": \"isolated_pawn\", \"side\": \"b\", \"squares\": [\"c5\"]}]}]}, {\"id\": \"S05\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Donna in c4:** è il tuo pezzo più attivo. Controlla la colonna c e la diagonale verso il re nero. Attenzione: se il Nero gioca lo scacco in d4, la donna può essere catturata se non la sposti o non la difendi. Il motore preferisce ritirare il re, non catturare.\", \"source\": \"theory\"}, {\"text\": \"**Cavallo in c3:** controlla d5 ed e4. È il difensore chiave del centro. Se il Nero spinge in e4, il cavallo deve ritirarsi in e2: è la mossa migliore secondo il motore ({{ev:N7}}).\", \"source\": \"mixed\"}, {\"text\": \"**Cavallo in g3:** è poco attivo. Può andare in f5 per attaccare il centro nero, ma il motore preferisce altre mosse. Il suo compito è proteggere e4 e f5.\", \"source\": \"theory\"}, {\"text\": \"**Alfiere in c1:** è il tuo pezzo meno sviluppato. Deve uscire, ma solo dopo aver risolto le minacce immediate. La casa naturale è d2 o e3.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"inactive_piece\", \"side\": \"w\", \"squares\": [\"c1\"]}]}, {\"text\": \"**Torre in a1:** sta sulla colonna a semiaperta. Può attaccare il pedone in a7, che è isolato. Il motore vede questa come una risorsa importante.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"rook_open_file\", \"side\": \"w\", \"squares\": [\"a1\"]}]}, {\"text\": \"**Re in g1:** è al sicuro con l'arrocco corto già fatto. Lo scudo di pedoni in f3, g2, h2 è intatto. Non ci sono minacce dirette al re.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"king_castled\", \"side\": \"w\", \"squares\": [\"g1\"]}, {\"kind\": \"feature\", \"key\": \"pawn_shield_intact\", \"side\": \"w\", \"squares\": [\"f3\", \"g2\", \"h2\"]}]}]}, {\"type\": \"p\", \"text\": \"Il Nero ha un **cavallo in f4** che è molto attivo e un **alfiere in f6** che punta verso il tuo re. Il cavallo in f4 controlla d3, e2, g2 e h3: è il pezzo che ti dà più fastidio. Il tuo cavallo in g3 lo tiene d'occhio.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"king_zone_attackers\", \"side\": \"w\", \"squares\": [\"f4\"]}]}]}, {\"id\": \"S06\", \"blocks\": [{\"type\": \"ul\", \"items\": [{\"text\": \"**Spinta in e4:** è la mossa più forte del Nero secondo il motore ({{ev:N7}}). Guadagna un pedone e apre la diagonale verso il tuo re. È la minaccia principale da prevenire.\", \"source\": \"engine\"}, {\"text\": \"**Scacco in d4:** è la mossa più frequente secondo Maia-2 ({{pct:R1.p_opp}}). Il Nero mette la donna in d4 con scacco e ti costringe a decidere subito.\", \"source\": \"maia\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"R1.p_opp\", \"band\": \"frequent\"}]}, {\"text\": \"**Alfiere in h4:** è la seconda mossa più probabile ({{pct:R2.p_opp}}). Il Nero mette l'alfiere in h4 per attaccare il tuo cavallo in g3 e creare pressione sulla diagonale.\", \"source\": \"maia\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"R2.p_opp\", \"band\": \"occasional\"}]}, {\"text\": \"**Alfiere in e7:** è la terza opzione ({{pct:R3.p_opp}}). Il Nero ritira l'alfiere e prepara lo sviluppo. È una mossa tranquilla che ti lascia spazio.\", \"source\": \"maia\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"R3.p_opp\", \"band\": \"occasional\"}]}, {\"text\": \"**Torre in c8:** è meno frequente ({{pct:R4.p_opp}}) ma pericolosa: il Nero attacca la tua donna in c4 e prepara la pressione sulla colonna c.\", \"source\": \"maia\", \"assertions\": [{\"kind\": \"maia_band\", \"ref\": \"R4.p_opp\", \"band\": \"rare\"}]}]}, {\"type\": \"p\", \"text\": \"In generale il Nero cerca di **attaccare il centro** e di sfruttare il cavallo in f4. La sua struttura ha un pedone isolato in c5 e pedoni doppiati non ne ha, ma ha un pedone in più di spazio sul lato di re. Il tuo compito è mantenere la calma e non regalare materiale.\", \"source\": \"feature\", \"assertions\": [{\"kind\": \"feature\", \"key\": \"isolated_pawn\", \"side\": \"b\", \"squares\": [\"c5\"]}, {\"kind\": \"feature\", \"key\": \"space_advantage\", \"side\": \"b\", \"squares\": []}]}]}, {\"id\": \"S07\", \"blocks\": [{\"type\": \"table\", \"ref\": \"T1\", \"text_cells\": {\"R1\": {\"prepare\": {\"text\": \"Dopo lo scacco in d4, il motore preferisce ritirare il re in h1 ({{mv:R1.u1}}, {{ev:R1.u1}}). Attenzione: la donna in c4 non deve catturare in d4, perché perderebbe materiale ({{loss:R1.u3}}).\", \"source\": \"engine\"}}, \"R2\": {\"prepare\": {\"text\": \"Se il Nero gioca l'alfiere in h4, la mossa migliore è catturare il pedone in c5 con la donna ({{mv:R2.u1}}, {{ev:R2.u1}}). In alternativa, spingere il pedone in d3 ({{mv:R2.u2}}) è solido.\", \"source\": \"engine\"}}, \"R3\": {\"prepare\": {\"text\": \"Se il Nero ritira l'alfiere in e7, la mossa più naturale è spingere il pedone in d3 ({{mv:R3.u1}}, {{ev:R3.u1}}). Questa mossa è anche la più frequente secondo Maia-2 ({{pct:R3.u1.p_user}}).\", \"source\": \"mixed\"}}, \"R4\": {\"prepare\": {\"text\": \"Se il Nero gioca la torre in c8, puoi catturare il pedone in a7 con la torre ({{mv:R4.u1}}, {{ev:R4.u1}}). È la mossa più forte secondo il motore.\", \"source\": \"engine\"}}, \"R5\": {\"prepare\": {\"text\": \"Se il Nero spinge in e4, la posizione diventa difficile ({{ev:N7}}). La mossa migliore è ritirare il cavallo in e2 ({{mv:R5.u1}}), ma anche così il vantaggio nero è grande.\", \"source\": \"engine\"}}}}, {\"type\": \"p\", \"text\": \"Le risposte più probabili del Nero sono lo scacco in d4 ({{pct:R1.p_opp}}) e l'alfiere in h4 ({{pct:R2.p_opp}}). La spinta in e4 è meno frequente ({{pct:R5.p_opp}}) ma è la più pericolosa. Preparati a queste tre mosse prima di pensare al tuo piano.\", \"source\": \"maia\"}]}, {\"id\": \"S09\", \"blocks\": [{\"type\": \"p\", \"text\": \"Ci sono linee che a questo livello difficilmente si vedono. La linea {{pv:L3:6}} porta a una posizione pari ({{ev:L3}}): il Nero ritira l'alfiere e sviluppa con calma, ma la sequenza è poco visibile perché richiede pazienza. La linea {{pv:L4:6}} è una confutazione dello scacco in d4: il Bianco ritira il re e mantiene un piccolo vantaggio ({{ev:L4}}), ma la sequenza è difficile da calcolare a tavolino.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"La linea {{pv:L5:6}} mostra che dopo l'alfiere in h4 il Bianco può catturare in c5 e poi in a7, ottenendo un vantaggio ({{ev:L5}}). La linea {{pv:L7:6}} è la più nascosta: dopo la torre in c8, il Bianco può catturare in a7 e in b7, con un vantaggio netto ({{ev:L7}}). Sono tutte occasioni per te, non minacce, ma a questo livello sfuggono perché richiedono di vedere lontano.\", \"source\": \"engine\"}]}, {\"id\": \"S10\", \"blocks\": [{\"type\": \"ol\", \"items\": [{\"text\": \"Il Nero ha appena mosso: quale minaccia ha creato? Controlla se può dare scacco o spingere in e4.\", \"source\": \"theory\"}, {\"text\": \"Tutti i miei pezzi sono protetti? La donna in c4 e il cavallo in c3 sono al sicuro?\", \"source\": \"theory\"}, {\"text\": \"Posso catturare qualcosa senza perdere materiale? Il pedone in c5 e il pedone in a7 sono deboli.\", \"source\": \"theory\"}, {\"text\": \"Il mio alfiere in c1 è ancora fermo: posso svilupparlo adesso?\", \"source\": \"theory\"}, {\"text\": \"Se il Nero spinge in e4, ho una risposta pronta? Il cavallo in c3 deve andare in e2.\", \"source\": \"theory\"}]}]}, {\"id\": \"S13\", \"blocks\": [{\"type\": \"p\", \"text\": \"La linea forzata principale è quella che inizia con lo scacco in d4. Il Nero mette la donna in d4 con scacco e ti costringe a rispondere. La sequenza completa è {{pv:PV1:10}}. Il motore valuta la posizione finale {{ev:N3}} per te: un vantaggio minimo, ma la partita resta equilibrata.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"La difesa corretta è ritirare il re in h1 ({{mv:R1.u1}}). Non catturare in d4 con la donna: dopo la cattura del pedone, la posizione diventa difficile ({{loss:R1.u3}}). Il re in h1 è al sicuro e la donna nera in d4 è esposta.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"Dopo il ritiro del re, il Nero di solito ritira l'alfiere in e7 e sviluppa il cavallo in g6. La sequenza tipica è {{pv:PV3:6}}, che porta a una posizione pari ({{ev:N5}}). Il Bianco deve spingere il pedone in d3 per liberare la donna e controllare il centro.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"L'altra linea forzata è quella che inizia con l'alfiere in h4. Il Nero attacca il tuo cavallo in g3 e ti costringe a decidere. La sequenza è {{pv:PV2:6}}, con valutazione finale {{ev:N4}} per te. La mossa migliore è catturare in c5 con la donna, che guadagna un pedone e mantiene l'iniziativa.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"La linea più pericolosa è quella che inizia con la spinta in e4. Il Nero guadagna un pedone e apre la diagonale verso il tuo re. La sequenza è {{pv:PV5:6}}, con valutazione finale {{ev:N7}} per te: la partita è praticamente persa. Questa linea non si evita se il Nero la trova, ma è poco frequente ({{pct:R5.p_opp}}).\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"La linea con la torre in c8 è meno forzata ma interessante. Il Nero attacca la tua donna e prepara la pressione. La sequenza è {{pv:PV4:6}}, con valutazione finale {{ev:N6}} per te: un vantaggio netto. La mossa migliore è catturare in a7 con la torre, che guadagna materiale.\", \"source\": \"engine\"}, {\"type\": \"p\", \"text\": \"In sintesi: la tattica forzata principale è lo scacco in d4, che si risolve con il ritiro del re in h1. Le altre linee sono meno forzate ma più pericolose se il Nero le trova. Il tuo compito è restare calmo e non regalare materiale.\", \"source\": \"theory\"}]}], \"notes\": [\"La categoria threats_dynamics ha punteggio di tranquillità pieno ma rilevanza alta: il programma la classifica come no_worry, anche se la spinta in e4 è oggettivamente pericolosa. Segnalo l'incoerenza tra il punteggio e le linee filtrate.\", \"La categoria space_center ha punteggio di tranquillità medio e rilevanza bassa, ma il Nero ha un vantaggio di spazio: il programma la classifica come monitor, coerente con i dati.\", \"Il punteggio atteso umano di Maia-2 per l'utente è più alto della probabilità di vittoria del motore: la posizione è più aperta di quanto dica Stockfish.\"]}"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 18303,
+   "completion_tokens": 4769,
+   "total_tokens": 23072,
+   "cost": 0.0031913094,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 16384,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0031913094,
+    "upstream_inference_prompt_cost": 0.0005015934,
+    "upstream_inference_completions_cost": 0.002689716
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 0,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ }
+]

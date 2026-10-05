@@ -118,7 +118,11 @@ def extract_output(response: dict) -> tuple[dict | None, list[VError]]:
             if not isinstance(block.get("input"), dict):     # arguments that are not valid JSON (OQ-M1c-9)
                 return None, [VError("V01", None, None, None, "argomenti di submit_analysis",
                                      "non sono un oggetto JSON valido")]
-            return block.get("input"), []
+            out = dict(block["input"])
+            # D-70: the two constant keys are filled in, a retry for them only re-sends the whole analysis
+            out.setdefault("schema_version", "1")    # the only version of Appendix F
+            out.setdefault("notes", [])
+            return out, []
     return None, [VError("V01", None, None, None, "tool_use assente", "nessun blocco submit_analysis")]
 
 

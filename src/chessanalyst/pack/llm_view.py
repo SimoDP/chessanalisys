@@ -5,6 +5,8 @@ Excluded: ``tables``, nodes with ``citable: false``, ``omitted_nodes``,
 truncated) and the first moves of the Maia-2 policy are sent. The pack
 contains no PGN, player names, tags or paths (§11.5).
 
+D-70: ``bands``, the band of every evaluation and Maia-2 probability an assertion can cite, already computed.
+
 M3: of each category only the user's T (the opponent's T is for detail 5, O-5), R, balance, advice and
 confidence; of each filtered line the data the text can cite (PV truncated as in the nodes).
 """
@@ -21,8 +23,9 @@ LINE_FIELDS = ("id", "kind", "start_node", "entry", "against_user", "plies", "ev
                "impact_cp", "p_att", "risk", "tags", "primary", "visible_at_level")
 
 
-def llm_view(pack: dict, view: LlmViewCfg) -> dict:
-    """``view`` = ``config/default.yaml: llm.view`` (§6.1, D-65)."""
+def llm_view(pack: dict, view: LlmViewCfg, wording: dict | None = None) -> dict:
+    """``view`` = ``config/default.yaml: llm.view`` (§6.1, D-65); with ``wording`` the view carries ``bands``
+    (D-70)."""
     out = {k: copy.deepcopy(v) for k, v in pack.items() if k not in EXCLUDED}
     nodes = []
     for n in out["nodes"]:
@@ -41,9 +44,13 @@ def llm_view(pack: dict, view: LlmViewCfg) -> dict:
                           **({"T_opp": c["T"][opp]} if five else {})} for c in pack.get("categories", [])]
     out["filtered_lines"] = [{k: (v[:view.pv_plies] if k == "plies" else v) for k, v in ln.items()
                               if k in LINE_FIELDS} for ln in pack.get("filtered_lines", [])]
+    if wording is not None:
+        from chessanalyst.verify.assertions import band_table
+
+        out["bands"] = band_table(pack, wording)
     return out
 
 
-def llm_view_json(pack: dict, view: LlmViewCfg) -> str:
+def llm_view_json(pack: dict, view: LlmViewCfg, wording: dict | None = None) -> str:
     """Compact JSON (E.2)."""
-    return json.dumps(llm_view(pack, view), ensure_ascii=False, separators=(",", ":"))
+    return json.dumps(llm_view(pack, view, wording), ensure_ascii=False, separators=(",", ":"))
