@@ -207,6 +207,14 @@ def test_openrouter_retryable(cfg, code):
     assert len(t.calls) == 2 and waits == [cfg.default.llm.network_backoff_s[0]]
 
 
+def test_openrouter_cut_off_response_is_retried(cfg):
+    import http.client
+
+    c, t, _ = or_client(cfg, [http.client.IncompleteRead(b"x"), (200, or_ok({}))])
+    assert c.create(system=[], messages=[], tools=[TOOL], tool_choice={"name": "submit_analysis"}, max_tokens=1)
+    assert len(t.calls) == 2
+
+
 def test_openrouter_connection_error_and_give_up(cfg):
     c, t, _ = or_client(cfg, [OSError("reset")] * 5)
     with pytest.raises(ModelError) as e:

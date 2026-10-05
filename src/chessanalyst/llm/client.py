@@ -14,6 +14,7 @@ The key is read only from the environment and never written or logged.
 
 from __future__ import annotations
 
+import http.client
 import json
 import logging
 import os
@@ -265,7 +266,8 @@ class OpenRouterClient(_RetryingClient):
         try:
             status, resp_headers, raw = self.transport(self.url, headers, json.dumps(body).encode("utf-8"),
                                                        self.timeout)
-        except (OSError, urllib.error.URLError) as e:       # connection errors and timeouts
+        except (OSError, urllib.error.URLError, http.client.HTTPException) as e:   # connection errors, timeouts,
+            # and a response cut off mid-body (IncompleteRead, seen on OpenRouter in phase D)
             raise _Transient(type(e).__name__) from None
         try:
             data = json.loads(raw.decode("utf-8") or "{}")
