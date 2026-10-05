@@ -78,6 +78,7 @@ class Unit:
     assertions: list[dict]
     in_line: bool = False
     move_cell: bool = False         # D-71: a text cell of a move table (T1, T2): it describes a move
+    ref: dict | None = field(default=None, repr=False, compare=False)   # the dict of the output holding ``source``
 
 
 @dataclass
@@ -88,6 +89,7 @@ class Result:
     theory_blocks: list[dict] = field(default_factory=list)
     theory_share: float = 0.0
     passed_schema: bool = False
+    relabeled: list[str] = field(default_factory=list)      # D-71: sources fixed by the checker
 
     @property
     def codes(self) -> set[str]:
@@ -136,26 +138,26 @@ def iter_units(output: dict) -> list[Unit]:
         for b, blk in enumerate(sec["blocks"], 1):
             t = blk["type"]
             if t == "p":
-                units.append(Unit(sid, b, None, blk["text"], blk["source"], blk.get("assertions") or []))
+                units.append(Unit(sid, b, None, blk["text"], blk["source"], blk.get("assertions") or [], ref=blk))
             elif t in ("ul", "ol"):
                 for k, it in enumerate(blk["items"], 1):
-                    units.append(Unit(sid, b, f"voce {k}", it["text"], it["source"], it.get("assertions") or []))
+                    units.append(Unit(sid, b, f"voce {k}", it["text"], it["source"], it.get("assertions") or [], ref=it))
             elif t == "line" and blk.get("caption"):
                 c = blk["caption"]
                 units.append(Unit(sid, b, "didascalia", c["text"], c["source"], c.get("assertions") or [],
-                                  in_line=True))
+                                  in_line=True, ref=c))
             elif t == "table":
                 for row, cols in (blk.get("text_cells") or {}).items():
                     for col, c in cols.items():
                         units.append(Unit(sid, b, f"{row}/{col}", c["text"], c["source"], c.get("assertions") or [],
-                                          move_cell=blk.get("ref") in MOVE_TABLES))
+                                          move_cell=blk.get("ref") in MOVE_TABLES, ref=c))
             elif t == "text_table":
                 for k, h in enumerate(blk["columns"], 1):
                     units.append(Unit(sid, b, f"intestazione {k}", h, None, []))
                 for r, row in enumerate(blk["rows"], 1):
                     for k, c in enumerate(row, 1):
                         units.append(Unit(sid, b, f"riga {r}, colonna {k}", c["text"], c["source"],
-                                          c.get("assertions") or []))
+                                          c.get("assertions") or [], ref=c))
     return units
 
 
@@ -202,6 +204,11 @@ class Checker:
         words: dict[str, int] = {}
         theory_words = total_words = 0
         for u in units:
+            fixed = self._relabel(u)
+            if fixed:
+                res.relabeled.append(f"{u.section} · blocco {u.block}" + (f", {u.cell}" if u.cell else "")
+                                     + f": {u.source} → {fixed}")
+                u.source = u.ref["source"] = fixed
             errors += self._check_unit(u, sec_cites.setdefault(u.section, set()))
             n = count_words(u.text, self.word_re)
             words[u.section] = words.get(u.section, 0) + n
@@ -223,6 +230,33 @@ class Checker:
         return res
 
     # ------------------------------------------------------------------------
+    def _relabel(self, u: Unit) -> str | None:
+        """D-71: ``source`` is a label of what the block cites, so a mix-up between engine, maia and feature is
+        fixed instead of costing a retry or a removal: data of more than one kind → ``mixed``; no data at all →
+        ``theory`` where theory is allowed. Anything else stays a V10 (or V08) error."""
+        if u.source is None or u.ref is None:
+            return None
+        data = {data_class(raw) for raw in find_tokens(u.text)} - {None, "move", "other"}
+        if u.assertions:
+            data.add("assertion")
+        if any(a["kind"] == "feature" for a in u.assertions):
+            data.add("feature")
+        if u.in_line:
+            data.add("line")
+        need, forbid = SOURCE_RULES[u.source]
+        if not ((need and not data & need) or data & forbid):
+            return None
+        # a theory block with data and a plan outside theory/mixed stay errors (AC-16, AC-23): they say something
+        # about what is verified, not only about the label
+        if u.source == "theory" or "plan" in data:
+            return None
+        if data & SOURCE_RULES["mixed"][0]:
+            return "mixed" if u.source != "mixed" else None
+        theory_ok = u.section in self.plan and self.plan[u.section]["theory_allowed"]
+        if not data and theory_ok and u.source != "theory":
+            return "theory"
+        return None
+
     def _band_words(self, band: str | None) -> str:
         if band is None:
             return ""

@@ -34,5 +34,6 @@ def verification_json(attempts: list[Result], degraded: Degraded | None, hints: 
         },
         "theory_blocks": [{"section": t["section"], "text": t["text"], "words": t["words"]} for t in last.theory_blocks],
         "theory_share": last.theory_share,
+        "relabeled": last.relabeled,
         "words_by_section": last.words_by_section,
     }
