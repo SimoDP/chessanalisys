@@ -23,6 +23,33 @@ python3.12 -m venv .venv
 .venv/bin/chessanalyst doctor
 ```
 
+### Chiave OpenRouter nel venv
+
+La chiave si aggiunge allo script di attivazione del venv: c'è solo con il venv attivo e non tocca il resto del
+sistema. Dalla cartella del progetto, una volta sola, con la tua chiave al posto di `sk-or-...`:
+
+```bash
+cat >> .venv/bin/activate <<'EOF'
+
+# Chess Position Analyst: chiave OpenRouter, solo con il venv attivo
+export OPENROUTER_API_KEY="sk-or-...la-tua-chiave..."
+EOF
+```
+
+Poi riattiva il venv (le righe nuove valgono dalla prossima attivazione) e controlla:
+
+```bash
+deactivate 2>/dev/null
+source .venv/bin/activate
+chessanalyst doctor
+```
+
+- **Dove sta la chiave.** È salvata in chiaro in `.venv/bin/activate`. La cartella `.venv/` è esclusa da git,
+  quindi la chiave non va nel repository: non copiare `.venv` altrove.
+- **Quando c'è.** Solo dopo `source .venv/bin/activate`: lanciando `.venv/bin/chessanalyst` senza attivare il
+  venv la chiave manca.
+- **Venv ricreato.** Se ricrei il venv, `activate` si rigenera e il comando `cat` va ripetuto.
+
 ## Test
 
 ```bash
