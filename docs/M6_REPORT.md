@@ -32,7 +32,7 @@ Criterio di uscita: rilascio v1.0.
 
 ## Misure
 
-**Costo del modello** (DeepSeek, D-67), dalla regressione del prompt: 7 pacchetti congelati × 3 giri, 20 analisi con
+**Costo del modello** (DeepSeek, D-67; anche in produzione, D-69), dalla regressione del prompt: 7 pacchetti congelati × 3 giri, 20 analisi con
 risposta valida su 21 (`docs/regression/20261005T073135.md`).
 
 | Misura per analisi | Media | Min | Max |
@@ -69,7 +69,6 @@ risposta valida su 21 (`docs/regression/20261005T073135.md`).
 - **Interfaccia.** Non ferma un'analisi in corso: per interromperla si chiude il server, il pacchetto già scritto
   resta e si rifà con `rerun`.
 - **Decisioni aperte** (note di rilascio):
-  - il modello di produzione (D-67);
   - la validazione umana dei fewshot;
   - la rifinitura per le diverse fasce di Elo.
 

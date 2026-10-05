@@ -45,8 +45,8 @@ anche senza rete) e i dati per rifarla (`pack.json`, risposte e controlli del mo
 
 ## Limiti noti e decisioni aperte
 
-- **Modello di produzione.** Da scegliere (D-67). Lo sviluppo usa `deepseek/deepseek-v4.1-flash`: economico, ma
-  con più retry e più parti marcate rispetto a un modello più forte. Il critico (`llm.critic`) resta spento perché
+- **Modello.** `deepseek/deepseek-v4.1-flash` via OpenRouter, in sviluppo e in produzione (D-69): circa 0,014 $ per
+  analisi. Ha più retry e più parti marcate di un modello più forte. Il critico (`llm.critic`) resta spento perché
   con questo modello dà falsi positivi.
 - **Esempi di riferimento.** I fewshot attendono la validazione umana (§8-bis.5).
 - **Calibrazione.** Fatta su 100 posizioni e un mese di partite rapid, con annotazione automatica. Le costanti

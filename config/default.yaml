@@ -22,7 +22,7 @@ exploration:
   profile: standard       # fast | standard | deep
 llm:
   provider: openrouter    # openrouter | anthropic (D-64, docs/DECISIONI_POST_CONGELAMENTO.md)
-  model: deepseek/deepseek-v4.1-flash   # sviluppo (D-67); produzione da decidere. Con anthropic: claude-sonnet-5-5
+  model: deepseek/deepseek-v4.1-flash   # sviluppo (D-67) e produzione (D-69). Con anthropic: claude-sonnet-5-5
   max_tokens: 16000
   temperature: 0.3
   max_retries: 2

@@ -67,8 +67,9 @@ def test_page_and_guards(server):
     assert call(port, "POST", "/api/preview", {"method": "example"}, token="x")[0] == 403
     assert call(port, "POST", "/api/preview", {"method": "example"}, token=app.token,
                 headers={"Origin": "http://evil.example"})[0] == 403
-    big = {"method": "pgn", "text": "x" * (app.cfg.default.ui.max_request_kb * 1024 + 1)}
-    assert call(port, "POST", "/api/preview", big, token=app.token)[0] == 413
+    # the size is checked on Content-Length before reading: the body is not sent (no race on a closed socket)
+    too_big = str(app.cfg.default.ui.max_request_kb * 1024 + 1)
+    assert call(port, "POST", "/api/preview", {}, token=app.token, headers={"Content-Length": too_big})[0] == 413
     assert call(port, "GET", "/a/../conf/analysis.md")[0] == 404
     assert call(port, "GET", "/a/%2e%2e/analysis.md")[0] == 404
 
