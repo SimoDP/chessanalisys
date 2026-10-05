@@ -108,7 +108,11 @@ def compare(new: dict, old: dict | None) -> str:
             n = sum(p.get("n", 1) for p in ps)
             done = sum(int(p.get("complete") or 0) for p in ps)
             rem = sum((p.get("removed") or 0) * p.get("n", 1) for p in ps)
-            totals.append(f"- {label}: {done} risposte complete su {n}, {rem / n:.1f} rimozioni in media")
+            costs = [c for p in ps for c in [(r.get("usage") or {}).get("cost_usd") for r in p.get("runs", [])
+                                             if not r.get("failed")] if c is not None]
+            totals.append(f"- {label}: {done} risposte complete su {n}, {rem / n:.1f} rimozioni in media"
+                          + (f", costo medio per analisi {sum(costs) / len(costs):.4f} $ ({len(costs)} analisi)"
+                             if costs else ""))
     return "\n".join(head + rows + [""] + totals) + "\n"
 
 

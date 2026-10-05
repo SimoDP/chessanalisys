@@ -652,3 +652,84 @@ Le metriche umane di §12.2 (utilità percepita, correttezza concettuale) restan
 `docs/regression/<data>.json` e un confronto in `.md` con il riepilogo precedente: risposte complete, rimozioni
 medie, sezioni fuori budget. Il primo riferimento, a un solo giro, ha mostrato quanto pesa la variabilità: lo
 stesso pacchetto passa da completo a 23 rimozioni.
+
+## M6 — UI e v1.0
+
+### OQ-M6-1 · Forma dell'interfaccia
+**Problema.** §13 chiede «UI con scacchiera, varianti cliccabili, esportazione» senza dire che forma abbia; §15
+dice «UI locale in M6».
+**Scelta dell'utente.** Pagina web locale: `chessanalyst ui` apre il browser su un piccolo server su questo
+computer. Solo libreria standard (`http.server`) e python-chess, nessuna dipendenza nuova. In rete va solo la
+chiamata al modello, come dalla riga di comando.
+**Default.**
+- **Flusso.** È quello interattivo: posizione (esempio, FEN, PGN con scelta della partita e della mossa),
+  impostazioni (colore, Elo, scala, profondità, dettaglio), conferma con la scacchiera (§2-bis.5), analisi con
+  l'avanzamento, elenco delle analisi salvate.
+- **Profilo.** Si salva dopo la conferma, come nel flusso interattivo.
+- **Elo dai tag (§2-bis.4 punto 8).** Si propongono con un pulsante e si chiede sempre la scala.
+- **Un'analisi alla volta.** I motori usano tutta la macchina; una seconda richiesta riceve un messaggio.
+- **Costanti** in `default.yaml: ui` (porta, apertura del browser, limite della richiesta, intervallo di
+  aggiornamento).
+
+### OQ-M6-2 · Sicurezza del server locale
+**Default.**
+- **Interfaccia.** Il server ascolta solo su 127.0.0.1. L'indirizzo non è configurabile, perché la pagina non ha
+  autenticazione.
+- **Host.** Si accetta una richiesta solo se l'Host è il server stesso (niente DNS rebinding).
+- **POST.** Serve il token della pagina (generato all'avvio, illeggibile da altri siti), un'Origin assente o uguale
+  al server, il tipo JSON e un corpo entro `ui.max_request_kb`.
+- **File.** Si servono solo `analysis.html`, `analysis.md` e le esportazioni, per nome di cartella confrontato con
+  l'elenco della cartella di output, mai per percorso. `pack.json`, `run.log` e le risposte del modello non si
+  servono.
+- **Intestazioni.** Content-Security-Policy restrittiva, `no-store`, `nosniff`.
+- **Log.** Il log non contiene i corpi delle richieste (PGN, nomi).
+
+### OQ-M6-3 · Pagina `analysis.html`
+**Problema.** §6 dice «Markdown (poi HTML)» senza dettagli. Gli elenchi dei file di AC-01, AC-15 e AC-34 sono quelli
+di M1c.
+**Default.**
+- **Contenuto.** Lo stesso documento di `analysis.md`: il render Markdown in «modalità collegamento» marca ogni token
+  di mossa, linea o nodo con la posizione a cui porta, e un convertitore del sottoinsieme Markdown scrive l'HTML. I
+  test confrontano il testo delle due versioni.
+- **Scacchiera.** Disegnata nel browser dal FEN, con i pezzi di `chess.svg` (Colin M. L. Burnett, dalla libreria
+  python-chess, GPL-3.0+; il credito è sotto la scacchiera). La pagina non scarica nulla e funziona senza rete.
+- **Navigazione.** Un clic su una mossa mostra la posizione dopo la mossa, con l'ultima mossa evidenziata. Le
+  frecce (anche da tastiera) scorrono la variante. Pulsanti per la posizione analizzata e per girare la scacchiera.
+- **Nuovo file `render.json`.** Output finale del modello e informazioni del render, da cui si ricostruiscono la
+  pagina e le esportazioni. Gli elenchi dei file dei tre test di accettazione sono estesi con `render.json` e
+  `analysis.html`.
+- **Errori.** Se la pagina non si può scrivere, l'errore va in `run.log` e l'analisi Markdown resta: la pagina è
+  un'aggiunta, non il prodotto.
+- **Modalità *entrambi*.** Le due prospettive stanno in una pagina, col colore al tratto per primo.
+
+### OQ-M6-4 · Esportazione
+**Default.** `chessanalyst export <cartella> --format html|md|pgn [--to <cartella>]`, file
+`<nome della cartella>.<formato>`. Il PGN contiene:
+- intestazioni con solo FEN, `SetUp` ed evento: nessun nome, anche se la partita li aveva;
+- le candidate elencate (o le risposte, se tocca all'avversario) come varianti, la migliore come linea principale,
+  con la valutazione dal punto di vista dell'utente in commento;
+- le PV tagliate a `export.pgn_plies` semimosse: quelle del motore arrivano a decine;
+- le linee filtrate di §5-bis innestate nella posizione da cui partono, con l'ID (`L4: confutazione di …`) e la
+  valutazione finale.
+
+Le linee di minaccia partono da una mossa nulla, che molti programmi non leggono nel PGN: si omettono (sono nella
+pagina e nel documento). Un'analisi precedente a M6 non ha `render.json`: l'HTML si rifiuta con l'indicazione di
+usare `rerun`, Markdown e PGN funzionano.
+
+### OQ-M6-5 · Ottimizzazione dei costi
+**Default.**
+- **Misura.** Il rapporto finale (riga «Uso del modello»), `verification.json` e la regressione riportano chiamate,
+  token in ingresso (e in cache), token in uscita e costo. OpenRouter dà il costo nella risposta. Con Anthropic il
+  costo si calcola solo se `llm.prices` è configurato (non si inventano prezzi).
+- **Cache.** Due punti di cache nel primo messaggio: l'esempio, comune a tutti i pacchetti della stessa ancora, e
+  l'intero messaggio, riletto da ogni retry. Valgono per i modelli Anthropic. I modelli che non usano
+  `cache_control` ricevono lo stesso testo.
+- **Che cosa pesa.** I token in uscita e i retry (ogni retry rimanda la conversazione). Non si riducono né
+  `max_retries` né i budget delle sezioni: inciderebbero sulla qualità. Le misure sono in `docs/M6_REPORT.md`.
+
+### OQ-M6-6 · Versione 1.0.0
+**Default.**
+- **Versione.** `pyproject.toml` e `chessanalyst.__version__` sono a 1.0.0; i nuovi pacchetti lo riportano in
+  `app_version`.
+- **Pacchetti golden.** Restano quelli congelati, con `app_version` 0.1.0: i fewshot sono scritti su di essi (D-49).
+- **Tag git.** Non si crea senza il via dell'utente.

@@ -6,6 +6,7 @@
 - M3 (Category Scoring Engine): scelte e default in docs/OPEN_QUESTIONS.md (OQ-M3-1…9), costanti in thresholds.yaml: scoring.
 - M4 (dettaglio, entrambi, S11, critico, Elo dai tag): scelte e default in docs/OPEN_QUESTIONS.md (OQ-M4-1…7).
 - M5 (calibrazione): config/calibration.yaml, docs/CALIBRATION_REPORT.md, OQ-M5-1…4; k_c e w_c sono valori calibrati.
+- M6 (UI locale, pagina HTML, esportazione, costi, v1.0): OQ-M6-1…6; costanti in default.yaml: ui, export.
 - Le Appendici D–G sono normative: i file di config/ partono esattamente da quei contenuti.
 - Lavora per milestone nell'ordine M0, M1a, M1b, M1c, M2… (§13). Non implementare funzioni di milestone
   successive. Opzioni non ancora disponibili: rifiuto esplicito, codice di uscita 2 (D-30).

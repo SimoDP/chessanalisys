@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "chessanalyst"
-version = "0.1.0"
+version = "1.0.0"
 description = "Chess Position Analyst: analisi testuale di una posizione calibrata sul livello Elo"
 readme = "README.md"
 requires-python = ">=3.11,<3.13"

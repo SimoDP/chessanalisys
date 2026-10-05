@@ -35,3 +35,13 @@ def test_failed_pack_is_reported(cfg):
     s = aggregate("x", [summarize("x", None, 0, "nessuna risposta")] * 2)
     new = {"created_utc": "t", "model": "m", "config_hash": "h", "packs": [s]}
     assert "nessuna risposta valida in 2 giri" in compare(new, None)
+
+
+def test_mean_cost_in_totals():
+    from chessanalyst.llm.regression import aggregate
+
+    run = {"pack": "x", "attempts": [{}], "retries": 0, "complete": True, "removed": 0, "marked": 0,
+           "sections_off_budget": 0, "theory_share": 0, "usage": {"cost_usd": 0.02, "output_tokens": 100}}
+    s = aggregate("x", [run, dict(run, usage={"cost_usd": 0.04}), summarize("x", None, 0, "errore")])
+    text = compare({"created_utc": "t", "model": "m", "config_hash": "h", "packs": [s]}, None)
+    assert "costo medio per analisi 0.0300 $ (2 analisi)" in text and "costo medio 0.0300 $" in text
