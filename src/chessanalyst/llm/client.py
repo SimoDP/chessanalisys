@@ -254,6 +254,8 @@ class OpenRouterClient(_RetryingClient):
         self.timeout = o.timeout_s
         self.cache_control = any(self.model.startswith(p) for p in o.cache_control_prefixes)
         self.extra = dict(o.extra_body)
+        if self.model in o.provider_by_model:            # the providers chosen for this model (phase D)
+            self.extra["provider"] = {**self.extra.get("provider", {}), **o.provider_by_model[self.model]}
         self.transport = transport or urllib_transport
         self._key = api_key if api_key is not None else _require_key("openrouter")
 

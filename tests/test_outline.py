@@ -120,6 +120,10 @@ def test_feature_assertions_on_facts_are_pruned(cfg):
             good, {"kind": "feature", "key": "pinned", "side": "b", "squares": ["c5"]}]}]}]}}]}
     assert prune_assertions(pack, resp) == 1
     assert resp["content"][0]["input"]["sections"][0]["blocks"][0]["assertions"] == [good]
+    # a malformed answer (seen with gemini-2.5-flash-lite: a null section) is left to V01
+    for bad in ([None], [{"id": "S01", "blocks": [None, {"items": "x"}]}], "x"):
+        resp = {"content": [{"type": "tool_use", "name": "submit_analysis", "id": "t", "input": {"sections": bad}}]}
+        assert prune_assertions(pack, resp) == 0
 
 
 def test_default_is_keypoints(root):

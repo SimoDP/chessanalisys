@@ -264,9 +264,12 @@ def prune_assertions(pack: dict, response: dict) -> int:
     for block in response.get("content", []):
         if block.get("type") != "tool_use" or not isinstance(block.get("input"), dict):
             continue
-        for sec in block["input"].get("sections") or []:
-            for b in sec.get("blocks") or []:
-                for unit in [b, *(b.get("items") or [])]:
+        sections = block["input"].get("sections")
+        for sec in sections if isinstance(sections, list) else []:     # a malformed shape is V01's to report
+            blocks = sec.get("blocks") if isinstance(sec, dict) else None
+            for b in blocks if isinstance(blocks, list) else []:
+                items = b.get("items") if isinstance(b, dict) else None
+                for unit in [b, *(items if isinstance(items, list) else [])]:
                     if not isinstance(unit, dict) or not isinstance(unit.get("assertions"), list):
                         continue
                     keep = [a for a in unit["assertions"]

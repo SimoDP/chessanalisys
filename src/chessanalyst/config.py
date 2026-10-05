@@ -112,6 +112,7 @@ class OpenRouterCfg(Strict):
     timeout_s: float
     cache_control_prefixes: list[str]
     extra_body: dict[str, Any]
+    provider_by_model: dict[str, dict[str, Any]] = {}     # merged over extra_body.provider for that model
 
 
 class AnthropicCfg(Strict):

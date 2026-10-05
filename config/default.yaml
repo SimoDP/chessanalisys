@@ -40,7 +40,14 @@ llm:
       reasoning: {enabled: false}                # niente ragionamento esteso (§9.1)
       # D-70: fornitore che serve il modello. Su DeepInfra 0 JSON malformati su 10 risposte, su AtlasCloud 3 su 5;
       # se DeepInfra non risponde OpenRouter passa agli altri (allow_fallbacks), mai ad AtlasCloud.
-      provider: {order: [deepinfra], ignore: [atlas-cloud], allow_fallbacks: true}
+      # Fase D: solo fornitori che non conservano i dati (data_collection: deny), che supportano tutti i
+      # parametri della richiesta (tool_choice forzato), senza quantizzazioni a 4 bit.
+      provider: {order: [deepinfra], ignore: [atlas-cloud], allow_fallbacks: true, data_collection: deny,
+                 require_parameters: true, quantizations: [fp8, mxfp8, fp16, bf16, fp32, unknown]}
+    # fornitori per modello, uniti a extra_body.provider (fase D)
+    provider_by_model:
+      "google/gemini-2.5-flash-lite": {order: [google-vertex]}
+      "mistralai/mistral-small-2603": {order: [mistral]}
   anthropic: {timeout_s: 600}
   # M6: prezzi in dollari per milione di token, per modello, solo se il fornitore non dà il costo (OpenRouter lo
   # dà nella risposta). Vuoto: nel rapporto compaiono i token senza costo. Esempio:
