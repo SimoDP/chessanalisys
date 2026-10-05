@@ -1,0 +1,879 @@
+{
+ "schema_version": "1",
+ "sections": [
+  {
+   "id": "S01",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "La posizione è **equilibrata**: tocca al Nero e il motore valuta la posizione {{ev:N1}} per te, cioè svantaggio decisivo, ma solo perché il Nero ha una mossa forte che quasi nessuno trova. Se il Nero gioca una mossa normale, la posizione resta {{ev:N2}}, vantaggio netto per te. In pratica stai bene: hai un cavallo forte in c4, il Nero ha un pedone isolato in c5 e un alfiere in b7 che non fa niente. Il tuo re è arroccato corto e protetto, il suo pure. La partita si decide su chi mette prima i pezzi sulle case buone: tu hai già il cavallo in c4 e la donna attiva, lui deve ancora sistemare l'alfiere di b7 e il cavallo in f4. Attenzione solo a una cosa: il Nero ha uno scacco disponibile con la donna in d4, e se tu rispondi male perdi la donna. Per il resto puoi giocare con calma e migliorare la posizione.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "N1",
+       "band": "decisive_minus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "N2",
+       "band": "clear_plus"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "S02",
+   "blocks": [
+    {
+     "type": "table",
+     "ref": "T4",
+     "text_cells": {
+      "threats_dynamics": {
+       "nota": {
+        "text": "Il Nero ha uno scacco in d4 e un cavallo in f4 che attacca g2: nessuna minaccia immediata, ma va controllata",
+        "source": "feature",
+        "assertions": [
+         {
+          "kind": "feature",
+          "key": "check_available",
+          "side": "b",
+          "squares": [
+           "d4",
+           "e2",
+           "h3"
+          ]
+         },
+         {
+          "kind": "category_advice",
+          "id": "threats_dynamics",
+          "advice": "no_worry"
+         }
+        ]
+       }
+      },
+      "piece_activity": {
+       "nota": {
+        "text": "Il tuo cavallo in c4 è un avamposto, il suo alfiere in b7 è chiuso: hai più pezzi attivi",
+        "source": "feature",
+        "assertions": [
+         {
+          "kind": "feature",
+          "key": "outpost",
+          "side": "w",
+          "squares": [
+           "c4"
+          ]
+         },
+         {
+          "kind": "feature",
+          "key": "inactive_piece",
+          "side": "b",
+          "squares": [
+           "a8"
+          ]
+         },
+         {
+          "kind": "category_advice",
+          "id": "piece_activity",
+          "advice": "no_worry"
+         }
+        ]
+       }
+      },
+      "material": {
+       "nota": {
+        "text": "Hai un pedone in più, ma il Nero ha la coppia degli alfieri",
+        "source": "feature",
+        "assertions": [
+         {
+          "kind": "feature",
+          "key": "material_balance",
+          "side": null,
+          "squares": []
+         },
+         {
+          "kind": "feature",
+          "key": "bishop_pair",
+          "side": "b",
+          "squares": [
+           "b7",
+           "f6"
+          ]
+         },
+         {
+          "kind": "category_advice",
+          "id": "material",
+          "advice": "no_worry"
+         }
+        ]
+       }
+      },
+      "initiative_tempo": {
+       "nota": {
+        "text": "Tocca al Nero, ma le sue mosse buone sono poche: il tempo è quasi dalla tua parte",
+        "source": "feature",
+        "assertions": [
+         {
+          "kind": "feature",
+          "key": "tempo_count",
+          "side": "w",
+          "squares": []
+         },
+         {
+          "kind": "category_advice",
+          "id": "initiative_tempo",
+          "advice": "no_worry"
+         }
+        ]
+       }
+      },
+      "pawn_structure": {
+       "nota": {
+        "text": "Hai pedoni doppiati in b2 e b3, lui ha due pedoni isolati in c5 e a7",
+        "source": "feature",
+        "assertions": [
+         {
+          "kind": "feature",
+          "key": "doubled_pawn",
+          "side": "w",
+          "squares": [
+           "b2",
+           "b3"
+          ]
+         },
+         {
+          "kind": "feature",
+          "key": "isolated_pawn",
+          "side": "b",
+          "squares": [
+           "c5"
+          ]
+         },
+         {
+          "kind": "category_advice",
+          "id": "pawn_structure",
+          "advice": "no_worry"
+         }
+        ]
+       }
+      }
+     }
+    },
+    {
+     "type": "p",
+     "text": "Le categorie più rilevanti qui sono le minacce e la dinamica (rilevanza {{sc:threats_dynamics.R}}): il Nero ha uno scacco in d4 e un cavallo in f4, ma nessuna delle due è una vera minaccia se rispondi bene. Poi conta l'attività dei pezzi ({{sc:piece_activity.R}}): il tuo cavallo in c4 è un avamposto e il suo alfiere in b7 è chiuso, quindi hai più pezzi utili. Il materiale ({{sc:material.R}}) è dalla tua parte: hai un pedone in più, anche se lui ha la coppia degli alfieri. L'iniziativa ({{sc:initiative_tempo.R}}) è quasi tua: tocca a lui, ma le sue mosse buone sono poche. La struttura di pedoni ({{sc:pawn_structure.R}}) ti favorisce: hai pedoni doppiati in b2 e b3, ma lui ha due pedoni isolati in c5 e a7, che sono debolezze vere. Nessuna categoria è da attenzione: puoi giocare con calma.",
+     "source": "mixed",
+     "assertions": [
+      {
+       "kind": "category_advice",
+       "id": "threats_dynamics",
+       "advice": "no_worry"
+      },
+      {
+       "kind": "category_advice",
+       "id": "piece_activity",
+       "advice": "no_worry"
+      },
+      {
+       "kind": "category_advice",
+       "id": "material",
+       "advice": "no_worry"
+      },
+      {
+       "kind": "category_advice",
+       "id": "initiative_tempo",
+       "advice": "no_worry"
+      },
+      {
+       "kind": "category_advice",
+       "id": "pawn_structure",
+       "advice": "no_worry"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "S05",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Tocca al Nero, quindi il tuo lavoro adesso è capire cosa vuole ogni tuo pezzo e prepararti alla sua mossa. Le case importanti sono a1, c4, d8, f4, f6, g1 e g3.",
+     "source": "theory",
+     "assertions": []
+    },
+    {
+     "type": "ul",
+     "items": [
+      {
+       "text": "**Torre a1:** sta sulla colonna a semiaperta e punta al pedone isolato in a7. Attenzione a non lasciarla passiva.",
+       "source": "feature",
+       "assertions": [
+        {
+         "kind": "feature",
+         "key": "rook_open_file",
+         "side": "w",
+         "squares": [
+          "a1"
+         ]
+        }
+       ]
+      },
+      {
+       "text": "**Donna c4:** è il tuo pezzo più attivo: attacca il pedone isolato in c5 e sostiene il centro. Attenzione: se il Nero dà scacco di donna in d4, non catturare, perché perdi il pezzo.",
+       "source": "theory",
+       "assertions": []
+      },
+      {
+       "text": "**Cavallo c3:** protegge il pedone in d2 e controlla d5. Attenzione a non lasciarlo attaccato dal pedone in e5.",
+       "source": "theory",
+       "assertions": []
+      },
+      {
+       "text": "**Cavallo g3:** è un po' fuori gioco; il suo obiettivo è andare in e2 o in f5. Attenzione: se il Nero spinge il pedone in e4, deve ritirarsi.",
+       "source": "theory",
+       "assertions": []
+      },
+      {
+       "text": "**Alfiere c1:** è ancora a casa, quindi il pezzo meno sviluppato: deve andare in e3 o in d2. Attenzione a non bloccarlo dietro i pedoni.",
+       "source": "feature",
+       "assertions": [
+        {
+         "kind": "feature",
+         "key": "undeveloped_pieces",
+         "side": "w",
+         "squares": [
+          "c1"
+         ]
+        }
+       ]
+      },
+      {
+       "text": "**Alfiere f1:** protegge il re e controlla la diagonale verso c4. Attenzione a non muoverlo senza motivo.",
+       "source": "theory",
+       "assertions": []
+      },
+      {
+       "text": "**Re g1:** è arroccato corto e protetto dai pedoni in f3, g2 e h2. Attenzione: il cavallo nero in f4 attacca g2, quindi non spingere i pedoni davanti al re.",
+       "source": "feature",
+       "assertions": [
+        {
+         "kind": "feature",
+         "key": "king_castled",
+         "side": "w",
+         "squares": [
+          "g1"
+         ]
+        },
+        {
+         "kind": "feature",
+         "key": "pawn_shield_intact",
+         "side": "w",
+         "squares": [
+          "f3",
+          "g2",
+          "h2"
+         ]
+        }
+       ]
+      },
+      {
+       "text": "**Pedoni b2 e b3:** sono doppiati e controllano c3 e c4. Attenzione a non spingerli troppo: ogni spinta crea un buco.",
+       "source": "feature",
+       "assertions": [
+        {
+         "kind": "feature",
+         "key": "doubled_pawn",
+         "side": "w",
+         "squares": [
+          "b2",
+          "b3"
+         ]
+        }
+       ]
+      },
+      {
+       "text": "**Pedone c5 nero:** è isolato e debole, ed è il tuo bersaglio principale: la donna in c4 lo attacca già.",
+       "source": "feature",
+       "assertions": [
+        {
+         "kind": "feature",
+         "key": "isolated_pawn",
+         "side": "b",
+         "squares": [
+          "c5"
+         ]
+        }
+       ]
+      },
+      {
+       "text": "**Alfiere b7 nero:** è chiuso dietro i pedoni e non fa niente: è un tuo vantaggio.",
+       "source": "feature",
+       "assertions": [
+        {
+         "kind": "feature",
+         "key": "inactive_piece",
+         "side": "b",
+         "squares": [
+          "a8"
+         ]
+        }
+       ]
+      },
+      {
+       "text": "**Cavallo f4 nero:** è il suo pezzo più attivo e attacca g2. Attenzione: non sottovalutarlo.",
+       "source": "feature",
+       "assertions": [
+        {
+         "kind": "feature",
+         "key": "king_zone_attackers",
+         "side": "w",
+         "squares": [
+          "f4"
+         ]
+        }
+       ]
+      },
+      {
+       "text": "**Alfiere f6 nero:** controlla la diagonale verso c3 e b2. Attenzione: se va in h4, attacca la tua donna in c4.",
+       "source": "theory",
+       "assertions": []
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "In sintesi: i tuoi pezzi migliori sono la donna in c4 e il cavallo in c4, che puntano sul pedone debole in c5; il peggiore è l'alfiere in c1. Il suo pezzo migliore è il cavallo in f4, che attacca il tuo re.",
+     "source": "mixed",
+     "assertions": [
+      {
+       "kind": "feature",
+       "key": "outpost",
+       "side": "w",
+       "squares": [
+        "c4"
+       ]
+      },
+      {
+       "kind": "feature",
+       "key": "weak_square",
+       "side": "b",
+       "squares": [
+        "c4",
+        "c6",
+        "d5",
+        "d6",
+        "e6"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "S06",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Tocca al Nero. Le sue mosse più probabili secondo Maia-2 sono lo scacco di donna in d4 ({{pct:R1.p_opp}}), l'alfiere in h4 ({{pct:R2.p_opp}}) e l'alfiere in e7 ({{pct:R3.p_opp}}). Poi ci sono la torre in c8 ({{pct:R4.p_opp}}) e la spinta del pedone in e4 ({{pct:R5.p_opp}}), che sono poco probabili ma molto pericolose.",
+     "source": "maia",
+     "assertions": [
+      {
+       "kind": "maia_band",
+       "ref": "R1.p_opp",
+       "band": "frequent"
+      },
+      {
+       "kind": "maia_band",
+       "ref": "R2.p_opp",
+       "band": "possible"
+      },
+      {
+       "kind": "maia_band",
+       "ref": "R3.p_opp",
+       "band": "possible"
+      },
+      {
+       "kind": "maia_band",
+       "ref": "R4.p_opp",
+       "band": "unlikely"
+      },
+      {
+       "kind": "maia_band",
+       "ref": "R5.p_opp",
+       "band": "unlikely"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "La mossa più frequente è lo scacco di donna in d4. Dopo questa mossa la posizione è {{ev:R1}}, vantaggio minimo per te, se rispondi bene. La risposta giusta è spostare il re in h1: {{mv:R1.u1}} mantiene la posizione {{ev:R1.u1}}, mentre {{mv:R1.u2}} la porta a {{ev:R1.u2}}, equilibrata. L'errore da evitare è catturare la donna con la tua: {{mv:R1.u3}} perde {{loss:R1.u3}} e ti lascia in svantaggio netto.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "R1",
+       "band": "slight_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R1.u1",
+       "band": "slight_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R1.u2",
+       "band": "equal"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R1.u3",
+       "band": "clear_minus"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Se il Nero gioca l'alfiere in h4, la posizione è {{ev:R2}}, leggero vantaggio per te. La risposta migliore è catturare il pedone in c5 con la donna: {{mv:R2.u1}} mantiene {{ev:R2.u1}}. Anche {{mv:R2.u2}} va bene, {{ev:R2.u2}}, vantaggio minimo per te. Da evitare {{mv:R2.u3}}, che porta a {{ev:R2.u3}}, leggero svantaggio.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "R2",
+       "band": "small_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R2.u1",
+       "band": "small_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R2.u2",
+       "band": "slight_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R2.u3",
+       "band": "slight_minus"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Se il Nero gioca l'alfiere in e7, la posizione è {{ev:R3}}, equilibrata. La risposta migliore è spingere il pedone in d3: {{mv:R3.u1}} mantiene {{ev:R3.u1}}. Le alternative {{mv:R3.u2}} e {{mv:R3.u3}} portano a {{ev:R3.u2}} e {{ev:R3.u3}}, svantaggio minimo. Se il Nero gioca la torre in c8, la posizione è {{ev:R4}}, vantaggio decisivo per te: la torre in a7 è la mossa giusta, {{mv:R4.u1}}, che mantiene {{ev:R4.u1}}. Se invece spinge il pedone in e4, la posizione diventa {{ev:R5}}, svantaggio decisivo: la meno peggio è {{mv:R5.u1}}, ma resta {{ev:R5.u1}}.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "R3",
+       "band": "equal"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R3.u1",
+       "band": "equal"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R3.u2",
+       "band": "slight_minus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R3.u3",
+       "band": "slight_minus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R4",
+       "band": "decisive_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R4.u1",
+       "band": "decisive_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R5",
+       "band": "decisive_minus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R5.u1",
+       "band": "decisive_minus"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "In generale il Nero vuole attaccare il tuo re con il cavallo in f4 e la donna, oppure spingere i pedoni centrali. Il tuo compito è non regalare materiale e migliorare i pezzi. Se lui gioca mosse tranquille, tu hai un vantaggio netto: sfruttalo attaccando il pedone debole in c5 e sviluppando l'alfiere in c1.",
+     "source": "theory",
+     "assertions": []
+    }
+   ]
+  },
+  {
+   "id": "S07",
+   "blocks": [
+    {
+     "type": "table",
+     "ref": "T1",
+     "text_cells": {
+      "R1": {
+       "prepare": {
+        "text": "Scacco di donna in d4: sposta il re in h1 ({{mv:R1.u1}}, {{ev:R1.u1}}). Non catturare la donna: {{mv:R1.u3}} perde {{loss:R1.u3}}",
+        "source": "engine",
+        "assertions": []
+       }
+      },
+      "R2": {
+       "prepare": {
+        "text": "Alfiere in h4: cattura il pedone in c5 con la donna ({{mv:R2.u1}}, {{ev:R2.u1}}); anche {{mv:R2.u2}} va bene ({{ev:R2.u2}})",
+        "source": "engine",
+        "assertions": []
+       }
+      },
+      "R3": {
+       "prepare": {
+        "text": "Alfiere in e7: spingi il pedone in d3 ({{mv:R3.u1}}, {{ev:R3.u1}}); {{mv:R3.u2}} e {{mv:R3.u3}} sono meno buone",
+        "source": "engine",
+        "assertions": []
+       }
+      },
+      "R4": {
+       "prepare": {
+        "text": "Torre in c8: entra in a7 con la torre ({{mv:R4.u1}}, {{ev:R4.u1}}), il pedone nero è indifeso",
+        "source": "engine",
+        "assertions": []
+       }
+      },
+      "R5": {
+       "prepare": {
+        "text": "Pedone in e4: la meno peggio è {{mv:R5.u1}} ({{ev:R5.u1}}), ma la posizione è persa",
+        "source": "engine",
+        "assertions": []
+       }
+      }
+     }
+    },
+    {
+     "type": "p",
+     "text": "Le tre risposte più probabili sono lo scacco di donna in d4 ({{pct:R1.p_opp}}), l'alfiere in h4 ({{pct:R2.p_opp}}) e l'alfiere in e7 ({{pct:R3.p_opp}}). La torre in c8 ({{pct:R4.p_opp}}) e la spinta del pedone in e4 ({{pct:R5.p_opp}}) sono poco probabili, ma la spinta è molto pericolosa: se il Nero la trova, la posizione diventa svantaggio decisivo per te.",
+     "source": "maia",
+     "assertions": [
+      {
+       "kind": "maia_band",
+       "ref": "R1.p_opp",
+       "band": "frequent"
+      },
+      {
+       "kind": "maia_band",
+       "ref": "R2.p_opp",
+       "band": "possible"
+      },
+      {
+       "kind": "maia_band",
+       "ref": "R3.p_opp",
+       "band": "possible"
+      },
+      {
+       "kind": "maia_band",
+       "ref": "R4.p_opp",
+       "band": "unlikely"
+      },
+      {
+       "kind": "maia_band",
+       "ref": "R5.p_opp",
+       "band": "unlikely"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Come prepararti: contro lo scacco di donna in d4 hai una sola risposta davvero buona, {{mv:R1.u1:bare}}, e devi ricordarti di non catturare la donna. Contro l'alfiere in h4 la donna cattura il pedone in c5, {{mv:R2.u1:bare}}, e va bene anche spingere il pedone in d3. Contro l'alfiere in e7 spingi il pedone in d3, {{mv:R3.u1:bare}}. Contro la torre in c8 la torre entra in a7, {{mv:R4.u1:bare}}. Contro la spinta del pedone in e4 non c'è una difesa che salvi la posizione: la meno peggio è {{mv:R5.u1:bare}}, ma resta svantaggio decisivo. In tutti i casi, dopo la sua mossa pensa prima a mettere al sicuro il re e poi a migliorare i pezzi.",
+     "source": "mixed",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "R5.u1",
+       "band": "decisive_minus"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "S09",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Ci sono quattro linee che a questo livello quasi nessuno vede. La prima è la linea {{pv:L3:6}}: il Nero gioca l'alfiere in e7 e poi il cavallo in g6, e la posizione resta {{ev:L3}}, equilibrata. La probabilità che il Nero la trovi è bassissima, quindi non è una minaccia concreta, ma se la gioca il tuo vantaggio sparisce.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "L3",
+       "band": "equal"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "La seconda è la linea {{pv:L4:6}}: dopo lo scacco di donna in d4, la risposta giusta è il re in h1, e la posizione resta {{ev:L4}}, vantaggio minimo per te. Anche questa è difficile da trovare: quasi nessuno risponde correttamente allo scacco, e chi sbaglia perde la donna.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "L4",
+       "band": "slight_plus"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "La terza è la linea {{pv:L5:6}}: dopo l'alfiere in h4, la donna cattura il pedone in c5 e la posizione è {{ev:L5}}, leggero vantaggio per te. La quarta è la linea {{pv:L7:6}}: dopo la torre in c8, la torre entra in a7 e la posizione diventa {{ev:L7}}, vantaggio decisivo per te. Queste due sono occasioni per te, non minacce: se il Nero gioca quelle mosse e tu trovi la risposta giusta, vinci materiale. A questo livello è facile non vederle perché sembrano mosse tranquille, ma nascondono un guadagno.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "L5",
+       "band": "small_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "L7",
+       "band": "decisive_plus"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "S10",
+   "blocks": [
+    {
+     "type": "ol",
+     "items": [
+      {
+       "text": "Cosa minaccia il Nero con la sua ultima mossa? Controlla se c'è uno scacco, una cattura o un attacco al tuo re.",
+       "source": "theory",
+       "assertions": []
+      },
+      {
+       "text": "Tutti i miei pezzi sono protetti? In particolare la donna in c4 e il cavallo in c4.",
+       "source": "theory",
+       "assertions": []
+      },
+      {
+       "text": "Posso catturare il pedone debole in c5 o migliorare un pezzo?",
+       "source": "theory",
+       "assertions": []
+      },
+      {
+       "text": "Il mio re è al sicuro? Se il Nero dà scacco, so già come rispondere?",
+       "source": "theory",
+       "assertions": []
+      },
+      {
+       "text": "C'è una mossa che sviluppa l'alfiere in c1 o attiva la torre in a1?",
+       "source": "theory",
+       "assertions": []
+      },
+      {
+       "text": "Dopo la mia mossa, il Nero ha una cattura o uno scacco forte?",
+       "source": "theory",
+       "assertions": []
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "In questa posizione la cosa più importante è non regalare materiale: il Nero ha uno scacco di donna in d4 e un cavallo in f4 che attacca il tuo re. Prima di ogni mossa, controlla queste due cose, poi pensa a migliorare i pezzi. Se il Nero gioca una mossa tranquilla, tu hai un vantaggio netto: sfruttalo attaccando il pedone in c5 e sviluppando l'alfiere in c1.",
+     "source": "mixed",
+     "assertions": [
+      {
+       "kind": "feature",
+       "key": "check_available",
+       "side": "b",
+       "squares": [
+        "d4",
+        "e2",
+        "h3"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "S13",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "La linea forzata più importante è quella che parte dallo scacco di donna in d4. Dopo {{mv:R1}}, la posizione è {{ev:R1}}, vantaggio minimo per te, ma solo se rispondi bene. La risposta corretta è spostare il re in h1: {{mv:R1.u1}} mantiene la posizione {{ev:R1.u1}}. Se invece catturi la donna con la tua, {{mv:R1.u3}}, perdi {{loss:R1.u3}} e la posizione diventa {{ev:R1.u3}}, svantaggio netto: il Nero ricattura con il pedone e ti resta un cavallo in meno. Questa è la trappola principale: la donna in d4 sembra regalata, ma non lo è.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "R1",
+       "band": "slight_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R1.u1",
+       "band": "slight_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R1.u3",
+       "band": "clear_minus"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Nella linea principale del motore, {{pv:PV1:10}}, il Nero dà scacco, tu sposti il re, lui ritira l'alfiere in e7, tu spingi il pedone in d3, lui porta il cavallo in g6 e la partita resta equilibrata. Questa è la linea più probabile se entrambi giocate bene: nessuno dei due riesce a ottenere un vantaggio decisivo.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "N1",
+       "band": "decisive_minus"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "La seconda linea forzata è quella che parte dall'alfiere in h4. Dopo {{mv:R2}}, la posizione è {{ev:R2}}, leggero vantaggio per te. La risposta migliore è catturare il pedone in c5 con la donna: {{mv:R2.u1}} mantiene {{ev:R2.u1}}. Anche spingere il pedone in d3 va bene, {{ev:R2.u2}}, vantaggio minimo per te. Da evitare è la donna in b5, {{mv:R2.u3}}, che porta a {{ev:R2.u3}}, leggero svantaggio. In questa linea il Nero cerca di attaccare il tuo re con l'alfiere in h4 e il cavallo in f4, ma tu hai abbastanza difese.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "R2",
+       "band": "small_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R2.u1",
+       "band": "small_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R2.u2",
+       "band": "slight_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R2.u3",
+       "band": "slight_minus"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "La terza linea forzata è quella che parte dall'alfiere in e7. Dopo {{mv:R3}}, la posizione è {{ev:R3}}, equilibrata. La risposta migliore è spingere il pedone in d3: {{mv:R3.u1}} mantiene {{ev:R3.u1}}. Le alternative {{mv:R3.u2}} e {{mv:R3.u3}} portano a {{ev:R3.u2}} e {{ev:R3.u3}}, svantaggio minimo. In questa linea il Nero rinuncia a contrastare subito il centro e tu puoi sviluppare con calma.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "R3",
+       "band": "equal"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R3.u1",
+       "band": "equal"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R3.u2",
+       "band": "slight_minus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R3.u3",
+       "band": "slight_minus"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "La quarta linea forzata è quella che parte dalla torre in c8. Dopo {{mv:R4}}, la posizione è {{ev:R4}}, vantaggio decisivo per te. La risposta migliore è entrare in a7 con la torre: {{mv:R4.u1}} mantiene {{ev:R4.u1}}. Anche spingere il pedone in d3 va bene, {{ev:R4.u2}}, vantaggio netto per te. Da evitare è il re in h1, {{mv:R4.u3}}, che porta a {{ev:R4.u3}}, vantaggio minimo per te. In questa linea il Nero mette la torre in c8 per difendere il pedone in c5, ma dimentica il pedone in a7, che è indifeso.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "R4",
+       "band": "decisive_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R4.u1",
+       "band": "decisive_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R4.u2",
+       "band": "clear_plus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R4.u3",
+       "band": "slight_plus"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "La quinta linea forzata è quella che parte dalla spinta del pedone in e4. Dopo {{mv:R5}}, la posizione è {{ev:R5}}, svantaggio decisivo per te. La meno peggio è portare il cavallo in e2: {{mv:R5.u1}} mantiene {{ev:R5.u1}}, ma resta svantaggio decisivo. Anche catturare il pedone con il pedone in f3 porta a {{ev:R5.u2}}, svantaggio decisivo. Questa è la linea più pericolosa: il Nero spinge il pedone in e4 e attacca il tuo cavallo in f3 e il tuo centro. Non puoi evitarla se lui la gioca, ma è poco probabile che la trovi: la probabilità è bassa.",
+     "source": "engine",
+     "assertions": [
+      {
+       "kind": "eval_band",
+       "ref": "R5",
+       "band": "decisive_minus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R5.u1",
+       "band": "decisive_minus"
+      },
+      {
+       "kind": "eval_band",
+       "ref": "R5.u2",
+       "band": "decisive_minus"
+      }
+     ]
+    },
+    {
+     "type": "p",
+     "text": "In sintesi: la linea forzata più probabile è lo scacco di donna in d4, e la difesa è spostare il re in h1. Non catturare la donna. Le altre linee sono meno probabili, ma se il Nero gioca l'alfiere in h4 o la torre in c8, tu hai occasioni per guadagnare materiale. L'unica linea davvero pericolosa è la spinta del pedone in e4, ma è poco probabile che il Nero la trovi. Gioca con calma, sviluppa l'alfiere in c1 e attacca il pedone debole in c5.",
+     "source": "mixed",
+     "assertions": [
+      {
+       "kind": "feature",
+       "key": "isolated_pawn",
+       "side": "b",
+       "squares": [
+        "c5"
+       ]
+      },
+      {
+       "kind": "feature",
+       "key": "undeveloped_pieces",
+       "side": "w",
+       "squares": [
+        "c1"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "notes": []
+}

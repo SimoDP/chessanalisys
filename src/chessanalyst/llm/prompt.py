@@ -142,6 +142,31 @@ D70_PROMPT_CHANGES: list[tuple[str, str]] = [
 ]
 
 
+# D-71: the board and the tactics are computed (features/motifs.py) and checked (V12); the model only writes.
+D71_PROMPT_CHANGES: list[tuple[str, str]] = [
+    ("  se bands.eval_band.N1 è decisive_minus, l'utente sta perdendo, anche se tocca all'avversario.",
+     "  se bands.eval_band.N1 è decisive_minus, l'utente sta perdendo, anche se tocca all'avversario.\n"
+     "- facts è il ragionamento già fatto per te: facts.board dice quale pezzo sta su ogni casa (non leggere la\n"
+     "  FEN); facts.moves dice per ogni mossa citabile (C…, R…, R….u…) che cosa cattura, se dà scacco, quali pezzi\n"
+     "  attacca (by, discovered = attacco di scoperta, defended = il pezzo è difeso), quali inchioda e quali pezzi\n"
+     "  di chi muove lascia in presa; facts.lines dice per ogni linea (PV…, L…) le catture e quanto materiale\n"
+     "  guadagna o perde l'utente alla fine. Il perché di una mossa si spiega solo con questi fatti.\n"
+     "- Un nodo con hypothetical (la mossa nulla, facts.hypothetical_nodes) è una posizione ipotetica in cui chi\n"
+     "  deve muovere passa il turno: la sua valutazione non è mai la valutazione della posizione; citala solo come\n"
+     "  «se toccasse a …»."),
+    ("18. Prima di chiamare submit_analysis ripassa l'elenco di controllo in fondo alle istruzioni, punto per\n"
+     "    punto, e correggi quello che non torna.",
+     "18. Prima di chiamare submit_analysis ripassa l'elenco di controllo in fondo alle istruzioni, punto per\n"
+     "    punto, e correggi quello che non torna.\n"
+     "19. Pezzi e case: scrivi dove sta un pezzo solo come dice facts.board; «X attacca/difende Y» solo se è\n"
+     "    nei fatti. Non inventare tattiche, minacce o pezzi: il programma confronta ogni frase con la\n"
+     "    scacchiera (V12) e toglie le frasi false.\n"
+     "20. Il giudizio sulla posizione (equilibrata, meglio, peggio, persa) segue la banda di N1, il nodo radice:\n"
+     "    se N1 è decisive_minus la posizione non è «equilibrata» né «stai bene», anche se la mossa che vince è\n"
+     "    difficile da trovare; spiega quella mossa e quanto è probabile."),
+]
+
+
 def _apply(text: str, changes: list[tuple[str, str]]) -> str:
     for old, new in changes:
         assert text.count(old) == 1, old
@@ -150,7 +175,7 @@ def _apply(text: str, changes: list[tuple[str, str]]) -> str:
 
 
 # Static system prompt (cached with cache_control: ephemeral).
-SYSTEM_PROMPT = _apply(_apply(APPENDIX_E1, M3_PROMPT_CHANGES), D70_PROMPT_CHANGES)
+SYSTEM_PROMPT = _apply(_apply(_apply(APPENDIX_E1, M3_PROMPT_CHANGES), D70_PROMPT_CHANGES), D71_PROMPT_CHANGES)
 
 EXAMPLE_NOTICE = ("Questo esempio riguarda un'altra posizione (o la stessa con dati diversi): imita struttura, "
                   "densità e tono,\nnon il contenuto.")
@@ -229,7 +254,9 @@ def _checklist(pack: dict) -> list[str]:
             "6. ogni sezione ha un numero di parole nell'intervallo indicato, né meno né più, e ogni ID di "
             "must_cover compare in un token del testo (le celle di dati delle tabelle non contano);",
             "7. ogni blocco rispetta il suo source: senza token né asserzioni è theory, e theory solo dove è "
-            "ammessa."]
+            "ammessa;",
+            "8. ogni pezzo nominato sta davvero su quella casa (facts.board) e ogni attacco o difesa è nei fatti "
+            "(facts.moves, facts.lines); il giudizio iniziale segue la banda di N1."]
 
 
 def build_user_blocks(cfg: Config, pack: dict, example: Example) -> tuple[str, str]:

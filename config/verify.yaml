@@ -15,3 +15,31 @@ v03:
 v01_markup: ["^\\s*#", "\\]\\(", "`", "<[A-Za-z/]"]
 word: "[A-Za-zÀ-ÖØ-öø-ÿ0-9]+"
 word_tolerance: {relative: 0.25, absolute: 15}
+# D-71 · V12: frasi su pezzi e case. Una frase senza parole di movimento o di ipotesi descrive la posizione
+# analizzata: il pezzo deve stare su quella casa. Con queste parole basta che ci arrivi in una linea del pacchetto
+# o con una mossa legale.
+v12:
+  adjectives: [bianco, bianca, bianchi, bianche, nero, nera, neri, nere, tuo, tua, tuoi, tue, suo, sua, suoi, sue,
+               mio, mia, avversario, avversaria, isolato, isolati, arretrato, arretrati, passato, passati, doppiato,
+               doppiati, debole, deboli, forte, attivo, attiva, passivo, passiva, centrale, libero, chiuso, chiusa]
+  hypothetical: [se, dopo, quando, va, vanno, andare, andrà, porta, portare, portando, sposta, spostare,
+                 spostando, mette, mettere, metti, entra, entrare, entrano, arriva, arrivare, arriverà, ritira,
+                 ritirare, ritirarsi, ritirandosi, sviluppa, sviluppare, spinge, spingere, spinta, avanza, avanzare,
+                 cattura, catturare, catture, prende, prendere, presa, ricattura, ricatturare, gioca, giocare, salta,
+                 saltare, salto, torna, tornare, rientra, finisce, finire, può, potrebbe, potrà, deve, dovrà, vuole,
+                 cerca, linea, linee, variante, varianti, mossa, mosse, piano, piani, idea, obiettivo, trasferire,
+                 trasferisce, manovra, scacco, contro, risposta, risponde, rispondi, rispondere, spingi, sposta, metti,
+                 prendi, gioca, giocando, ritira, sviluppa, porta, entra, cattura, catturando, scambia, scambio, cambio,
+                 cambia, sacrifica, sacrificio, raddoppia, apre, apertura, chiude, guadagna, perde, vince]
+  relations:
+    attack: [attacca, attaccano, minaccia, minacciano, colpisce]
+    defend: [protegge, proteggono, difende, difendono, sostiene, sostengono]
+  max_gap_words: 4      # parole tra la casa del pezzo e il verbo, e tra il verbo e la casa colpita
+  pin_passive: [inchiodato, inchiodata, inchiodati, inchiodate]     # il pezzo nominato prima è inchiodato
+  pin_active: [inchioda, inchiodano]                                  # il pezzo nominato dopo è inchiodato
+  # giudizio della prima sezione (S01) contro la banda di N1, da «netto» in su (D-71)
+  verdict:
+    section: S01
+    from_bands: [clear, decisive, mate]
+    minus_forbidden: [equilibrat, "stai bene", "sei meglio", "in vantaggio", "posizione pari"]
+    plus_forbidden: [equilibrat, "stai male", "sei peggio", "in svantaggio", "posizione pari", "persa per te"]

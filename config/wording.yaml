@@ -94,6 +94,7 @@ verify_hints:
   V08: "Contenuto theory fuori posto, con token di dati o oltre la quota."
   V09: "Il termine appartiene a un'altra apertura: non usarlo."
   V10: "La fonte (source) non corrisponde ai token usati."
+  V12: "Pezzi e case si prendono da facts.board e facts.moves: correggi la frase o toglila."
 # M2: con la tablebase l'esito esatto prevale sulla valutazione ed è espresso a parole (§3.3, OQ-M2-4)
 tablebase:
   results:
@@ -120,3 +121,11 @@ export:                            # chessanalyst export (M6)
   line_threat: "{id}: minaccia"
   line_refutation: "{id}: confutazione di {entry}"
   line_end: "fine linea {eval}"
+pieces:                            # D-71: nomi dei pezzi nei fatti calcolati e nel controllo V12
+  names: {p: pedone, n: cavallo, b: alfiere, r: torre, q: donna, k: re}
+  plural: {p: pedoni, n: cavalli, b: alfieri, r: torri, q: donne, k: re}
+  feminine: [r, q]
+  color_m: {w: bianco, b: nero}
+  color_f: {w: bianca, b: nera}
+  color_mp: {w: bianchi, b: neri}
+  color_fp: {w: bianche, b: nere}

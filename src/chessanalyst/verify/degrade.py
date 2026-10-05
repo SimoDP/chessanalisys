@@ -1,7 +1,7 @@
 """Degraded mode after the last retry (§10.2, ``llm.on_fail``).
 
 ``mark``: blocks (or cells, list items, captions) with V01/V02/V03/V04/V05/
-V08/V09/V10 errors are removed; V06 blocks are kept with the «non verificato»
+V08/V09/V10/V12 errors are removed; V06 blocks are kept with the «non verificato»
 mark; V07 (a) missing sections get the fixed text, extra ones are dropped and
 the order follows the plan; (b) a missing table is appended, a duplicate is
 dropped; (c), (d) and the theory share become warnings. A note with V03 is
@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 
 from chessanalyst.verify.checker import NOTE_CELL, VError
 
-REMOVE = {"V01", "V02", "V03", "V04", "V05", "V08", "V09", "V10"}
+REMOVE = {"V01", "V02", "V03", "V04", "V05", "V08", "V09", "V10", "V12"}
 
 
 @dataclass

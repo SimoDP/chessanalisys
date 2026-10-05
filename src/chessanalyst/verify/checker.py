@@ -13,15 +13,17 @@ from pydantic import ValidationError
 
 from chessanalyst.config import Config
 from chessanalyst.llm.schema import AnalysisOutput
-from chessanalyst.verify.assertions import check_assertion
+from chessanalyst.verify.board_claims import BoardClaims
+from chessanalyst.verify.assertions import eval_band_of, check_assertion
 from chessanalyst.verify.contamination import Contamination
 from chessanalyst.verify.resolve import ResolveError, Resolved, Resolver
 from chessanalyst.verify.scan import Scanner
 from chessanalyst.verify.tokens import TokenSyntaxError, find_tokens, parse_token
 from chessanalyst.verify.wordcount import count_words, tolerance
 
+MOVE_TABLES = ("T1", "T2")          # D-71: tables whose rows are moves (candidates or replies)
 NOTE_CELL = "nota"                  # cell of an error in ``notes`` (section and block are None)
-CODES = ("V01", "V02", "V03", "V04", "V05", "V06", "V07", "V08", "V09", "V10")
+CODES = ("V01", "V02", "V03", "V04", "V05", "V06", "V07", "V08", "V09", "V10", "V12")
 THEORY_FORBIDDEN = {"ev", "loss", "pct_maia", "pct_root", "pv", "sc"}
 SOURCE_RULES = {   # §10.1, V10: (needs one of, may not contain)
     "engine": ({"ev", "loss", "pv", "pct_root", "line"}, {"pct_maia", "plan", "sc"}),
@@ -75,6 +77,7 @@ class Unit:
     source: str | None              # None for TextTable headers
     assertions: list[dict]
     in_line: bool = False
+    move_cell: bool = False         # D-71: a text cell of a move table (T1, T2): it describes a move
 
 
 @dataclass
@@ -144,7 +147,8 @@ def iter_units(output: dict) -> list[Unit]:
             elif t == "table":
                 for row, cols in (blk.get("text_cells") or {}).items():
                     for col, c in cols.items():
-                        units.append(Unit(sid, b, f"{row}/{col}", c["text"], c["source"], c.get("assertions") or []))
+                        units.append(Unit(sid, b, f"{row}/{col}", c["text"], c["source"], c.get("assertions") or [],
+                                          move_cell=blk.get("ref") in MOVE_TABLES))
             elif t == "text_table":
                 for k, h in enumerate(blk["columns"], 1):
                     units.append(Unit(sid, b, f"intestazione {k}", h, None, []))
@@ -162,6 +166,13 @@ class Checker:
         self.pack = pack
         self.wording = cfg.wording
         self.resolver = Resolver(pack, cfg.wording)
+        self.board_claims = BoardClaims(pack, cfg.wording["pieces"], cfg.verify["v12"])
+        root = pack["engine"]["root"]
+        try:
+            self._root_band = eval_band_of(root["eval_user_cp"], root["mate_user"], cfg.wording["eval_bands"])
+        except (KeyError, TypeError, ValueError):
+            self._root_band = None
+        self._root_band_text = self._band_words(self._root_band)
         self.scanner = Scanner(cfg.verify, cfg.wording["v03_allowed_literals"])
         self.plan = {s["id"]: s for s in pack["section_plan"]}
         self.word_re = cfg.verify["word"]
@@ -212,6 +223,24 @@ class Checker:
         return res
 
     # ------------------------------------------------------------------------
+    def _band_words(self, band: str | None) -> str:
+        if band is None:
+            return ""
+        family, _, sign = band.partition("_")
+        b = self.wording["eval_bands"].get(family, {})
+        return b.get("text") or b.get(f"text_{sign}", band)
+
+    def _verdict_conflicts(self, u: Unit) -> list[str]:
+        """D-71: in the first section, no verdict that contradicts a clear evaluation of the root (N1)."""
+        vc = self.cfg.verify["v12"]["verdict"]
+        if u.section != vc["section"] or not self._root_band:
+            return []
+        family, _, sign = self._root_band.partition("_")
+        if family not in vc["from_bands"]:
+            return []
+        low = u.text.lower()
+        return [w for w in vc[f"{sign}_forbidden"] if w in low]
+
     def _check_unit(self, u: Unit, cites: set[str]) -> list[VError]:
         errs: list[VError] = []
         E = lambda code, text, detail="": VError(code, u.section, u.block, u.cell, text, detail)  # noqa: E731
@@ -235,6 +264,11 @@ class Checker:
                 errs.append(E("V05", raw, f"{r.value} semimosse, massimo {max_plies}"))
         for hit in self.scanner.v03_hits(u.text):
             errs.append(E("V03", hit))
+        for claim in self.board_claims.check(u.text, about_moves=u.move_cell,
+                                                    theory=u.source == "theory"):     # D-71
+            errs.append(E("V12", claim.text, claim.detail))
+        for word in self._verdict_conflicts(u):
+            errs.append(E("V12", word, f"la posizione è «{self._root_band_text}» (banda di N1)"))
         for a in u.assertions:
             why = check_assertion(a, self.pack, self.resolver, self.wording)
             if why:

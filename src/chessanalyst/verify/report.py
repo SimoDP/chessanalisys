@@ -8,7 +8,7 @@ from chessanalyst.verify.degrade import Degraded
 
 def check_outcomes(last: Result, degraded: Degraded | None) -> dict[str, str]:
     """``superato`` | ``avviso`` (only V07 c/d or the theory share) | ``non superato (…)``."""
-    out = {c: "superato" for c in CODES}
+    out = {c: "superato" for c in sorted((*CODES, "V11"))}         # V11 is checked by the render
     for e in last.errors:
         soft = (e.code == "V07" and e.sub in ("c", "d")) or (e.code == "V08" and e.section is None)
         if soft and out[e.code] == "superato":

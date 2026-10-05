@@ -28,11 +28,11 @@ def _block_after(root, heading: str, fence: str = "```") -> str:
 
 def test_system_prompt_is_appendix_e1(root):
     """Appendix E.1 verbatim, plus the M3 changes (OQ-M3-6) and the D-70 changes, each applied exactly once."""
-    from chessanalyst.llm.prompt import APPENDIX_E1, D70_PROMPT_CHANGES, M3_PROMPT_CHANGES
+    from chessanalyst.llm.prompt import APPENDIX_E1, D70_PROMPT_CHANGES, D71_PROMPT_CHANGES, M3_PROMPT_CHANGES
 
     assert APPENDIX_E1 == _block_after(root, "### E.1 System prompt")
     text = APPENDIX_E1
-    for old, new in M3_PROMPT_CHANGES + D70_PROMPT_CHANGES:
+    for old, new in M3_PROMPT_CHANGES + D70_PROMPT_CHANGES + D71_PROMPT_CHANGES:
         assert text.count(old) == 1
         text = text.replace(old, new)
     assert SYSTEM_PROMPT == text
