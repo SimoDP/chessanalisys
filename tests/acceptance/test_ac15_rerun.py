@@ -43,7 +43,8 @@ def test_rerun_twice(folder, monkeypatch):
     assert main(["rerun", str(folder)]) == 0
     names = {p.name for p in folder.iterdir()}
     assert {"analysis.prev.md", "llm_raw.prev.json", "verification.prev.json", "analysis.md", "llm_raw.json",
-            "verification.json", "run.log", "pack.json"} == names
+            "verification.json", "run.log", "pack.json",
+            "render.json", "render.prev.json", "analysis.html", "analysis.prev.html"} == names     # M6: the page
     assert (folder / "analysis.prev.md").read_text(encoding="utf-8") == first
     assert (folder / "pack.json").read_bytes() == pack_before          # never modified
     v = json.loads((folder / "verification.json").read_text(encoding="utf-8"))

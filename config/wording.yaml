@@ -105,3 +105,10 @@ tablebase:
   table: {win: "vinta", draw: "patta", loss: "persa"}
   loss_none: "nessuna"
   loss_decisive: "decisiva"
+html:                              # pagina analysis.html (M6)
+  title: "Analisi della posizione"
+  start: "Posizione analizzata"
+  prev: "Indietro nella linea (←)"
+  next: "Avanti nella linea (→)"
+  flip: "Gira la scacchiera"
+  pieces_credit: "Pezzi di Colin M. L. Burnett, dalla libreria python-chess (GPL-3.0+)."

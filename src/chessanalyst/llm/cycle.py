@@ -34,6 +34,8 @@ class CycleResult:
     raw: list[dict] = field(default_factory=list)
     retries: int = 0
     degraded: bool = False
+    output: dict | None = None         # M6: final output and render information, for the HTML page and exports
+    info: RenderInfo | None = None
 
 
 def _only_word_budget(res: Result) -> bool:
@@ -118,4 +120,4 @@ def run_model(cfg: Config, pack: dict, client: LLMClient, *, example: Example | 
     vj["usage"] = info.usage
     if critic is not None:
         vj["critic"] = {"findings": critic.findings, "marked": critic.marked, "error": critic.error}
-    return CycleResult(document, vj, raw, retries, degraded is not None)
+    return CycleResult(document, vj, raw, retries, degraded is not None, output, info)

@@ -44,7 +44,7 @@ def test_full_run(cfg, tmp_path, recorded_stack):
     assert main(["analyze", "--yes", "--elo", "1900", "--budget", "deep", "--out", str(tmp_path)]) == 0
     [outdir] = list(tmp_path.iterdir())
     assert {p.name for p in outdir.iterdir()} == {"analysis.md", "pack.json", "llm_raw.json", "verification.json",
-                                                  "run.log"}
+                                                  "run.log", "render.json", "analysis.html"}   # M6: the page
     pack = json.loads((outdir / "pack.json").read_text(encoding="utf-8"))
     frozen = load_frozen_pack(cfg, "najdorf_w_1900")
     for k in ("engine", "nodes", "section_plan", "tables", "features", "recommendation", "maia"):

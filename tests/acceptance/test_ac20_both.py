@@ -78,6 +78,8 @@ def test_two_analyses_in_one_file(tmp_path, synthetic_stack):
     assert w["user"]["opp_elo_declared"] == 1500 and b["user"]["opp_elo_declared"] == 1900
     keys = Counter((epd, roots) for epd, _k, _d, roots in eng.requests)
     assert max(keys.values()) == 1
+    page = (out / "analysis.html").read_text(encoding="utf-8")      # M6: one page, the two perspectives
+    assert page.count('<section class="part">') == 2 and page.index("il Bianco") < page.index("Giochi con: il Nero")
     # rerun of both perspectives from the two packs
     assert main(["rerun", str(out)]) in (0, 5)
 

@@ -7,7 +7,7 @@ from __future__ import annotations
 import json
 import logging
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
@@ -20,6 +20,7 @@ from chessanalyst.inputs.position import Position
 from chessanalyst.output import attach_run_log, make_output_dir
 from chessanalyst.pack.builder import UserSettings
 from chessanalyst.pipeline import analyse_position
+from chessanalyst.render.html import write_html
 
 log = logging.getLogger(__name__)
 
@@ -58,7 +59,8 @@ def load_openings(cfg: Config) -> OpeningIndex | None:
         return None
 
 
-TEXT_FILES = ("analysis.md", "llm_raw.json", "verification.json")
+# render.json (M6): final output and render information, from which analysis.html and the exports are rebuilt
+TEXT_FILES = ("analysis.md", "llm_raw.json", "verification.json", "render.json", "analysis.html")
 # «entrambi» (M4): one pack, one set of responses and one verification per color; one analysis.md
 COLOR_SUFFIX = {"w": "white", "b": "black"}
 BOTH_SEPARATOR = "\n\n---\n\n"
@@ -100,6 +102,10 @@ def produce_text(cfg: Config, outdir: Path, pack: dict, client=None, warnings: l
     (outdir / name("verification.json")).write_text(json.dumps(res.verification, indent=1, ensure_ascii=False),
                                                     encoding="utf-8")
     (outdir / name("analysis.md")).write_text(res.document, encoding="utf-8")
+    (outdir / name("render.json")).write_text(json.dumps({"output": res.output, "info": asdict(res.info)}, indent=1,
+                                                         ensure_ascii=False), encoding="utf-8")
+    if color is None:
+        write_html(cfg, outdir)
     log.info("%s scritto (retry %d%s)", name("analysis.md"), res.retries, ", modalità degradata" if res.degraded else "")
     return outdir / name("analysis.md")
 
@@ -152,7 +158,9 @@ def rerun(cfg: Config, folder: Path, *, client=None, verbose: bool = False) -> P
         order = both_order(chess.Board(packs["w"]["position"]["fen"]))
         for c in order:
             produce_text(cfg, folder, packs[c], client, list(warnings), color=c)
-        return join_both(folder, order)
+        md = join_both(folder, order)
+        write_html(cfg, folder)
+        return md
     except AnalystError as e:          # expected: message on the console, no trace
         log.info("rerun interrotto: %s", e)
         raise
@@ -206,6 +214,7 @@ def run_analysis(cfg: Config, pos: Position, us: UserSettings | list[UserSetting
             produce_text(cfg, outdir, json.loads(packs[c].model_dump_json()), llm, color=c if both else None)
         if both:
             join_both(outdir, order)
+            write_html(cfg, outdir)
     except AnalystError as e:          # expected: message on the console, no trace
         log.info("Analisi interrotta: %s", e)
         raise

@@ -39,7 +39,7 @@ def test_exit_0_with_pack(fake_engines, tmp_path, monkeypatch):
     [outdir] = list((tmp_path / "o").iterdir())
     assert outdir.name.endswith("_sicilian_defense_najdorf_variation") or outdir.name.split("_", 2)[2].startswith("pos_")
     assert {p.name for p in outdir.iterdir()} == {"pack.json", "run.log", "analysis.md", "llm_raw.json",
-                                                  "verification.json"}
+                                                  "verification.json", "render.json", "analysis.html"}
     pack = json.loads((outdir / "pack.json").read_text())
     assert pack["user"]["elo_declared"] == 1500 and pack["user"]["budget_profile"] == "fast"
     assert not (tmp_path / "conf" / "profile.yaml").exists()      # analyze never writes the profile
