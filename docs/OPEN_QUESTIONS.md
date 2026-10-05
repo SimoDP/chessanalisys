@@ -761,3 +761,7 @@ usare `rerun`, Markdown e PGN funzionano.
 - **Limiti noti.** I punti chiave si riconoscono dai token citati e da parole chiave, non dal senso della frase:
   «R1.u3 perde» conta come presente se R1.u3 è citata. Le frasi false le trova V12; le altre restano un limite
   del banco.
+- **Bande (decisione dell'utente, 5 ottobre 2026).** Le soglie di `wording.yaml: eval_bands` restano invariate. Nel
+  banco il verdetto atteso è la banda di N1 del pacchetto: «vantaggio netto» a +1,71 (`knight_a4_w_1700`) e
+  «vantaggio minimo» a +0,48 (`bogo_c5_w_1700`) sono corretti, quindi i due divieti in contrasto
+  («netto vantaggio», «vantaggio») non sono in `must_not`.
