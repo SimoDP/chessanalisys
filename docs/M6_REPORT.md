@@ -80,3 +80,19 @@ risposta valida su 21 (`docs/regression/20261005T073135.md`).
 .venv/bin/chessanalyst ui
 .venv/bin/chessanalyst export output/<cartella> --format pgn
 ```
+
+## Dopo il rilascio: D-70
+
+Un'analisi reale dell'utente falliva («Nessuna risposta valida del modello dopo i retry»). Con la consegna più
+rigorosa (D-70), stessa regressione (7 pacchetti × 3 giri, `docs/regression/20261005T123149.md`):
+
+|  | v1.0 | D-70 |
+| --- | --- | --- |
+| Risposte complete | 4 su 21 | 17 su 21 |
+| Analisi senza risposta valida | 1 | 0 |
+| Parti rimosse in media | 2,0 | 0,0 |
+| Tentativi medi | 2,85 | 2,62 |
+| Costo medio per analisi | 0,0144 $ | 0,0064 $ |
+
+Gli errori al *primo* tentativo calano poco (bande V06, source V10, lunghezze V07d): la differenza la fanno i
+retry, che ora convergono, il fornitore (nessun JSON malformato) e la riparazione delle dimenticanze innocue.
