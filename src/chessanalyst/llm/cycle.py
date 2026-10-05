@@ -19,7 +19,7 @@ from chessanalyst.llm.client import LLMClient
 from chessanalyst.llm.fewshot import Example, example_for
 from chessanalyst.llm.usage import usage_summary
 from chessanalyst.llm.prompt import SYSTEM_PROMPT, build_user_blocks, retry_message
-from chessanalyst.llm.prompt_kp import SYSTEM_PROMPT_KP, build_user_message_kp
+from chessanalyst.llm.prompt_kp import SYSTEM_PROMPT_KP, build_user_message_kp, prune_assertions
 from chessanalyst.llm.schema import TOOL_NAME, tool_definition
 from chessanalyst.plan.outline import DOCUMENT, outline_pack
 from chessanalyst.render.markdown import RenderInfo, render_markdown
@@ -63,10 +63,11 @@ class _Loop:
     attempts: list[Result] = field(default_factory=list)
     retries: int = 0
     json_repairs: int = 0
+    pruned: int = 0
 
 
 def _call_loop(cfg: Config, client: LLMClient, checker: Checker, system: list[dict], messages: list[dict],
-               raw: list[dict], hints: dict) -> _Loop:
+               raw: list[dict], hints: dict, prune: bool = False) -> _Loop:
     """One call, then the verification retries (E.3)."""
     llm = cfg.default.llm
     tools = [tool_definition()]
@@ -82,6 +83,8 @@ def _call_loop(cfg: Config, client: LLMClient, checker: Checker, system: list[di
         if fixed:                       # D-70: tool arguments closed too early, repaired by the client
             loop.json_repairs += fixed
             log.warning("JSON della risposta riparato (%d chiusure anticipate)", fixed)
+        if prune:                       # D-72: feature assertions on facts that are not features
+            loop.pruned += prune_assertions(checker.pack, response)
         res = checker.check(response)
         loop.attempts.append(res)
         log.info("Verifica: %s", ", ".join(error_lines(res.errors, {})) or "nessun errore")
@@ -111,7 +114,7 @@ def _per_section(cfg: Config, pack: dict, client: LLMClient, raw: list[dict], hi
         sub = _only_section(pack, sid)
         system = [{"type": "text", "text": SYSTEM_PROMPT_KP, "cache_control": {"type": "ephemeral"}}]
         messages = [{"role": "user", "content": build_user_message_kp(cfg, pack, [sid])}]
-        return _call_loop(cfg, client, Checker(cfg, sub), system, messages, sub_raw, hints), sub_raw
+        return _call_loop(cfg, client, Checker(cfg, sub), system, messages, sub_raw, hints, prune=True), sub_raw
 
     with ThreadPoolExecutor(max_workers=cfg.default.llm.max_parallel) as pool:
         done = list(pool.map(one, ids))
@@ -120,6 +123,7 @@ def _per_section(cfg: Config, pack: dict, client: LLMClient, raw: list[dict], hi
         raw += sub_raw
         merged.retries += loop.retries
         merged.json_repairs += loop.json_repairs
+        merged.pruned += loop.pruned
         final = next((r for r in reversed(loop.attempts) if r.output is not None), None)
         if final is not None:
             sections += [s for s in final.output["sections"] if s["id"] == sid]
@@ -146,7 +150,7 @@ def run_model(cfg: Config, pack: dict, client: LLMClient, *, example: Example | 
             system = [{"type": "text", "text": SYSTEM_PROMPT_KP, "cache_control": {"type": "ephemeral"}}]
             messages = [{"role": "user", "content": [{"type": "text", "text": build_user_message_kp(cfg, pack),
                                                       "cache_control": {"type": "ephemeral"}}]}]
-            loop = _call_loop(cfg, client, Checker(cfg, pack), system, messages, raw, hints)
+            loop = _call_loop(cfg, client, Checker(cfg, pack), system, messages, raw, hints, prune=True)
     else:
         example = example or example_for(cfg, pack)
         checker = Checker(cfg, pack, fewshot_epd=example.epd, terms=example.terms)
@@ -189,6 +193,8 @@ def run_model(cfg: Config, pack: dict, client: LLMClient, *, example: Example | 
     vj = verification_json(attempts, degraded, hints, final)
     vj["usage"] = info.usage
     vj["json_repairs"] = json_repairs
+    if keypoints:
+        vj["pruned_assertions"] = loop.pruned
     if critic is not None:
         vj["critic"] = {"findings": critic.findings, "marked": critic.marked, "error": critic.error}
     return CycleResult(document, vj, raw, retries, degraded is not None, output, info)

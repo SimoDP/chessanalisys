@@ -93,7 +93,8 @@ def outline_pack(cfg: Config, pack: dict) -> dict:
         kp["section"] = sid
         used.add(sid)
         w = kpc.words[kp["type"]]
-        budget = max(kpc.words_min, min(kpc.words_max, w["base"] + w["per_item"] * _items(kp)))
+        budget = w["base"] + w["per_item"] * _items(kp) + w.get("per_move", 0) * len(kp["ids"])
+        budget = max(kpc.words_min, min(kpc.words_max, budget))
         auto = ["T1"] if "T1" in pack["tables"] and kp["type"] == (
             "recommendation" if user_to_move else "likely_reply") else []
         plan.append({

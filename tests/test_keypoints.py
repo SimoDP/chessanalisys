@@ -133,3 +133,32 @@ def test_rescore_keeps_a_pack_with_the_user_to_move(cfg):
     pack = bench.load_pack(cfg, bench.load_spec(cfg, "iso_e3_w_1700"))
     new = rescore_pack(cfg, pack, _node_policy(pack))
     assert not any(ln["start_node"] == "N1" and ln["kind"] == "threat" for ln in new["filtered_lines"])
+
+
+# --- facts the code computes on the board for the document of the key points (D-72) -----------------
+
+
+def test_board_facts_of_the_plan(cfg):
+    kp, _ = _kp(cfg, "knight_d6_b_1700")
+    items = kp["plan"]["facts"]["items"]
+    king = next(i for i in items if i["key"] == "king_square")
+    assert king["of"] == "user" and king["squares"] == ["h7"]
+    assert any(p.startswith("donna bianca in d3 dietro") for p in king["pieces"])
+    assert any(i["key"] == "bishop_long_diagonal" and i["squares"] == ["g2"] and i["of"] == "opp" for i in items)
+    c_file = next(i for i in items if i["key"] == "rook_open_file")
+    assert c_file["file"] == "c" and c_file["secondary"]                # clearly worse: the c-file does not help
+    kp, _ = _kp(cfg, "knight_a4_w_1700")
+    pin = next(i for i in kp["plan"]["facts"]["items"] if i["key"] == "pinned")
+    assert pin["squares"] == ["c5"] and pin["behind"] == "donna nera in b6" and pin["by"] == "alfiere bianco in e3"
+
+
+def test_forced_reply_break_and_easy_draw(cfg):
+    kp, _ = _kp(cfg, "bogo_c5_w_1700")
+    reply = kp["recommendation"]["facts"]["reply"]
+    assert reply["ref"] == "cxb4@N3" and reply["gains_space"] == "lato di donna"
+    assert "cxb4@N3" in kp["recommendation"]["ids"] and "C1" not in kp["systems"]["ids"]
+    brk = next(i for i in kp["plan"]["facts"]["items"] if i["key"] == "pawn_break")
+    assert (brk["from"], brk["to"]) == ("d7", "d5")
+    kp, _ = _kp(cfg, "rook_checks_b_1700")
+    v = kp["verdict"]["facts"]
+    assert v["compensation"] == "checks" and v["easy_for"] == "opp" and v["material"] == "un pedone in più"

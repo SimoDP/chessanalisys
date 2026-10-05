@@ -31,7 +31,8 @@ from typing import Any
 import chess
 
 from chessanalyst.config import Config
-from chessanalyst.features.motifs import move_facts
+from chessanalyst.features.motifs import move_facts, piece_name
+from chessanalyst.features.values import piece_value
 from chessanalyst.verify.assertions import eval_band_of, maia_band_of
 
 
@@ -138,6 +139,9 @@ def _reply_facts(c: _Ctx, r: dict, at: dict) -> dict:
     out = {"ref": r["ref"], "san": r["san"], "p_opp": r["p"], "maia_band": c.maia_band(r["p"]),
            "eval_user_cp": r["eval_user_cp"], "mate_user": r["mate_user"],
            "band": c.band(r["eval_user_cp"], r["mate_user"]), "move": c.facts_of(at["fen"], r["san"])}
+    wing = _space(c, at["fen"], r["san"])
+    if wing:
+        out["gains_space"] = wing
     if best is not None:
         after = c.nodes.get(r["node"])
         out["answer"] = {"ref": best["ref"], "san": best["san"], "eval_user_cp": best["eval_user_cp"],
@@ -152,6 +156,22 @@ def _reply_facts(c: _Ctx, r: dict, at: dict) -> dict:
     return out
 
 
+def _space(c: _Ctx, fen: str, san: str) -> str | None:
+    """A pawn that arrives in the other half of the board: the wing where it gains space."""
+    b = chess.Board(fen)
+    try:
+        mv = b.parse_san(san)
+    except ValueError:
+        return None
+    if b.piece_type_at(mv.from_square) != chess.PAWN:
+        return None
+    rank = chess.square_rank(mv.to_square) if b.turn == chess.WHITE else 7 - chess.square_rank(mv.to_square)
+    if rank < c.kp.space_rank:
+        return None
+    w = c.cfg.wording["wings"]
+    return w["queenside"] if chess.square_file(mv.to_square) < 4 else w["kingside"]
+
+
 def _ids_of(f: dict) -> list[str]:
     ids = [f["ref"]]
     for k in ("answer", "trap"):
@@ -163,6 +183,29 @@ def _ids_of(f: dict) -> list[str]:
 # --- the points -----------------------------------------------------------------
 
 
+def _material_words(c: _Ctx, bal: int) -> str:
+    """The material balance in words («un pedone in più»), so the text has no number to write."""
+    from chessanalyst.llm.prompt import number_words
+
+    w = c.cfg.wording["material_words"]
+    if bal == 0:
+        return w["even"]
+    n = abs(bal)
+    count = w["one"] if n == 1 else number_words(n)
+    return w["up" if bal > 0 else "down"].format(n=f"{count} {w['pawn'] if n == 1 else w['pawns']}")
+
+
+def _easy_share(c: _Ctx, node: dict) -> float | None:
+    """Maia-2 probability, for the side to move, of a move losing at most ``answer_loss_max_cp``."""
+    if not node.get("multipv"):
+        return None
+    pol = _policy(node)
+    sign = 1 if (node["fen"].split()[1] == c.user) else -1        # the values are the user's
+    vals = [(m, sign * c.ev(m)) for m in node["multipv"]]
+    best = max(v for _, v in vals)
+    return sum(pol.get(m["uci"], 0.0) for m, v in vals if best - v <= c.kp.answer_loss_max_cp)
+
+
 def _verdict(c: _Ctx) -> dict:
     root = c.eng["root"]
     band = c.band(root["eval_user_cp"], root["mate_user"])
@@ -171,8 +214,15 @@ def _verdict(c: _Ctx) -> dict:
     bal_user = bal if c.user == "w" else -bal
     facts: dict[str, Any] = {"band": band, "eval_user_cp": root["eval_user_cp"], "mate_user": root["mate_user"],
                              "better": better, "to_move": "user" if c.user_to_move else "opp",
-                             "material_balance_user": bal_user,
+                             "material_balance_user": bal_user, "material": _material_words(c, bal_user),
                              "positional": bal_user == 0 and abs(c.ev(root)) >= c.kp.positional_min_cp}
+    opp = "b" if c.user == "w" else "w"
+    if bal_user > 0 and band == "equal" and any(f["key"] == "check_available" and f["side"] == opp
+                                                for f in c.pack["features"]):
+        facts["compensation"] = "checks"           # material up, but the opponent's checks hold the balance
+    easy = _easy_share(c, c.root)
+    if easy is not None and easy >= c.kp.easy_min_p:
+        facts["easy_for"] = "user" if c.user_to_move else "opp"   # Maia-2: the side to move finds a good move
     ids = ["N1"]
     best_san = c.root["multipv"][0]["san"] if c.root.get("multipv") else None
     if best_san and band != "equal":           # in a level position the first move is not «the» move
@@ -306,6 +356,111 @@ def _loose_pieces(c: _Ctx) -> list[dict]:
     return sorted(out, key=lambda x: x["key"] != "to_defend")
 
 
+def _at(board: chess.Board, sq: int, words: dict) -> str:
+    return f"{piece_name(board.piece_at(sq), words)} in {chess.square_name(sq)}"
+
+
+def _pins(c: _Ctx, board: chess.Board) -> list[dict]:
+    """Pieces in front of their king or of a more valuable piece of their side, on the line of an enemy bishop,
+    rook or queen (the pin a player calls a pin): the user's first, then the opponent's."""
+    me = chess.WHITE if c.user == "w" else chess.BLACK
+    out = []
+    for sq, p in sorted(board.piece_map().items()):
+        if p.piece_type == chess.KING:
+            continue
+        for a in sorted(board.attackers(not p.color, sq)):
+            if board.piece_type_at(a) not in (chess.BISHOP, chess.ROOK, chess.QUEEN):
+                continue
+            beyond = sorted((s for s in chess.SquareSet(chess.ray(a, sq)) if sq in chess.SquareSet(chess.between(a, s))),
+                            key=lambda s: chess.square_distance(a, s))
+            behind = next((s for s in beyond if board.piece_at(s)), None)
+            q = board.piece_at(behind) if behind is not None else None
+            if q is not None and q.color == p.color and (
+                    q.piece_type == chess.KING or piece_value(q.piece_type) > piece_value(p.piece_type)):
+                out.append({"key": "pinned", "of": "user" if p.color == me else "opp",
+                            "squares": [chess.square_name(sq)], "piece": _at(board, sq, c.words),
+                            "by": _at(board, a, c.words), "behind": _at(board, behind, c.words)})
+                break
+    return sorted(out, key=lambda x: x["of"] != "user")
+
+
+def _long_diagonals(c: _Ctx, board: chess.Board) -> list[dict]:
+    """Bishops on a long diagonal (a1-h8, h1-a8) with no pawn of their side on it: the opponent's first."""
+    me = chess.WHITE if c.user == "w" else chess.BLACK
+    out = []
+    diags = {"a1-h8": chess.SquareSet(chess.ray(chess.A1, chess.H8)),
+             "h1-a8": chess.SquareSet(chess.ray(chess.H1, chess.A8))}
+    for sq in sorted(board.pieces(chess.BISHOP, chess.WHITE) | board.pieces(chess.BISHOP, chess.BLACK)):
+        color = board.color_at(sq)
+        for name, squares in diags.items():
+            if sq in squares and not any(board.piece_at(s) == chess.Piece(chess.PAWN, color) for s in squares):
+                out.append({"key": "bishop_long_diagonal", "of": "user" if color == me else "opp",
+                            "squares": [chess.square_name(sq)], "diagonal": name, "piece": _at(board, sq, c.words)})
+    return sorted(out, key=lambda x: x["of"] != "opp")
+
+
+def _king_squares(c: _Ctx, board: chess.Board) -> list[dict]:
+    """For each king, the square next to it that only the king defends and that most enemy pieces can hit now,
+    from behind one of their own pieces (it moves away) or with a knight jump; kept with at least
+    ``king_attack_min`` pieces. The user's king first."""
+    me = chess.WHITE if c.user == "w" else chess.BLACK
+    out = []
+    for color in (me, not me):
+        king = board.king(color)
+        if king is None:
+            continue
+        best = None
+        for t in sorted(chess.SquareSet(chess.BB_KING_ATTACKS[king])):
+            if board.color_at(t) == (not color) or any(d != king for d in board.attackers(color, t)):
+                continue
+            hits = [f"{_at(board, a, c.words)}" for a in sorted(board.attackers(not color, t))]
+            for a in sorted(board.pieces(chess.QUEEN, not color) | board.pieces(chess.BISHOP, not color)
+                            | board.pieces(chess.ROOK, not color)):
+                between = [s for s in chess.SquareSet(chess.between(a, t)) if board.piece_at(s)]
+                if (chess.SquareSet(chess.ray(a, t)) and len(between) == 1 and board.color_at(between[0]) == (not color)
+                        and a not in board.attackers(not color, t) and _slides(board.piece_type_at(a), a, t)):
+                    hits.append(f"{_at(board, a, c.words)} dietro {_at(board, between[0], c.words)}")
+            for n in sorted(board.pieces(chess.KNIGHT, not color)):
+                for d in sorted(chess.SquareSet(chess.BB_KNIGHT_ATTACKS[n])):
+                    if board.color_at(d) != (not color) and t in chess.SquareSet(chess.BB_KNIGHT_ATTACKS[d]):
+                        hits.append(f"{_at(board, n, c.words)} con il salto in {chess.square_name(d)}")
+            if len(hits) >= c.kp.king_attack_min and (best is None or len(hits) > len(best["pieces"])):
+                best = {"key": "king_square", "of": "user" if color == me else "opp",
+                        "squares": [chess.square_name(t)], "king": _at(board, king, c.words),
+                        "occupant": _at(board, t, c.words) if board.piece_at(t) else None, "pieces": hits}
+        if best:
+            out.append(best)
+    return out
+
+
+def _slides(ptype: int, a: int, t: int) -> bool:
+    straight = chess.square_file(a) == chess.square_file(t) or chess.square_rank(a) == chess.square_rank(t)
+    return ptype == chess.QUEEN or (ptype == chess.ROOK) == straight
+
+
+def _pawn_breaks(c: _Ctx, board: chess.Board) -> list[dict]:
+    """The opponent's pawn push (one or two squares) that would attack a pawn of the user on the
+    ``break_files``, the one Maia-2 gives most often where the opponent moves in the tree (at most one)."""
+    opp = chess.BLACK if c.user == "w" else chess.WHITE
+    step, start = (8, 1) if opp == chess.WHITE else (-8, 6)
+    nodes = [n for n in c.pack["nodes"] if n.get("maia") and n["fen"].split()[1] == ("w" if opp else "b")]
+    best = None
+    for sq in sorted(board.pieces(chess.PAWN, opp)):
+        dests = [sq + step] + ([sq + 2 * step] if chess.square_rank(sq) == start else [])
+        for d in dests:
+            if not 0 <= d < 64 or any(board.piece_at(x) for x in chess.SquareSet(chess.between(sq, d)) | {d}):
+                continue
+            hit = [t for t in chess.SquareSet(chess.BB_PAWN_ATTACKS[opp][d])
+                   if board.piece_at(t) == chess.Piece(chess.PAWN, not opp)
+                   and chess.FILE_NAMES[chess.square_file(t)] in c.kp.break_files]
+            uci = chess.square_name(sq) + chess.square_name(d)
+            p = sum(_policy(n).get(uci, 0.0) for n in nodes) / len(nodes) if nodes else 0.0
+            if hit and p > 0 and (best is None or p > best[0]):
+                best = (p, {"key": "pawn_break", "of": "opp", "from": chess.square_name(sq), "to": chess.square_name(d),
+                            "piece": _at(board, sq, c.words), "hits": [_at(board, t, c.words) for t in hit]})
+    return [best[1]] if best else []
+
+
 def _plan(c: _Ctx) -> dict | None:
     kp = c.kp
     opp = "b" if c.user == "w" else "w"
@@ -315,14 +470,25 @@ def _plan(c: _Ctx) -> dict | None:
     cm = c.eng.get("context_move")
     cm_san = next(iter(cm["san_by_node"].values()), None) if cm else None
     room = kp.plan_max_facts - (1 if cm_san else 0)       # the opponent's typical move always has a place
-    out += _loose_pieces(c)
+    board = chess.Board(c.pack["position"]["fen"])
+    out += (_loose_pieces(c) + _pins(c, board) + _king_squares(c, board) + _pawn_breaks(c, board)
+            + _long_diagonals(c, board))
     islands = {f["side"]: f["value"] for f in feats if f["key"] == "pawn_island_count"}
     if islands.get(opp, 0) - islands.get(c.user, 0) >= kp.island_diff_min:
         out.append({"key": "pawn_island_count", "of": "opp", "value": islands[opp], "user_value": islands.get(c.user)})
     for key, who in kp.plan_features:
         out += [{"key": key, "of": who, "squares": f["squares"], "value": f["value"]}
                 for f in feats if f["key"] == key and f["side"] == side[who]]
+    seen = {(i["key"], tuple(i.get("squares") or [])) for i in out}
+    out = [i for i in out if not (i["key"] == "outpost" and ("knight_outpost", tuple(i["squares"])) in seen)]
     out = out[:room]
+    if c.band(c.eng["root"]["eval_user_cp"], c.eng["root"]["mate_user"]) in kp.secondary_bands:
+        for i in out:                        # clearly worse: the user's assets do not change the verdict
+            if i["of"] == "user" and i["key"] in kp.user_assets:
+                i["secondary"] = True
+    for i in out:
+        if i["key"] == "rook_open_file":
+            i["file"] = i["squares"][0][0]
     if cm_san:
         out.append({"key": "context_move", "of": "opp", "san": cm_san})
     if not out:
@@ -343,14 +509,26 @@ def key_points(cfg: Config, pack: dict) -> list[dict]:
         used.add(danger.pop("_reply"))
     ref = _reference(c, at, without=danger["facts"]["san"] if danger and not c.user_to_move else None)
     built["main_danger"] = danger
+    rec = built["recommendation"]
+    forced = [r for r in replies if r["p"] >= c.kp.forced_p] if c.user_to_move and rec else []
+    if forced:                    # the reply nearly everybody plays is part of the move: told with it
+        f = _reply_facts(c, forced[0], at)
+        rec["facts"]["reply"] = f
+        rec["ids"] += [i for i in _ids_of(f) if i not in rec["ids"]]
+        used.add(forced[0]["ref"])
     built["opportunity"] = _opportunity(c, replies, at, ref, used)    # before likely_reply: a gift is not a reply
     built["likely_reply"] = _likely(c, replies, at, used)
     built["systems"] = _systems(c)
     built["plan"] = _plan(c)
     built["reasoning"] = {"type": "reasoning", "ids": [],
                           "facts": {"items": cfg.thresholds.keypoints.reasoning_items[c.detail]}}
-    if built["systems"] is not None and built["recommendation"] is not None:
-        built["recommendation"]["facts"]["only_move"] = False
+    if built["systems"] is not None and rec is not None:       # one fact, one section
+        rec["facts"]["only_move"] = False
+        sy = built["systems"]
+        sy["facts"]["moves"] = [m for m in sy["facts"]["moves"] if m["ref"] != rec["facts"]["ref"]]
+        sy["ids"] = [m["ref"] for m in sy["facts"]["moves"]]
+        if rec["facts"].get("second", {}).get("ref") in sy["ids"]:
+            rec["ids"].remove(rec["facts"].pop("second")["ref"])
     order = cfg.thresholds.keypoints.order["user_to_move" if c.user_to_move else "opp_to_move"]
     points = [built[t] for t in order if built.get(t) is not None]
     points = points[: cfg.thresholds.keypoints.max_points[c.detail]]

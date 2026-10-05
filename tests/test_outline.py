@@ -56,7 +56,9 @@ def test_prompt_sends_only_the_facts_as_tokens(cfg):
         r = Resolver(out, cfg.wording)
         for sid, body in re.findall(r'<punto id="(S\d+)"(.*?)</punto>', msg, re.S):
             for tok in TOKEN.findall(body):
-                r.resolve(tok)                                               # every offered token resolves
+                r.resolve(tok)
+                if tok.startswith("{{diag:"):                                   # squares, not a fact of the pack
+                    continue                                               # every offered token resolves
                 ref = tok[2:-2].split(":")[1]
                 ref = ref if ref in plan[sid]["cites_allowed"] else ref.rsplit(".", 1)[0]
                 assert ref in plan[sid]["cites_allowed"], (name, sid, tok)
@@ -101,6 +103,18 @@ def test_cycle_with_the_key_points_document(cfg):
     titles = re.findall(r"^## (.+)$", res.document, re.M)
     assert titles[:4] == ["Verdetto", "Cosa giocherà il Bianco e come rispondere", "Il piano", "Come ragionare"]
     assert res.info.document == "keypoints"
+
+
+def test_feature_assertions_on_facts_are_pruned(cfg):
+    from chessanalyst.llm.prompt_kp import prune_assertions
+
+    pack = _pack(cfg, "knight_a4_w_1700")
+    good = {"kind": "feature", "key": "isolated_pawn", "side": "b", "squares": ["c5"]}
+    resp = {"content": [{"type": "tool_use", "name": "submit_analysis", "id": "t", "input": {"sections": [
+        {"id": "S05", "blocks": [{"type": "p", "text": "x", "source": "mixed", "assertions": [
+            good, {"kind": "feature", "key": "pinned", "side": "b", "squares": ["c5"]}]}]}]}}]}
+    assert prune_assertions(pack, resp) == 1
+    assert resp["content"][0]["input"]["sections"][0]["blocks"][0]["assertions"] == [good]
 
 
 def test_one_call_per_section(cfg):

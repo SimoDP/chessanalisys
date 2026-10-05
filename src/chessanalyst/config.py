@@ -439,6 +439,13 @@ class KeypointsCfg(Strict):
     plan_max_facts: int
     plan_features: list[tuple[str, str]]
     island_diff_min: int
+    king_attack_min: int
+    easy_min_p: float
+    forced_p: float
+    space_rank: int
+    break_files: str
+    secondary_bands: list[str]
+    user_assets: list[str]
     sections: dict[str, str]
     words: dict[str, dict[str, int]]
     words_min: int

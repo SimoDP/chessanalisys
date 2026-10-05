@@ -2,7 +2,7 @@
 - Fonte di verità: docs/Chess_Position_Analyst_Documentazione_tecnica_v0_9_1.md. La v0.9.1 è CONGELATA:
   il registro decisioni (§0.3, D-01…D-63) prevale e non si riapre; tra due decisioni vale l'ID più alto.
 - Decisioni dell'utente successive al congelamento: docs/DECISIONI_POST_CONGELAMENTO.md (D-64…); prevalgono
-  sui punti della v0.9.1 che modificano (D-64 fornitore OpenRouter/Anthropic, D-65 costanti, D-66 Stockfish, D-67 modello di sviluppo, D-68 mossa di contesto, D-69 modello di produzione, D-70 consegna più rigorosa per DeepSeek, D-71 fatti calcolati e controllo V12).
+  sui punti della v0.9.1 che modificano (D-64 fornitore OpenRouter/Anthropic, D-65 costanti, D-66 Stockfish, D-67 modello di sviluppo, D-68 mossa di contesto, D-69 modello di produzione, D-70 consegna più rigorosa per DeepSeek, D-71 fatti calcolati e controllo V12, D-72 documento per punti chiave).
 - M3 (Category Scoring Engine): scelte e default in docs/OPEN_QUESTIONS.md (OQ-M3-1…9), costanti in thresholds.yaml: scoring.
 - M4 (dettaglio, entrambi, S11, critico, Elo dai tag): scelte e default in docs/OPEN_QUESTIONS.md (OQ-M4-1…7).
 - M5 (calibrazione): config/calibration.yaml, docs/CALIBRATION_REPORT.md, OQ-M5-1…4; k_c e w_c sono valori calibrati.

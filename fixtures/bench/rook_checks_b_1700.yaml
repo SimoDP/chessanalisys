@@ -7,7 +7,7 @@ verdict: {bands: [equal]}
 must_say:
   - id: pedone_in_piu_scacchi
     text: "il pedone in più non si porta a promozione: la torre bianca continua a dare scacco al re nero, che non ha riparo"
-    all: [{text: "pedone in più|pedone di più|un pedone sopra"}, {text: "scacch"}]
+    all: [{text: "pedone in più|pedone di più|un pedone sopra"}, {text: "scacc(?:o|hi)"}]
   - id: patta_facile
     text: "la posizione è patta ed è molto facile per il Bianco salvarla"
     all: [{text: "\\bpatt[ae]\\b"}, {text: "facil|semplic|senza fatica|tranquill|comod"}]

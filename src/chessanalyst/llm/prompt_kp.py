@@ -52,18 +52,25 @@ Consegna:
 
 GUIDE = {
     "verdict": "Chi sta meglio e di quanto, con le parole della banda e il token di N1; poi il perché in una "
-               "frase (la mossa migliore e che cosa fa, il materiale). Se la mossa migliore è raccontata in "
+               "frase (la mossa migliore e che cosa fa, il materiale; compensation: perché il materiale non basta; "
+               "easy_for: per chi muove è facile trovare una buona mossa). Se la mossa migliore è raccontata in "
                "un altro punto (told_in), nominala solo a parole («una mossa forte»), senza token.",
     "recommendation": "La mossa da giocare, perché (che cosa fa sulla scacchiera) e quanto è probabile che la "
                       "trovi; se only_move, dì che è l'unica che tiene e quanto perde la seconda; la trappola da "
-                      "evitare se c'è (is_trap: la seconda è anche la trappola naturale).",
+                      "evitare se c'è (is_trap: la seconda è anche la trappola naturale); reply: la risposta quasi "
+                      "obbligata dell'avversario e come continui.",
     "systems": "Non c'è una mossa unica: presenta le mosse equivalenti come scelte di stile, con la loro idea.",
     "plan": "Il piano per le mosse tranquille dai fatti: debolezze dell'avversario da attaccare, pezzi da "
-            "difendere, punti forti propri, la mossa tipica dell'avversario. Una frase per fatto.",
+            "difendere, punti forti propri, la mossa tipica dell'avversario. Una frase per fatto. pinned: il "
+            "pezzo inchiodato (by inchioda, behind è dietro); king_square: casa vicino al re difesa solo dal "
+            "re e i pezzi che la possono colpire; pawn_break: la spinta di pedone che attacca i pedoni "
+            "centrali (hits) e apre il gioco; secondary: un tuo punto forte che non cambia il giudizio, "
+            "dillo («non basta»).",
     "main_danger": "La mossa più pericolosa dell'avversario: che cosa fa, quanto danno fa e quanto è probabile "
                    "che la giochi; la risposta migliore se c'è. Se hypothetical, è ciò che l'avversario "
                    "farebbe se tu non reagissi: dillo così.",
-    "likely_reply": "Le risposte più probabili dell'avversario, una frase o due ciascuna: la risposta giusta "
+    "likely_reply": "Le risposte più probabili dell'avversario, una frase o due ciascuna (gains_space: il pedone guadagna "
+                    "spazio su quell'ala): la risposta giusta "
                     "(only_answer = l'unica) e la trappola naturale (trap: la risposta istintiva che perde).",
     "opportunity": "Le mosse probabili dell'avversario che ti regalano qualcosa: che cosa sbaglia e come ne "
                    "approfitti (answer).",
@@ -102,7 +109,7 @@ TOKEN_NAMES = {"mv": "mossa", "m": "mossa", "ev": "valutazione", "loss": "perdit
                "pv": "variante"}
 # numbers and notation of the facts: the model reads them as tokens (D-72, data given ready-made)
 RAW_KEYS = {"ref", "san", "move", "eval_user_cp", "mate_user", "p_opp", "p_user", "p_att", "loss_cp", "damage_cp",
-            "gain_cp", "impact_cp", "line", "after"}
+            "gain_cp", "impact_cp", "line", "after", "material_balance_user"}
 
 
 def _tokens_of(ref: str, section: dict, r: Resolver) -> dict[str, str]:
@@ -164,6 +171,8 @@ def facts_view(pack: dict, kp: dict, section: dict, r: Resolver) -> dict:
         if isinstance(x.get("move"), dict):
             out.update({k: v for k, v in x["move"].items() if k != "move"})
         out.update({k: view(v) for k, v in x.items() if k not in RAW_KEYS})
+        if isinstance(out.get("diagonal"), str):
+            out["diagonal"] = "{{diag:" + out["diagonal"] + "}}"
         return out
 
     head = _tokens_of("N1", section, r) if kp["type"] == "verdict" else {}
@@ -192,8 +201,9 @@ def ready_assertions(pack: dict, kp: dict) -> list[dict]:
         pct = ref if "@" in ref else f"{ref}.p_opp" if "p_opp" in d else f"{ref}.p_user"
         out.append({"kind": "maia_band", "ref": pct, "band": d["maia_band"]})
     if kp["type"] == "plan":
+        keys = {(x["key"], x["side"]) for x in pack["features"]}
         for i in f["items"]:
-            if i.get("squares") is not None and i["key"] not in ("target", "to_defend"):
+            if i.get("squares") is not None and (i["key"], side[i["of"]]) in keys:
                 out.append({"kind": "feature", "key": i["key"], "side": side[i["of"]],
                             "squares": i.get("squares") or []})
     return out
@@ -246,3 +256,23 @@ def build_user_message_kp(cfg: Config, pack: dict, sections: list[str] | None = 
     ids = [kp["section"] for kp in pack["key_points"] if sections is None or kp["section"] in sections]
     tail = ["", f"Consegna con submit_analysis le sezioni {', '.join(ids)}, in quest'ordine."]
     return "\n".join(head + blocks + tail)
+
+
+def prune_assertions(pack: dict, response: dict) -> int:
+    """Feature assertions on a key the pack does not have (``pinned``, ``king_square``… are facts of the key
+    points, not features) can never be true: they are dropped before the check. Returns how many."""
+    keys = {x["key"] for x in pack["features"]}
+    dropped = 0
+    for block in response.get("content", []):
+        if block.get("type") != "tool_use" or not isinstance(block.get("input"), dict):
+            continue
+        for sec in block["input"].get("sections") or []:
+            for b in sec.get("blocks") or []:
+                for unit in [b, *(b.get("items") or [])]:
+                    if not isinstance(unit, dict) or not isinstance(unit.get("assertions"), list):
+                        continue
+                    keep = [a for a in unit["assertions"]
+                            if not (isinstance(a, dict) and a.get("kind") == "feature" and a.get("key") not in keys)]
+                    dropped += len(unit["assertions"]) - len(keep)
+                    unit["assertions"] = keep
+    return dropped

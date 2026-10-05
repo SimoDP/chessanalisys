@@ -38,6 +38,9 @@ p_up_group:
   higher: "giocatori di circa trecento punti più forti"     # da aggiornare se cambia up_delta
   top: "giocatori della fascia più forte del modello"
 colors: {w: "il Bianco", b: "il Nero"}
+# D-72: il materiale nei fatti del verdetto, in parole; le ali dove un pedone guadagna spazio
+wings: {queenside: "lato di donna", kingside: "lato di re"}
+material_words: {even: "materiale pari", up: "{n} in più", down: "{n} in meno", one: "un", pawn: pedone, pawns: pedoni}
 keypoint_titles:                 # D-72: titoli delle sezioni del documento per punti chiave
   verdict: "Verdetto"
   recommendation: "La mossa da giocare"

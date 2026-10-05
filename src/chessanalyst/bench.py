@@ -206,6 +206,7 @@ def score_run(cfg: Config, spec: dict, pack: dict, verification: dict | None, ou
     complete = not last
     run = {"verdict": ok, "forbidden_said": said, "key_points": kp, "v12_final": v12, "complete": complete,
            "words": words, "attempts": len(verification["attempts"]),
+           "final_errors": sorted({e["code"] for e in last}),
            "cost_usd": (verification.get("usage") or {}).get("cost_usd"),
            "input_tokens": (verification.get("usage") or {}).get("input_tokens"),
            "seconds": round(seconds, 1)}
