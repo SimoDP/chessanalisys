@@ -224,11 +224,11 @@ keypoints:                      # scaletta dei punti chiave (fase B, plan/keypoi
   sections: {verdict: S01, recommendation: S03, systems: S04, plan: S05, main_danger: S06, likely_reply: S07,
              opportunity: S08, reasoning: S10}
   words:
-    verdict: {base: 45, per_item: 0}
+    verdict: {base: 50, per_item: 0}
     recommendation: {base: 30, per_item: 0, per_move: 15}
-    systems: {base: 15, per_item: 12}
+    systems: {base: 15, per_item: 16}
     plan: {base: 10, per_item: 15}
-    main_danger: {base: 65, per_item: 0}
+    main_danger: {base: 45, per_item: 0, per_move: 7}
     likely_reply: {base: 10, per_item: 0, per_move: 22}
     opportunity: {base: 10, per_item: 0, per_move: 22}
     reasoning: {base: 10, per_item: 16}

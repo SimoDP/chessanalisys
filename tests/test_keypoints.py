@@ -146,7 +146,7 @@ def test_board_facts_of_the_plan(cfg):
     assert any(p.startswith("donna bianca in d3 dietro") for p in king["pieces"])
     assert any(i["key"] == "bishop_long_diagonal" and i["squares"] == ["g2"] and i["of"] == "opp" for i in items)
     c_file = next(i for i in items if i["key"] == "rook_open_file")
-    assert c_file["file"] == "c" and c_file["secondary"]                # clearly worse: the c-file does not help
+    assert c_file["file"] == "colonna c" and c_file["secondary"]                # clearly worse: the c-file does not help
     kp, _ = _kp(cfg, "knight_a4_w_1700")
     pin = next(i for i in kp["plan"]["facts"]["items"] if i["key"] == "pinned")
     assert pin["squares"] == ["c5"] and pin["behind"] == "donna nera in b6" and pin["by"] == "alfiere bianco in e3"

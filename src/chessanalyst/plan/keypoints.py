@@ -457,7 +457,8 @@ def _pawn_breaks(c: _Ctx, board: chess.Board) -> list[dict]:
             p = sum(_policy(n).get(uci, 0.0) for n in nodes) / len(nodes) if nodes else 0.0
             if hit and p > 0 and (best is None or p > best[0]):
                 best = (p, {"key": "pawn_break", "of": "opp", "from": chess.square_name(sq), "to": chess.square_name(d),
-                            "piece": _at(board, sq, c.words), "hits": [_at(board, t, c.words) for t in hit]})
+                            "piece": _at(board, sq, c.words), "hits": [_at(board, t, c.words) for t in hit],
+                            "aim": c.cfg.wording["plan_words"]["break_aim"]})
     return [best[1]] if best else []
 
 
@@ -488,7 +489,7 @@ def _plan(c: _Ctx) -> dict | None:
                 i["secondary"] = True
     for i in out:
         if i["key"] == "rook_open_file":
-            i["file"] = i["squares"][0][0]
+            i["file"] = c.cfg.wording["plan_words"]["file"].format(f=i["squares"][0][0])
     if cm_san:
         out.append({"key": "context_move", "of": "opp", "san": cm_san})
     if not out:

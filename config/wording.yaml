@@ -40,6 +40,8 @@ p_up_group:
 colors: {w: "il Bianco", b: "il Nero"}
 # D-72: il materiale nei fatti del verdetto, in parole; le ali dove un pedone guadagna spazio
 wings: {queenside: "lato di donna", kingside: "lato di re"}
+# D-72: parole dei fatti del piano (la colonna di una torre; lo scopo di una rottura sulle colonne centrali)
+plan_words: {file: "colonna {f}", break_aim: "contendere il centro e guadagnare spazio"}
 material_words: {even: "materiale pari", up: "{n} in più", down: "{n} in meno", one: "un", pawn: pedone, pawns: pedoni}
 keypoint_titles:                 # D-72: titoli delle sezioni del documento per punti chiave
   verdict: "Verdetto"
