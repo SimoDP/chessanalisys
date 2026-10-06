@@ -449,6 +449,7 @@ class KeypointsCfg(Strict):
     words: dict[str, dict[str, int]]
     words_min: int
     words_max: int
+    words_floor: bool
     pv_plies: int
     reasoning_items: dict[str, int]
 

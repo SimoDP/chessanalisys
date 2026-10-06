@@ -779,3 +779,10 @@ usare `rerun`, Markdown e PGN funzionano.
   (11 giri su 18, 0,0014 $): resta il modello di produzione. Il traguardo resta da raggiungere; le cause
   principali dei giri non superati sono gli sforamenti del budget di parole e due punti chiave posizionali
   («colonna c inutile», «spinta d5»).
+- **Fatti del piano in parole e budget imposto dal codice (D-74, 6 ottobre 2026).** «colonna c» e lo scopo
+  della spinta scritti dal codice: 14 su 18 (`docs/bench/20261006T051221`);
+  budget ritoccati (verdetto, mosse equivalenti, pericolo): 12 su 18 (`…052002`), 4 dei 6 giri non superati solo per la
+  lunghezza, quasi sempre sezioni troppo corte. Con il budget imposto dal codice (sezioni lunghe accorciate,
+  sezioni corte accettate): **17 su 18, zero V12, 0,0010 $** (`docs/bench/20261006T052915`). Soglia di
+  chiusura scelta dall'utente (15 su 18 senza frasi false) raggiunta. L'unico giro non superato
+  (`rook_checks_b_1700`) dice «vantaggio» in una posizione di patta.

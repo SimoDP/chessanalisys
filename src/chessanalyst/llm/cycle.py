@@ -10,6 +10,7 @@ the last response that passed V01; if none did: exit code 5.
 from __future__ import annotations
 
 import logging
+from collections import Counter
 from dataclasses import dataclass, field
 
 from chessanalyst.config import Config
@@ -25,6 +26,8 @@ from chessanalyst.render.markdown import RenderInfo, render_markdown
 from chessanalyst.verify.checker import Checker, Result, error_lines
 from chessanalyst.verify.degrade import Degraded, degrade
 from chessanalyst.verify.report import check_outcomes, verification_json
+from chessanalyst.verify.trim import trim_response
+from chessanalyst.verify.wordcount import tolerance
 
 log = logging.getLogger(__name__)
 
@@ -42,6 +45,33 @@ class CycleResult:
 
 def _only_word_budget(res: Result) -> bool:
     return bool(res.errors) and all(e.code == "V07" and e.sub == "d" for e in res.errors)
+
+
+def _counts(errors, skip=lambda e: False) -> Counter:
+    """Errors by code and section (a cut changes the text of V08, never adds a claim)."""
+    return Counter((e.code, e.sub, e.section) for e in errors if not skip(e))
+
+
+def _trimmed(cfg: Config, checker: Checker, response: dict, res: Result, loop: _Loop) -> Result:
+    """D-74: the sections over the budget lose their last sentences; the cut response is kept only
+    if it adds no error."""
+    over = {e.section for e in res.errors if e.code == "V07" and e.sub == "d" and e.section
+            and res.words_by_section.get(e.section, {}).get("actual", 0)
+            > (res.words_by_section[e.section]["budget"] or 0)}
+    if not over:
+        return res
+    plan = {s["id"]: s for s in checker.pack["section_plan"]}
+    tol = cfg.verify["word_tolerance"]
+    cut = trim_response(response, plan, over, checker.word_re, lambda b: tolerance(b, tol))
+    if cut is None:
+        return res
+    new = checker.check(cut)
+    allowed = _counts(res.errors, lambda e: e.code == "V07" and e.sub == "d" and e.section in over)
+    if new.output is None or _counts(new.errors) - allowed:
+        return res
+    loop.trimmed += sorted(over)
+    log.info("Sezioni accorciate dal codice: %s", ", ".join(sorted(over)))
+    return new
 
 
 def _retry_turn(response: dict, text: str) -> list[dict]:
@@ -63,10 +93,11 @@ class _Loop:
     retries: int = 0
     json_repairs: int = 0
     pruned: int = 0
+    trimmed: list[str] = field(default_factory=list)   # D-74: sections cut to budget by the code
 
 
 def _call_loop(cfg: Config, client: LLMClient, checker: Checker, system: list[dict], messages: list[dict],
-               raw: list[dict], hints: dict, prune: bool = False) -> _Loop:
+               raw: list[dict], hints: dict, prune: bool = False, trim: bool = False) -> _Loop:
     """One call, then the verification retries (E.3)."""
     llm = cfg.default.llm
     tools = [tool_definition()]
@@ -85,6 +116,8 @@ def _call_loop(cfg: Config, client: LLMClient, checker: Checker, system: list[di
         if prune:                       # D-72: feature assertions on facts that are not features
             loop.pruned += prune_assertions(checker.pack, response)
         res = checker.check(response)
+        if trim:
+            res = _trimmed(cfg, checker, response, res, loop)
         loop.attempts.append(res)
         log.info("Verifica: %s", ", ".join(error_lines(res.errors, {})) or "nessun errore")
         if not res.errors:
@@ -111,7 +144,8 @@ def run_model(cfg: Config, pack: dict, client: LLMClient, *, example: Example | 
         system = [{"type": "text", "text": SYSTEM_PROMPT_KP, "cache_control": {"type": "ephemeral"}}]
         messages = [{"role": "user", "content": [{"type": "text", "text": build_user_message_kp(cfg, pack),
                                                   "cache_control": {"type": "ephemeral"}}]}]
-        loop = _call_loop(cfg, client, Checker(cfg, pack), system, messages, raw, hints, prune=True)
+        checker = Checker(cfg, pack, words_floor=cfg.thresholds.keypoints.words_floor)
+        loop = _call_loop(cfg, client, checker, system, messages, raw, hints, prune=True, trim=True)
     else:
         example = example or example_for(cfg, pack)
         checker = Checker(cfg, pack, fewshot_epd=example.epd, terms=example.terms)
@@ -156,6 +190,7 @@ def run_model(cfg: Config, pack: dict, client: LLMClient, *, example: Example | 
     vj["json_repairs"] = json_repairs
     if keypoints:
         vj["pruned_assertions"] = loop.pruned
+        vj["trimmed_sections"] = loop.trimmed
     if critic is not None:
         vj["critic"] = {"findings": critic.findings, "marked": critic.marked, "error": critic.error}
     return CycleResult(document, vj, raw, retries, degraded is not None, output, info)

@@ -163,8 +163,9 @@ def iter_units(output: dict) -> list[Unit]:
 
 class Checker:
     def __init__(self, cfg: Config, pack: dict, *, fewshot_epd: str | None = None,
-                 terms: list[list[str]] | None = None) -> None:
+                 terms: list[list[str]] | None = None, words_floor: bool = True) -> None:
         self.cfg = cfg
+        self.words_floor = words_floor      # D-74: False accepts a section shorter than its budget
         self.pack = pack
         self.wording = cfg.wording
         self.resolver = Resolver(pack, cfg.wording)
@@ -431,7 +432,9 @@ class Checker:
             missing = [x for x in s["must_cover"] if x not in sec_cites.get(sid, set())]
             if missing:
                 errs.append(V7("c", sid, ", ".join(missing), "ID di must_cover non citati"))
-            if s["word_budget"] is not None and abs(actual - s["word_budget"]) > tolerance(s["word_budget"], tol):
+            gap = actual - (s["word_budget"] or 0)
+            if (s["word_budget"] is not None and abs(gap) > tolerance(s["word_budget"], tol)
+                    and (gap > 0 or self.words_floor)):
                 errs.append(V7("d", sid, f"{actual} parole", f"budget {s['word_budget']}"))
         return errs
 

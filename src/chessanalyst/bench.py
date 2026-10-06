@@ -209,6 +209,7 @@ def score_run(cfg: Config, spec: dict, pack: dict, verification: dict | None, ou
            "final_errors": sorted({e["code"] for e in last}),
            "section_words": {k: [w["actual"], w["budget"]] for k, w in verification["words_by_section"].items()},
            "over_budget": sorted({e["section"] for e in last if e["code"] == "V07(d)" and e.get("section")}),
+           "trimmed": verification.get("trimmed_sections", []),
            "cost_usd": (verification.get("usage") or {}).get("cost_usd"),
            "input_tokens": (verification.get("usage") or {}).get("input_tokens"),
            "seconds": round(seconds, 1)}

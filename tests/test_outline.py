@@ -132,3 +132,55 @@ def test_default_is_keypoints(root):
 
     raw = yaml.safe_load((root / "config/default.yaml").read_text(encoding="utf-8"))
     assert raw["llm"]["document"] == "keypoints"
+
+
+# --- D-74: the word budget is enforced by the code -------------------------------------------------
+
+
+def _rook_sections(s10: str) -> dict:
+    return _sections({
+        "S01": ("mixed", "La partita è equilibrata ({{ev:N1}}): il finale è patta.",
+                [{"kind": "eval_band", "ref": "N1", "band": "equal"}]),
+        "S07": ("mixed", "L'avversario gioca spesso {{mv:R1}} ({{pct:R1.p_opp}}) e tu rispondi {{mv:R1.u1}}; "
+                         "contro {{mv:R2}} ({{pct:R2.p_opp}}) rispondi {{mv:R2.u1}}.",
+                [{"kind": "maia_band", "ref": "R1.p_opp", "band": "frequent"}]),
+        "S05": ("theory", "Spingi il pedone passato con calma e tieni il re vicino.", []),
+        "S10": ("theory", s10, [])})
+
+
+def _run_once(cfg, response):
+    kcfg = _kp_cfg(cfg)
+    client = FakeLLM([response] * (kcfg.default.llm.max_retries + 1))
+    res = run_model(kcfg, _pack(cfg, "rook_checks_b_1700"), client)
+    return res, client
+
+
+def test_long_section_is_cut_by_the_code(cfg):
+    long = " ".join(["Prima di muovere controlla con calma gli scacchi che restano all'avversario."] * 30)
+    res, client = _run_once(cfg, _rook_sections(long))
+    assert "S10" in res.verification["trimmed_sections"]
+    first = res.verification["attempts"][0]["errors"]
+    assert not [e for e in first if e["code"] == "V07(d)"], first        # cut before any retry
+    w = res.verification["words_by_section"]["S10"]
+    assert w["actual"] <= w["budget"] + max(0.25 * w["budget"], 15)
+
+
+def test_a_cut_never_drops_a_must_cover_id(cfg):
+    """Fault injection: a section too long only with the sentences of must_cover is left to the retry."""
+    from chessanalyst.verify.trim import trim_response
+
+    out = outline_pack(cfg, _pack(cfg, "rook_checks_b_1700"))
+    plan = {s["id"]: s for s in out["section_plan"]}
+    s07 = plan["S07"]
+    cited = " ".join(f"Dopo {{{{mv:{x}}}}} la posizione resta tranquilla e il re torna al centro con calma."
+                     for x in s07["must_cover"]) * 1
+    long = " ".join([cited] * 12)
+    resp = {"content": [{"type": "tool_use", "name": "submit_analysis", "id": "t", "input": {"sections": [
+        {"id": "S07", "blocks": [{"type": "p", "source": "mixed", "text": long, "assertions": []}]}]}}]}
+    assert trim_response(resp, plan, {"S07"}, cfg.verify["word"], lambda b: 0) is None
+
+
+def test_a_short_section_is_accepted(cfg):
+    res, _ = _run_once(cfg, _rook_sections("Controlla gli scacchi."))
+    errs = [e for a in res.verification["attempts"] for e in a["errors"]]
+    assert not errs, errs
