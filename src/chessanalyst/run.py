@@ -53,7 +53,7 @@ def open_engines(cfg: Config, cache: Cache | None = None) -> Engines:
 def load_openings(cfg: Config) -> OpeningIndex | None:
     path = cfg.resolve_path(cfg.default.engines.openings.index_file)
     try:
-        return OpeningIndex.load(path)
+        return OpeningIndex.load(path, cfg.default.engines.openings.structure_max_piece_diff)
     except (OSError, ValueError):
         log.warning("Indice delle aperture non disponibile: %s", path)
         return None

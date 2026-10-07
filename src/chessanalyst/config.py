@@ -88,6 +88,7 @@ class SyzygyCfg(Strict):
 
 class OpeningsCfg(Strict):
     index_file: str
+    structure_max_piece_diff: int      # D-76: pieces (from + to) that may differ from the book position
 
 
 class EnginesCfg(Strict):

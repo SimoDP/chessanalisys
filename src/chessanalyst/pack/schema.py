@@ -67,7 +67,7 @@ class Profile(M):
 class Opening(M):
     eco: str
     name: str
-    matched_by: Literal["epd", "sequence"]
+    matched_by: Literal["epd", "sequence", "structure"]
 
 
 class StockfishInfo(M):
