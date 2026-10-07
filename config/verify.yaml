@@ -43,6 +43,9 @@ v12:
     from_bands: [clear, decisive, mate]
     minus_forbidden: [equilibrat, "stai bene", "sei meglio", "in vantaggio", "posizione pari"]
     plus_forbidden: [equilibrat, "stai male", "sei peggio", "in svantaggio", "posizione pari", "persa per te"]
+  # sezione con la frase sul materiale scritta dal codice (lead): il testo del modello non ne parla
+  material_claims: ["\\b(?:pedon[ei]|pezz[oi]|qualità|materiale|torr[ei]|alfier[ei]|cavall[oi]|donn[ae])\\b[^.;:]{0,12}\\bin (?:più|meno)\\b",
+                    "materiale (?:è )?pari", "pari (?:di|nel|sul) materiale", "parità (?:di|materiale)"]
   # «pezzo in casa … indifeso»: vero solo se nessun pezzo dello stesso colore difende la casa (frasi sulla posizione)
   undefended: ["indifes[oaie]", "non (?:è |sono )?difes[oaie]", "senza difes[ae]", "non ha (?:pezzi|nessuno) che l[oaie] difend\\w*", "nessun\\w* l[oaie] difend\\w*"]
   clause_end: "[,;.]|\\bmentre\\b|\\bma\\b|\\bperò\\b"   # fine dell'elenco di case colpite da un verbo

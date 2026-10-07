@@ -6,6 +6,7 @@ block index (1-based), cell and the offending text.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -276,6 +277,13 @@ class Checker:
         low = u.text.lower()
         return [w for w in vc[f"{sign}_forbidden"] if w in low]
 
+    def _material_claims(self, u: Unit) -> list[str]:
+        """A section whose material sentence is written by the code (``lead_text``): the text says nothing on it."""
+        if not self.plan.get(u.section, {}).get("lead_text"):
+            return []
+        low = u.text.lower()
+        return [m.group(0) for p in self.cfg.verify["v12"]["material_claims"] for m in re.finditer(p, low)]
+
     def _check_unit(self, u: Unit, cites: set[str]) -> list[VError]:
         errs: list[VError] = []
         E = lambda code, text, detail="": VError(code, u.section, u.block, u.cell, text, detail)  # noqa: E731
@@ -310,6 +318,8 @@ class Checker:
             errs.append(E("V12", claim.text, claim.detail))
         for word in self._verdict_conflicts(u):
             errs.append(E("V12", word, f"la posizione è «{self._root_band_text}» (banda di N1)"))
+        for phrase in self._material_claims(u):
+            errs.append(E("V12", phrase, "il materiale lo scrive già il programma: non nominarlo"))
         for a in u.assertions:
             why = check_assertion(a, self.pack, self.resolver, self.wording)
             if why:

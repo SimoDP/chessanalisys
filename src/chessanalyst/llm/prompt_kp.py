@@ -47,12 +47,14 @@ Fatti: {"mossa":"{{mv:C1}}","valutazione":"{{ev:C1}}","probabilita":"{{pct:C1.p_
 </punto>
 Consegna:
 {"schema_version":"1","notes":[],"sections":[
-{"id":"S01","blocks":[{"type":"p","source":"mixed","text":"Hai un vantaggio netto ({{ev:N1}}). Il materiale è pari: il vantaggio viene dall'attività dei pezzi, e una mossa di cavallo lo rende concreto.","assertions":[{"kind":"eval_band","ref":"N1","band":"clear_plus"}]}]},
+{"id":"S01","blocks":[{"type":"p","source":"mixed","text":"Hai un vantaggio netto ({{ev:N1}}): viene dall'attività dei pezzi, non dal materiale, e una mossa di cavallo lo rende concreto.","assertions":[{"kind":"eval_band","ref":"N1","band":"clear_plus"}]}]},
 {"id":"S03","blocks":[{"type":"p","source":"mixed","text":"Gioca {{mv:C1}} ({{ev:C1}}): il cavallo va in g5 e attacca il pedone indifeso in f7. È l'unica mossa che tiene, perché {{mv:C2}} perde {{loss:C2}}. Al tuo livello è una scelta possibile ({{pct:C1.p_user}}): va cercata.","assertions":[{"kind":"maia_band","ref":"C1.p_user","band":"possible"}]}]}]}"""
 
 GUIDE = {
     "verdict": "Chi sta meglio e di quanto, con le parole della banda e il token di N1; poi il perché in una "
-               "frase (la mossa migliore e che cosa fa, il materiale; compensation: perché il materiale non basta; "
+               "frase (la mossa migliore e che cosa fa; positional: il vantaggio non viene dal materiale; "
+               "compensation: perché il materiale non basta; il conto del materiale lo scrive il programma prima "
+               "del tuo testo, non ripeterlo: niente «in più», «in meno», «pari»; "
                "easy_for: per chi muove è facile trovare una buona mossa). Se la mossa migliore è raccontata in "
                "un altro punto (told_in), nominala solo a parole («una mossa forte»), senza token.",
     "recommendation": "La mossa da giocare, perché (che cosa fa sulla scacchiera) e quanto è probabile che la "
@@ -109,7 +111,8 @@ TOKEN_NAMES = {"mv": "mossa", "m": "mossa", "ev": "valutazione", "loss": "perdit
                "pv": "variante"}
 # numbers and notation of the facts: the model reads them as tokens (D-72, data given ready-made)
 RAW_KEYS = {"ref", "san", "move", "eval_user_cp", "mate_user", "p_opp", "p_user", "p_att", "loss_cp", "damage_cp",
-            "gain_cp", "impact_cp", "line", "after", "material_balance_user"}
+            "gain_cp", "impact_cp", "line", "after", "material_balance_user",
+            "material"}       # the count of the material is the render's sentence (lead_text)
 
 
 def _tokens_of(ref: str, section: dict, r: Resolver) -> dict[str, str]:

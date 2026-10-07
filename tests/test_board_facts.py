@@ -59,7 +59,8 @@ def test_v12_finds_the_invented_pieces(cfg, case):
     assert any("non difende d2" in d for _, _, d in v12)
     verdict = sorted(t for s, t, d in v12 if "banda di N1" in d)
     assert verdict == ["equilibrat", "stai bene"]           # «La posizione è equilibrata» at -4,77
-    assert len(v12) == 6 + 2
+    assert ("S13", "tuo cavallo in f3") in [(s, t) for s, t, _ in v12]   # f3 is a pawn (possessive, phase 2)
+    assert len(v12) == 7 + 2
 
 
 @pytest.mark.parametrize("text,ok", [

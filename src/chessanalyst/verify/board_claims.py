@@ -52,8 +52,10 @@ class BoardClaims:
         adjectives = "|".join(sorted({re.escape(a) for a in cfg["adjectives"]}, key=len, reverse=True))
         piece = "|".join(sorted((re.escape(n) for n in names), key=len, reverse=True))
         # piece [adj]{0,2} [in|su|di|da] square [(, | e | o ) square]*
+        # «il tuo alfiere in f7»: a possessive right before the piece gives its color too (usefulness test, phase 2)
+        mine = "|".join(sorted(m for m in own if not m.startswith("mi")))
         self.claim_re = re.compile(
-            rf"\b(?P<piece>{piece})\b(?P<adj>(?:\s+(?:{adjectives})\b){{0,2}})\s+(?P<prep>(?:in|su|di|da)\s+)?"
+            rf"(?:\b(?P<pre>{mine})\s+)?\b(?P<piece>{piece})\b(?P<adj>(?:\s+(?:{adjectives})\b){{0,2}})\s+(?P<prep>(?:in|su|di|da)\s+)?"
             rf"(?P<squares>{SQUARE}(?:\s*(?:,|\be\b|\bo\b)\s*{SQUARE})*)\b", re.IGNORECASE)
         self.rel_re = re.compile(
             rf"\b(?P<piece>{piece})\b(?:\s+(?:{adjectives})\b){{0,2}}\s+(?:(?:in|su|di|da)\s+)?(?P<sq1>{SQUARE})\b"
@@ -129,7 +131,7 @@ class BoardClaims:
             sentence = TOKEN.sub(" ", sentence)
             for m in self.claim_re.finditer(sentence):
                 ptype = self.names[m.group("piece").lower()]
-                color = self._color(m.group("adj"))
+                color = self._color(f"{m.group('pre') or ''} {m.group('adj')}")
                 for sq_name in re.findall(SQUARE, m.group("squares")):
                     sq = chess.parse_square(sq_name)
                     there = self.root.piece_at(sq)
@@ -198,7 +200,8 @@ class BoardClaims:
 
 def pinned(board: chess.Board) -> set[tuple[bool, int, int]]:
     """Pieces pinned to their king, or in front of a more valuable piece of their side on the line of an enemy
-    bishop, rook or queen (the pin a player calls a pin)."""
+    bishop, rook or queen (the pin a player calls a pin) when the pin matters (``pin_matters``)."""
+    from chessanalyst.features.motifs import pin_matters
     from chessanalyst.features.values import piece_value
 
     out = set()
@@ -216,6 +219,7 @@ def pinned(board: chess.Board) -> set[tuple[bool, int, int]]:
             behind = next((s for s in beyond if board.piece_at(s)), None)       # the first piece behind ``sq``
             if behind is not None:
                 q = board.piece_at(behind)
-                if q.color == p.color and piece_value(q.piece_type) > piece_value(p.piece_type):
+                if q.color == p.color and piece_value(q.piece_type) > piece_value(p.piece_type) \
+                        and pin_matters(board, a, behind):
                     out.add((p.color, p.piece_type, sq))
     return out

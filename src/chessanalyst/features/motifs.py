@@ -154,3 +154,16 @@ def pack_facts(pack: dict, words: dict, first_plies: int) -> dict:
     if null:
         out["hypothetical_nodes"] = [null]
     return out
+
+
+def pin_matters(board: chess.Board, pinner: int, behind: int) -> bool:
+    """The user's rule (usefulness test, phase 2): a pin counts only if the piece behind is the king, is
+    undefended, is worth more than the pinner (a queen behind a bishop's pin), or would be attacked more times
+    than it is defended once the pinned piece moves (the pinner counts as one more attacker)."""
+    q = board.piece_at(behind)
+    if q.piece_type == chess.KING:
+        return True
+    defenders = len(board.attackers(q.color, behind))
+    attackers = len(board.attackers(not q.color, behind)) + 1
+    return defenders == 0 or piece_value(q.piece_type) > piece_value(board.piece_type_at(pinner)) \
+        or attackers > defenders

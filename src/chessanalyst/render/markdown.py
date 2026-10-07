@@ -104,10 +104,17 @@ class Renderer:
         out = [f"## {entry['title']}", ""]
         if entry["maia_low_confidence"]:
             out += [self.fixed["maia_low_confidence"], ""]
+        lead = entry.get("lead_text")                      # written by the code (plan/outline.py)
         if sec is None or sec.get("_unavailable"):
-            return out + [self.fixed["section_unavailable"], ""]
-        for blk in sec["blocks"]:
-            out += self.block(blk) + [""]
+            return out + ([lead, ""] if lead else []) + [self.fixed["section_unavailable"], ""]
+        for k, blk in enumerate(sec["blocks"]):
+            lines = self.block(blk)
+            if lead and k == 0 and blk["type"] == "p":      # the code's sentence closes the first paragraph
+                lines[-1] += f" {lead}"
+                lead = None
+            out += lines + [""]
+        if lead:
+            out += [lead, ""]
         for t in entry.get("auto_tables") or []:          # D-72: the render places the tables of the point
             if t in self.pack["tables"]:
                 out += self.data_table({"type": "table", "ref": t}) + [""]

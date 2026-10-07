@@ -31,7 +31,7 @@ from typing import Any
 import chess
 
 from chessanalyst.config import Config
-from chessanalyst.features.motifs import move_facts, piece_name
+from chessanalyst.features.motifs import move_facts, piece_name, pin_matters
 from chessanalyst.features.values import piece_value
 from chessanalyst.verify.assertions import eval_band_of, maia_band_of
 
@@ -362,7 +362,8 @@ def _at(board: chess.Board, sq: int, words: dict) -> str:
 
 def _pins(c: _Ctx, board: chess.Board) -> list[dict]:
     """Pieces in front of their king or of a more valuable piece of their side, on the line of an enemy bishop,
-    rook or queen (the pin a player calls a pin): the user's first, then the opponent's."""
+    rook or queen (the pin a player calls a pin), only when the pin matters (``_pin_matters``): the user's
+    first, then the opponent's."""
     me = chess.WHITE if c.user == "w" else chess.BLACK
     out = []
     for sq, p in sorted(board.piece_map().items()):
@@ -376,7 +377,8 @@ def _pins(c: _Ctx, board: chess.Board) -> list[dict]:
             behind = next((s for s in beyond if board.piece_at(s)), None)
             q = board.piece_at(behind) if behind is not None else None
             if q is not None and q.color == p.color and (
-                    q.piece_type == chess.KING or piece_value(q.piece_type) > piece_value(p.piece_type)):
+                    q.piece_type == chess.KING or piece_value(q.piece_type) > piece_value(p.piece_type)) \
+                    and pin_matters(board, a, behind):
                 out.append({"key": "pinned", "of": "user" if p.color == me else "opp",
                             "squares": [chess.square_name(sq)], "piece": _at(board, sq, c.words),
                             "by": _at(board, a, c.words), "behind": _at(board, behind, c.words)})

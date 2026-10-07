@@ -6,7 +6,8 @@ section) and ``document: keypoints``. Verification and render read the plan as b
 section of the plan:
 
 - ``cites_allowed``: the IDs a token of the section may cite (V13): each fact is told in one section only;
-- ``auto_tables``: the tables the render puts in the section (the model writes no table block).
+- ``auto_tables``: the tables the render puts in the section (the model writes no table block);
+- ``lead_text``: a sentence the render writes before the model's text (the material, in the verdict).
 
 The pack itself (engines, nodes, tables) does not change: the outline can be rebuilt from it at any time.
 """
@@ -77,6 +78,22 @@ def _allowed(kp: dict, pack: dict) -> list[str]:
     return list(dict.fromkeys(out))
 
 
+def material_lead(cfg: Config, kp: dict) -> str | None:
+    """The sentence on the material that opens the verdict, written by the code (usefulness test, phase 2: the
+    model turned «a pawn up» against the user)."""
+    if kp["type"] != "verdict" or "material_balance_user" not in kp["facts"]:
+        return None
+    from chessanalyst.llm.prompt import number_words
+
+    bal = kp["facts"]["material_balance_user"]
+    lead, w = cfg.wording["material_lead"], cfg.wording["material_words"]
+    if bal == 0:
+        return lead["even"]
+    n = abs(bal)
+    count = f"{w['one'] if n == 1 else number_words(n)} {w['pawn'] if n == 1 else w['pawns']}"
+    return lead["up" if bal > 0 else "down"].format(n=count)
+
+
 def outline_pack(cfg: Config, pack: dict) -> dict:
     if pack.get("document") == DOCUMENT:
         return pack
@@ -103,6 +120,7 @@ def outline_pack(cfg: Config, pack: dict) -> dict:
             "theory_allowed": kp["type"] in THEORY_TYPES, "tables": [], "must_cover": _must_cover(kp),
             "focus_squares": [], "maia_low_confidence": saturated and kp["type"] in MAIA_TYPES,
             "cites_allowed": _allowed(kp, pack), "auto_tables": auto, "key_point": kp["id"],
+            "lead_text": material_lead(cfg, kp),
         })
     for sid in SECTION_IDS:
         if sid not in used:
