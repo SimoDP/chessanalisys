@@ -1,0 +1,19 @@
+# Banco dei motivi tattici sui problemi di Lichess (piano dati, fase 1).
+# Database dei problemi: https://database.lichess.org/#puzzles (CC0).
+# Ogni tema di Lichess è confrontato con il rilevatore del codice che dovrebbe trovarlo
+# (src/chessanalyst/motif_bench.py). Il campione registrato è in fixtures/puzzles/.
+source_url: "https://database.lichess.org/lichess_db_puzzle.csv.zst"
+sample_file: fixtures/puzzles/lichess_sample.csv
+report_file: docs/MOTIF_BENCH.md
+per_theme: 100            # problemi per tema nel campione
+control: 200              # problemi senza nessuno dei temi misurati (controllo dei falsi allarmi)
+themes:                   # tema di Lichess → rilevatore del codice
+  fork: fork
+  pin: pin
+  skewer: skewer
+  discoveredAttack: discovered_attack
+  discoveredCheck: discovered_check
+  hangingPiece: hanging_piece
+  deflection: overloaded_piece
+  capturingDefender: overloaded_piece
+rating_bands: [1500, 2000]   # fasce di punteggio del problema: < 1500, 1500–1999, >= 2000
