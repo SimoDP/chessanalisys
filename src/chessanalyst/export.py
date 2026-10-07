@@ -18,7 +18,7 @@ import chess.pgn
 
 from chessanalyst.config import Config
 from chessanalyst.errors import UsageError
-from chessanalyst.render.format_it import fmt_eval
+from chessanalyst.render.format_it import eval_sign, fmt_eval
 from chessanalyst.render.html import write_html
 
 FORMATS = ("html", "md", "pgn")
@@ -67,7 +67,9 @@ def pack_pgn(cfg: Config, pack: dict) -> chess.pgn.Game:
         game.headers[k] = "?"
     game.headers["Event"] = w["pgn_event"]
     game.setup(chess.Board(pack["position"]["fen"]))
-    game.comment = w["pgn_intro"].format(color=cfg.wording["colors"][pack["user"]["color"]])
+    sign = eval_sign(cfg.wording, pack["user"]["color"])
+    intro = "pgn_intro_white" if cfg.wording.get("numbers", {}).get("eval_sign") == "white" else "pgn_intro"
+    game.comment = w[intro].format(color=cfg.wording["colors"][pack["user"]["color"]])
     eng = pack["engine"]
     pvs = {p["id"]: p for p in eng["pvs"]}
     nodes = {n["id"]: n for n in pack["nodes"]}
@@ -75,7 +77,7 @@ def pack_pgn(cfg: Config, pack: dict) -> chess.pgn.Game:
         for m in moves:
             if not m.get("listed", True) or m.get("pv") not in pvs:
                 continue
-            ev = fmt_eval(m["eval_user_cp"], m.get("mate_user"))
+            ev = fmt_eval(m["eval_user_cp"], m.get("mate_user"), sign=sign)
             _add_line(cfg, game, pvs[m["pv"]]["plies"], w[kind].format(eval=ev), None)
     for ln in pack.get("filtered_lines") or []:
         start = _walk(game, nodes[ln["start_node"]]["path"]) if ln["start_node"] in nodes else None
@@ -84,7 +86,7 @@ def pack_pgn(cfg: Config, pack: dict) -> chess.pgn.Game:
         head = (w["line_threat"].format(id=ln["id"]) if ln["kind"] == "threat"
                 else w["line_refutation"].format(id=ln["id"], entry=(ln.get("entry") or {}).get("san", "")))
         _add_line(cfg, start, ln["plies"], head,
-                  w["line_end"].format(eval=fmt_eval(ln["eval_end_user_cp"], ln.get("mate_user"))))
+                  w["line_end"].format(eval=fmt_eval(ln["eval_end_user_cp"], ln.get("mate_user"), sign=sign)))
     return game
 
 

@@ -12,7 +12,7 @@ from typing import Any
 import chess
 
 from chessanalyst.engines.types import CP_CLAMP
-from chessanalyst.render.format_it import fmt_eval, fmt_loss, fmt_pct, fmt_wdl, numbered, tb_outcome
+from chessanalyst.render.format_it import eval_sign, fmt_eval, fmt_loss, fmt_pct, fmt_wdl, numbered, tb_outcome
 from chessanalyst.verify.plan_check import PlanError, check_diag, check_plan, render_plan
 from chessanalyst.verify.tokens import Token, TokenSyntaxError, parse_token
 
@@ -51,6 +51,7 @@ class Resolver:
         self.user_color = chess.WHITE if self.user["color"] == "w" else chess.BLACK
         self.opp_name = wording["colors"]["b" if self.user["color"] == "w" else "w"]
         self.me_name = wording["colors"][self.user["color"]]
+        self.sign = eval_sign(wording, self.user["color"])
         self.root = chess.Board(pack["position"]["fen"])
         eng = pack["engine"]
         self.cands = {c["id"]: c for c in eng["candidates"]}
@@ -97,7 +98,7 @@ class Resolver:
         if self.tb is not None:          # tablebase position: the exact result, in words (§3.3)
             key = self.tb["result_text_key"] if root_node else tb_outcome(cp, mate, CP_CLAMP)
             return self.wording["tablebase"]["results"][key]
-        return fmt_eval(cp, mate, opp_name=self.opp_name)
+        return fmt_eval(cp, mate, opp_name=self.opp_name, sign=self.sign)
 
     def _loss_text(self, loss_cp: int, mate: bool, best: tuple[int, int | None], move: tuple[int, int | None]) -> str:
         if self.tb is not None:          # same outcome as the best move or not

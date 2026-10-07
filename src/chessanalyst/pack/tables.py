@@ -33,11 +33,11 @@ def _columns(cfg: Config, spec: dict, **kw) -> list[dict]:
     return cols
 
 
-def ev_cell(cfg: Config, cp: int, mate: int | None, tb: bool) -> str:
+def ev_cell(cfg: Config, cp: int, mate: int | None, tb: bool, sign: int = 1) -> str:
     """Evaluation in a table: the number, or the tablebase outcome in words (§3.3, M2)."""
     if tb:
         return cfg.wording["tablebase"]["table"][tb_outcome(cp, mate, CP_CLAMP)]
-    return fmt_eval(cp, mate, table=True)
+    return fmt_eval(cp, mate, table=True, sign=sign)
 
 
 def _footnote(cfg: Config, low: bool) -> str | None:
@@ -45,7 +45,7 @@ def _footnote(cfg: Config, low: bool) -> str | None:
 
 
 def build_t1(cfg: Config, anchor: str, root: chess.Board, candidates: list[dict], pvs: dict[str, dict],
-             rec_id: str | None, elo: int, low: bool, plies_max: int, tb: bool = False) -> dict:
+             rec_id: str | None, elo: int, low: bool, plies_max: int, tb: bool = False, sign: int = 1) -> dict:
     spec = cfg.tables["T1"][anchor]
     cols = _columns(cfg, spec, elo=elo, star=low)
     max_line = min(cfg.tables["t1_line_plies"].get(anchor, 0), plies_max - 1)
@@ -59,7 +59,7 @@ def build_t1(cfg: Config, anchor: str, root: chess.Board, candidates: list[dict]
             if k == "move":
                 cells[k] = f"**{move}** {cfg.tables['recommended_marker']}" if c["id"] == rec_id else move
             elif k == "eval":
-                cells[k] = ev_cell(cfg, c["eval_user_cp"], c["mate_user"], tb)
+                cells[k] = ev_cell(cfg, c["eval_user_cp"], c["mate_user"], tb, sign)
             elif k == "p_user":
                 cells[k] = fmt_pct(c["p_user"])
             elif k == "line":
@@ -73,7 +73,7 @@ def build_t1(cfg: Config, anchor: str, root: chess.Board, candidates: list[dict]
 
 
 def build_t1_alt(cfg: Config, root: chess.Board, replies: list[dict], r_boards: dict[str, chess.Board],
-                 opp_elo: int, low: bool, tb: bool = False) -> dict:
+                 opp_elo: int, low: bool, tb: bool = False, sign: int = 1) -> dict:
     spec = cfg.tables["T1_alt"]
     cols = _columns(cfg, spec, opp_elo=opp_elo, star=low)
     rows = []
@@ -81,12 +81,12 @@ def build_t1_alt(cfg: Config, root: chess.Board, replies: list[dict], r_boards: 
         cells: dict[str, Any] = {
             "reply": numbered(root, [r["san"]]),
             "p_opp": fmt_pct(r["p_opp"]),
-            "eval": ev_cell(cfg, r["eval_user_cp"], r["mate_user"], tb),
+            "eval": ev_cell(cfg, r["eval_user_cp"], r["mate_user"], tb, sign),
         }
         if r["user_best"]:
             u1 = r["user_best"][0]
             cells["user_best"] = f"{numbered(r_boards[r['id']], [u1['san']])} " \
-                                 f"({ev_cell(cfg, u1['eval_user_cp'], u1['mate_user'], tb)})"
+                                 f"({ev_cell(cfg, u1['eval_user_cp'], u1['mate_user'], tb, sign)})"
         else:
             cells["user_best"] = cfg.tables["empty_text_cell"]
         cells["prepare"] = None
@@ -94,15 +94,16 @@ def build_t1_alt(cfg: Config, root: chess.Board, replies: list[dict], r_boards: 
     return {"id": "T1", "section": "S07", "columns": cols, "rows": rows, "footnote": _footnote(cfg, low)}
 
 
-def _moves_cell(cfg: Config, board: chess.Board, moves: list[tuple[str, int | None, int | None]], tb: bool) -> str:
+def _moves_cell(cfg: Config, board: chess.Board, moves: list[tuple[str, int | None, int | None]], tb: bool,
+                sign: int = 1) -> str:
     parts = []
     for san, ev, mate in moves:
         mv = numbered(board, [san])
-        parts.append(f"{mv} ({ev_cell(cfg, ev, mate, tb)})" if ev is not None else mv)
+        parts.append(f"{mv} ({ev_cell(cfg, ev, mate, tb, sign)})" if ev is not None else mv)
     return ", ".join(parts)
 
 
-def build_t2(cfg: Config, entries: list[dict], tb: bool = False) -> dict | None:
+def build_t2(cfg: Config, entries: list[dict], tb: bool = False, sign: int = 1) -> dict | None:
     """``entries``: [{"after_board", "after_moves" (SAN from root), "moves": [(san, eval_user, mate_user)]}]."""
     if not entries:
         return None
@@ -112,14 +113,14 @@ def build_t2(cfg: Config, entries: list[dict], tb: bool = False) -> dict | None:
     for k, e in enumerate(entries, 1):
         rows.append({"id": f"r{k}", "cells": {
             "t2_after": numbered(e["root"], e["after_moves"]),
-            "t2_moves": _moves_cell(cfg, e["after_board"], e["moves"], tb),
+            "t2_moves": _moves_cell(cfg, e["after_board"], e["moves"], tb, sign),
             **{t: None for t in spec["text"]},
         }})
     return {"id": "T2", "section": "S07", "columns": cols, "rows": rows, "footnote": None}
 
 
 def build_t3(cfg: Config, root: chess.Board, context: dict, boards: dict[str, chess.Board], opp: str,
-             tb: bool = False) -> dict:
+             tb: bool = False, sign: int = 1) -> dict:
     """``context`` = pack ``context_move`` (dict); ``boards`` = node id → board."""
     first_node = context["rows"][0]["node"]
     san0 = context["san_by_node"][first_node]
@@ -137,8 +138,8 @@ def build_t3(cfg: Config, root: chess.Board, context: dict, boards: dict[str, ch
         dots = "..." if b.turn == chess.BLACK else ""
         rows.append({"id": f"r{k}", "cells": {
             "t3_after": numbered(root, r["path"]),
-            "t3_best": f"{dots}{r['best_san']} ({ev_cell(cfg, r['best_eval_user_cp'], None, tb)})",
-            "context": ev_cell(cfg, r["move_eval_user_cp"], None, tb),
+            "t3_best": f"{dots}{r['best_san']} ({ev_cell(cfg, r['best_eval_user_cp'], None, tb, sign)})",
+            "context": ev_cell(cfg, r["move_eval_user_cp"], None, tb, sign),
             "t3_cost": (cfg.wording["tablebase"]["loss_none" if tb_outcome(r["best_eval_user_cp"], None, CP_CLAMP)
                         == tb_outcome(r["move_eval_user_cp"], None, CP_CLAMP) else "loss_decisive"]
                         if tb else fmt_loss(r["cost_cp"])),

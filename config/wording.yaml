@@ -1,3 +1,5 @@
+numbers:                         # D-75: segno dei numeri mostrati; white = come Stockfish (positivo = meglio per il
+  eval_sign: white               # Bianco), user = dal punto di vista di chi gioca (v0.9.1). Le parole restano dal lato dell'utente
 v03_allowed_literals: ["Maia-2"]
 eval_bands:                      # sul MODULO |e| in pedoni, [abs_lo, abs_hi); il segno sceglie _plus/_minus
   equal:    {abs_lo: 0.0, abs_hi: 0.15, text: "equilibrata"}
@@ -61,6 +63,7 @@ fixed:
   theory_footnote: "† contenuto teorico, non verificato dai motori"
 header:
   convention: "Convenzione: le valutazioni sono in pedoni dal tuo punto di vista (positivo = meglio per te)."
+  convention_white: "Convenzione: le valutazioni sono in pedoni come in Stockfish (positivo = meglio per il Bianco, negativo = meglio per il Nero); le frasi parlano dal tuo punto di vista."
   references_not_validated: "Gli esempi di riferimento per questo livello non sono ancora stati validati da un giocatore."
   profile_unsupported: "Profilo di posizione non ancora supportato: analisi limitata a sintesi, idee dell'avversario, mosse candidate e metodo."
   move_order_limited: "Test di move order limitati al primo livello: l'analisi completa a questo livello arriva in una versione successiva."
@@ -131,6 +134,7 @@ html:                              # pagina analysis.html (M6)
 export:                            # chessanalyst export (M6)
   pgn_event: "Chess Position Analyst"
   pgn_intro: "Valutazioni dal punto di vista di chi gioca con {color}; analisi completa in analysis.html."
+  pgn_intro_white: "Valutazioni come in Stockfish (positivo = meglio per il Bianco); analisi per chi gioca con {color} completa in analysis.html."
   candidate: "candidata, {eval}"
   reply: "risposta dell'avversario, {eval}"
   line_threat: "{id}: minaccia"

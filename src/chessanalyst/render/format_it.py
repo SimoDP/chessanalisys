@@ -12,14 +12,22 @@ def _half_away(x: float, nd: int = 0) -> float:
     return math.floor(abs(x) * f + 0.5) / f * (1 if x >= 0 else -1)
 
 
-def fmt_eval(cp: int, mate_user: int | None = None, table: bool = False, opp_name: str = "") -> str:
-    """Evaluation in pawns, user's point of view: ``+0,37``, ``-0,15``, ``0,00``."""
+def eval_sign(wording: dict, user_color: str) -> int:
+    """Sign that turns a user-side evaluation into the displayed one (D-75): with
+    ``numbers.eval_sign: white`` the numbers follow Stockfish (positive = better for White)."""
+    white = wording.get("numbers", {}).get("eval_sign", "user") == "white"
+    return -1 if white and user_color == "b" else 1
+
+
+def fmt_eval(cp: int, mate_user: int | None = None, table: bool = False, opp_name: str = "", sign: int = 1) -> str:
+    """Evaluation in pawns: ``+0,37``, ``-0,15``, ``0,00``. ``cp`` and ``mate_user`` are from the user's
+    side; ``sign`` (``eval_sign``) gives the displayed side. A mate in words stays from the user's side."""
     if mate_user is not None:
         n = abs(mate_user)
         if table:
-            return f"#{n}" if mate_user > 0 else f"-#{n}"
+            return f"#{n}" if mate_user * sign > 0 else f"-#{n}"
         return f"matto in {n} per te" if mate_user > 0 else f"matto in {n} per {opp_name}"
-    v = _half_away(cp / 100, 2)
+    v = _half_away(sign * cp / 100, 2)
     if v == 0:
         return "0,00"
     return ("+" if v > 0 else "-") + f"{abs(v):.2f}".replace(".", ",")

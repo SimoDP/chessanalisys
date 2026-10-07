@@ -28,7 +28,9 @@ def _no_real_api(request, monkeypatch):
 def _sections_document():
     """D-72: the recorded responses, fewshots and AC tests of v0.9.1 are written for the S01…S13 document, so
     the suite loads the config with ``llm.document: sections``; the document of the key points (the default)
-    is tested with an explicit config (tests/test_outline.py) and its default in test_default_is_keypoints."""
+    is tested with an explicit config (tests/test_outline.py) and its default in test_default_is_keypoints.
+    D-75: the same frozen renders show the numbers from the user's side, so the suite loads
+    ``numbers.eval_sign: user``; the Stockfish sign (the default) is tested in tests/test_eval_sign.py."""
     from chessanalyst import config as config_mod
 
     real = config_mod.load_yaml
@@ -37,6 +39,8 @@ def _sections_document():
         data = real(path)
         if Path(path).name == "default.yaml" and isinstance(data, dict):
             data = dict(data, llm=dict(data["llm"], document="sections"))
+        if Path(path).name == "wording.yaml" and isinstance(data, dict):
+            data = dict(data, numbers=dict(data.get("numbers", {}), eval_sign="user"))
         return data
 
     with pytest.MonkeyPatch.context() as mp:

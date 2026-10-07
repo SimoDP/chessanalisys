@@ -15,6 +15,7 @@ import chess
 
 REPORT_TITLE = "Rapporto tecnico"
 UNNAMED = "posizione senza nome"
+CONVENTION = {"user": "convention", "white": "convention_white"}   # wording numbers.eval_sign (D-75)
 SCALES = {"fide": "FIDE", "lichess": "Lichess", "chesscom": "chess.com"}
 HEADER_WARNINGS = ("references_not_validated", "profile_unsupported", "move_order_limited",
                    "maia_low_confidence_header", "unstable_nodes")
@@ -39,7 +40,7 @@ def header_lines(cfg: Config, pack: dict, info: "RenderInfo") -> list[str]:
         f"Fascia {u['band']} · Ancora {u['anchor']} · Profilo {u['budget_profile']} · {sf['version']} · "
         f"profondità radice {pack['engine']['root']['depth']}",
         "",
-        f"> {cfg.wording['header']['convention']}",
+        f"> {cfg.wording['header'][CONVENTION[cfg.wording.get('numbers', {}).get('eval_sign', 'user')]]}",
     ]
     active = set(pack["warnings"]) | ({"references_not_validated"} if not info.references_validated else set())
     for w in HEADER_WARNINGS:

@@ -20,6 +20,7 @@ from chessanalyst.inputs.position import Position
 from chessanalyst.pack import tables as T
 from chessanalyst.pack.schema import Pack
 from chessanalyst.pack.section_plan import PlanInput, build_section_plan
+from chessanalyst.render.format_it import eval_sign
 from chessanalyst.scoring.categories import line_tags, score_categories
 from chessanalyst.scoring.classify import classify
 from chessanalyst.scoring.filter import PolicyFn, build_lines, filter_lines, main_lines, side_value
@@ -344,19 +345,21 @@ def build_pack(cfg: Config, pos: Position, us: UserSettings, exp: Exploration, m
 
     # -- tables ----------------------------------------------------------------
     tables: dict[str, dict] = {}
+    sign = eval_sign(cfg.wording, us.code)                                    # D-75: numbers as Stockfish shows them
     if exp.user_to_move:
         tables["T1"] = T.build_t1(cfg, us.anchor, root, candidates, pvs, recommendation["id"],
-                                  us.elo_declared, sat, plies_max, tb=tablebase is not None)
+                                  us.elo_declared, sat, plies_max, tb=tablebase is not None, sign=sign)
         if us.anchor in cfg.tables["T2"]["anchors"]:
-            t2 = T.build_t2(cfg, t2_entries, tb=tablebase is not None)
+            t2 = T.build_t2(cfg, t2_entries, tb=tablebase is not None, sign=sign)
             if t2 is not None:
                 tables["T2"] = t2
         if context_move is not None and us.anchor in cfg.tables["T3"]["anchors"]:
             boards = {nid[id(n)]: n.board for n in list(exp.e2.values()) + [n for lv, _, n in exp.e3 if lv == 2]}
-            tables["T3"] = T.build_t3(cfg, root, context_move, boards, opp_name, tb=tablebase is not None)
+            tables["T3"] = T.build_t3(cfg, root, context_move, boards, opp_name, tb=tablebase is not None, sign=sign)
     else:
         rb = {r["id"]: exp.r_nodes[r["uci"]].board for r in replies}
-        tables["T1"] = T.build_t1_alt(cfg, root, replies, rb, us.opp_elo_declared, sat, tb=tablebase is not None)
+        tables["T1"] = T.build_t1_alt(cfg, root, replies, rb, us.opp_elo_declared, sat, tb=tablebase is not None,
+                                      sign=sign)
     opp_t = cfg.thresholds.detail[str(us.detail_level)].opp_t                 # detail 5 (§7.2, M4)
     t4 = build_t4(cfg, us.anchor, categories_out, us.code, opp_t) if profile["matrix_column"] != 4 else None
     if t4 is not None:
