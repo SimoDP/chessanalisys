@@ -17,7 +17,7 @@ engines:
   stockfish: {path: null, version_pin: "Stockfish 19", hash_mb: 4096, poll_s: 0.05, hash_max_ram_fraction: 0.25}
   maia2: {model_type: rapid, device: auto, version_pin: "0.11.0", up_delta: 300}
   syzygy: {path: null, max_pieces: 5}
-  openings: {index_file: data/openings_index.json}
+  openings: {index_file: data/openings_index.json, structure_max_piece_diff: 4}   # D-76: nome dalla struttura dei pedoni
 exploration:
   profile: standard       # fast | standard | deep
 llm:

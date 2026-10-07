@@ -93,3 +93,24 @@ def test_sequences_written_next_to_the_index(tmp_path):
     write_index(idx, tmp_path / "openings_index.json", seqs)
     loaded = OpeningIndex.load(tmp_path / "openings_index.json")
     assert loaded.lookup(_play("e4", "e5", "Nf3", "Nc6", "Bc4", "Nf6", "Ng5", "h6"))[1] == "sequence"
+
+
+# -- D-76: name from the pawn structure, for positions past the book --------------------
+
+NAJDORF_BE2 = "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP1BPPP/R1BQK2R b KQkq - 1 6"
+
+
+def test_structure_names_a_position_just_past_the_book():
+    idx = OpeningIndex(build_index(parse_tsv(TSV)), structure_max_piece_diff=4)
+    entry, by = idx.lookup(chess.Board(NAJDORF_BE2))
+    assert (entry["eco"], by) == ("B90", "structure")
+
+
+def test_structure_needs_the_same_pawns_and_few_piece_moves():
+    idx = OpeningIndex(build_index(parse_tsv(TSV)), structure_max_piece_diff=1)
+    assert idx.lookup(chess.Board(NAJDORF_BE2)) is None                    # the bishop move counts twice
+    idx = OpeningIndex(build_index(parse_tsv(TSV)), structure_max_piece_diff=4)
+    pawn_moved = chess.Board(NAJDORF_BE2)
+    pawn_moved.push_san("e6")
+    assert idx.lookup_structure(pawn_moved) is None
+    assert OpeningIndex(build_index(parse_tsv(TSV))).lookup(chess.Board(NAJDORF_BE2)) is None   # disabled
