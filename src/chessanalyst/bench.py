@@ -142,11 +142,12 @@ def _paragraphs(block: dict) -> list[dict]:
     return list(block.get("items") or []) + ([block["caption"]] if block.get("caption") else [])
 
 
-def section_texts(output: dict) -> dict[str, str]:
-    """Text of every section of the final output (paragraphs and list items, tokens included)."""
+def section_texts(output: dict, leads: dict[str, str] | None = None) -> dict[str, str]:
+    """Text of every section of the final output (paragraphs and list items, tokens included), with the sentence
+    the render writes before it (``lead_text`` of the plan: the material of the verdict)."""
     out = {}
     for s in output.get("sections", []):
-        parts = []
+        parts = [leads[s["id"]]] if leads and leads.get(s["id"]) else []
         for b in s.get("blocks", []):
             parts += [p["text"] for p in _paragraphs(b)]
         out[s["id"]] = "\n".join(parts)
@@ -165,11 +166,15 @@ def _term_ok(term: dict, text: str, ids: set[str], moves: set[tuple[str, str]]) 
     raise UsageError(f"Termine del banco di prova non riconosciuto: {term}")
 
 
+def _leads(pack: dict) -> dict[str, str]:
+    return {s["id"]: s["lead_text"] for s in pack.get("section_plan", []) if s.get("lead_text")}
+
+
 def key_points(spec: dict, pack: dict, output: dict) -> dict[str, bool]:
     """A key point is present when one section contains all its terms."""
     idx = move_index(pack)
     per_section = []
-    for text in section_texts(output).values():
+    for text in section_texts(output, _leads(pack)).values():
         ids, moves = set(), set()
         for raw in (m.group(0) for m in TOKEN_RE.finditer(text)):
             i, mv = _token_moves(raw, idx)
@@ -180,7 +185,7 @@ def key_points(spec: dict, pack: dict, output: dict) -> dict[str, bool]:
             for k in spec.get("must_say", [])}
 
 
-def verdict_ok(cfg: Config, spec: dict, output: dict) -> tuple[bool, list[str]]:
+def verdict_ok(cfg: Config, spec: dict, output: dict, leads: dict[str, str] | None = None) -> tuple[bool, list[str]]:
     """The verdict section states one of the expected bands of N1 and none of the forbidden words."""
     sec_id = cfg.verify["v12"]["verdict"]["section"]
     sec = next((s for s in output.get("sections", []) if s["id"] == sec_id), None)
@@ -189,7 +194,7 @@ def verdict_ok(cfg: Config, spec: dict, output: dict) -> tuple[bool, list[str]]:
     root = spec.get("verdict", {}).get("node", "N1")
     bands = {a.get("band") for b in sec.get("blocks", []) for p in _paragraphs(b)
              for a in p.get("assertions") or [] if a.get("kind") == "eval_band" and a.get("ref") == root}
-    text = TOKEN_RE.sub(" ", section_texts(output).get(sec_id, ""))
+    text = TOKEN_RE.sub(" ", section_texts(output, leads).get(sec_id, ""))
     said = [w for w in spec.get("must_not", []) if re.search(w, text, re.IGNORECASE)]
     return bool(bands & set(spec["verdict"]["bands"])) and not said, said
 
@@ -200,7 +205,10 @@ def score_run(cfg: Config, spec: dict, pack: dict, verification: dict | None, ou
         return {"failed": error, "passed": False, "seconds": round(seconds, 1)}
     last = verification["attempts"][-1]["errors"]
     v12 = sum(1 for e in last if e["code"] == "V12")
-    ok, said = verdict_ok(cfg, spec, output)
+    from chessanalyst.plan.outline import document_pack
+
+    pack = document_pack(cfg, pack)                    # the plan of the document: its code-written sentences
+    ok, said = verdict_ok(cfg, spec, output, _leads(pack))
     kp = key_points(spec, pack, output)
     words = sum(w["actual"] for w in verification["words_by_section"].values())
     complete = not last

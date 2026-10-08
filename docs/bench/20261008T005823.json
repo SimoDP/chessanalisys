@@ -1,0 +1,1492 @@
+{
+ "created_utc": "2026-10-08T00:58:23+00:00",
+ "model": "deepseek/deepseek-v4.1-flash",
+ "config_hash": "960844990863b8bcf8626ec1295011b6f333af2d",
+ "runs": 5,
+ "document": "keypoints",
+ "positions": [
+  {
+   "position": "e4_wins_w_1700",
+   "n": 5,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "e4_vince": true,
+      "qd4_solo_kh1": true,
+      "qxd4_trappola": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 613,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       51,
+       50
+      ],
+      "S06": [
+       79,
+       66
+      ],
+      "S07": [
+       182,
+       164
+      ],
+      "S08": [
+       86,
+       76
+      ],
+      "S05": [
+       127,
+       115
+      ],
+      "S10": [
+       88,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [
+      "S06"
+     ],
+     "cost_usd": 0.001624,
+     "input_tokens": 5709,
+     "seconds": 27.6,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "e4_vince": true,
+      "qd4_solo_kh1": true,
+      "qxd4_trappola": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 624,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       52,
+       50
+      ],
+      "S06": [
+       80,
+       66
+      ],
+      "S07": [
+       199,
+       164
+      ],
+      "S08": [
+       84,
+       76
+      ],
+      "S05": [
+       134,
+       115
+      ],
+      "S10": [
+       75,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [
+      "S06"
+     ],
+     "cost_usd": 0.000874,
+     "input_tokens": 5709,
+     "seconds": 28.1,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "e4_vince": true,
+      "qd4_solo_kh1": true,
+      "qxd4_trappola": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 568,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       52,
+       50
+      ],
+      "S06": [
+       82,
+       66
+      ],
+      "S07": [
+       175,
+       164
+      ],
+      "S08": [
+       75,
+       76
+      ],
+      "S05": [
+       96,
+       115
+      ],
+      "S10": [
+       88,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [
+      "S06"
+     ],
+     "cost_usd": 0.000834,
+     "input_tokens": 5709,
+     "seconds": 85.2,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "e4_vince": true,
+      "qd4_solo_kh1": true,
+      "qxd4_trappola": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 542,
+     "attempts": 2,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       46,
+       50
+      ],
+      "S06": [
+       77,
+       66
+      ],
+      "S07": [
+       190,
+       164
+      ],
+      "S08": [
+       64,
+       76
+      ],
+      "S05": [
+       86,
+       115
+      ],
+      "S10": [
+       79,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [
+      "S06",
+      "S06"
+     ],
+     "cost_usd": 0.00164,
+     "input_tokens": 13376,
+     "seconds": 48.8,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "e4_vince": true,
+      "qd4_solo_kh1": true,
+      "qxd4_trappola": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 527,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       49,
+       50
+      ],
+      "S06": [
+       75,
+       66
+      ],
+      "S07": [
+       175,
+       164
+      ],
+      "S08": [
+       67,
+       76
+      ],
+      "S05": [
+       83,
+       115
+      ],
+      "S10": [
+       78,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.00078,
+     "input_tokens": 5709,
+     "seconds": 25.7,
+     "passed": true
+    }
+   ],
+   "passed": 5,
+   "verdict": 5,
+   "key_points": {
+    "e4_vince": 5,
+    "qd4_solo_kh1": 5,
+    "qxd4_trappola": 5
+   },
+   "all_key_points": 5,
+   "v12_zero": 5,
+   "complete": 5,
+   "failed": 0,
+   "words": 574.8,
+   "cost_usd": 0.00115,
+   "input_tokens": 7242.4,
+   "seconds": 43.08
+  },
+  {
+   "position": "iso_e3_w_1700",
+   "n": 5,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "materiale_pari": true,
+      "solo_b3": true,
+      "dopo_ne5_bxc5": true,
+      "pedone_e3_torri": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 517,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       46,
+       50
+      ],
+      "S03": [
+       54,
+       60
+      ],
+      "S06": [
+       44,
+       52
+      ],
+      "S07": [
+       114,
+       120
+      ],
+      "S08": [
+       63,
+       76
+      ],
+      "S05": [
+       98,
+       115
+      ],
+      "S10": [
+       98,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.001205,
+     "input_tokens": 5549,
+     "seconds": 20.3,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "materiale_pari": true,
+      "solo_b3": true,
+      "dopo_ne5_bxc5": true,
+      "pedone_e3_torri": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 505,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       46,
+       50
+      ],
+      "S03": [
+       51,
+       60
+      ],
+      "S06": [
+       45,
+       52
+      ],
+      "S07": [
+       120,
+       120
+      ],
+      "S08": [
+       61,
+       76
+      ],
+      "S05": [
+       101,
+       115
+      ],
+      "S10": [
+       81,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.000795,
+     "input_tokens": 5549,
+     "seconds": 51.9,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "materiale_pari": true,
+      "solo_b3": true,
+      "dopo_ne5_bxc5": true,
+      "pedone_e3_torri": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 557,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       42,
+       50
+      ],
+      "S03": [
+       51,
+       60
+      ],
+      "S06": [
+       50,
+       52
+      ],
+      "S07": [
+       146,
+       120
+      ],
+      "S08": [
+       71,
+       76
+      ],
+      "S05": [
+       105,
+       115
+      ],
+      "S10": [
+       92,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.000875,
+     "input_tokens": 5549,
+     "seconds": 70.9,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "materiale_pari": true,
+      "solo_b3": true,
+      "dopo_ne5_bxc5": true,
+      "pedone_e3_torri": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 471,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       38,
+       50
+      ],
+      "S03": [
+       52,
+       60
+      ],
+      "S06": [
+       46,
+       52
+      ],
+      "S07": [
+       116,
+       120
+      ],
+      "S08": [
+       54,
+       76
+      ],
+      "S05": [
+       96,
+       115
+      ],
+      "S10": [
+       69,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.000756,
+     "input_tokens": 5549,
+     "seconds": 26.0,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "materiale_pari": true,
+      "solo_b3": true,
+      "dopo_ne5_bxc5": true,
+      "pedone_e3_torri": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 519,
+     "attempts": 2,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       40,
+       50
+      ],
+      "S03": [
+       57,
+       60
+      ],
+      "S06": [
+       52,
+       52
+      ],
+      "S07": [
+       128,
+       120
+      ],
+      "S08": [
+       60,
+       76
+      ],
+      "S05": [
+       104,
+       115
+      ],
+      "S10": [
+       78,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.00162,
+     "input_tokens": 13030,
+     "seconds": 89.5,
+     "passed": true
+    }
+   ],
+   "passed": 5,
+   "verdict": 5,
+   "key_points": {
+    "materiale_pari": 5,
+    "solo_b3": 5,
+    "dopo_ne5_bxc5": 5,
+    "pedone_e3_torri": 5
+   },
+   "all_key_points": 5,
+   "v12_zero": 5,
+   "complete": 5,
+   "failed": 0,
+   "words": 513.8,
+   "cost_usd": 0.00105,
+   "input_tokens": 7045.2,
+   "seconds": 51.72
+  },
+  {
+   "position": "knight_a4_w_1700",
+   "n": 5,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "na4_forchetta": true,
+      "c5_inchiodato": true,
+      "b2_indifeso": true,
+      "tre_isole": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 421,
+     "attempts": 2,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       42,
+       50
+      ],
+      "S03": [
+       61,
+       60
+      ],
+      "S07": [
+       56,
+       54
+      ],
+      "S08": [
+       73,
+       76
+      ],
+      "S05": [
+       99,
+       115
+      ],
+      "S10": [
+       90,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.001632,
+     "input_tokens": 11762,
+     "seconds": 38.0,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "na4_forchetta": true,
+      "c5_inchiodato": true,
+      "b2_indifeso": true,
+      "tre_isole": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 394,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       46,
+       50
+      ],
+      "S03": [
+       60,
+       60
+      ],
+      "S07": [
+       59,
+       54
+      ],
+      "S08": [
+       57,
+       76
+      ],
+      "S05": [
+       106,
+       115
+      ],
+      "S10": [
+       66,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.000607,
+     "input_tokens": 5092,
+     "seconds": 17.4,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "na4_forchetta": true,
+      "c5_inchiodato": true,
+      "b2_indifeso": true,
+      "tre_isole": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 423,
+     "attempts": 2,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       48,
+       50
+      ],
+      "S03": [
+       63,
+       60
+      ],
+      "S07": [
+       65,
+       54
+      ],
+      "S08": [
+       76,
+       76
+      ],
+      "S05": [
+       94,
+       115
+      ],
+      "S10": [
+       77,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.001307,
+     "input_tokens": 11855,
+     "seconds": 34.1,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "na4_forchetta": true,
+      "c5_inchiodato": true,
+      "b2_indifeso": true,
+      "tre_isole": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 466,
+     "attempts": 2,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       51,
+       50
+      ],
+      "S03": [
+       59,
+       60
+      ],
+      "S07": [
+       65,
+       54
+      ],
+      "S08": [
+       88,
+       76
+      ],
+      "S05": [
+       109,
+       115
+      ],
+      "S10": [
+       94,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.001574,
+     "input_tokens": 11952,
+     "seconds": 38.8,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "na4_forchetta": true,
+      "c5_inchiodato": true,
+      "b2_indifeso": true,
+      "tre_isole": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 459,
+     "attempts": 2,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       52,
+       50
+      ],
+      "S03": [
+       61,
+       60
+      ],
+      "S07": [
+       61,
+       54
+      ],
+      "S08": [
+       73,
+       76
+      ],
+      "S05": [
+       118,
+       115
+      ],
+      "S10": [
+       94,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.001403,
+     "input_tokens": 11914,
+     "seconds": 42.5,
+     "passed": true
+    }
+   ],
+   "passed": 5,
+   "verdict": 5,
+   "key_points": {
+    "na4_forchetta": 5,
+    "c5_inchiodato": 5,
+    "b2_indifeso": 5,
+    "tre_isole": 5
+   },
+   "all_key_points": 5,
+   "v12_zero": 5,
+   "complete": 5,
+   "failed": 0,
+   "words": 432.6,
+   "cost_usd": 0.0013,
+   "input_tokens": 10515.0,
+   "seconds": 34.16
+  },
+  {
+   "position": "rook_checks_b_1700",
+   "n": 5,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "pedone_in_piu_scacchi": true,
+      "patta_facile": false
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 321,
+     "attempts": 2,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       50,
+       50
+      ],
+      "S07": [
+       93,
+       98
+      ],
+      "S05": [
+       102,
+       100
+      ],
+      "S10": [
+       76,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.001313,
+     "input_tokens": 9878,
+     "seconds": 28.7,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "pedone_in_piu_scacchi": true,
+      "patta_facile": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 292,
+     "attempts": 2,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       42,
+       50
+      ],
+      "S07": [
+       87,
+       98
+      ],
+      "S05": [
+       100,
+       100
+      ],
+      "S10": [
+       63,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.001008,
+     "input_tokens": 9653,
+     "seconds": 32.7,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "pedone_in_piu_scacchi": true,
+      "patta_facile": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 359,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       44,
+       50
+      ],
+      "S07": [
+       112,
+       98
+      ],
+      "S05": [
+       108,
+       100
+      ],
+      "S10": [
+       95,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [
+      "S05"
+     ],
+     "cost_usd": 0.000573,
+     "input_tokens": 4235,
+     "seconds": 18.2,
+     "passed": true
+    },
+    {
+     "verdict": false,
+     "forbidden_said": [
+      "vantaggio"
+     ],
+     "key_points": {
+      "pedone_in_piu_scacchi": true,
+      "patta_facile": false
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 320,
+     "attempts": 2,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       40,
+       50
+      ],
+      "S07": [
+       98,
+       98
+      ],
+      "S05": [
+       102,
+       100
+      ],
+      "S10": [
+       80,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.001117,
+     "input_tokens": 9889,
+     "seconds": 27.8,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "pedone_in_piu_scacchi": true,
+      "patta_facile": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 361,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       51,
+       50
+      ],
+      "S07": [
+       95,
+       98
+      ],
+      "S05": [
+       111,
+       100
+      ],
+      "S10": [
+       104,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [
+      "S05"
+     ],
+     "cost_usd": 0.000577,
+     "input_tokens": 4235,
+     "seconds": 17.0,
+     "passed": true
+    }
+   ],
+   "passed": 3,
+   "verdict": 4,
+   "key_points": {
+    "pedone_in_piu_scacchi": 5,
+    "patta_facile": 3
+   },
+   "all_key_points": 3,
+   "v12_zero": 5,
+   "complete": 5,
+   "failed": 0,
+   "words": 330.6,
+   "cost_usd": 0.00092,
+   "input_tokens": 7578.0,
+   "seconds": 24.88
+  },
+  {
+   "position": "knight_d6_b_1700",
+   "n": 5,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "salto_d6": true,
+      "alfiere_g2_diagonale": true,
+      "donna_d3_h7_g5": true,
+      "colonna_c_inutile": false
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 546,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       44,
+       50
+      ],
+      "S06": [
+       81,
+       66
+      ],
+      "S07": [
+       200,
+       186
+      ],
+      "S05": [
+       138,
+       115
+      ],
+      "S10": [
+       83,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [
+      "S06"
+     ],
+     "cost_usd": 0.001224,
+     "input_tokens": 5743,
+     "seconds": 23.3,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "salto_d6": true,
+      "alfiere_g2_diagonale": true,
+      "donna_d3_h7_g5": true,
+      "colonna_c_inutile": false
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 553,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       54,
+       50
+      ],
+      "S06": [
+       44,
+       66
+      ],
+      "S07": [
+       219,
+       186
+      ],
+      "S05": [
+       131,
+       115
+      ],
+      "S10": [
+       105,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [
+      "S06"
+     ],
+     "cost_usd": 0.000835,
+     "input_tokens": 5743,
+     "seconds": 24.6,
+     "passed": false
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "salto_d6": true,
+      "alfiere_g2_diagonale": true,
+      "donna_d3_h7_g5": true,
+      "colonna_c_inutile": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 560,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       50,
+       50
+      ],
+      "S06": [
+       81,
+       66
+      ],
+      "S07": [
+       230,
+       186
+      ],
+      "S05": [
+       127,
+       115
+      ],
+      "S10": [
+       72,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [
+      "S06",
+      "S07"
+     ],
+     "cost_usd": 0.000822,
+     "input_tokens": 5743,
+     "seconds": 20.9,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "salto_d6": true,
+      "alfiere_g2_diagonale": true,
+      "donna_d3_h7_g5": true,
+      "colonna_c_inutile": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 540,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       46,
+       50
+      ],
+      "S06": [
+       81,
+       66
+      ],
+      "S07": [
+       190,
+       186
+      ],
+      "S05": [
+       127,
+       115
+      ],
+      "S10": [
+       96,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.000821,
+     "input_tokens": 5743,
+     "seconds": 31.5,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "salto_d6": true,
+      "alfiere_g2_diagonale": true,
+      "donna_d3_h7_g5": true,
+      "colonna_c_inutile": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 572,
+     "attempts": 2,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       64,
+       50
+      ],
+      "S06": [
+       78,
+       66
+      ],
+      "S07": [
+       223,
+       186
+      ],
+      "S05": [
+       119,
+       115
+      ],
+      "S10": [
+       88,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [
+      "S06",
+      "S06"
+     ],
+     "cost_usd": 0.001659,
+     "input_tokens": 13454,
+     "seconds": 53.0,
+     "passed": true
+    }
+   ],
+   "passed": 3,
+   "verdict": 5,
+   "key_points": {
+    "salto_d6": 5,
+    "alfiere_g2_diagonale": 5,
+    "donna_d3_h7_g5": 5,
+    "colonna_c_inutile": 3
+   },
+   "all_key_points": 3,
+   "v12_zero": 5,
+   "complete": 5,
+   "failed": 0,
+   "words": 554.2,
+   "cost_usd": 0.00107,
+   "input_tokens": 7285.2,
+   "seconds": 30.66
+  },
+  {
+   "position": "bogo_c5_w_1700",
+   "n": 5,
+   "runs": [
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "alfieri_c5": true,
+      "spinta_d5": true,
+      "nc6_fianchetto": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 414,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       40,
+       50
+      ],
+      "S03": [
+       84,
+       75
+      ],
+      "S04": [
+       90,
+       79
+      ],
+      "S05": [
+       94,
+       115
+      ],
+      "S10": [
+       106,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.00087,
+     "input_tokens": 4868,
+     "seconds": 17.4,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "alfieri_c5": true,
+      "spinta_d5": true,
+      "nc6_fianchetto": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 418,
+     "attempts": 2,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       56,
+       50
+      ],
+      "S03": [
+       86,
+       75
+      ],
+      "S04": [
+       92,
+       79
+      ],
+      "S05": [
+       95,
+       115
+      ],
+      "S10": [
+       89,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.001403,
+     "input_tokens": 11317,
+     "seconds": 36.6,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "alfieri_c5": true,
+      "spinta_d5": true,
+      "nc6_fianchetto": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 423,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       43,
+       50
+      ],
+      "S03": [
+       86,
+       75
+      ],
+      "S04": [
+       96,
+       79
+      ],
+      "S05": [
+       106,
+       115
+      ],
+      "S10": [
+       92,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.00058,
+     "input_tokens": 4868,
+     "seconds": 21.0,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "alfieri_c5": true,
+      "spinta_d5": true,
+      "nc6_fianchetto": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 365,
+     "attempts": 1,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       47,
+       50
+      ],
+      "S03": [
+       80,
+       75
+      ],
+      "S04": [
+       81,
+       79
+      ],
+      "S05": [
+       73,
+       115
+      ],
+      "S10": [
+       84,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.000595,
+     "input_tokens": 4868,
+     "seconds": 22.2,
+     "passed": true
+    },
+    {
+     "verdict": true,
+     "forbidden_said": [],
+     "key_points": {
+      "alfieri_c5": true,
+      "spinta_d5": true,
+      "nc6_fianchetto": true
+     },
+     "v12_final": 0,
+     "complete": true,
+     "words": 418,
+     "attempts": 2,
+     "final_errors": [],
+     "section_words": {
+      "S01": [
+       51,
+       50
+      ],
+      "S03": [
+       84,
+       75
+      ],
+      "S04": [
+       91,
+       79
+      ],
+      "S05": [
+       85,
+       115
+      ],
+      "S10": [
+       107,
+       90
+      ]
+     },
+     "over_budget": [],
+     "trimmed": [],
+     "cost_usd": 0.001256,
+     "input_tokens": 11248,
+     "seconds": 35.0,
+     "passed": true
+    }
+   ],
+   "passed": 5,
+   "verdict": 5,
+   "key_points": {
+    "alfieri_c5": 5,
+    "spinta_d5": 5,
+    "nc6_fianchetto": 5
+   },
+   "all_key_points": 5,
+   "v12_zero": 5,
+   "complete": 5,
+   "failed": 0,
+   "words": 407.6,
+   "cost_usd": 0.00094,
+   "input_tokens": 7433.8,
+   "seconds": 26.44
+  }
+ ]
+}
