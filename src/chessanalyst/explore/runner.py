@@ -268,10 +268,11 @@ def _user_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: ches
     _run_null(cfg, exp, budget, root_board, prof, progress)
 
     # E2: node after every explained candidate
+    open_u = [u for u in sel.explained if not _child(root_board, u).is_game_over()]   # mate/stalemate: no node
     items = [Item("E2", _child(root_board, u), prof.multipv.nodes, prof.dmin.nodes, None, exp.rows[u].san)
-             for u in sel.explained]
+             for u in open_u]
     results = budget.run_phase(items, False, progress=progress)
-    for k, (u, it, res) in enumerate(zip(sel.explained, items, results)):
+    for k, (u, it, res) in enumerate(zip(open_u, items, results)):
         node = NodeRec("E2", [exp.rows[u].san], it.board, res, order=(2, k))
         node.maia = _maia_rec(maia, it.board, user.opp_elo_maia, user.elo_maia)
         exp.e2[u] = node
@@ -286,6 +287,8 @@ def _user_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: ches
         levels = 0
     e3_items: list[tuple[str, str, Item]] = []
     for u in sel.explained[: prof.e3_M] if levels else []:
+        if u not in exp.e2:
+            continue
         n2 = exp.e2[u]
         rset = [ln.uci for ln in n2.result.lines[: prof.e3_R]]
         pol2 = n2.maia["policy"]
@@ -343,7 +346,7 @@ def _user_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: ches
 
     # E2c + context move: T3 nodes = E2 nodes, then (from M2) also the ℓ2 nodes
     t3 = [ctx.ContextNode(exp.rows[u].san, exp.e2[u].board, exp.e2[u].result, exp.e2[u].maia["policy"])
-          for u in sel.explained if exp.e2[u].result is not None]
+          for u in sel.explained if u in exp.e2 and exp.e2[u].result is not None]
     e2c_t = cfg.exploration.e2c_time_factor * e3_t
     _run_e2c(exp, budget, t3, prof, th.selection.context_candidates, th.selection.context_min_p, e2c_t, progress)
 
