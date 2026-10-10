@@ -49,6 +49,8 @@ class SyntheticEngine:
         self.calls += 1
         moves = list(root_moves) if root_moves else list(board.legal_moves)
         k = min(multipv, len(moves))
+        if k <= 0:                      # like engines/stockfish.py: a mate or stalemate cannot be analysed
+            raise ValueError("analyse_node: nessuna mossa da analizzare")
         self.requests.append((board.epd(en_passant="legal"), k, d_min, tuple(m.uci() for m in root_moves or [])))
         if self.clock is not None:
             self.clock.advance(self.cost)
