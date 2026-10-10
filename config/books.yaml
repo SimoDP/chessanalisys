@@ -1,0 +1,16 @@
+# Schede ricavate dai libri (piano dati, libri al posto dell'IM). Le schede stanno fuori dal repository,
+# in /mnt/project-files/libri/<libro>/schede.jsonl; qui solo le regole del controllo.
+verdicts:                 # giudizio del libro → classe; «poco chiara» non si confronta
+  "vince Nero": -2
+  "meglio Nero": -1
+  "pari": 0
+  "patta": 0
+  "meglio Bianco": 1
+  "vince Bianco": 2
+eval_classes_cp:          # valutazione di Stockfish (dal lato del Bianco) → classe
+  decisive: 200           # da qui in su: vince
+  edge: 50                # da qui in su: meglio; sotto: pari
+disagree_distance: 2      # classi di distanza da cui il giudizio è «diverso»
+key_move_loss_cp: 100     # una mossa chiave che perde più di così rispetto alla migliore va segnalata
+stockfish: {multipv: 3, t_target: 0.5, d_min: 14, t_cap: 2.0, key_t_target: 0.3, key_t_cap: 1.0, retry_cap_factor: 3}
+sample: {size: 30, seed: 20261010}   # schede per il controllo a campione di simo
