@@ -251,7 +251,8 @@ def _user_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: ches
           for ln in e4_lines]
     for r in e0 + e4:
         exp.rows[r.uci] = r
-    sel = select_candidates(e0, e4, policy, BandSel(bp.K, bp.explained_min, bp.listed_max, bp.L_max, bp.A))
+    sel = select_candidates(e0, e4, policy, BandSel(bp.K, bp.explained_min, bp.listed_max, bp.L_max, bp.A),
+                            cfg.thresholds.selection.human_min_p)
     exp.selection = sel
     exp.warnings.extend(sel.warnings)
     band_k = th.band_params[user.band].K           # a property of the position: K of the band, not of the detail
@@ -293,6 +294,9 @@ def _user_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: ches
             top = min(pol2, key=lambda m: (-pol2[m], m))
             if top not in rset:
                 rset.append(top)
+            hmin = cfg.thresholds.selection.human_min_p
+            if hmin is not None:                                   # D-76: every probable reply
+                rset += sorted((m for m in pol2 if pol2[m] >= hmin and m not in rset), key=lambda m: (-pol2[m], m))
         exp.rset[u] = rset
         for r in rset:
             b = _child(n2.board, r)
@@ -407,7 +411,8 @@ def _opponent_branch(cfg: Config, exp: Exploration, budget: Budget, root_board: 
              for ln in e4_lines]
     exp.quiet, exp.spread_cp = quiet_spread([_user_cp(ln.eval_white_cp, opp) for ln in exp.root.result.lines],
                                             th.band_params[user.band].K, th.selection.quiet_spread_cp)
-    exp.replies = select_replies(rows, bp.K, th.selection.replies_min_p, th.selection.replies_best_sf)
+    exp.replies = select_replies(rows, bp.K, th.selection.replies_min_p, th.selection.replies_best_sf,
+                                 th.selection.human_min_p)
     exp.omitted_phases.append({"phase": "E2b", "reason": "opponent_to_move"})
     exp.omitted_phases.append({"phase": "E3", "reason": "opponent_to_move"})
     _run_null(cfg, exp, budget, root_board, prof, progress)

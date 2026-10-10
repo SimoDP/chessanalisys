@@ -40,8 +40,15 @@ def ev_cell(cfg: Config, cp: int, mate: int | None, tb: bool, sign: int = 1) -> 
     return fmt_eval(cp, mate, table=True, sign=sign)
 
 
-def _footnote(cfg: Config, low: bool) -> str | None:
-    return cfg.wording["fixed"]["maia_low_confidence_table"] if low else None
+def _footnote(cfg: Config, low: bool, shown: list[float] | None = None) -> str | None:
+    """The low-confidence note and (D-76) how often the moves left out of the table are played together."""
+    notes = [cfg.wording["fixed"]["maia_low_confidence_table"]] if low else []
+    tpl = cfg.wording["fixed"].get("others_share_table")
+    rest = 1.0 - sum(shown) if shown is not None else 0.0
+    hmin = cfg.thresholds.selection.human_min_p
+    if tpl and hmin is not None and rest >= 0.005:
+        notes.append(tpl.format(pct=fmt_pct(rest), min=fmt_pct(hmin)))
+    return " ".join(notes) or None
 
 
 def build_t1(cfg: Config, anchor: str, root: chess.Board, candidates: list[dict], pvs: dict[str, dict],
@@ -69,7 +76,8 @@ def build_t1(cfg: Config, anchor: str, root: chess.Board, candidates: list[dict]
         for k in spec.get("text", []):
             cells[k] = None
         rows.append({"id": c["id"], "cells": cells})
-    return {"id": "T1", "section": "S07", "columns": cols, "rows": rows, "footnote": _footnote(cfg, low)}
+    shown = [c["p_user"] for c in candidates if c["explained"] or c["listed"]]
+    return {"id": "T1", "section": "S07", "columns": cols, "rows": rows, "footnote": _footnote(cfg, low, shown)}
 
 
 def build_t1_alt(cfg: Config, root: chess.Board, replies: list[dict], r_boards: dict[str, chess.Board],
@@ -91,7 +99,8 @@ def build_t1_alt(cfg: Config, root: chess.Board, replies: list[dict], r_boards: 
             cells["user_best"] = cfg.tables["empty_text_cell"]
         cells["prepare"] = None
         rows.append({"id": r["id"], "cells": cells})
-    return {"id": "T1", "section": "S07", "columns": cols, "rows": rows, "footnote": _footnote(cfg, low)}
+    shown = [r["p_opp"] for r in replies]
+    return {"id": "T1", "section": "S07", "columns": cols, "rows": rows, "footnote": _footnote(cfg, low, shown)}
 
 
 def _moves_cell(cfg: Config, board: chess.Board, moves: list[tuple[str, int | None, int | None]], tb: bool,

@@ -60,7 +60,9 @@ GUIDE = {
     "recommendation": "La mossa da giocare, perché (che cosa fa sulla scacchiera) e quanto è probabile che la "
                       "trovi; se only_move, dì che è l'unica che tiene e quanto perde la seconda; la trappola da "
                       "evitare se c'è (is_trap: la seconda è anche la trappola naturale); reply: la risposta quasi "
-                      "obbligata dell'avversario e come continui.",
+                      "obbligata dell'avversario e come continui; also_played: le altre mosse che a questo livello "
+                      "si giocano spesso, anche se perdono: nominale tutte, con quanto sono giocate e, se perdono, "
+                      "quanto perdono.",
     "systems": "Non c'è una mossa unica: presenta le mosse equivalenti come scelte di stile, con la loro idea.",
     "plan": "Il piano per le mosse tranquille dai fatti: debolezze dell'avversario da attaccare, pezzi da "
             "difendere, punti forti propri, la mossa tipica dell'avversario. Una frase per fatto. pinned: il "
@@ -73,7 +75,8 @@ GUIDE = {
                    "farebbe se tu non reagissi: dillo così.",
     "likely_reply": "Le risposte più probabili dell'avversario, una frase o due ciascuna (gains_space: il pedone guadagna "
                     "spazio su quell'ala): la risposta giusta "
-                    "(only_answer = l'unica) e la trappola naturale (trap: la risposta istintiva che perde).",
+                    "(only_answer = l'unica) e la trappola naturale (trap: la risposta istintiva che perde). "
+                    "Nomina tutte le risposte elencate.",
     "opportunity": "Le mosse probabili dell'avversario che ti regalano qualcosa: che cosa sbaglia e come ne "
                    "approfitti (answer).",
     "reasoning": "Un elenco ol di {items} punti brevi, source theory, su come ragionare in questa posizione: "
@@ -123,10 +126,12 @@ def _tokens_of(ref: str, section: dict, r: Resolver) -> dict[str, str]:
             n = len((r.pvs.get(ref) or r.lines.get(ref) or {}).get("plies", []))
             form = form.replace("{n}", str(min(n, section["max_pv_plies"])))
         try:
-            r.resolve(form)
+            res = r.resolve(form)
         except (ResolveError, KeyError, TypeError, ValueError):
             continue
         kind = form[2:].split(":", 1)[0]
+        if kind == "loss" and res.value == 0 and r.tb is None:      # no «perde 0,00» (the tablebase says «nessuna»)
+            continue
         out.setdefault("mossa" if kind == "pv" and form.endswith(":1}}") else TOKEN_NAMES[kind], form)
     return out
 

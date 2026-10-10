@@ -30,7 +30,9 @@ def _sections_document():
     the suite loads the config with ``llm.document: sections``; the document of the key points (the default)
     is tested with an explicit config (tests/test_outline.py) and its default in test_default_is_keypoints.
     D-75: the same frozen renders show the numbers from the user's side, so the suite loads
-    ``numbers.eval_sign: user``; the Stockfish sign (the default) is tested in tests/test_eval_sign.py."""
+    ``numbers.eval_sign: user``; the Stockfish sign (the default) is tested in tests/test_eval_sign.py.
+    D-76: the same frozen selections leave out the probable moves beyond K (``selection.human_min_p: null``);
+    the default 15% is tested in tests/test_human_moves.py."""
     from chessanalyst import config as config_mod
 
     real = config_mod.load_yaml
@@ -39,6 +41,8 @@ def _sections_document():
         data = real(path)
         if Path(path).name == "default.yaml" and isinstance(data, dict):
             data = dict(data, llm=dict(data["llm"], document="sections"))
+        if Path(path).name == "thresholds.yaml" and isinstance(data, dict):
+            data = dict(data, selection=dict(data["selection"], human_min_p=None))
         if Path(path).name == "wording.yaml" and isinstance(data, dict):
             data = dict(data, numbers=dict(data.get("numbers", {}), eval_sign="user"))
         return data

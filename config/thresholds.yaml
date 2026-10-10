@@ -40,6 +40,7 @@ selection:
   context_spread_cp: 30
   context_candidates: 3
   context_min_p: 0.03         # D-68: candidate di contesto solo tra le mosse con p_opp medio >= 3%
+  human_min_p: 0.15           # D-76: ogni mossa giocata almeno nel 15% dei casi (tua o dell'avversario) è nel documento
 profile:
   endgame_nonpawn_total_max: 24
   endgame_no_queens_max_minors_per_side: 2

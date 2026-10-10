@@ -59,6 +59,7 @@ keypoint_titles:                 # D-72: titoli delle sezioni del documento per 
 fixed:
   maia_low_confidence: "A questo livello Maia-2, il modello del comportamento umano, distingue poco tra i giocatori più forti: le probabilità indicate sono poco affidabili e le indicazioni si basano soprattutto sul motore."
   maia_low_confidence_table: "* Probabilità di Maia-2 poco affidabili a questo livello."
+  others_share_table: "Tutte le altre mosse insieme: {pct} (ognuna sotto il {min})."   # D-76
   score_low_confidence_table: "* Punteggi poco affidabili: Maia-2 poco affidabile a questo livello o valutazioni instabili."
   section_unavailable: "Questa sezione non è disponibile: il testo prodotto non ha superato i controlli."
   unverified_mark: "⚠ non verificato"

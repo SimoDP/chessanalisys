@@ -50,7 +50,10 @@ def _s_rank(S: list[RootRow], uci: str) -> int:
     return len(S) + 1
 
 
-def select_candidates(e0: list[RootRow], e4: list[RootRow], policy: dict[str, float], bp: BandSel) -> Selection:
+def select_candidates(e0: list[RootRow], e4: list[RootRow], policy: dict[str, float], bp: BandSel,
+                      human_min_p: float | None = None) -> Selection:
+    """``human_min_p`` (D-76): every evaluated move the user plays at least this often is explained and listed,
+    however bad (None: the v0.9.1 selection, as in the calibration)."""
     rows = {r.uci: r for r in e4}
     rows.update({r.uci: r for r in e0})
     S = sorted(e0, key=lambda r: (-r.eval_user_cp, r.e0_rank))
@@ -76,8 +79,12 @@ def select_candidates(e0: list[RootRow], e4: list[RootRow], policy: dict[str, fl
             break
         if u not in E:
             E.append(u)
+    human = [] if human_min_p is None else \
+        sorted((u for u in rows if policy.get(u, 0.0) >= human_min_p), key=lambda u: (-policy[u], u))
+    E += [u for u in human if u not in E]
     explained = sorted(E, key=lambda u: (-rows[u].eval_user_cp, _s_rank(S, u)))
     listed = [r.uci for r in S[: bp.listed_max]]
+    listed += [u for u in human if u not in listed]
     order = sorted(rows, key=lambda u: (-rows[u].eval_user_cp,
                                         rows[u].e0_rank if rows[u].e0_rank is not None else float("inf"),
                                         -policy.get(u, 0.0), u))
@@ -103,8 +110,10 @@ class ReplyRow:
     p_opp: float
 
 
-def select_replies(rows: list[ReplyRow], K: int, replies_min_p: float, replies_best_sf: int) -> list[str]:
-    """§2-bis.6 step 2: B ∪ P up to K, ordered by p_opp (tie: better for the opponent)."""
+def select_replies(rows: list[ReplyRow], K: int, replies_min_p: float, replies_best_sf: int,
+                   human_min_p: float | None = None) -> list[str]:
+    """§2-bis.6 step 2: B ∪ P up to K, ordered by p_opp (tie: better for the opponent); beyond K, every reply
+    played at least ``human_min_p`` of the times (D-76)."""
     by_sf = sorted(rows, key=lambda r: (-r.eval_opp_cp, r.e0_rank if r.e0_rank is not None else float("inf")))
     B = [r.uci for r in by_sf[:replies_best_sf]]
     P = [r.uci for r in sorted(rows, key=lambda r: (-r.p_opp, -r.eval_opp_cp)) if r.p_opp >= replies_min_p]
@@ -114,6 +123,8 @@ def select_replies(rows: list[ReplyRow], K: int, replies_min_p: float, replies_b
             break
         if u not in chosen:
             chosen.append(u)
+    if human_min_p is not None:
+        chosen += [r.uci for r in rows if r.p_opp >= human_min_p and r.uci not in chosen]
     idx = {r.uci: r for r in rows}
     return sorted(chosen, key=lambda u: (-idx[u].p_opp, -idx[u].eval_opp_cp))
 

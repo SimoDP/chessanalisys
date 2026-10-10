@@ -257,12 +257,26 @@ def _recommendation(c: _Ctx) -> dict | None:
         t = max(traps, key=lambda o: o["p_user"])
         if second is not None and t["id"] == second["id"]:      # the second best is also the natural trap
             facts["second"]["is_trap"] = True
+            _human(c, facts, ids, others)
             return {"type": "recommendation", "ids": ids, "facts": facts}
         facts["trap"] = {"ref": t["id"], "san": t["san"], "p_user": t["p_user"], "loss_cp": t["loss_cp"],
                          "band": c.band(t["eval_user_cp"], t["mate_user"])}
         if t["id"] not in ids:
             ids.append(t["id"])
+    _human(c, facts, ids, others)
     return {"type": "recommendation", "ids": ids, "facts": facts}
+
+
+def _human(c: _Ctx, facts: dict, ids: list[str], others: list[dict]) -> None:
+    """D-76: the other moves the user plays at least ``human_min_p`` of the times, however bad."""
+    hmin = c.cfg.thresholds.selection.human_min_p
+    hm = [] if hmin is None else [o for o in sorted(others, key=lambda o: -o["p_user"])
+                                  if o["p_user"] >= hmin and o["id"] not in ids]
+    if hm:
+        facts["also_played"] = [{"ref": o["id"], "san": o["san"], "p_user": o["p_user"],
+                                 "maia_band": c.maia_band(o["p_user"]), "loss_cp": o["loss_cp"],
+                                 "band": c.band(o["eval_user_cp"], o["mate_user"])} for o in hm]
+        ids += [o["id"] for o in hm]
 
 
 def _main_danger(c: _Ctx, replies: list[dict], at: dict | None) -> dict | None:
@@ -303,7 +317,9 @@ def _likely(c: _Ctx, replies: list[dict], at: dict | None, used: set[str]) -> di
     if at is None:
         return None
     pick = [r for r in sorted(replies, key=lambda r: -r["p"]) if r["p"] >= c.kp.likely_min_p and r["ref"] not in used]
-    pick = pick[: c.kp.max_replies[c.detail]]
+    hmin = c.cfg.thresholds.selection.human_min_p
+    human = 0 if hmin is None else sum(1 for r in pick if r["p"] >= hmin)     # D-76: all of them
+    pick = pick[: max(c.kp.max_replies[c.detail], human)]
     if not pick:
         return None
     facts = [_reply_facts(c, r, at) for r in pick]

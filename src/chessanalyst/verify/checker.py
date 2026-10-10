@@ -309,6 +309,8 @@ class Checker:
                 continue
             resolved.append(r)
             cites |= r.cites
+            if r.data == "loss" and r.value == 0 and allowed is not None and self.resolver.tb is None:   # D-72
+                errs.append(E("V12", raw, "questa mossa non perde nulla: non scrivere la perdita"))
             if r.data == "pv" and max_plies is not None and r.value > max_plies:
                 errs.append(E("V05", raw, f"{r.value} semimosse, massimo {max_plies}"))
         for hit in self.scanner.v03_hits(u.text):

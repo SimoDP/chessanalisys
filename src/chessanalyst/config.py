@@ -300,6 +300,7 @@ class Selection(Strict):
     context_spread_cp: int
     context_candidates: int
     context_min_p: float          # D-68
+    human_min_p: float | None     # D-76 (None: the v0.9.1 selection)
 
 
 class TacticalCfg(Strict):
