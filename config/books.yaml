@@ -14,3 +14,29 @@ disagree_distance: 2      # classi di distanza da cui il giudizio è «diverso»
 key_move_loss_cp: 100     # una mossa chiave che perde più di così rispetto alla migliore va segnalata
 stockfish: {multipv: 3, t_target: 0.5, d_min: 14, t_cap: 2.0, key_t_target: 0.3, key_t_cap: 1.0, retry_cap_factor: 3}
 sample: {size: 30, seed: 20261010}   # schede per il controllo a campione di simo
+bench:                    # banco di utilità sulle schede «verifica»: l'analisi ritrova ciò che dice il libro?
+  freeze: {profile: fast, detail: 5}   # pacchetti congelati una volta; fast per stare in tempi ragionevoli su 160 posizioni
+  elo_min: 1200
+  verdict_bands:          # classe del libro dal lato di chi muove → bande accettate per N1
+    "2": [clear_plus, decisive_plus, mate_plus]
+    "1": [slight_plus, small_plus, clear_plus]
+    "0": [equal, slight_plus, slight_minus]
+    "-1": [slight_minus, small_minus, clear_minus]
+    "-2": [clear_minus, decisive_minus, mate_minus]
+  theme_patterns:         # tema dell'elenco chiuso → parole che lo nominano nel testo
+    casa_debole: "case? debol|buco"
+    avamposto: "avampost|casa forte"
+    pezzo_buono_cattivo: "(?:alfiere|cavallo|pezzo) (?:buono|cattivo)|alfiere cattivo|pezzo cattivo"
+    coppia_alfieri: "coppia degli alfieri|due alfieri"
+    cambio_giusto: "cambi"
+    rottura_di_pedone: "rottura|spinta|spingere|rompere"
+    attacco_al_re: "attacc\\w* (?:al|il) re|arrocco"
+    minoranza: "minoranza"
+    profilassi: "profilassi|prevenire|impedire"
+    attivita_dei_pezzi: "attiv"
+    re_attivo: "re attivo|attiva\\w* il re|re al centro|re (?:va|entra|avanza)"
+    pedone_passato: "pedone passato|passato"
+    inchiodatura: "inchiod"
+    forchetta: "forchetta|attacco doppio"
+    scoperta: "scoperta"
+    sacrificio: "sacrific"
