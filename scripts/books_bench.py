@@ -59,11 +59,13 @@ def run(cfg, out_dir: Path) -> None:
     from chessanalyst.llm.cycle import run_model
 
     client = make_client(cfg)
-    results = []
+    partial = out_dir / "giro_in_corso.jsonl"    # results so far: an interrupted run resumes from here
+    results = [json.loads(x) for x in partial.read_text(encoding="utf-8").splitlines()] if partial.is_file() else []
+    done = {r["position"] for r in results}
     for spec_f in sorted(out_dir.glob("*.yaml")):
         spec = yaml.safe_load(spec_f.read_text(encoding="utf-8"))
         pack_f = out_dir / f"{spec['id']}.pack.json"
-        if not pack_f.is_file():
+        if not pack_f.is_file() or spec["id"] in done:
             continue
         pack = json.loads(pack_f.read_text(encoding="utf-8"))
         t0 = time.monotonic()
@@ -73,12 +75,15 @@ def run(cfg, out_dir: Path) -> None:
         except ModelError as e:
             r = bench.score_run(cfg, spec, pack, None, None, time.monotonic() - t0, str(e))
         results.append(bench.aggregate(spec["id"], spec, [r]))
+        with partial.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(results[-1], ensure_ascii=False) + "\n")
         print(f"{len(results)} {spec['id']} verdetto={r.get('verdict')} {r.get('cost_usd')}", flush=True)
     summary = books_bench.summarize(results)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
     (out_dir / f"rapporto_{stamp}.json").write_text(json.dumps({"summary": summary, "positions": results},
                                                              ensure_ascii=False, indent=1), encoding="utf-8")
     (out_dir / f"rapporto_{stamp}.md").write_text(books_bench.report(summary, results), encoding="utf-8")
+    partial.unlink()
     print(json.dumps(summary, ensure_ascii=False))
 
 
