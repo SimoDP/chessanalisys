@@ -29,3 +29,13 @@ def test_sample_is_fixed():
     cards = [{"id": f"x-{i:03d}"} for i in range(100)]
     a = books.sample(cards, S)
     assert len(a) == S["sample"]["size"] and a == books.sample(list(reversed(cards)), S)
+
+
+def test_bench_spec_from_a_card():
+    from chessanalyst import books_bench
+    card = {"id": "x-001", "fen": START, "lato": "Nero", "giudizio": "meglio Bianco", "livello": 1000,
+            "temi": ["minoranza", "altro: qualcosa"], "mosse_chiave": [{"san": "e4", "perche": "centro"}]}
+    spec = books_bench.make_spec(card, S)
+    assert spec["user"] == {"color": "b", "elo": S["bench"]["elo_min"], "elo_scale": "fide"}
+    assert spec["verdict"]["bands"] == S["bench"]["verdict_bands"]["-1"]       # better for White = worse for Black
+    assert [k["id"] for k in spec["must_say"]] == ["mossa_e4", "tema_minoranza"]
