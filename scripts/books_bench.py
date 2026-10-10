@@ -86,12 +86,17 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Banco di utilità sulle schede dei libri")
     ap.add_argument("books_dir", type=Path)
     ap.add_argument("--freeze", action="store_true", help="congela i pacchetti con i motori")
+    ap.add_argument("--specs", action="store_true", help="riscrive solo le specifiche (punti da ritrovare)")
     args = ap.parse_args(argv)
     cfg = load_config(ROOT)
     s = books.load_settings(ROOT)
     out_dir = args.books_dir / "banco"
     out_dir.mkdir(exist_ok=True)
-    if args.freeze:
+    if args.specs:
+        for card in books_bench.verification_cards(args.books_dir):
+            (out_dir / f"{card['id']}.yaml").write_text(
+                yaml.safe_dump(books_bench.make_spec(card, s), allow_unicode=True, sort_keys=False), encoding="utf-8")
+    elif args.freeze:
         freeze(cfg, books_bench.verification_cards(args.books_dir), s, out_dir)
     else:
         run(cfg, out_dir)

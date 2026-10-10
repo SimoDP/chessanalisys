@@ -34,7 +34,8 @@ def test_sample_is_fixed():
 def test_bench_spec_from_a_card():
     from chessanalyst import books_bench
     card = {"id": "x-001", "fen": START, "lato": "Nero", "giudizio": "meglio Bianco", "livello": 1000,
-            "temi": ["minoranza", "altro: qualcosa"], "mosse_chiave": [{"san": "e4", "perche": "centro"}]}
+            "temi": ["minoranza", "altro: qualcosa"], "mosse_chiave": [{"san": "e4", "perche": "centro"}, {"san": "f3"}],
+            "controllo": {"mosse_perdenti": ["f3"]}}
     spec = books_bench.make_spec(card, S)
     assert spec["user"] == {"color": "b", "elo": S["bench"]["elo_min"], "elo_scale": "fide"}
     assert spec["verdict"]["bands"] == S["bench"]["verdict_bands"]["-1"]       # better for White = worse for Black

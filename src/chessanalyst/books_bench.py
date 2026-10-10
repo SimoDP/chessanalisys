@@ -8,9 +8,10 @@ repository).
 
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
+from pathlib import Path
 
-from chessanalyst import books
 from chessanalyst.bench import _mean
 
 
@@ -20,8 +21,9 @@ def make_spec(card: dict, s: dict) -> dict:
     book = s["verdicts"].get(card.get("giudizio"))
     all_bands = sorted({x for v in b["verdict_bands"].values() for x in v})
     bands = all_bands if book is None else b["verdict_bands"][str(book * sign)]
+    losing = set((card.get("controllo") or {}).get("mosse_perdenti") or [])    # moves the book shows as mistakes
     must = [{"id": f"mossa_{m['san']}", "text": m.get("perche", ""), "all": [{"move": m["san"], "node": "N1"}]}
-            for m in card.get("mosse_chiave") or []]
+            for m in card.get("mosse_chiave") or [] if m["san"] not in losing]
     must += [{"id": f"tema_{t}", "text": t, "all": [{"text": b["theme_patterns"][t]}]}
              for t in card.get("temi") or [] if t in b["theme_patterns"]]
     return {"id": card["id"], "fen": card["fen"],
@@ -71,9 +73,11 @@ def report(summary: dict, results: list[dict]) -> str:
 
 
 def verification_cards(books_dir) -> list[dict]:
+    """The ``verifica`` cards of the checked catalogue (``books_check.py``), without those whose verdict
+    disagrees with Stockfish."""
     out = []
-    for book, card, _ in books.read_cards(books_dir):
-        if book != "catalogo" and card is not None and card.get("split") == "verifica":
-            card["libro"] = book
+    for line in (Path(books_dir) / "catalogo" / "schede.jsonl").read_text(encoding="utf-8").splitlines():
+        card = json.loads(line)
+        if card.get("split") == "verifica" and card["controllo"].get("accordo") in ("ok", "n/a"):
             out.append(card)
     return out
