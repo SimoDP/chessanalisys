@@ -44,6 +44,9 @@ colors: {w: "il Bianco", b: "il Nero"}
 wings: {queenside: "lato di donna", kingside: "lato di re"}
 # D-72: parole dei fatti del piano (la colonna di una torre; lo scopo di una rottura sulle colonne centrali)
 plan_words: {file: "colonna {f}", break_aim: "contendere il centro e guadagnare spazio"}
+endgame_topics:                  # D-77: su che cosa ragionare nei finali («Come ragionare»)
+  pawn: "opposizione; case chiave del pedone passato; il re davanti al pedone; contare le mosse per la promozione"
+  rook: "re attivo; torre dietro il pedone passato; il re che difende resta sulle case sicure o davanti al pedone; scacchi da lontano"
 material_words: {even: "materiale pari", up: "{n} in più", down: "{n} in meno", one: "un", pawn: pedone, pawns: pedoni}
 # fase 2 della prova di utilità: la frase sul materiale del verdetto la scrive il codice, prima del testo del modello
 material_lead: {even: "Il materiale è pari.", up: "Hai {n} in più.", down: "Hai {n} in meno."}
@@ -127,6 +130,8 @@ tablebase:
   table: {win: "vinta", draw: "patta", loss: "persa"}
   loss_none: "nessuna"
   loss_decisive: "decisiva"
+  loss_outcome: {win_draw: "la vittoria", draw_loss: "la patta", win_loss: "la vittoria e la patta"}   # D-77: «perde la vittoria»
+  verdict: {win: "posizione vinta per te", draw: "posizione patta", loss: "posizione persa per te"}   # D-77: al posto di «matto forzato»
 html:                              # pagina analysis.html (M6)
   title: "Analisi della posizione"
   start: "Posizione analizzata"

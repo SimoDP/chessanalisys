@@ -177,6 +177,9 @@ class Checker:
         except (KeyError, TypeError, ValueError):
             self._root_band = None
         self._root_band_text = self._band_words(self._root_band)
+        tbv, tb = cfg.wording["tablebase"].get("verdict"), pack.get("tablebase")
+        if tb and tbv and tb.get("result_text_key") in tbv:            # D-77: the tablebase result
+            self._root_band_text = tbv[tb["result_text_key"]]
         self.scanner = Scanner(cfg.verify, cfg.wording["v03_allowed_literals"])
         self.plan = {s["id"]: s for s in pack["section_plan"]}
         self.word_re = cfg.verify["word"]
@@ -271,11 +274,26 @@ class Checker:
         vc = self.cfg.verify["v12"]["verdict"]
         if u.section != vc["section"] or not self._root_band:
             return []
+        tb = self.pack.get("tablebase")
+        tbf = (vc.get("tablebase_forbidden") or {}).get(tb["result_text_key"]) if tb else None
+        if tbf:                                          # D-77: the exact result of the tablebase
+            low = u.text.lower()
+            return [w for w in tbf if w in low]
         family, _, sign = self._root_band.partition("_")
         if family not in vc["from_bands"]:
             return []
         low = u.text.lower()
         return [w for w in vc[f"{sign}_forbidden"] if w in low]
+
+    def _opposition_claims(self, u: Unit) -> list[str]:
+        """D-77: «prendi / hai l'opposizione» only in the section of a move the code found taking it."""
+        pat = self.cfg.verify["v12"].get("opposition_claims")
+        if not pat or "key_points" not in self.pack:
+            return []
+        facts = [k["facts"] for k in self.pack["key_points"] if k.get("section") == u.section]
+        if any(f.get("opposition") for f in facts):
+            return []
+        return [m.group(0) for m in re.finditer(pat, u.text.lower())]
 
     def _material_claims(self, u: Unit) -> list[str]:
         """A section whose material sentence is written by the code (``lead_text``): the text says nothing on it."""
@@ -319,7 +337,12 @@ class Checker:
                                                     theory=u.source == "theory"):     # D-71
             errs.append(E("V12", claim.text, claim.detail))
         for word in self._verdict_conflicts(u):
-            errs.append(E("V12", word, f"la posizione è «{self._root_band_text}» (banda di N1)"))
+            why = f"la posizione è «{self._root_band_text}» (banda di N1)"
+            if self.pack.get("tablebase"):                       # D-77: say what to write instead
+                why += f": scrivi solo il risultato, senza la parola «{word}»"
+            errs.append(E("V12", word, why))
+        for phrase in self._opposition_claims(u):
+            errs.append(E("V12", phrase, "l'opposizione non c'è: i re non sono uno di fronte all'altro con l'avversario al tratto"))
         for phrase in self._material_claims(u):
             errs.append(E("V12", phrase, "il materiale lo scrive già il programma: non nominarlo"))
         for a in u.assertions:

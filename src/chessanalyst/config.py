@@ -438,6 +438,7 @@ class KeypointsCfg(Strict):
     systems_min_moves: int
     plan_max_facts: int
     plan_features: list[tuple[str, str]]
+    endgame_plan_features: dict[str, list[tuple[str, str]]]   # D-77
     island_diff_min: int
     king_attack_min: int
     easy_min_p: float

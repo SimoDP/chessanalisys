@@ -64,7 +64,7 @@ def test_tokens_render_the_result_in_words(cfg):
     words = cfg.wording["tablebase"]
     assert r.resolve("{{ev:N1}}").text == words["results"]["win"]
     assert r.resolve("{{ev:C2}}").text == words["results"]["draw"]
-    assert r.resolve("{{loss:C2}}").text == words["loss_decisive"]
+    assert r.resolve("{{loss:C2}}").text == words["loss_outcome"]["win_draw"]       # D-77: «perde la vittoria»
     assert r.resolve("{{loss:C1}}").text == words["loss_none"]
     assert r.resolve("{{ev:Rh1@N1}}").text == words["results"]["draw"]
     # the root result comes from the probe, including the 50-move-rule nuances

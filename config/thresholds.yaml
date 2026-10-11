@@ -210,6 +210,9 @@ keypoints:                      # scaletta dei punti chiave (fase B, plan/keypoi
     - [open_file_to_king, opp]
     - [pawn_shield_weakened, opp]
     - [open_file_to_king, user]
+  endgame_plan_features:        # D-77: nei finali di pedoni e di torri, solo le feature del finale
+    pawn: [[passed_pawn, user], [passed_pawn, opp]]
+    rook: [[passed_pawn, user], [passed_pawn, opp], [check_available, opp], [check_available, user], [rook_seventh, user], [rook_seventh, opp]]
   island_diff_min: 1            # isole di pedoni: fatto del piano se l'avversario ne ha almeno una in più
   forced_p: 0.90               # risposta quasi forzata alla mossa consigliata: raccontata con la mossa
   space_rank: 3                 # traversa (da 0, dal proprio lato) da cui un pedone guadagna spazio

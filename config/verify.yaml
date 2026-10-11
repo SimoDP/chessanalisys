@@ -43,6 +43,12 @@ v12:
     from_bands: [clear, decisive, mate]
     minus_forbidden: [equilibrat, "stai bene", "sei meglio", "in vantaggio", "posizione pari"]
     plus_forbidden: [equilibrat, "stai male", "sei peggio", "in svantaggio", "posizione pari", "persa per te"]
+    tablebase_forbidden:          # D-77: con la tablebase il giudizio è il risultato esatto
+      draw: [vantaggio, "stai meglio", "sei meglio", "stai peggio", "sei peggio", "matto"]
+      win: ["matto", equilibrat, "patta"]
+      loss: ["matto", equilibrat, "patta"]
+  # D-77: «prende l'opposizione» solo dove il codice l'ha trovata (fatto opposition della mossa)
+  opposition_claims: "(?:prend\\w*|ha[i]?|conquist\\w*|tien\\w*|guadagn\\w*) l'opposizione"
   # sezione con la frase sul materiale scritta dal codice (lead): il testo del modello non ne parla
   material_claims: ["\\b(?:pedon[ei]|pezz[oi]|qualità|materiale|torr[ei]|alfier[ei]|cavall[oi]|donn[ae])\\b[^.;:]{0,12}\\bin (?:più|meno)\\b",
                     "materiale (?:è )?pari", "pari (?:di|nel|sul) materiale", "parità (?:di|materiale)"]

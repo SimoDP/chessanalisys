@@ -31,7 +31,10 @@ from typing import Any
 import chess
 
 from chessanalyst.config import Config
+from chessanalyst.engines.types import CP_CLAMP
+from chessanalyst.features.endgame import endgame_kind, has_opposition, is_passed, key_squares
 from chessanalyst.features.motifs import move_facts, piece_name, pin_matters
+from chessanalyst.render.format_it import tb_outcome
 from chessanalyst.features.values import piece_value
 from chessanalyst.verify.assertions import eval_band_of, maia_band_of
 
@@ -62,6 +65,8 @@ class _Ctx:
         self.detail = str(pack["user"]["detail_level"])
         self.eng = pack["engine"]
         self.cands = {c["id"]: c for c in self.eng["candidates"]}
+        self.board = chess.Board(pack["position"]["fen"])
+        self.kind = endgame_kind(self.board)
 
     def band(self, cp, mate) -> str:
         return eval_band_of(cp or 0, mate, self.bands)
@@ -258,12 +263,14 @@ def _recommendation(c: _Ctx) -> dict | None:
         if second is not None and t["id"] == second["id"]:      # the second best is also the natural trap
             facts["second"]["is_trap"] = True
             _human(c, facts, ids, others)
+            _endgame_rec(c, facts)
             return {"type": "recommendation", "ids": ids, "facts": facts}
         facts["trap"] = {"ref": t["id"], "san": t["san"], "p_user": t["p_user"], "loss_cp": t["loss_cp"],
                          "band": c.band(t["eval_user_cp"], t["mate_user"])}
         if t["id"] not in ids:
             ids.append(t["id"])
     _human(c, facts, ids, others)
+    _endgame_rec(c, facts)
     return {"type": "recommendation", "ids": ids, "facts": facts}
 
 
@@ -480,6 +487,67 @@ def _pawn_breaks(c: _Ctx, board: chess.Board) -> list[dict]:
     return [best[1]] if best else []
 
 
+def _endgame_items(c: _Ctx) -> list[dict]:
+    """D-77, pawn and rook endings: the key squares of each passed pawn (the user's first) and, with the user to
+    move, which king moves keep the result and which throw it away."""
+    board, me = c.board, (chess.WHITE if c.user == "w" else chess.BLACK)
+    out = []
+    for color in (me, not me):
+        for sq in sorted(board.pieces(chess.PAWN, color), key=lambda s: -chess.square_rank(s) if color else
+                         chess.square_rank(s)):
+            if not is_passed(board, sq):
+                continue
+            who = "user" if color == me else "opp"
+            if c.kind == "pawn":
+                ks = key_squares(sq, color)
+                out.append({"key": "key_squares", "of": who, "pawn": _at(board, sq, c.words),
+                            "squares": [chess.square_name(k) for k in ks], "king_on_it": board.king(color) in ks})
+            else:
+                f, step = chess.square_file(sq), (1 if color == chess.WHITE else -1)
+                r = chess.square_rank(sq) + step
+                while 0 <= r < 8 and board.piece_at(chess.square(f, r)) is None:
+                    r += step
+                front = chess.square(f, r) if 0 <= r < 8 else None
+                if front is not None and board.piece_at(front) == chess.Piece(chess.ROOK, color):
+                    out.append({"key": "rook_in_front", "of": who, "pawn": _at(board, sq, c.words),
+                                "rook": _at(board, front, c.words)})
+            break
+    if c.user_to_move and c.root.get("multipv"):
+        kings = [m for m in c.root["multipv"] if board.piece_type_at(chess.parse_square(m["uci"][:2])) == chess.KING]
+        tb = c.pack.get("tablebase")
+        best = c.root["multipv"][0]
+        if tb:
+            keep = [m for m in kings if tb_outcome(m["eval_user_cp"], m["mate_user"], CP_CLAMP)
+                    == tb_outcome(best["eval_user_cp"], best["mate_user"], CP_CLAMP)]
+        else:
+            keep = [m for m in kings if c.ev(best) - c.ev(m) <= c.kp.answer_loss_max_cp]
+        lose = [m for m in kings if m not in keep and (tb or c.ev(best) - c.ev(m) >= c.kp.trap_loss_min_cp)]
+        if keep and lose:
+            out.append({"key": "king_moves", "of": "user", "king": _at(board, board.king(me), c.words),
+                        "hold": [m["uci"][2:4] for m in keep], "lose": [m["uci"][2:4] for m in lose]})
+    return out
+
+
+def _endgame_rec(c: _Ctx, facts: dict) -> None:
+    """D-77: the recommended move brings the king to a key square of its passed pawn, or takes the opposition."""
+    if c.kind is None:
+        return
+    b = c.board.copy(stack=False)
+    try:
+        mv = b.parse_san(facts["san"])
+    except ValueError:
+        return
+    me = b.turn
+    b.push(mv)
+    if b.piece_type_at(mv.to_square) == chess.KING:
+        for sq in b.pieces(chess.PAWN, me):
+            if is_passed(b, sq) and mv.to_square in key_squares(sq, me):
+                facts["key_square"] = {"square": chess.square_name(mv.to_square), "pawn": _at(b, sq, c.words)}
+                break
+    if has_opposition(b, me):
+        facts["opposition"] = True
+
+
 def _plan(c: _Ctx) -> dict | None:
     kp = c.kp
     opp = "b" if c.user == "w" else "w"
@@ -489,13 +557,18 @@ def _plan(c: _Ctx) -> dict | None:
     cm = c.eng.get("context_move")
     cm_san = next(iter(cm["san_by_node"].values()), None) if cm else None
     room = kp.plan_max_facts - (1 if cm_san else 0)       # the opponent's typical move always has a place
-    board = chess.Board(c.pack["position"]["fen"])
-    out += (_loose_pieces(c) + _pins(c, board) + _king_squares(c, board) + _pawn_breaks(c, board)
-            + _long_diagonals(c, board))
-    islands = {f["side"]: f["value"] for f in feats if f["key"] == "pawn_island_count"}
-    if islands.get(opp, 0) - islands.get(c.user, 0) >= kp.island_diff_min:
-        out.append({"key": "pawn_island_count", "of": "opp", "value": islands[opp], "user_value": islands.get(c.user)})
-    for key, who in kp.plan_features:
+    board = c.board
+    if c.kind is not None:            # D-77: in a pawn or rook ending, the ending's facts, not the middlegame's
+        out += _endgame_items(c) + _loose_pieces(c)
+        cm_san, room = None, kp.plan_max_facts
+    else:
+        out += (_loose_pieces(c) + _pins(c, board) + _king_squares(c, board) + _pawn_breaks(c, board)
+                + _long_diagonals(c, board))
+        islands = {f["side"]: f["value"] for f in feats if f["key"] == "pawn_island_count"}
+        if islands.get(opp, 0) - islands.get(c.user, 0) >= kp.island_diff_min:
+            out.append({"key": "pawn_island_count", "of": "opp", "value": islands[opp],
+                        "user_value": islands.get(c.user)})
+    for key, who in (kp.plan_features if c.kind is None else kp.endgame_plan_features[c.kind]):
         out += [{"key": key, "of": who, "squares": f["squares"], "value": f["value"]}
                 for f in feats if f["key"] == key and f["side"] == side[who]]
     seen = {(i["key"], tuple(i.get("squares") or [])) for i in out}
@@ -541,6 +614,8 @@ def key_points(cfg: Config, pack: dict) -> list[dict]:
     built["plan"] = _plan(c)
     built["reasoning"] = {"type": "reasoning", "ids": [],
                           "facts": {"items": cfg.thresholds.keypoints.reasoning_items[c.detail]}}
+    if c.kind is not None:            # D-77: how to think in this ending
+        built["reasoning"]["facts"]["topics"] = cfg.wording["endgame_topics"][c.kind]
     if built["systems"] is not None and rec is not None:       # one fact, one section
         rec["facts"]["only_move"] = False
         sy = built["systems"]

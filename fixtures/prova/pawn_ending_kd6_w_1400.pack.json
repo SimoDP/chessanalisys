@@ -1,0 +1,6736 @@
+{
+  "schema_version": "0.9",
+  "app_version": "1.0.0",
+  "created_utc": "2026-10-06T07:43:20+00:00",
+  "config_hash": "960844990863b8bcf8626ec1295011b6f333af2d",
+  "position": {
+    "fen": "8/5k2/8/3K4/4P3/8/8/8 w - - 0 60",
+    "epd": "8/5k2/8/3K4/4P3/8/8/8 w - -",
+    "side_to_move": "w",
+    "fullmove": 60,
+    "legal_moves": 7,
+    "in_check": false,
+    "last_move_san": null,
+    "user_to_move": true
+  },
+  "history": {
+    "source": "fen",
+    "plies": 0,
+    "repetitions": 0,
+    "start_fen": null
+  },
+  "user": {
+    "color": "w",
+    "elo_declared": 1400,
+    "elo_scale": "fide",
+    "elo_ref_fide": 1400,
+    "elo_maia": 1617,
+    "opp_elo_declared": 1400,
+    "opp_elo_maia": 1617,
+    "band": "1200_1600",
+    "anchor": "1500",
+    "detail_level": 4,
+    "language": "it",
+    "budget_profile": "standard"
+  },
+  "profile": {
+    "phase": "endgame",
+    "castling": {
+      "w": "lost",
+      "b": "lost"
+    },
+    "tactical": true,
+    "tactical_reasons": [
+      "gap"
+    ],
+    "quiet": false,
+    "spread_cp": 9987,
+    "closed": false,
+    "tablebase": true,
+    "in_book": false,
+    "material": {
+      "w": 1,
+      "b": 0,
+      "balance": 1
+    },
+    "matrix_column": 4
+  },
+  "opening": null,
+  "engine": {
+    "stockfish": {
+      "version": "Stockfish 19",
+      "threads": 3,
+      "hash_mb": 2048,
+      "profile": "standard"
+    },
+    "root": {
+      "node": "N1",
+      "depth": 74,
+      "eval_user_cp": 9987,
+      "mate_user": 13,
+      "wdl_user": [
+        1000,
+        0,
+        0
+      ]
+    },
+    "candidates": [
+      {
+        "id": "C1",
+        "san": "Kd6",
+        "uci": "d5d6",
+        "node": "N3",
+        "source": "e0",
+        "e0_rank": 1,
+        "eval_user_cp": 9987,
+        "mate_user": 13,
+        "loss_cp": 0,
+        "wdl_user": [
+          1000,
+          0,
+          0
+        ],
+        "pv": "PV1",
+        "p_user": 0.7572,
+        "p_up": 0.8829,
+        "category": "solid",
+        "complexity": 0,
+        "complexity_partial": false,
+        "explained": true,
+        "listed": true,
+        "rec_score": 37.86
+      },
+      {
+        "id": "C2",
+        "san": "Kd4",
+        "uci": "d5d4",
+        "node": "N4",
+        "source": "e0",
+        "e0_rank": 2,
+        "eval_user_cp": 0,
+        "mate_user": null,
+        "loss_cp": 9987,
+        "wdl_user": [
+          4,
+          992,
+          4
+        ],
+        "pv": "PV2",
+        "p_user": 0.0002,
+        "p_up": 0.0001,
+        "category": null,
+        "complexity": null,
+        "complexity_partial": false,
+        "explained": true,
+        "listed": true,
+        "rec_score": null
+      },
+      {
+        "id": "C3",
+        "san": "e5",
+        "uci": "e4e5",
+        "node": null,
+        "source": "e0",
+        "e0_rank": 3,
+        "eval_user_cp": 0,
+        "mate_user": null,
+        "loss_cp": 9987,
+        "wdl_user": [
+          4,
+          992,
+          4
+        ],
+        "pv": "PV3",
+        "p_user": 0.1233,
+        "p_up": 0.0533,
+        "category": null,
+        "complexity": null,
+        "complexity_partial": false,
+        "explained": false,
+        "listed": true,
+        "rec_score": null
+      },
+      {
+        "id": "C4",
+        "san": "Kc4",
+        "uci": "d5c4",
+        "node": null,
+        "source": "e0",
+        "e0_rank": 4,
+        "eval_user_cp": 0,
+        "mate_user": null,
+        "loss_cp": 9987,
+        "wdl_user": [
+          4,
+          992,
+          4
+        ],
+        "pv": "PV4",
+        "p_user": 0.0,
+        "p_up": 0.0,
+        "category": null,
+        "complexity": null,
+        "complexity_partial": false,
+        "explained": false,
+        "listed": true,
+        "rec_score": null
+      },
+      {
+        "id": "C5",
+        "san": "Kc5",
+        "uci": "d5c5",
+        "node": null,
+        "source": "e0",
+        "e0_rank": 5,
+        "eval_user_cp": 0,
+        "mate_user": null,
+        "loss_cp": 9987,
+        "wdl_user": [
+          4,
+          992,
+          4
+        ],
+        "pv": "PV5",
+        "p_user": 0.0001,
+        "p_up": 0.0001,
+        "category": null,
+        "complexity": null,
+        "complexity_partial": false,
+        "explained": false,
+        "listed": false,
+        "rec_score": null
+      },
+      {
+        "id": "C6",
+        "san": "Ke5",
+        "uci": "d5e5",
+        "node": null,
+        "source": "e0",
+        "e0_rank": 6,
+        "eval_user_cp": 0,
+        "mate_user": null,
+        "loss_cp": 9987,
+        "wdl_user": [
+          4,
+          992,
+          4
+        ],
+        "pv": "PV6",
+        "p_user": 0.1186,
+        "p_up": 0.063,
+        "category": null,
+        "complexity": null,
+        "complexity_partial": false,
+        "explained": false,
+        "listed": false,
+        "rec_score": null
+      },
+      {
+        "id": "C7",
+        "san": "Kc6",
+        "uci": "d5c6",
+        "node": null,
+        "source": "e0",
+        "e0_rank": 7,
+        "eval_user_cp": 0,
+        "mate_user": null,
+        "loss_cp": 9987,
+        "wdl_user": [
+          4,
+          992,
+          4
+        ],
+        "pv": "PV7",
+        "p_user": 0.0006,
+        "p_up": 0.0006,
+        "category": null,
+        "complexity": null,
+        "complexity_partial": false,
+        "explained": false,
+        "listed": false,
+        "rec_score": null
+      }
+    ],
+    "replies": [],
+    "pvs": [
+      {
+        "id": "PV1",
+        "start_node": "N1",
+        "plies": [
+          "Kd6",
+          "Kf8",
+          "Kd7",
+          "Kg7",
+          "e5",
+          "Kg6",
+          "e6",
+          "Kf5",
+          "e7",
+          "Ke4",
+          "e8=Q+",
+          "Kd4",
+          "Kd6",
+          "Kc3",
+          "Kc5",
+          "Kb3",
+          "Qe1",
+          "Kb2",
+          "Kc4",
+          "Kc2",
+          "Qe2+",
+          "Kb1",
+          "Kc3",
+          "Kc1",
+          "Qc2#"
+        ],
+        "eval_end_user_cp": 9987
+      },
+      {
+        "id": "PV2",
+        "start_node": "N1",
+        "plies": [
+          "Kd4",
+          "Ke6",
+          "e5",
+          "Ke7",
+          "Kd5",
+          "Kd7",
+          "e6+",
+          "Ke8",
+          "Kd6",
+          "Kd8",
+          "Ke5",
+          "Ke7",
+          "Kf5",
+          "Ke8",
+          "Kf6",
+          "Kf8",
+          "Kg5",
+          "Ke7",
+          "Kf5"
+        ],
+        "eval_end_user_cp": 0
+      },
+      {
+        "id": "PV3",
+        "start_node": "N1",
+        "plies": [
+          "e5",
+          "Ke7",
+          "e6",
+          "Ke8",
+          "Kd6",
+          "Kd8",
+          "Ke5",
+          "Ke7",
+          "Kf5",
+          "Ke8",
+          "Kf6",
+          "Kf8",
+          "Kg5",
+          "Ke7"
+        ],
+        "eval_end_user_cp": 0
+      },
+      {
+        "id": "PV4",
+        "start_node": "N1",
+        "plies": [
+          "Kc4",
+          "Ke7",
+          "Kc5",
+          "Ke6",
+          "Kd4",
+          "Kd6",
+          "e5+",
+          "Ke6",
+          "Ke4",
+          "Kf7",
+          "Kd5",
+          "Ke7",
+          "e6",
+          "Ke8",
+          "Kd6",
+          "Kd8",
+          "Ke5",
+          "Ke7"
+        ],
+        "eval_end_user_cp": 0
+      },
+      {
+        "id": "PV5",
+        "start_node": "N1",
+        "plies": [
+          "Kc5",
+          "Ke7",
+          "Kd5",
+          "Kd7",
+          "e5",
+          "Ke7",
+          "e6",
+          "Ke8",
+          "Kd6",
+          "Kd8",
+          "Ke5",
+          "Ke7"
+        ],
+        "eval_end_user_cp": 0
+      },
+      {
+        "id": "PV6",
+        "start_node": "N1",
+        "plies": [
+          "Ke5",
+          "Ke7",
+          "Kf5",
+          "Kf7"
+        ],
+        "eval_end_user_cp": 0
+      },
+      {
+        "id": "PV7",
+        "start_node": "N1",
+        "plies": [
+          "Kc6",
+          "Ke6",
+          "e5",
+          "Kxe5",
+          "Kc5",
+          "Ke4",
+          "Kc4",
+          "Ke3",
+          "Kd5",
+          "Kf3",
+          "Ke6",
+          "Kf4",
+          "Kf6",
+          "Ke3",
+          "Kf5",
+          "Kd2",
+          "Ke6",
+          "Kc3",
+          "Kd5",
+          "Kd3",
+          "Kc5",
+          "Kc3",
+          "Kc6",
+          "Kc4",
+          "Kd7",
+          "Kd3",
+          "Ke8",
+          "Ke3",
+          "Kd8",
+          "Kf4",
+          "Kc7",
+          "Ke4",
+          "Kb7",
+          "Ke3",
+          "Kc7",
+          "Kd4",
+          "Kd6",
+          "Ke4",
+          "Kc5",
+          "Kd3",
+          "Kd5",
+          "Ke2",
+          "Ke5",
+          "Kf1",
+          "Kf5",
+          "Kg1",
+          "Ke4",
+          "Kg2",
+          "Kf4",
+          "Kf2",
+          "Kg4",
+          "Ke1",
+          "Kf3",
+          "Kd2",
+          "Ke4",
+          "Kc2",
+          "Kd4",
+          "Kd2",
+          "Ke5",
+          "Kc3",
+          "Kf4",
+          "Kc4",
+          "Ke4",
+          "Kc5",
+          "Kf3"
+        ],
+        "eval_end_user_cp": 0
+      }
+    ],
+    "null_move": {
+      "node": "N2"
+    },
+    "e3": [
+      {
+        "level": 1,
+        "candidate": "C1",
+        "path": [
+          "Kd6",
+          "Kf8"
+        ],
+        "node": "N5"
+      },
+      {
+        "level": 1,
+        "candidate": "C1",
+        "path": [
+          "Kd6",
+          "Kf6"
+        ],
+        "node": "N6"
+      },
+      {
+        "level": 1,
+        "candidate": "C1",
+        "path": [
+          "Kd6",
+          "Kg6"
+        ],
+        "node": "N7"
+      },
+      {
+        "level": 1,
+        "candidate": "C1",
+        "path": [
+          "Kd6",
+          "Ke8"
+        ],
+        "node": "N8"
+      },
+      {
+        "level": 1,
+        "candidate": "C2",
+        "path": [
+          "Kd4",
+          "Ke6"
+        ],
+        "node": "N9"
+      },
+      {
+        "level": 1,
+        "candidate": "C2",
+        "path": [
+          "Kd4",
+          "Ke8"
+        ],
+        "node": "N10"
+      },
+      {
+        "level": 1,
+        "candidate": "C2",
+        "path": [
+          "Kd4",
+          "Kf6"
+        ],
+        "node": "N11"
+      },
+      {
+        "level": 2,
+        "candidate": "C1",
+        "path": [
+          "Kd6",
+          "Kf8",
+          "Kd7"
+        ],
+        "node": "N12"
+      },
+      {
+        "level": 2,
+        "candidate": "C1",
+        "path": [
+          "Kd6",
+          "Kf6",
+          "e5+"
+        ],
+        "node": "N13"
+      },
+      {
+        "level": 2,
+        "candidate": "C1",
+        "path": [
+          "Kd6",
+          "Kg6",
+          "Ke6"
+        ],
+        "node": "N14"
+      },
+      {
+        "level": 2,
+        "candidate": "C1",
+        "path": [
+          "Kd6",
+          "Ke8",
+          "e5"
+        ],
+        "node": "N15"
+      },
+      {
+        "level": 2,
+        "candidate": "C2",
+        "path": [
+          "Kd4",
+          "Ke6",
+          "Kc3"
+        ],
+        "node": "N16"
+      },
+      {
+        "level": 2,
+        "candidate": "C2",
+        "path": [
+          "Kd4",
+          "Ke8",
+          "Ke5"
+        ],
+        "node": "N17"
+      },
+      {
+        "level": 2,
+        "candidate": "C2",
+        "path": [
+          "Kd4",
+          "Kf6",
+          "Kd5"
+        ],
+        "node": "N18"
+      }
+    ],
+    "context_move": null,
+    "transpositions": []
+  },
+  "maia": {
+    "model_type": "rapid",
+    "package_version": "0.11.0",
+    "device": "cpu",
+    "bucket_user": 6,
+    "bucket_opp": 6,
+    "top_bucket_lower": 2000,
+    "saturated": false,
+    "confidence": "normal",
+    "p_up_elo": 1917,
+    "p_up_bucket": "higher",
+    "human_expected_score_user": 0.9377,
+    "entropy_bits": 1.051
+  },
+  "recommendation": {
+    "id": "C1",
+    "strength": "normal",
+    "no_unique_best": false
+  },
+  "features": [
+    {
+      "key": "material_balance",
+      "side": null,
+      "squares": [],
+      "value": 1
+    },
+    {
+      "key": "isolated_pawn",
+      "side": "w",
+      "squares": [
+        "e4"
+      ],
+      "value": null
+    },
+    {
+      "key": "passed_pawn",
+      "side": "w",
+      "squares": [
+        "e4"
+      ],
+      "value": {
+        "protected": false,
+        "connected": false
+      }
+    },
+    {
+      "key": "pawn_island_count",
+      "side": "w",
+      "squares": [],
+      "value": 1
+    },
+    {
+      "key": "pawn_majority",
+      "side": "w",
+      "squares": [],
+      "value": "kingside"
+    },
+    {
+      "key": "weak_square",
+      "side": "w",
+      "squares": [
+        "c3",
+        "c4",
+        "c5",
+        "d3",
+        "d4",
+        "e3",
+        "e5",
+        "f3",
+        "f4"
+      ],
+      "value": null
+    },
+    {
+      "key": "outpost",
+      "side": "w",
+      "squares": [
+        "d5",
+        "f5"
+      ],
+      "value": null
+    },
+    {
+      "key": "weak_square",
+      "side": "b",
+      "squares": [
+        "c4",
+        "c5",
+        "c6",
+        "d4",
+        "d5",
+        "d6",
+        "e4",
+        "e5",
+        "e6",
+        "f4",
+        "f5",
+        "f6"
+      ],
+      "value": null
+    },
+    {
+      "key": "castling_lost",
+      "side": "w",
+      "squares": [
+        "d5"
+      ],
+      "value": null
+    },
+    {
+      "key": "open_file_to_king",
+      "side": "w",
+      "squares": [
+        "d5"
+      ],
+      "value": "cd"
+    },
+    {
+      "key": "castling_lost",
+      "side": "b",
+      "squares": [
+        "f7"
+      ],
+      "value": null
+    },
+    {
+      "key": "open_file_to_king",
+      "side": "b",
+      "squares": [
+        "f7"
+      ],
+      "value": "efg"
+    },
+    {
+      "key": "central_control",
+      "side": null,
+      "squares": [],
+      "value": {
+        "w": 4,
+        "b": 0
+      }
+    },
+    {
+      "key": "mate_in_n",
+      "side": "w",
+      "squares": [],
+      "value": 13
+    },
+    {
+      "key": "king_zone_defenders",
+      "side": "w",
+      "squares": [
+        "e4"
+      ],
+      "value": 1
+    }
+  ],
+  "categories": [
+    {
+      "id": "king_safety",
+      "T": {
+        "w": 99,
+        "b": 29
+      },
+      "R": 32,
+      "balance": 70,
+      "advice": "no_worry",
+      "confidence": "normal",
+      "components": {
+        "T_stat": {
+          "w": 75,
+          "b": 75
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.95,
+        "k": 0.075,
+        "risk": {
+          "w": 0,
+          "b": 0.0
+        },
+        "proximity": 0,
+        "decision": 100,
+        "override": {
+          "w": false,
+          "b": true
+        }
+      },
+      "trace": {
+        "features": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "lines": [
+          "L2"
+        ],
+        "pvs": [
+          "PV1",
+          "PV2"
+        ],
+        "nodes": []
+      }
+    },
+    {
+      "id": "pawn_structure",
+      "T": {
+        "w": 92,
+        "b": 88
+      },
+      "R": 30,
+      "balance": 4,
+      "advice": "no_worry",
+      "confidence": "normal",
+      "components": {
+        "T_stat": {
+          "w": 86,
+          "b": 79
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.45,
+        "k": 0.12,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 100,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          1,
+          2,
+          5,
+          6,
+          7
+        ],
+        "lines": [],
+        "pvs": [
+          "PV1",
+          "PV2"
+        ],
+        "nodes": []
+      }
+    },
+    {
+      "id": "space_center",
+      "T": {
+        "w": 100,
+        "b": 87
+      },
+      "R": 3,
+      "balance": 13,
+      "advice": "no_worry",
+      "confidence": "normal",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 76
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.45,
+        "k": 0.12,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          12
+        ],
+        "lines": [],
+        "pvs": [],
+        "nodes": []
+      }
+    },
+    {
+      "id": "piece_activity",
+      "T": {
+        "w": 100,
+        "b": 100
+      },
+      "R": 0,
+      "balance": 0,
+      "advice": "no_worry",
+      "confidence": "normal",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 100
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.55,
+        "k": 0.12,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [],
+        "lines": [],
+        "pvs": [],
+        "nodes": []
+      }
+    },
+    {
+      "id": "initiative_tempo",
+      "T": {
+        "w": 100,
+        "b": 100
+      },
+      "R": 0,
+      "balance": 0,
+      "advice": "no_worry",
+      "confidence": "normal",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 100
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.75,
+        "k": 0.09,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [],
+        "lines": [],
+        "pvs": [],
+        "nodes": []
+      }
+    },
+    {
+      "id": "threats_dynamics",
+      "T": {
+        "w": 29,
+        "b": 100
+      },
+      "R": 39,
+      "balance": -71,
+      "advice": "critical",
+      "confidence": "normal",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 100
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.95,
+        "k": 0.075,
+        "risk": {
+          "w": 0.0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": true,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [],
+        "lines": [
+          "L1"
+        ],
+        "pvs": [],
+        "nodes": []
+      }
+    },
+    {
+      "id": "material",
+      "T": {
+        "w": 100,
+        "b": 98
+      },
+      "R": 1,
+      "balance": 2,
+      "advice": "no_worry",
+      "confidence": "normal",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 88
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.85,
+        "k": 0.075,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          0
+        ],
+        "lines": [],
+        "pvs": [],
+        "nodes": []
+      }
+    },
+    {
+      "id": "transition_plans",
+      "T": {
+        "w": 100,
+        "b": 95
+      },
+      "R": 3,
+      "balance": 5,
+      "advice": "no_worry",
+      "confidence": "normal",
+      "components": {
+        "T_stat": {
+          "w": 100,
+          "b": 87
+        },
+        "T_dyn": {
+          "w": 100,
+          "b": 100
+        },
+        "w": 0.65,
+        "k": 0.12,
+        "risk": {
+          "w": 0,
+          "b": 0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [
+          2,
+          4
+        ],
+        "lines": [],
+        "pvs": [],
+        "nodes": []
+      }
+    },
+    {
+      "id": "practical_complexity",
+      "T": {
+        "w": 87,
+        "b": 93
+      },
+      "R": 5,
+      "balance": -6,
+      "advice": "no_worry",
+      "confidence": "normal",
+      "components": {
+        "T_stat": {
+          "w": 87,
+          "b": 93
+        },
+        "T_dyn": {
+          "w": 87,
+          "b": 93
+        },
+        "w": 0.0,
+        "k": 1.0,
+        "risk": {
+          "w": 0.0,
+          "b": 0.0
+        },
+        "proximity": 0,
+        "decision": 0,
+        "override": {
+          "w": false,
+          "b": false
+        }
+      },
+      "trace": {
+        "features": [],
+        "lines": [],
+        "pvs": [],
+        "nodes": [
+          "N1",
+          "N3",
+          "N4",
+          "N5",
+          "N6",
+          "N7",
+          "N8",
+          "N9",
+          "N10",
+          "N11",
+          "N12",
+          "N13",
+          "N14",
+          "N15",
+          "N16",
+          "N17",
+          "N18"
+        ]
+      }
+    }
+  ],
+  "filtered_lines": [
+    {
+      "id": "L1",
+      "kind": "refutation",
+      "start_node": "N4",
+      "rank": 1,
+      "entry": {
+        "node": "N1",
+        "san": "Kd4",
+        "p": 0.0
+      },
+      "attacker": "b",
+      "defender": "w",
+      "against_user": true,
+      "plies": [
+        "Ke6",
+        "Kc4",
+        "Ke5",
+        "Kd3",
+        "Ke6",
+        "Kd4",
+        "Kd6",
+        "e5+",
+        "Kd7",
+        "Ke3",
+        "Ke7",
+        "Kf4",
+        "Ke6",
+        "Ke4",
+        "Kd7",
+        "Kd5",
+        "Ke7",
+        "e6",
+        "Ke8",
+        "Kd6",
+        "Kd8",
+        "Ke5",
+        "Ke7"
+      ],
+      "eval_end_user_cp": 0,
+      "mate_user": null,
+      "impact_cp": 1000,
+      "p_att": 0.54,
+      "p_walk": 0.0,
+      "risk": 0.0,
+      "attacker_moves": [
+        {
+          "san": "Ke6",
+          "p": 0.54
+        }
+      ],
+      "tags": [
+        "threats_dynamics"
+      ],
+      "primary": "threats_dynamics",
+      "visible_at_level": true,
+      "reason": "decisive"
+    },
+    {
+      "id": "L2",
+      "kind": "refutation",
+      "start_node": "N11",
+      "rank": 1,
+      "entry": {
+        "node": "N4",
+        "san": "Kf6",
+        "p": 0.0336
+      },
+      "attacker": "w",
+      "defender": "b",
+      "against_user": false,
+      "plies": [
+        "Kd5",
+        "Ke7",
+        "Ke5",
+        "Kd7",
+        "Kf6",
+        "Kd8",
+        "Kf7",
+        "Kc7",
+        "e5",
+        "Kc6",
+        "e6",
+        "Kd5",
+        "e7",
+        "Ke5",
+        "e8=Q+",
+        "Kd4",
+        "Qe1",
+        "Kd3",
+        "Ke6",
+        "Kc4",
+        "Qe3",
+        "Kb5",
+        "Kd5",
+        "Kb4",
+        "Qd2+",
+        "Ka4",
+        "Kc4",
+        "Ka3",
+        "Qe2",
+        "Ka4",
+        "Qa2#"
+      ],
+      "eval_end_user_cp": 9984,
+      "mate_user": 16,
+      "impact_cp": 1000,
+      "p_att": 0.9394,
+      "p_walk": 0.0,
+      "risk": 0.0,
+      "attacker_moves": [
+        {
+          "san": "Kd5",
+          "p": 0.9394
+        }
+      ],
+      "tags": [
+        "king_safety"
+      ],
+      "primary": "king_safety",
+      "visible_at_level": true,
+      "reason": "mate"
+    }
+  ],
+  "tablebase": {
+    "wdl": 2,
+    "dtz": 3,
+    "result_text_key": "win"
+  },
+  "tables": {
+    "T1": {
+      "id": "T1",
+      "section": "S07",
+      "columns": [
+        {
+          "key": "move",
+          "header": "Mossa",
+          "kind": "data"
+        },
+        {
+          "key": "eval",
+          "header": "Valutazione",
+          "kind": "data"
+        },
+        {
+          "key": "p_user",
+          "header": "Scelta a 1400",
+          "kind": "data"
+        },
+        {
+          "key": "per_chi",
+          "header": "Per chi",
+          "kind": "text"
+        }
+      ],
+      "rows": [
+        {
+          "id": "C1",
+          "cells": {
+            "move": "**60.Kd6** ★",
+            "eval": "vinta",
+            "p_user": "76%",
+            "per_chi": null
+          }
+        },
+        {
+          "id": "C2",
+          "cells": {
+            "move": "60.Kd4",
+            "eval": "patta",
+            "p_user": "<1%",
+            "per_chi": null
+          }
+        },
+        {
+          "id": "C3",
+          "cells": {
+            "move": "60.e5",
+            "eval": "patta",
+            "p_user": "12%",
+            "per_chi": null
+          }
+        },
+        {
+          "id": "C4",
+          "cells": {
+            "move": "60.Kc4",
+            "eval": "patta",
+            "p_user": "0%",
+            "per_chi": null
+          }
+        }
+      ],
+      "footnote": null
+    }
+  },
+  "nodes": [
+    {
+      "id": "N1",
+      "fen": "8/5k2/8/3K4/4P3/8/8/8 w - - 0 60",
+      "epd": "8/5k2/8/3K4/4P3/8/8/8 w - -",
+      "parent": null,
+      "via_san": null,
+      "via_uci": null,
+      "phase": "E0",
+      "path": [],
+      "side_to_move": "w",
+      "citable": true,
+      "depth": 74,
+      "seldepth": 79,
+      "nodes": 373074496,
+      "time_s": 90.009,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Kd6",
+          "uci": "d5d6",
+          "eval_white_cp": 9987,
+          "mate_white": 13,
+          "eval_user_cp": 9987,
+          "mate_user": 13,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kd6",
+            "Kf8",
+            "Kd7",
+            "Kg7",
+            "e5",
+            "Kg6",
+            "e6",
+            "Kf5",
+            "e7",
+            "Ke4",
+            "e8=Q+",
+            "Kd4",
+            "Kd6",
+            "Kc3",
+            "Kc5",
+            "Kb3",
+            "Qe1",
+            "Kb2",
+            "Kc4",
+            "Kc2",
+            "Qe2+",
+            "Kb1",
+            "Kc3",
+            "Kc1",
+            "Qc2#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Kd4",
+          "uci": "d5d4",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kd4",
+            "Ke6",
+            "e5",
+            "Ke7",
+            "Kd5",
+            "Kd7",
+            "e6+",
+            "Ke8",
+            "Kd6",
+            "Kd8",
+            "Ke5",
+            "Ke7",
+            "Kf5",
+            "Ke8",
+            "Kf6",
+            "Kf8",
+            "Kg5",
+            "Ke7",
+            "Kf5"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "e5",
+          "uci": "e4e5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "e5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Kd6",
+            "Kd8",
+            "Ke5",
+            "Ke7",
+            "Kf5",
+            "Ke8",
+            "Kf6",
+            "Kf8",
+            "Kg5",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kc4",
+          "uci": "d5c4",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc4",
+            "Ke7",
+            "Kc5",
+            "Ke6",
+            "Kd4",
+            "Kd6",
+            "e5+",
+            "Ke6",
+            "Ke4",
+            "Kf7",
+            "Kd5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Kd6",
+            "Kd8",
+            "Ke5",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Kc5",
+          "uci": "d5c5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc5",
+            "Ke7",
+            "Kd5",
+            "Kd7",
+            "e5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Kd6",
+            "Kd8",
+            "Ke5",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 6,
+          "san": "Ke5",
+          "uci": "d5e5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Ke5",
+            "Ke7",
+            "Kf5",
+            "Kf7"
+          ]
+        },
+        {
+          "rank": 7,
+          "san": "Kc6",
+          "uci": "d5c6",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc6",
+            "Ke6",
+            "e5",
+            "Kxe5",
+            "Kc5",
+            "Ke4",
+            "Kc4",
+            "Ke3",
+            "Kd5",
+            "Kf3",
+            "Ke6",
+            "Kf4",
+            "Kf6",
+            "Ke3",
+            "Kf5",
+            "Kd2",
+            "Ke6",
+            "Kc3",
+            "Kd5",
+            "Kd3",
+            "Kc5",
+            "Kc3",
+            "Kc6",
+            "Kc4",
+            "Kd7",
+            "Kd3",
+            "Ke8",
+            "Ke3",
+            "Kd8",
+            "Kf4",
+            "Kc7",
+            "Ke4",
+            "Kb7",
+            "Ke3",
+            "Kc7",
+            "Kd4",
+            "Kd6",
+            "Ke4",
+            "Kc5",
+            "Kd3",
+            "Kd5",
+            "Ke2",
+            "Ke5",
+            "Kf1",
+            "Kf5",
+            "Kg1",
+            "Ke4",
+            "Kg2",
+            "Kf4",
+            "Kf2",
+            "Kg4",
+            "Ke1",
+            "Kf3",
+            "Kd2",
+            "Ke4",
+            "Kc2",
+            "Kd4",
+            "Kd2",
+            "Ke5",
+            "Kc3",
+            "Kf4",
+            "Kc4",
+            "Ke4",
+            "Kc5",
+            "Kf3"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Kd6",
+            "uci": "d5d6",
+            "p": 0.7572
+          },
+          {
+            "san": "e5",
+            "uci": "e4e5",
+            "p": 0.1233
+          },
+          {
+            "san": "Ke5",
+            "uci": "d5e5",
+            "p": 0.1186
+          }
+        ],
+        "expected_score_user": 0.9377
+      }
+    },
+    {
+      "id": "N2",
+      "fen": "8/5k2/8/3K4/4P3/8/8/8 b - - 1 60",
+      "epd": "8/5k2/8/3K4/4P3/8/8/8 b - -",
+      "parent": "N1",
+      "via_san": "--",
+      "via_uci": null,
+      "phase": "E1",
+      "path": [
+        "--"
+      ],
+      "side_to_move": "b",
+      "citable": true,
+      "depth": 111,
+      "seldepth": 27,
+      "nodes": 120169634,
+      "time_s": 24.025,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Ke7",
+          "uci": "f7e7",
+          "eval_white_cp": 9985,
+          "mate_white": 15,
+          "eval_user_cp": 9985,
+          "mate_user": 15,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Ke7",
+            "Ke5",
+            "Kd7",
+            "Kf6",
+            "Kd8",
+            "Kf7",
+            "Kd7",
+            "e5",
+            "Kc6",
+            "e6",
+            "Kd5",
+            "e7",
+            "Ke5",
+            "e8=Q+",
+            "Kd4",
+            "Ke6",
+            "Ke4",
+            "Kd6+",
+            "Kf3",
+            "Qe1",
+            "Kf4",
+            "Ke6",
+            "Kf3",
+            "Kf5",
+            "Kg2",
+            "Kf4",
+            "Kh2",
+            "Kf3",
+            "Kh3",
+            "Qh1#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Kf6",
+          "uci": "f7f6",
+          "eval_white_cp": 9985,
+          "mate_white": 15,
+          "eval_user_cp": 9985,
+          "mate_user": 15,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf6",
+            "Kd6",
+            "Kf7",
+            "e5",
+            "Ke8",
+            "Ke6",
+            "Kd8",
+            "Kf7",
+            "Kd7",
+            "e6+",
+            "Kd6",
+            "e7",
+            "Ke5",
+            "e8=Q+",
+            "Kd4",
+            "Ke6",
+            "Ke4",
+            "Kd6+",
+            "Kf3",
+            "Qe1",
+            "Kf4",
+            "Ke6",
+            "Kf3",
+            "Kf5",
+            "Kg2",
+            "Kf4",
+            "Kh2",
+            "Kf3",
+            "Kh3",
+            "Qh1#"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kf8",
+          "uci": "f7f8",
+          "eval_white_cp": 9986,
+          "mate_white": 14,
+          "eval_user_cp": 9986,
+          "mate_user": 14,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf8",
+            "Ke6",
+            "Ke8",
+            "e5",
+            "Kd8",
+            "Kf7",
+            "Kd7",
+            "e6+",
+            "Kd6",
+            "e7",
+            "Ke5",
+            "e8=Q+",
+            "Kd4",
+            "Ke6",
+            "Ke4",
+            "Kd6+",
+            "Kf3",
+            "Qe1",
+            "Kf4",
+            "Ke6",
+            "Kf3",
+            "Kf5",
+            "Kg2",
+            "Kf4",
+            "Kh2",
+            "Kf3",
+            "Kh3",
+            "Qh1#"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Ke8",
+          "uci": "f7e8",
+          "eval_white_cp": 9987,
+          "mate_white": 13,
+          "eval_user_cp": 9987,
+          "mate_user": 13,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Ke8",
+            "Ke6",
+            "Kd8",
+            "Kd6",
+            "Ke8",
+            "e5",
+            "Kd8",
+            "e6",
+            "Ke8",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kf6",
+            "e8=Q",
+            "Kf5",
+            "Qe2",
+            "Kf4",
+            "Ke6",
+            "Kg5",
+            "Qe4",
+            "Kh6",
+            "Qg4",
+            "Kh7",
+            "Kf6",
+            "Kh8",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Kg6",
+          "uci": "f7g6",
+          "eval_white_cp": 9987,
+          "mate_white": 13,
+          "eval_user_cp": 9987,
+          "mate_user": 13,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg6",
+            "Ke6",
+            "Kg5",
+            "e5",
+            "Kf4",
+            "Kd6",
+            "Kf5",
+            "e6",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kf6",
+            "e8=Q",
+            "Kf5",
+            "Qe2",
+            "Kf4",
+            "Ke6",
+            "Kg5",
+            "Qe4",
+            "Kh6",
+            "Qg4",
+            "Kh7",
+            "Kf6",
+            "Kh8",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 6,
+          "san": "Kg8",
+          "uci": "f7g8",
+          "eval_white_cp": 9987,
+          "mate_white": 13,
+          "eval_user_cp": 9987,
+          "mate_user": 13,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg8",
+            "Ke6",
+            "Kg7",
+            "e5",
+            "Kg6",
+            "Kd6",
+            "Kf5",
+            "e6",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kf6",
+            "e8=Q",
+            "Kf5",
+            "Qe2",
+            "Kf4",
+            "Ke6",
+            "Kg5",
+            "Qe4",
+            "Kh6",
+            "Qg4",
+            "Kh7",
+            "Kf6",
+            "Kh8",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 7,
+          "san": "Kg7",
+          "uci": "f7g7",
+          "eval_white_cp": 9987,
+          "mate_white": 13,
+          "eval_user_cp": 9987,
+          "mate_user": 13,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg7",
+            "Ke6",
+            "Kh6",
+            "e5",
+            "Kg5",
+            "Kd7",
+            "Kf4",
+            "e6",
+            "Kf3",
+            "e7",
+            "Ke2",
+            "e8=Q+",
+            "Kd1",
+            "Kd6",
+            "Kc2",
+            "Kd5",
+            "Kb3",
+            "Qe1",
+            "Kc2",
+            "Kc4",
+            "Kb2",
+            "Qd2+",
+            "Ka1",
+            "Kc3",
+            "Kb1",
+            "Qb2#"
+          ]
+        }
+      ],
+      "maia": null
+    },
+    {
+      "id": "N3",
+      "fen": "8/5k2/3K4/8/4P3/8/8/8 b - - 1 60",
+      "epd": "8/5k2/3K4/8/4P3/8/8/8 b - -",
+      "parent": "N1",
+      "via_san": "Kd6",
+      "via_uci": "d5d6",
+      "phase": "E2",
+      "path": [
+        "Kd6"
+      ],
+      "side_to_move": "b",
+      "citable": true,
+      "depth": 216,
+      "seldepth": 23,
+      "nodes": 222176958,
+      "time_s": 39.007,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Kf8",
+          "uci": "f7f8",
+          "eval_white_cp": 9988,
+          "mate_white": 12,
+          "eval_user_cp": 9988,
+          "mate_user": 12,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf8",
+            "Kd7",
+            "Kf7",
+            "e5",
+            "Kg6",
+            "e6",
+            "Kf5",
+            "e7",
+            "Kf4",
+            "e8=Q",
+            "Kf3",
+            "Qe1",
+            "Kg4",
+            "Qe3",
+            "Kf5",
+            "Ke7",
+            "Kg6",
+            "Ke6",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Kf6",
+          "uci": "f7f6",
+          "eval_white_cp": 9989,
+          "mate_white": 11,
+          "eval_user_cp": 9989,
+          "mate_user": 11,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf6",
+            "e5+",
+            "Kf5",
+            "e6",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe2",
+            "Kf4",
+            "Ke6",
+            "Kg5",
+            "Qf3",
+            "Kh6",
+            "Kf6",
+            "Kh7",
+            "Qg2",
+            "Kh8",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kg6",
+          "uci": "f7g6",
+          "eval_white_cp": 9989,
+          "mate_white": 11,
+          "eval_user_cp": 9989,
+          "mate_user": 11,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg6",
+            "e5",
+            "Kf5",
+            "e6",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe2",
+            "Kf4",
+            "Ke6",
+            "Kg5",
+            "Qf3",
+            "Kh6",
+            "Kf6",
+            "Kh7",
+            "Qg2",
+            "Kh8",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kg8",
+          "uci": "f7g8",
+          "eval_white_cp": 9989,
+          "mate_white": 11,
+          "eval_user_cp": 9989,
+          "mate_user": 11,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg8",
+            "e5",
+            "Kg7",
+            "e6",
+            "Kf8",
+            "Kd7",
+            "Kg7",
+            "e7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe2",
+            "Kf4",
+            "Ke6",
+            "Kg5",
+            "Qf3",
+            "Kh6",
+            "Kf6",
+            "Kh7",
+            "Qg2",
+            "Kh8",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Kg7",
+          "uci": "f7g7",
+          "eval_white_cp": 9989,
+          "mate_white": 11,
+          "eval_user_cp": 9989,
+          "mate_user": 11,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg7",
+            "e5",
+            "Kg6",
+            "e6",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe2",
+            "Kf4",
+            "Ke6",
+            "Kg5",
+            "Qf3",
+            "Kh6",
+            "Kf6",
+            "Kh7",
+            "Qg2",
+            "Kh8",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 6,
+          "san": "Ke8",
+          "uci": "f7e8",
+          "eval_white_cp": 9989,
+          "mate_white": 11,
+          "eval_user_cp": 9989,
+          "mate_user": 11,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Ke8",
+            "e5",
+            "Kd8",
+            "e6",
+            "Ke8",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe2",
+            "Kf4",
+            "Ke6",
+            "Kg5",
+            "Qf3",
+            "Kh6",
+            "Kf6",
+            "Kh7",
+            "Qg2",
+            "Kh8",
+            "Qg7#"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Ke8",
+            "uci": "f7e8",
+            "p": 0.9169
+          },
+          {
+            "san": "Kf6",
+            "uci": "f7f6",
+            "p": 0.0558
+          },
+          {
+            "san": "Kf8",
+            "uci": "f7f8",
+            "p": 0.0265
+          }
+        ],
+        "expected_score_user": 0.8986
+      }
+    },
+    {
+      "id": "N4",
+      "fen": "8/5k2/8/8/3KP3/8/8/8 b - - 1 60",
+      "epd": "8/5k2/8/8/3KP3/8/8/8 b - -",
+      "parent": "N1",
+      "via_san": "Kd4",
+      "via_uci": "d5d4",
+      "phase": "E2",
+      "path": [
+        "Kd4"
+      ],
+      "side_to_move": "b",
+      "citable": true,
+      "depth": 74,
+      "seldepth": 29,
+      "nodes": 208508556,
+      "time_s": 39.009,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Ke6",
+          "uci": "f7e6",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Ke6",
+            "Kc4",
+            "Ke5",
+            "Kd3",
+            "Ke6",
+            "Kd4",
+            "Kd6",
+            "e5+",
+            "Kd7",
+            "Ke3",
+            "Ke7",
+            "Kf4",
+            "Ke6",
+            "Ke4",
+            "Kd7",
+            "Kd5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Kd6",
+            "Kd8",
+            "Ke5",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Ke8",
+          "uci": "f7e8",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Ke8",
+            "Kc4",
+            "Kd8",
+            "Kc5",
+            "Kc7",
+            "e5",
+            "Kd7",
+            "Kd5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Ke5",
+            "Ke7",
+            "Kf5",
+            "Ke8"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kf6",
+          "uci": "f7f6",
+          "eval_white_cp": 9984,
+          "mate_white": 16,
+          "eval_user_cp": 9984,
+          "mate_user": 16,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf6",
+            "Kd5",
+            "Ke7",
+            "Ke5",
+            "Kd7",
+            "Kf6",
+            "Kd8",
+            "Kf7",
+            "Kc7",
+            "e5",
+            "Kd7",
+            "e6+",
+            "Kc6",
+            "e7",
+            "Kd5",
+            "e8=Q",
+            "Kd4",
+            "Ke6",
+            "Ke4",
+            "Kd6+",
+            "Kf3",
+            "Qe1",
+            "Kg4",
+            "Ke5",
+            "Kf3",
+            "Kf5",
+            "Kg2",
+            "Kf4",
+            "Kh2",
+            "Kf3",
+            "Kh3",
+            "Qh1#"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kf8",
+          "uci": "f7f8",
+          "eval_white_cp": 9984,
+          "mate_white": 16,
+          "eval_user_cp": 9984,
+          "mate_user": 16,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf8",
+            "Kd5",
+            "Ke7",
+            "Ke5",
+            "Kd7",
+            "Kf6",
+            "Kd8",
+            "Kf7",
+            "Kc7",
+            "e5",
+            "Kd7",
+            "e6+",
+            "Kc6",
+            "e7",
+            "Kd5",
+            "e8=Q",
+            "Kd4",
+            "Ke6",
+            "Ke4",
+            "Kd6+",
+            "Kf3",
+            "Qe1",
+            "Kg4",
+            "Ke5",
+            "Kf3",
+            "Kf5",
+            "Kg2",
+            "Kf4",
+            "Kh2",
+            "Kf3",
+            "Kh3",
+            "Qh1#"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Ke7",
+          "uci": "f7e7",
+          "eval_white_cp": 9985,
+          "mate_white": 15,
+          "eval_user_cp": 9985,
+          "mate_user": 15,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Ke7",
+            "Ke5",
+            "Kd7",
+            "Kf6",
+            "Kd8",
+            "Kf7",
+            "Kc7",
+            "e5",
+            "Kd7",
+            "e6+",
+            "Kc6",
+            "e7",
+            "Kd5",
+            "e8=Q",
+            "Kd4",
+            "Ke6",
+            "Ke4",
+            "Kd6+",
+            "Kf3",
+            "Qe1",
+            "Kg4",
+            "Ke5",
+            "Kf3",
+            "Kf5",
+            "Kg2",
+            "Kf4",
+            "Kh2",
+            "Kf3",
+            "Kh3",
+            "Qh1#"
+          ]
+        },
+        {
+          "rank": 6,
+          "san": "Kg7",
+          "uci": "f7g7",
+          "eval_white_cp": 9986,
+          "mate_white": 14,
+          "eval_user_cp": 9986,
+          "mate_user": 14,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg7",
+            "Ke5",
+            "Kg8",
+            "Ke6",
+            "Kg7",
+            "e5",
+            "Kg6",
+            "Kd6",
+            "Kg5",
+            "e6",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe2",
+            "Kf4",
+            "Ke6",
+            "Kg5",
+            "Qf3",
+            "Kh6",
+            "Kf6",
+            "Kh7",
+            "Qg4",
+            "Kh8",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 7,
+          "san": "Kg6",
+          "uci": "f7g6",
+          "eval_white_cp": 9986,
+          "mate_white": 14,
+          "eval_user_cp": 9986,
+          "mate_user": 14,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg6",
+            "Ke5",
+            "Kf7",
+            "Kd6",
+            "Kf8",
+            "Kd7",
+            "Kf7",
+            "e5",
+            "Kg6",
+            "e6",
+            "Kf5",
+            "e7",
+            "Ke4",
+            "e8=Q+",
+            "Kf3",
+            "Kd6",
+            "Kf2",
+            "Qe4",
+            "Kg3",
+            "Ke5",
+            "Kf2",
+            "Kf4",
+            "Kg1",
+            "Qc2",
+            "Kh1",
+            "Kf3",
+            "Kg1",
+            "Qg2#"
+          ]
+        },
+        {
+          "rank": 8,
+          "san": "Kg8",
+          "uci": "f7g8",
+          "eval_white_cp": 9986,
+          "mate_white": 14,
+          "eval_user_cp": 9986,
+          "mate_user": 14,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg8",
+            "Ke5",
+            "Kf7",
+            "Kd6",
+            "Kf8",
+            "Kd7",
+            "Kf7",
+            "e5",
+            "Kg6",
+            "e6",
+            "Kf5",
+            "e7",
+            "Ke4",
+            "e8=Q+",
+            "Kf3",
+            "Kd6",
+            "Kf2",
+            "Qe4",
+            "Kg3",
+            "Ke5",
+            "Kf2",
+            "Kf4",
+            "Kg1",
+            "Qc2",
+            "Kh1",
+            "Kf3",
+            "Kg1",
+            "Qg2#"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Ke6",
+            "uci": "f7e6",
+            "p": 0.54
+          },
+          {
+            "san": "Ke7",
+            "uci": "f7e7",
+            "p": 0.3881
+          },
+          {
+            "san": "Kf6",
+            "uci": "f7f6",
+            "p": 0.0336
+          },
+          {
+            "san": "Ke8",
+            "uci": "f7e8",
+            "p": 0.0205
+          },
+          {
+            "san": "Kf8",
+            "uci": "f7f8",
+            "p": 0.0156
+          }
+        ],
+        "expected_score_user": 0.7114
+      }
+    },
+    {
+      "id": "N5",
+      "fen": "5k2/8/3K4/8/4P3/8/8/8 w - - 2 61",
+      "epd": "5k2/8/3K4/8/4P3/8/8/8 w - -",
+      "parent": "N3",
+      "via_san": "Kf8",
+      "via_uci": "f7f8",
+      "phase": "E3l1",
+      "path": [
+        "Kd6",
+        "Kf8"
+      ],
+      "side_to_move": "w",
+      "citable": true,
+      "depth": 54,
+      "seldepth": 63,
+      "nodes": 15240774,
+      "time_s": 4.287,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Kd7",
+          "uci": "d6d7",
+          "eval_white_cp": 9988,
+          "mate_white": 12,
+          "eval_user_cp": 9988,
+          "mate_user": 12,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kd7",
+            "Kf7",
+            "e5",
+            "Kg6",
+            "e6",
+            "Kf5",
+            "e7",
+            "Ke4",
+            "e8=Q+",
+            "Kf3",
+            "Kd6",
+            "Kf2",
+            "Qe4",
+            "Kg3",
+            "Ke5",
+            "Kf2",
+            "Kf4",
+            "Kg1",
+            "Qc2",
+            "Kh1",
+            "Kf3",
+            "Kg1",
+            "Qg2#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "e5",
+          "uci": "e4e5",
+          "eval_white_cp": 9986,
+          "mate_white": 14,
+          "eval_user_cp": 9986,
+          "mate_user": 14,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "e5",
+            "Ke8",
+            "Ke6",
+            "Kd8",
+            "Kf7",
+            "Kd7",
+            "e6+",
+            "Kc6",
+            "e7",
+            "Kd5",
+            "e8=Q",
+            "Kd4",
+            "Qe1",
+            "Kd3",
+            "Ke6",
+            "Kd4",
+            "Kd6",
+            "Kc4",
+            "Qd2",
+            "Kb5",
+            "Qc3",
+            "Ka6",
+            "Kc6",
+            "Ka7",
+            "Qb4",
+            "Ka8",
+            "Qb7#"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Ke6",
+          "uci": "d6e6",
+          "eval_white_cp": 9986,
+          "mate_white": 14,
+          "eval_user_cp": 9986,
+          "mate_user": 14,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Ke6",
+            "Ke8",
+            "e5",
+            "Kd8",
+            "Kf7",
+            "Kd7",
+            "e6+",
+            "Kc6",
+            "e7",
+            "Kd5",
+            "e8=Q",
+            "Kd4",
+            "Qe1",
+            "Kd3",
+            "Ke6",
+            "Kd4",
+            "Kd6",
+            "Kc4",
+            "Qd2",
+            "Kb5",
+            "Qc3",
+            "Ka6",
+            "Kc6",
+            "Ka7",
+            "Qb4",
+            "Ka8",
+            "Qb7#"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kd5",
+          "uci": "d6d5",
+          "eval_white_cp": 9984,
+          "mate_white": 16,
+          "eval_user_cp": 9984,
+          "mate_user": 16,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kd5",
+            "Ke7",
+            "Ke5",
+            "Kd7",
+            "Kf6",
+            "Kd8",
+            "Kf7",
+            "Kc7",
+            "e5",
+            "Kd7",
+            "e6+",
+            "Kc6",
+            "e7",
+            "Kd5",
+            "e8=Q",
+            "Kd4",
+            "Qe1",
+            "Kd3",
+            "Ke6",
+            "Kd4",
+            "Kd6",
+            "Kc4",
+            "Qd2",
+            "Kb5",
+            "Qc3",
+            "Ka6",
+            "Kc6",
+            "Ka7",
+            "Qb4",
+            "Ka8",
+            "Qb7#"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Kc6",
+          "uci": "d6c6",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc6",
+            "Ke7",
+            "Kd5",
+            "Kd7",
+            "e5",
+            "Ke7",
+            "Kc5",
+            "Ke6",
+            "Kd4",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 6,
+          "san": "Kc5",
+          "uci": "d6c5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc5",
+            "Ke7",
+            "Kd5",
+            "Kd7",
+            "e5",
+            "Ke7",
+            "Kc5",
+            "Ke6",
+            "Kd4",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 7,
+          "san": "Ke5",
+          "uci": "d6e5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Ke5",
+            "Ke7",
+            "Kd5",
+            "Kd7",
+            "e5",
+            "Ke7",
+            "Kc5",
+            "Ke6",
+            "Kd4",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 8,
+          "san": "Kc7",
+          "uci": "d6c7",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc7",
+            "Ke7",
+            "e5",
+            "Ke6",
+            "Kd8",
+            "Kxe5",
+            "Ke7",
+            "Kd5",
+            "Kd7",
+            "Kc5",
+            "Ke6",
+            "Kb4",
+            "Kd6",
+            "Kc3",
+            "Ke5",
+            "Kc2",
+            "Kd6",
+            "Kd3",
+            "Kc7",
+            "Kc3",
+            "Kd7",
+            "Kd2",
+            "Kc6",
+            "Ke3",
+            "Kc5",
+            "Kf4",
+            "Kd4",
+            "Kf3",
+            "Kd5",
+            "Ke3",
+            "Kc6",
+            "Ke4",
+            "Kc5",
+            "Ke5",
+            "Kb4",
+            "Kd4",
+            "Kb3",
+            "Kd5",
+            "Kc3",
+            "Kc5",
+            "Kd3",
+            "Kb4",
+            "Kd4",
+            "Kb3",
+            "Kc5",
+            "Kc3"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Kd7",
+            "uci": "d6d7",
+            "p": 0.7035
+          },
+          {
+            "san": "Ke6",
+            "uci": "d6e6",
+            "p": 0.1509
+          },
+          {
+            "san": "e5",
+            "uci": "e4e5",
+            "p": 0.1426
+          },
+          {
+            "san": "Ke5",
+            "uci": "d6e5",
+            "p": 0.0018
+          }
+        ],
+        "expected_score_user": 0.9556
+      }
+    },
+    {
+      "id": "N6",
+      "fen": "8/8/3K1k2/8/4P3/8/8/8 w - - 2 61",
+      "epd": "8/8/3K1k2/8/4P3/8/8/8 w - -",
+      "parent": "N3",
+      "via_san": "Kf6",
+      "via_uci": "f7f6",
+      "phase": "E3l1",
+      "path": [
+        "Kd6",
+        "Kf6"
+      ],
+      "side_to_move": "w",
+      "citable": true,
+      "depth": 63,
+      "seldepth": 40,
+      "nodes": 15992235,
+      "time_s": 4.307,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "e5+",
+          "uci": "e4e5",
+          "eval_white_cp": 9989,
+          "mate_white": 11,
+          "eval_user_cp": 9989,
+          "mate_user": 11,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "e5+",
+            "Kg5",
+            "e6",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe2",
+            "Kf4",
+            "Ke6",
+            "Kg5",
+            "Qf3",
+            "Kh6",
+            "Kf6",
+            "Kh7",
+            "Qg4",
+            "Kh8",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Kd5",
+          "uci": "d6d5",
+          "eval_white_cp": 9984,
+          "mate_white": 16,
+          "eval_user_cp": 9984,
+          "mate_user": 16,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kd5",
+            "Ke7",
+            "Ke5",
+            "Kd7",
+            "Kf6",
+            "Kd8",
+            "Kf7",
+            "Kc7",
+            "e5",
+            "Kd7",
+            "e6+",
+            "Kc6",
+            "e7",
+            "Kd5",
+            "e8=Q",
+            "Kd4",
+            "Qe2",
+            "Kd5",
+            "Qd2+",
+            "Kc4",
+            "Ke6",
+            "Kc5",
+            "Qc3+",
+            "Kb6",
+            "Kd6",
+            "Ka6",
+            "Kc6",
+            "Ka7",
+            "Qb4",
+            "Ka8",
+            "Qb7#"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kc6",
+          "uci": "d6c6",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc6",
+            "Ke6",
+            "e5",
+            "Kxe5",
+            "Kc5",
+            "Ke4",
+            "Kc4",
+            "Kf3",
+            "Kd3",
+            "Kf4",
+            "Kd4",
+            "Kf5",
+            "Kd5",
+            "Kf6",
+            "Kd6",
+            "Kf7",
+            "Kd5",
+            "Ke7",
+            "Ke5",
+            "Kd7",
+            "Kd5",
+            "Ke8",
+            "Ke6",
+            "Kd8",
+            "Kd6",
+            "Ke8"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kc7",
+          "uci": "d6c7",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc7",
+            "Ke5",
+            "Kb7",
+            "Kd4",
+            "Kc6",
+            "Kxe4",
+            "Kc5",
+            "Ke3",
+            "Kd6",
+            "Kf4",
+            "Kc5",
+            "Ke5",
+            "Kb6",
+            "Kd6",
+            "Kb5",
+            "Kd5",
+            "Kb6"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Kc5",
+          "uci": "d6c5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc5",
+            "Ke5",
+            "Kc6",
+            "Kxe4",
+            "Kc5",
+            "Ke3",
+            "Kd5",
+            "Kd3",
+            "Ke5",
+            "Kc4",
+            "Kd6",
+            "Kd4",
+            "Ke6",
+            "Ke4",
+            "Kd6",
+            "Kf4",
+            "Kd5",
+            "Ke3",
+            "Kd6",
+            "Kf3",
+            "Ke6",
+            "Ke2",
+            "Ke5",
+            "Kd3",
+            "Kd6",
+            "Kc2",
+            "Kc5",
+            "Kc3",
+            "Kd5",
+            "Kb4",
+            "Kd6",
+            "Kc4",
+            "Ke6",
+            "Kc5",
+            "Ke5"
+          ]
+        },
+        {
+          "rank": 6,
+          "san": "Kd7",
+          "uci": "d6d7",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kd7",
+            "Ke5",
+            "Kc6",
+            "Kxe4",
+            "Kc5",
+            "Ke3",
+            "Kd5",
+            "Kd3",
+            "Ke5",
+            "Kc4",
+            "Kd6",
+            "Kd4",
+            "Ke6",
+            "Kc3",
+            "Kd5"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "e5+",
+            "uci": "e4e5",
+            "p": 0.9035
+          },
+          {
+            "san": "Kd7",
+            "uci": "d6d7",
+            "p": 0.0863
+          },
+          {
+            "san": "Kd5",
+            "uci": "d6d5",
+            "p": 0.0102
+          }
+        ],
+        "expected_score_user": 0.9832
+      }
+    },
+    {
+      "id": "N7",
+      "fen": "8/8/3K2k1/8/4P3/8/8/8 w - - 2 61",
+      "epd": "8/8/3K2k1/8/4P3/8/8/8 w - -",
+      "parent": "N3",
+      "via_san": "Kg6",
+      "via_uci": "f7g6",
+      "phase": "E3l1",
+      "path": [
+        "Kd6",
+        "Kg6"
+      ],
+      "side_to_move": "w",
+      "citable": true,
+      "depth": 14,
+      "seldepth": 50,
+      "nodes": 17550184,
+      "time_s": 8.574,
+      "unstable_depth": true,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Ke6",
+          "uci": "d6e6",
+          "eval_white_cp": 9985,
+          "mate_white": 15,
+          "eval_user_cp": 9985,
+          "mate_user": 15,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Ke6",
+            "Kg5",
+            "Kd6",
+            "Kf4",
+            "e5",
+            "Kf5",
+            "e6",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kf6",
+            "e8=Q",
+            "Kf5",
+            "Qe2",
+            "Kf4",
+            "Ke6",
+            "Kg5",
+            "Qe3+",
+            "Kh5",
+            "Kf5",
+            "Kh4",
+            "Qe2",
+            "Kg3",
+            "Kg5",
+            "Kh3",
+            "Kf4",
+            "Kh4",
+            "Qg4#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Ke5",
+          "uci": "d6e5",
+          "eval_white_cp": 9985,
+          "mate_white": 15,
+          "eval_user_cp": 9985,
+          "mate_user": 15,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Ke5",
+            "Kf7",
+            "Kd6",
+            "Kf8",
+            "Kd7",
+            "Kf7",
+            "e5",
+            "Kg6",
+            "e6",
+            "Kf5",
+            "Kd6",
+            "Kg6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kf6",
+            "e8=Q",
+            "Kf5",
+            "Qe3",
+            "Kf6",
+            "Qf4+",
+            "Kg6",
+            "Ke6",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kc7",
+          "uci": "d6c7",
+          "eval_white_cp": 9984,
+          "mate_white": 16,
+          "eval_user_cp": 9984,
+          "mate_user": 16,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kc7",
+            "Kf6",
+            "Kd6",
+            "Kf7",
+            "e5",
+            "Ke8",
+            "Ke6",
+            "Kd8",
+            "Kf7",
+            "Kd7",
+            "e6+",
+            "Kd6",
+            "e7",
+            "Kc5",
+            "e8=Q",
+            "Kc4",
+            "Qe3",
+            "Kd5",
+            "Qd2+",
+            "Kc4",
+            "Ke6",
+            "Kc5",
+            "Qc3+",
+            "Kb6",
+            "Kd6",
+            "Ka6",
+            "Qb4",
+            "Ka7",
+            "Kc6",
+            "Ka8",
+            "Qb7#"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kc5",
+          "uci": "d6c5",
+          "eval_white_cp": 9983,
+          "mate_white": 17,
+          "eval_user_cp": 9983,
+          "mate_user": 17,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kc5",
+            "Kf6",
+            "Kd5",
+            "Ke7",
+            "Ke5",
+            "Kf7",
+            "Kd6",
+            "Kf8",
+            "Kd7",
+            "Kf7",
+            "e5",
+            "Kg6",
+            "e6",
+            "Kf5",
+            "Kd6",
+            "Kg6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kf6",
+            "e8=Q",
+            "Kf5",
+            "Qe3",
+            "Kf6",
+            "Qf4+",
+            "Kg6",
+            "Ke6",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Ke7",
+          "uci": "d6e7",
+          "eval_white_cp": 9999,
+          "mate_white": null,
+          "eval_user_cp": 9999,
+          "mate_user": null,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Ke7",
+            "Kg5",
+            "Ke6",
+            "Kf4",
+            "e5",
+            "Ke3",
+            "Kd6",
+            "Ke2",
+            "e6",
+            "Kd2",
+            "e7",
+            "Ke2",
+            "Kd5",
+            "Ke3",
+            "Kc5",
+            "Ke4",
+            "Kd6",
+            "Kf5",
+            "Kd7",
+            "Ke5",
+            "e8=Q+",
+            "Kd4",
+            "Qe2",
+            "Kc3",
+            "Qd1",
+            "Kb2",
+            "Kc6",
+            "Kc3",
+            "Kb5",
+            "Kb2",
+            "Kb4",
+            "Ka2",
+            "Kc3",
+            "Ka3",
+            "Qa1#"
+          ]
+        },
+        {
+          "rank": 6,
+          "san": "e5",
+          "uci": "e4e5",
+          "eval_white_cp": 9999,
+          "mate_white": null,
+          "eval_user_cp": 9999,
+          "mate_user": null,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "e5",
+            "Kf5",
+            "e6",
+            "Kg5",
+            "e7",
+            "Kf4",
+            "e8=Q",
+            "Kf3",
+            "Qe1",
+            "Kf4",
+            "Ke6",
+            "Kg4",
+            "Qe3",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh7",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 7,
+          "san": "Kc6",
+          "uci": "d6c6",
+          "eval_white_cp": 9999,
+          "mate_white": null,
+          "eval_user_cp": 9999,
+          "mate_user": null,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kc6",
+            "Kf7",
+            "Kd6",
+            "Kf6",
+            "e5+",
+            "Kf5",
+            "e6",
+            "Kg5",
+            "e7",
+            "Kf4",
+            "Kc6",
+            "Kf3",
+            "e8=Q",
+            "Kg4",
+            "Qe3",
+            "Kf5",
+            "Kd5",
+            "Kf6",
+            "Qe5+",
+            "Kf7",
+            "Qg5",
+            "Ke8",
+            "Qg7",
+            "Kd8",
+            "Kd6",
+            "Ke8",
+            "Qe7#"
+          ]
+        },
+        {
+          "rank": 8,
+          "san": "Kd5",
+          "uci": "d6d5",
+          "eval_white_cp": 9999,
+          "mate_white": null,
+          "eval_user_cp": 9999,
+          "mate_user": null,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kd5",
+            "Kf6",
+            "Kd6",
+            "Kf7",
+            "e5",
+            "Ke8",
+            "Ke6",
+            "Kd8",
+            "Kf7",
+            "Kd7",
+            "e6+",
+            "Kd6",
+            "e7",
+            "Kc5",
+            "e8=Q",
+            "Kd4",
+            "Qe2",
+            "Kd5",
+            "Qd3+",
+            "Kc6",
+            "Qc4+",
+            "Kb7",
+            "Qb5+",
+            "Kc8",
+            "Qb6",
+            "Kd7",
+            "Qc5",
+            "Kd8",
+            "Ke6",
+            "Ke8",
+            "Qe7#"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "e5",
+            "uci": "e4e5",
+            "p": 0.6464
+          },
+          {
+            "san": "Kd7",
+            "uci": "d6d7",
+            "p": 0.1533
+          },
+          {
+            "san": "Ke6",
+            "uci": "d6e6",
+            "p": 0.1115
+          },
+          {
+            "san": "Ke7",
+            "uci": "d6e7",
+            "p": 0.079
+          },
+          {
+            "san": "Ke5",
+            "uci": "d6e5",
+            "p": 0.0072
+          },
+          {
+            "san": "Kd5",
+            "uci": "d6d5",
+            "p": 0.0024
+          }
+        ],
+        "expected_score_user": 0.9778
+      }
+    },
+    {
+      "id": "N8",
+      "fen": "4k3/8/3K4/8/4P3/8/8/8 w - - 2 61",
+      "epd": "4k3/8/3K4/8/4P3/8/8/8 w - -",
+      "parent": "N3",
+      "via_san": "Ke8",
+      "via_uci": "f7e8",
+      "phase": "E3l1",
+      "path": [
+        "Kd6",
+        "Ke8"
+      ],
+      "side_to_move": "w",
+      "citable": true,
+      "depth": 44,
+      "seldepth": 48,
+      "nodes": 21619653,
+      "time_s": 4.304,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "e5",
+          "uci": "e4e5",
+          "eval_white_cp": 9989,
+          "mate_white": 11,
+          "eval_user_cp": 9989,
+          "mate_user": 11,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "e5",
+            "Kf7",
+            "e6+",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe3",
+            "Kf6",
+            "Qf4+",
+            "Kg6",
+            "Ke6",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Ke6",
+          "uci": "d6e6",
+          "eval_white_cp": 9987,
+          "mate_white": 13,
+          "eval_user_cp": 9987,
+          "mate_user": 13,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Ke6",
+            "Kd8",
+            "Kd6",
+            "Ke8",
+            "e5",
+            "Kf7",
+            "e6+",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe3",
+            "Kf6",
+            "Qf4+",
+            "Kg6",
+            "Ke6",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kc5",
+          "uci": "d6c5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc5",
+            "Ke7",
+            "Kd5",
+            "Kd7",
+            "Ke5",
+            "Ke7",
+            "Kf5",
+            "Kf7",
+            "e5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Kf6",
+            "Kf8",
+            "Ke5",
+            "Ke7",
+            "Kf5"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kc6",
+          "uci": "d6c6",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc6",
+            "Ke7",
+            "Kc5",
+            "Ke6",
+            "Kd4",
+            "Kd6",
+            "e5+",
+            "Kd7",
+            "Kd5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Kd6",
+            "Kd8",
+            "Ke5",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Ke5",
+          "uci": "d6e5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Ke5",
+            "Ke7",
+            "Kf5",
+            "Kf7",
+            "e5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Ke5",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 6,
+          "san": "Kd5",
+          "uci": "d6d5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kd5",
+            "Kd7",
+            "Ke5",
+            "Ke7",
+            "Kf5",
+            "Kf7",
+            "e5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Ke5",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 7,
+          "san": "Kc7",
+          "uci": "d6c7",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc7",
+            "Ke7",
+            "e5",
+            "Ke6",
+            "Kd8",
+            "Kxe5",
+            "Ke7",
+            "Kf5",
+            "Kf7",
+            "Ke4",
+            "Ke6",
+            "Kd4",
+            "Kf6",
+            "Kd5",
+            "Ke7",
+            "Ke4"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Ke6",
+            "uci": "d6e6",
+            "p": 0.7612
+          },
+          {
+            "san": "e5",
+            "uci": "e4e5",
+            "p": 0.1987
+          },
+          {
+            "san": "Kc7",
+            "uci": "d6c7",
+            "p": 0.0342
+          },
+          {
+            "san": "Ke5",
+            "uci": "d6e5",
+            "p": 0.0043
+          }
+        ],
+        "expected_score_user": 0.9501
+      }
+    },
+    {
+      "id": "N9",
+      "fen": "8/8/4k3/8/3KP3/8/8/8 w - - 2 61",
+      "epd": "8/8/4k3/8/3KP3/8/8/8 w - -",
+      "parent": "N4",
+      "via_san": "Ke6",
+      "via_uci": "f7e6",
+      "phase": "E3l1",
+      "path": [
+        "Kd4",
+        "Ke6"
+      ],
+      "side_to_move": "w",
+      "citable": true,
+      "depth": 54,
+      "seldepth": 18,
+      "nodes": 21036608,
+      "time_s": 4.314,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Kc3",
+          "uci": "d4c3",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc3",
+            "Ke7",
+            "e5",
+            "Kd7",
+            "Kd4",
+            "Ke6",
+            "Ke4",
+            "Ke7",
+            "Kf5",
+            "Kf7",
+            "e6+",
+            "Ke8",
+            "Kf4",
+            "Ke7",
+            "Ke5",
+            "Ke8"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Ke3",
+          "uci": "d4e3",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Ke3",
+            "Ke5",
+            "Kf3",
+            "Ke6",
+            "Kf4",
+            "Kf6",
+            "e5+",
+            "Ke7",
+            "Kf5",
+            "Kf7",
+            "e6+",
+            "Ke8",
+            "Kf4",
+            "Ke7",
+            "Ke5",
+            "Ke8",
+            "Kf4"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "e5",
+          "uci": "e4e5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "e5",
+            "Kd7",
+            "Kd5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Ke4",
+            "Kd8",
+            "Kd4",
+            "Ke8",
+            "Ke5",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kc4",
+          "uci": "d4c4",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc4",
+            "Ke5",
+            "Kd3",
+            "Ke6"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Kd3",
+          "uci": "d4d3",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kd3",
+            "Ke5",
+            "Ke3",
+            "Ke6"
+          ]
+        },
+        {
+          "rank": 6,
+          "san": "Kc5",
+          "uci": "d4c5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc5",
+            "Ke5",
+            "Kb5",
+            "Kxe4",
+            "Kb6",
+            "Kd5",
+            "Kb5",
+            "Kd4",
+            "Kc6",
+            "Kc4",
+            "Kb6",
+            "Kd3",
+            "Kb5"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "e5",
+            "uci": "e4e5",
+            "p": 0.6968
+          },
+          {
+            "san": "Ke3",
+            "uci": "d4e3",
+            "p": 0.1758
+          },
+          {
+            "san": "Kc5",
+            "uci": "d4c5",
+            "p": 0.0672
+          },
+          {
+            "san": "Kd3",
+            "uci": "d4d3",
+            "p": 0.0505
+          },
+          {
+            "san": "Kc4",
+            "uci": "d4c4",
+            "p": 0.0095
+          }
+        ],
+        "expected_score_user": 0.8333
+      }
+    },
+    {
+      "id": "N10",
+      "fen": "4k3/8/8/8/3KP3/8/8/8 w - - 2 61",
+      "epd": "4k3/8/8/8/3KP3/8/8/8 w - -",
+      "parent": "N4",
+      "via_san": "Ke8",
+      "via_uci": "f7e8",
+      "phase": "E3l1",
+      "path": [
+        "Kd4",
+        "Ke8"
+      ],
+      "side_to_move": "w",
+      "citable": true,
+      "depth": 50,
+      "seldepth": 27,
+      "nodes": 21192819,
+      "time_s": 4.293,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Ke5",
+          "uci": "d4e5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Ke5",
+            "Ke7",
+            "Kd5",
+            "Kd7",
+            "e5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Kd4",
+            "Kd8",
+            "Ke4",
+            "Ke7",
+            "Ke5",
+            "Ke8",
+            "Kf6",
+            "Kf8",
+            "Kg5",
+            "Ke7",
+            "Kf5",
+            "Ke8",
+            "Ke5",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Kd5",
+          "uci": "d4d5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kd5",
+            "Kd7",
+            "e5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Ke5",
+            "Ke7",
+            "Kf5",
+            "Ke8"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kc4",
+          "uci": "d4c4",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc4",
+            "Ke7",
+            "e5",
+            "Ke6",
+            "Kd4",
+            "Kd7",
+            "Kd5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Ke5",
+            "Ke7",
+            "Kf5",
+            "Ke8"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kc5",
+          "uci": "d4c5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc5",
+            "Ke7",
+            "Kd5",
+            "Kd7",
+            "e5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Ke5",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "e5",
+          "uci": "e4e5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "e5",
+            "Kd7",
+            "Kd5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Ke5",
+            "Ke7",
+            "Kf5",
+            "Ke8"
+          ]
+        },
+        {
+          "rank": 6,
+          "san": "Kc3",
+          "uci": "d4c3",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc3",
+            "Kf7",
+            "Kb2",
+            "Ke6",
+            "Kc2",
+            "Ke5",
+            "Kd3",
+            "Kd6",
+            "Kd4",
+            "Ke6",
+            "e5",
+            "Kd7",
+            "Kd5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Ke5",
+            "Ke7",
+            "Kf5",
+            "Ke8"
+          ]
+        },
+        {
+          "rank": 7,
+          "san": "Ke3",
+          "uci": "d4e3",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Ke3",
+            "Ke7",
+            "e5",
+            "Kf8",
+            "Kd4",
+            "Kf7",
+            "Kd5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Ke5",
+            "Ke7",
+            "Kf5",
+            "Ke8"
+          ]
+        },
+        {
+          "rank": 8,
+          "san": "Kd3",
+          "uci": "d4d3",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kd3",
+            "Ke7",
+            "Kd2",
+            "Ke6",
+            "Ke3",
+            "Ke7",
+            "e5",
+            "Kf8",
+            "Kd4",
+            "Kf7",
+            "Kd5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Ke5",
+            "Ke7"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Kd5",
+            "uci": "d4d5",
+            "p": 0.4835
+          },
+          {
+            "san": "Ke5",
+            "uci": "d4e5",
+            "p": 0.4277
+          },
+          {
+            "san": "e5",
+            "uci": "e4e5",
+            "p": 0.081
+          },
+          {
+            "san": "Kc5",
+            "uci": "d4c5",
+            "p": 0.0064
+          },
+          {
+            "san": "Ke3",
+            "uci": "d4e3",
+            "p": 0.0012
+          }
+        ],
+        "expected_score_user": 0.8715
+      }
+    },
+    {
+      "id": "N11",
+      "fen": "8/8/5k2/8/3KP3/8/8/8 w - - 2 61",
+      "epd": "8/8/5k2/8/3KP3/8/8/8 w - -",
+      "parent": "N4",
+      "via_san": "Kf6",
+      "via_uci": "f7f6",
+      "phase": "E3l1",
+      "path": [
+        "Kd4",
+        "Kf6"
+      ],
+      "side_to_move": "w",
+      "citable": true,
+      "depth": 51,
+      "seldepth": 18,
+      "nodes": 16792720,
+      "time_s": 4.325,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Kd5",
+          "uci": "d4d5",
+          "eval_white_cp": 9984,
+          "mate_white": 16,
+          "eval_user_cp": 9984,
+          "mate_user": 16,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kd5",
+            "Ke7",
+            "Ke5",
+            "Kd7",
+            "Kf6",
+            "Kd8",
+            "Kf7",
+            "Kc7",
+            "e5",
+            "Kc6",
+            "e6",
+            "Kd5",
+            "e7",
+            "Ke5",
+            "e8=Q+",
+            "Kd4",
+            "Qe1",
+            "Kd3",
+            "Ke6",
+            "Kc4",
+            "Qe3",
+            "Kb5",
+            "Kd5",
+            "Kb4",
+            "Qd2+",
+            "Ka4",
+            "Kc4",
+            "Ka3",
+            "Qe2",
+            "Ka4",
+            "Qa2#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Kc4",
+          "uci": "d4c4",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc4",
+            "Ke5",
+            "Kd3",
+            "Kd6",
+            "Kd4",
+            "Ke6",
+            "e5",
+            "Kf7",
+            "Ke3",
+            "Ke7",
+            "Kf3",
+            "Kd7",
+            "Kf4",
+            "Ke6",
+            "Ke4",
+            "Kf7"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kc3",
+          "uci": "d4c3",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc3",
+            "Ke5",
+            "Kd3",
+            "Kd6",
+            "Kd4",
+            "Ke6",
+            "e5",
+            "Kf7",
+            "Ke3",
+            "Ke7",
+            "Kf3",
+            "Kd7",
+            "Kf4",
+            "Ke6",
+            "Ke4",
+            "Kf7",
+            "Kf5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Kf6",
+            "Kf8",
+            "Ke5",
+            "Ke8",
+            "Kf6"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kd3",
+          "uci": "d4d3",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kd3",
+            "Ke7",
+            "Ke3",
+            "Ke6",
+            "Kf4",
+            "Kf6",
+            "e5+",
+            "Kf7",
+            "Kf5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Kf6",
+            "Kf8",
+            "Ke5",
+            "Ke8",
+            "Kd6",
+            "Kd8",
+            "Ke5"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Ke3",
+          "uci": "d4e3",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Ke3",
+            "Ke5",
+            "Kf3",
+            "Ke6",
+            "Kf2",
+            "Kf7",
+            "Ke3",
+            "Ke7",
+            "Kd4",
+            "Ke6",
+            "e5",
+            "Kf7",
+            "Ke3",
+            "Ke7",
+            "Kf3",
+            "Kd7",
+            "Kf4",
+            "Ke6",
+            "Ke4",
+            "Kf7",
+            "Kf5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Kf6",
+            "Kf8",
+            "Ke5",
+            "Ke8",
+            "Kd6",
+            "Kd8",
+            "Kc6",
+            "Ke7",
+            "Kd5",
+            "Ke8"
+          ]
+        },
+        {
+          "rank": 6,
+          "san": "e5+",
+          "uci": "e4e5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "e5+",
+            "Kf7",
+            "Ke3",
+            "Ke7",
+            "Kf3",
+            "Kd7",
+            "Kf4",
+            "Ke6",
+            "Ke4",
+            "Kf7",
+            "Kf5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Kf6",
+            "Kf8",
+            "Ke5",
+            "Ke8",
+            "Kd6",
+            "Kd8",
+            "Kc6",
+            "Ke7",
+            "Kd5",
+            "Ke8"
+          ]
+        },
+        {
+          "rank": 7,
+          "san": "Kc5",
+          "uci": "d4c5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kc5",
+            "Ke5",
+            "Kb5",
+            "Kxe4",
+            "Ka4",
+            "Kd5",
+            "Kb5",
+            "Kd4",
+            "Kb4",
+            "Kd3",
+            "Kb5",
+            "Ke3",
+            "Ka4",
+            "Kd2",
+            "Kb3",
+            "Ke2",
+            "Kb4"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Kd5",
+            "uci": "d4d5",
+            "p": 0.9394
+          },
+          {
+            "san": "e5+",
+            "uci": "e4e5",
+            "p": 0.0536
+          },
+          {
+            "san": "Ke3",
+            "uci": "d4e3",
+            "p": 0.0059
+          }
+        ],
+        "expected_score_user": 0.9024
+      }
+    },
+    {
+      "id": "N12",
+      "fen": "5k2/3K4/8/8/4P3/8/8/8 b - - 3 61",
+      "epd": "5k2/3K4/8/8/4P3/8/8/8 b - -",
+      "parent": "N5",
+      "via_san": "Kd7",
+      "via_uci": "d6d7",
+      "phase": "E3l2",
+      "path": [
+        "Kd6",
+        "Kf8",
+        "Kd7"
+      ],
+      "side_to_move": "b",
+      "citable": true,
+      "depth": 85,
+      "seldepth": 23,
+      "nodes": 15998277,
+      "time_s": 4.298,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Kg8",
+          "uci": "f8g8",
+          "eval_white_cp": 9989,
+          "mate_white": 11,
+          "eval_user_cp": 9989,
+          "mate_user": 11,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg8",
+            "e5",
+            "Kf7",
+            "e6+",
+            "Kf6",
+            "e7",
+            "Ke5",
+            "e8=Q+",
+            "Kd4",
+            "Kd6",
+            "Kc3",
+            "Kc5",
+            "Kb3",
+            "Qe3+",
+            "Kc2",
+            "Kc4",
+            "Kb2",
+            "Qd2+",
+            "Ka3",
+            "Qe2",
+            "Ka4",
+            "Qa2#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Kg7",
+          "uci": "f8g7",
+          "eval_white_cp": 9989,
+          "mate_white": 11,
+          "eval_user_cp": 9989,
+          "mate_user": 11,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg7",
+            "e5",
+            "Kg6",
+            "e6",
+            "Kf5",
+            "e7",
+            "Ke5",
+            "e8=Q+",
+            "Kd4",
+            "Kd6",
+            "Kc3",
+            "Kc5",
+            "Kb3",
+            "Qe3+",
+            "Kc2",
+            "Kc4",
+            "Kb2",
+            "Qd2+",
+            "Ka3",
+            "Qe2",
+            "Ka4",
+            "Qa2#"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kf7",
+          "uci": "f8f7",
+          "eval_white_cp": 9989,
+          "mate_white": 11,
+          "eval_user_cp": 9989,
+          "mate_user": 11,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf7",
+            "e5",
+            "Kg6",
+            "e6",
+            "Kf5",
+            "e7",
+            "Ke5",
+            "e8=Q+",
+            "Kd4",
+            "Kd6",
+            "Kc3",
+            "Kc5",
+            "Kb3",
+            "Qe3+",
+            "Kc2",
+            "Kc4",
+            "Kb2",
+            "Qd2+",
+            "Ka3",
+            "Qe2",
+            "Ka4",
+            "Qa2#"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Kf7",
+            "uci": "f8f7",
+            "p": 0.9927
+          },
+          {
+            "san": "Kg7",
+            "uci": "f8g7",
+            "p": 0.0042
+          },
+          {
+            "san": "Kg8",
+            "uci": "f8g8",
+            "p": 0.0031
+          }
+        ],
+        "expected_score_user": 0.9827
+      }
+    },
+    {
+      "id": "N13",
+      "fen": "8/8/3K1k2/4P3/8/8/8/8 b - - 0 61",
+      "epd": "8/8/3K1k2/4P3/8/8/8/8 b - -",
+      "parent": "N6",
+      "via_san": "e5+",
+      "via_uci": "e4e5",
+      "phase": "E3l2",
+      "path": [
+        "Kd6",
+        "Kf6",
+        "e5+"
+      ],
+      "side_to_move": "b",
+      "citable": true,
+      "depth": 95,
+      "seldepth": 21,
+      "nodes": 17969895,
+      "time_s": 4.31,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Kf7",
+          "uci": "f6f7",
+          "eval_white_cp": 9990,
+          "mate_white": 10,
+          "eval_user_cp": 9990,
+          "mate_user": 10,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf7",
+            "e6+",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kf6",
+            "e8=Q",
+            "Kf5",
+            "Qe2",
+            "Kg6",
+            "Qf3",
+            "Kg7",
+            "Ke6",
+            "Kh6",
+            "Qg4",
+            "Kh7",
+            "Kf6",
+            "Kh8",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Kf5",
+          "uci": "f6f5",
+          "eval_white_cp": 9990,
+          "mate_white": 10,
+          "eval_user_cp": 9990,
+          "mate_user": 10,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf5",
+            "e6",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kf6",
+            "e8=Q",
+            "Kf5",
+            "Qe2",
+            "Kg6",
+            "Qf3",
+            "Kg7",
+            "Ke6",
+            "Kh6",
+            "Qg4",
+            "Kh7",
+            "Kf6",
+            "Kh8",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kg6",
+          "uci": "f6g6",
+          "eval_white_cp": 9990,
+          "mate_white": 10,
+          "eval_user_cp": 9990,
+          "mate_user": 10,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg6",
+            "e6",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kf6",
+            "e8=Q",
+            "Kf5",
+            "Qe2",
+            "Kg6",
+            "Qf3",
+            "Kg7",
+            "Ke6",
+            "Kh6",
+            "Qg4",
+            "Kh7",
+            "Kf6",
+            "Kh8",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kg5",
+          "uci": "f6g5",
+          "eval_white_cp": 9990,
+          "mate_white": 10,
+          "eval_user_cp": 9990,
+          "mate_user": 10,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg5",
+            "e6",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kf6",
+            "e8=Q",
+            "Kf5",
+            "Qe2",
+            "Kg6",
+            "Qf3",
+            "Kg7",
+            "Ke6",
+            "Kh6",
+            "Qg4",
+            "Kh7",
+            "Kf6",
+            "Kh8",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Kg7",
+          "uci": "f6g7",
+          "eval_white_cp": 9990,
+          "mate_white": 10,
+          "eval_user_cp": 9990,
+          "mate_user": 10,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg7",
+            "e6",
+            "Kg6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kf6",
+            "e8=Q",
+            "Kf5",
+            "Qe2",
+            "Kg6",
+            "Qf3",
+            "Kg7",
+            "Ke6",
+            "Kh6",
+            "Qg4",
+            "Kh7",
+            "Kf6",
+            "Kh8",
+            "Qg7#"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Kf7",
+            "uci": "f6f7",
+            "p": 0.9637
+          },
+          {
+            "san": "Kf5",
+            "uci": "f6f5",
+            "p": 0.0289
+          },
+          {
+            "san": "Kg7",
+            "uci": "f6g7",
+            "p": 0.0051
+          },
+          {
+            "san": "Kg6",
+            "uci": "f6g6",
+            "p": 0.0015
+          }
+        ],
+        "expected_score_user": 0.955
+      }
+    },
+    {
+      "id": "N14",
+      "fen": "8/8/4K1k1/8/4P3/8/8/8 b - - 3 61",
+      "epd": "8/8/4K1k1/8/4P3/8/8/8 b - -",
+      "parent": "N7",
+      "via_san": "Ke6",
+      "via_uci": "d6e6",
+      "phase": "E3l2",
+      "path": [
+        "Kd6",
+        "Kg6",
+        "Ke6"
+      ],
+      "side_to_move": "b",
+      "citable": true,
+      "depth": 73,
+      "seldepth": 25,
+      "nodes": 17566735,
+      "time_s": 4.322,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Kg5",
+          "uci": "g6g5",
+          "eval_white_cp": 9988,
+          "mate_white": 12,
+          "eval_user_cp": 9988,
+          "mate_user": 12,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg5",
+            "e5",
+            "Kg6",
+            "Kd6",
+            "Kf7",
+            "e6+",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe3",
+            "Kf6",
+            "Qf4+",
+            "Kg6",
+            "Ke6",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Kh5",
+          "uci": "g6h5",
+          "eval_white_cp": 9988,
+          "mate_white": 12,
+          "eval_user_cp": 9988,
+          "mate_user": 12,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kh5",
+            "Kd7",
+            "Kg6",
+            "e5",
+            "Kf5",
+            "e6",
+            "Kg5",
+            "e7",
+            "Kf4",
+            "e8=Q",
+            "Kf3",
+            "Qe1",
+            "Kg4",
+            "Ke6",
+            "Kf4",
+            "Qe2",
+            "Kg5",
+            "Qe3+",
+            "Kg6",
+            "Qg3+",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kh6",
+          "uci": "g6h6",
+          "eval_white_cp": 9988,
+          "mate_white": 12,
+          "eval_user_cp": 9988,
+          "mate_user": 12,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kh6",
+            "e5",
+            "Kg6",
+            "Kd6",
+            "Kf7",
+            "e6+",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe3",
+            "Kf6",
+            "Qf4+",
+            "Kg6",
+            "Ke6",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kh7",
+          "uci": "g6h7",
+          "eval_white_cp": 9988,
+          "mate_white": 12,
+          "eval_user_cp": 9988,
+          "mate_user": 12,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kh7",
+            "Kd7",
+            "Kg6",
+            "e5",
+            "Kf5",
+            "e6",
+            "Kg5",
+            "e7",
+            "Kf4",
+            "e8=Q",
+            "Kf3",
+            "Qe1",
+            "Kg4",
+            "Ke6",
+            "Kf4",
+            "Qe2",
+            "Kg5",
+            "Qe3+",
+            "Kg6",
+            "Qg3+",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Kg7",
+          "uci": "g6g7",
+          "eval_white_cp": 9988,
+          "mate_white": 12,
+          "eval_user_cp": 9988,
+          "mate_user": 12,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg7",
+            "e5",
+            "Kg6",
+            "Kd6",
+            "Kf7",
+            "e6+",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe3",
+            "Kf6",
+            "Qf4+",
+            "Kg6",
+            "Ke6",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Kg7",
+            "uci": "g6g7",
+            "p": 0.9376
+          },
+          {
+            "san": "Kg5",
+            "uci": "g6g5",
+            "p": 0.061
+          }
+        ],
+        "expected_score_user": 0.9528
+      }
+    },
+    {
+      "id": "N15",
+      "fen": "4k3/8/3K4/4P3/8/8/8/8 b - - 0 61",
+      "epd": "4k3/8/3K4/4P3/8/8/8/8 b - -",
+      "parent": "N8",
+      "via_san": "e5",
+      "via_uci": "e4e5",
+      "phase": "E3l2",
+      "path": [
+        "Kd6",
+        "Ke8",
+        "e5"
+      ],
+      "side_to_move": "b",
+      "citable": true,
+      "depth": 115,
+      "seldepth": 21,
+      "nodes": 21307237,
+      "time_s": 4.33,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Kf8",
+          "uci": "e8f8",
+          "eval_white_cp": 9990,
+          "mate_white": 10,
+          "eval_user_cp": 9990,
+          "mate_user": 10,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf8",
+            "e6",
+            "Kg7",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe3",
+            "Kf6",
+            "Qf4+",
+            "Kg6",
+            "Ke6",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Kd8",
+          "uci": "e8d8",
+          "eval_white_cp": 9990,
+          "mate_white": 10,
+          "eval_user_cp": 9990,
+          "mate_user": 10,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kd8",
+            "e6",
+            "Ke8",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe3",
+            "Kf6",
+            "Qf4+",
+            "Kg6",
+            "Ke6",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kf7",
+          "uci": "e8f7",
+          "eval_white_cp": 9990,
+          "mate_white": 10,
+          "eval_user_cp": 9990,
+          "mate_user": 10,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf7",
+            "e6+",
+            "Kf6",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kg6",
+            "e8=Q+",
+            "Kf5",
+            "Qe3",
+            "Kf6",
+            "Qf4+",
+            "Kg6",
+            "Ke6",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Kd8",
+            "uci": "e8d8",
+            "p": 0.9497
+          },
+          {
+            "san": "Kf7",
+            "uci": "e8f7",
+            "p": 0.0354
+          },
+          {
+            "san": "Kf8",
+            "uci": "e8f8",
+            "p": 0.0149
+          }
+        ],
+        "expected_score_user": 0.801
+      }
+    },
+    {
+      "id": "N16",
+      "fen": "8/8/4k3/8/4P3/2K5/8/8 b - - 3 61",
+      "epd": "8/8/4k3/8/4P3/2K5/8/8 b - -",
+      "parent": "N9",
+      "via_san": "Kc3",
+      "via_uci": "d4c3",
+      "phase": "E3l2",
+      "path": [
+        "Kd4",
+        "Ke6",
+        "Kc3"
+      ],
+      "side_to_move": "b",
+      "citable": true,
+      "depth": 53,
+      "seldepth": 28,
+      "nodes": 22749568,
+      "time_s": 4.324,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Kf7",
+          "uci": "e6f7",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kf7",
+            "Kd4",
+            "Ke6",
+            "e5",
+            "Kf7",
+            "Kd5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Ke4",
+            "Kd8",
+            "Kd4",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Kd6",
+          "uci": "e6d6",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kd6",
+            "Kc4",
+            "Ke6",
+            "Kd4",
+            "Kd6"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Ke7",
+          "uci": "e6e7",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Ke7",
+            "Kd4",
+            "Kd6",
+            "Kc4",
+            "Ke6",
+            "Kd3",
+            "Kd7",
+            "Ke3",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kd7",
+          "uci": "e6d7",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kd7",
+            "Kd3",
+            "Ke6",
+            "Kd4",
+            "Kd6",
+            "Kc4",
+            "Ke6",
+            "Kd3",
+            "Kd7",
+            "Ke3",
+            "Ke7",
+            "e5",
+            "Kf7",
+            "Kf4",
+            "Ke7",
+            "Kf5",
+            "Kf7"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Kf6",
+          "uci": "e6f6",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Kf6",
+            "Kd4",
+            "Ke6",
+            "e5",
+            "Kf7",
+            "Kd5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Ke4",
+            "Ke7"
+          ]
+        },
+        {
+          "rank": 6,
+          "san": "Ke5",
+          "uci": "e6e5",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Ke5",
+            "Kd3",
+            "Ke6",
+            "Kd4",
+            "Kd6",
+            "Kc4",
+            "Ke6",
+            "Kd3",
+            "Kd7",
+            "Ke3",
+            "Ke7",
+            "e5",
+            "Kf7",
+            "Kf4",
+            "Ke7",
+            "Kf5",
+            "Kf7"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Ke5",
+            "uci": "e6e5",
+            "p": 0.8868
+          },
+          {
+            "san": "Kd6",
+            "uci": "e6d6",
+            "p": 0.0773
+          },
+          {
+            "san": "Ke7",
+            "uci": "e6e7",
+            "p": 0.023
+          },
+          {
+            "san": "Kf6",
+            "uci": "e6f6",
+            "p": 0.0087
+          },
+          {
+            "san": "Kd7",
+            "uci": "e6d7",
+            "p": 0.0031
+          },
+          {
+            "san": "Kf7",
+            "uci": "e6f7",
+            "p": 0.0011
+          }
+        ],
+        "expected_score_user": 0.652
+      }
+    },
+    {
+      "id": "N17",
+      "fen": "4k3/8/8/4K3/4P3/8/8/8 b - - 3 61",
+      "epd": "4k3/8/8/4K3/4P3/8/8/8 b - -",
+      "parent": "N10",
+      "via_san": "Ke5",
+      "via_uci": "d4e5",
+      "phase": "E3l2",
+      "path": [
+        "Kd4",
+        "Ke8",
+        "Ke5"
+      ],
+      "side_to_move": "b",
+      "citable": true,
+      "depth": 56,
+      "seldepth": 25,
+      "nodes": 19790117,
+      "time_s": 4.325,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Ke7",
+          "uci": "e8e7",
+          "eval_white_cp": 0,
+          "mate_white": null,
+          "eval_user_cp": 0,
+          "mate_user": null,
+          "wdl_user": [
+            4,
+            992,
+            4
+          ],
+          "pv": [
+            "Ke7",
+            "Kd5",
+            "Kd7",
+            "e5",
+            "Ke7",
+            "e6",
+            "Ke8",
+            "Kd6",
+            "Kd8",
+            "Ke5",
+            "Ke8"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Kd7",
+          "uci": "e8d7",
+          "eval_white_cp": 9986,
+          "mate_white": 14,
+          "eval_user_cp": 9986,
+          "mate_user": 14,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kd7",
+            "Kf6",
+            "Kd8",
+            "Kf7",
+            "Kd7",
+            "e5",
+            "Kc6",
+            "e6",
+            "Kd5",
+            "e7",
+            "Kc4",
+            "e8=Q",
+            "Kd3",
+            "Qe1",
+            "Kc4",
+            "Ke6",
+            "Kd4",
+            "Qd2+",
+            "Kc4",
+            "Kd6",
+            "Kb5",
+            "Qc3",
+            "Ka6",
+            "Kc6",
+            "Ka7",
+            "Qb4",
+            "Ka8",
+            "Qb7#"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kf8",
+          "uci": "e8f8",
+          "eval_white_cp": 9987,
+          "mate_white": 13,
+          "eval_user_cp": 9987,
+          "mate_user": 13,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf8",
+            "Kf6",
+            "Ke8",
+            "e5",
+            "Kd7",
+            "e6+",
+            "Kd6",
+            "e7",
+            "Kd7",
+            "Kf7",
+            "Kd6",
+            "e8=Q",
+            "Kc5",
+            "Qa4",
+            "Kb6",
+            "Ke6",
+            "Kc5",
+            "Ke5",
+            "Kb6",
+            "Kd6",
+            "Kb7",
+            "Qb5+",
+            "Ka7",
+            "Kc6",
+            "Ka8",
+            "Qb7#"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kf7",
+          "uci": "e8f7",
+          "eval_white_cp": 9987,
+          "mate_white": 13,
+          "eval_user_cp": 9987,
+          "mate_user": 13,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf7",
+            "Kd6",
+            "Kf8",
+            "Kd7",
+            "Kg7",
+            "e5",
+            "Kg6",
+            "e6",
+            "Kf5",
+            "e7",
+            "Ke4",
+            "e8=Q+",
+            "Kf3",
+            "Qe1",
+            "Kg4",
+            "Ke6",
+            "Kf4",
+            "Kf6",
+            "Kf3",
+            "Kf5",
+            "Kg2",
+            "Kf4",
+            "Kh2",
+            "Kf3",
+            "Kh3",
+            "Qg3#"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Kd8",
+          "uci": "e8d8",
+          "eval_white_cp": 9988,
+          "mate_white": 12,
+          "eval_user_cp": 9988,
+          "mate_user": 12,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kd8",
+            "Kd6",
+            "Ke8",
+            "e5",
+            "Kf7",
+            "e6+",
+            "Ke8",
+            "e7",
+            "Kf7",
+            "Kd7",
+            "Kf6",
+            "e8=Q",
+            "Kf5",
+            "Qe2",
+            "Kg6",
+            "Ke6",
+            "Kg5",
+            "Qe3+",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh5",
+            "Qh3#"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Ke7",
+            "uci": "e8e7",
+            "p": 0.8685
+          },
+          {
+            "san": "Kd7",
+            "uci": "e8d7",
+            "p": 0.0547
+          },
+          {
+            "san": "Kf7",
+            "uci": "e8f7",
+            "p": 0.0345
+          },
+          {
+            "san": "Kd8",
+            "uci": "e8d8",
+            "p": 0.0252
+          },
+          {
+            "san": "Kf8",
+            "uci": "e8f8",
+            "p": 0.0171
+          }
+        ],
+        "expected_score_user": 0.829
+      }
+    },
+    {
+      "id": "N18",
+      "fen": "8/8/5k2/3K4/4P3/8/8/8 b - - 3 61",
+      "epd": "8/8/5k2/3K4/4P3/8/8/8 b - -",
+      "parent": "N11",
+      "via_san": "Kd5",
+      "via_uci": "d4d5",
+      "phase": "E3l2",
+      "path": [
+        "Kd4",
+        "Kf6",
+        "Kd5"
+      ],
+      "side_to_move": "b",
+      "citable": true,
+      "depth": 21,
+      "seldepth": 55,
+      "nodes": 15627447,
+      "time_s": 4.29,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Kf7",
+          "uci": "f6f7",
+          "eval_white_cp": 9999,
+          "mate_white": null,
+          "eval_user_cp": 9999,
+          "mate_user": null,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kf7",
+            "Kd6",
+            "Kg6",
+            "e5",
+            "Kf7",
+            "e6+",
+            "Kf8",
+            "Kd7",
+            "Kg8",
+            "e7",
+            "Kf7",
+            "e8=Q+",
+            "Kf6",
+            "Qh5",
+            "Kg7",
+            "Ke7",
+            "Kg8",
+            "Kf6",
+            "Kf8",
+            "Qf7#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "Ke7",
+          "uci": "f6e7",
+          "eval_white_cp": 9999,
+          "mate_white": null,
+          "eval_user_cp": 9999,
+          "mate_user": null,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Ke7",
+            "Ke5",
+            "Kf7",
+            "Kd6",
+            "Kg6",
+            "e5",
+            "Kf5",
+            "e6",
+            "Ke4",
+            "Kd7",
+            "Kf4",
+            "e7",
+            "Kf3",
+            "Kd6",
+            "Kf4",
+            "Kd5",
+            "Ke3",
+            "Ke5",
+            "Ke2",
+            "Kd4",
+            "Kd2",
+            "e8=Q",
+            "Kc2",
+            "Qb5",
+            "Kd2",
+            "Qb2+",
+            "Ke1",
+            "Ke3",
+            "Kd1",
+            "Qb1#"
+          ]
+        },
+        {
+          "rank": 3,
+          "san": "Kg7",
+          "uci": "f6g7",
+          "eval_white_cp": 9999,
+          "mate_white": null,
+          "eval_user_cp": 9999,
+          "mate_user": null,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg7",
+            "e5",
+            "Kg6",
+            "Kc6",
+            "Kf5",
+            "Kd6",
+            "Ke4",
+            "e6",
+            "Kd3",
+            "Kd5",
+            "Ke3",
+            "Ke5",
+            "Kd3",
+            "Kd6",
+            "Ke3",
+            "Kd5",
+            "Kd3",
+            "e7",
+            "Kc3",
+            "Kd6",
+            "Kd4",
+            "e8=Q",
+            "Kc3",
+            "Qe2",
+            "Kd4",
+            "Kc6",
+            "Kc3",
+            "Kc5",
+            "Kb3",
+            "Qd2",
+            "Ka3",
+            "Kc4",
+            "Ka4",
+            "Qa2#"
+          ]
+        },
+        {
+          "rank": 4,
+          "san": "Kg6",
+          "uci": "f6g6",
+          "eval_white_cp": 9999,
+          "mate_white": null,
+          "eval_user_cp": 9999,
+          "mate_user": null,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg6",
+            "Ke6",
+            "Kg5",
+            "e5",
+            "Kg6",
+            "Kd7",
+            "Kg5",
+            "Kc6",
+            "Kf5",
+            "Kd6",
+            "Ke4",
+            "e6",
+            "Kd3",
+            "e7",
+            "Kc4",
+            "Kc6",
+            "Kd3",
+            "Kd5",
+            "Kc3",
+            "Ke5",
+            "Kd3",
+            "e8=Q",
+            "Ke3",
+            "Qb5",
+            "Kf3",
+            "Qd3+",
+            "Kg4",
+            "Qe3",
+            "Kh5",
+            "Qg3",
+            "Kh6",
+            "Kf6",
+            "Kh7",
+            "Qg7#"
+          ]
+        },
+        {
+          "rank": 5,
+          "san": "Kg5",
+          "uci": "f6g5",
+          "eval_white_cp": 9999,
+          "mate_white": null,
+          "eval_user_cp": 9999,
+          "mate_user": null,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kg5",
+            "Ke6",
+            "Kf4",
+            "e5",
+            "Kg5",
+            "Kd7",
+            "Kg6",
+            "Kd6",
+            "Kf5",
+            "e6",
+            "Ke4",
+            "e7",
+            "Kd4",
+            "Kc6",
+            "Ke4",
+            "Kc5",
+            "Ke3",
+            "Kd5",
+            "Kd3",
+            "e8=Q",
+            "Kc3",
+            "Qe2",
+            "Kb3",
+            "Qd2",
+            "Ka4",
+            "Qb2",
+            "Ka5",
+            "Kc5",
+            "Ka4",
+            "Qa2#"
+          ]
+        }
+      ],
+      "maia": {
+        "elo_self": 1617,
+        "elo_oppo": 1617,
+        "policy": [
+          {
+            "san": "Ke7",
+            "uci": "f6e7",
+            "p": 0.9281
+          },
+          {
+            "san": "Kf7",
+            "uci": "f6f7",
+            "p": 0.0685
+          },
+          {
+            "san": "Kg5",
+            "uci": "f6g5",
+            "p": 0.0027
+          }
+        ],
+        "expected_score_user": 0.8769
+      }
+    },
+    {
+      "id": "N19",
+      "fen": "5k2/8/3K4/8/4P3/8/8/8 w - - 2 61",
+      "epd": "5k2/8/3K4/8/4P3/8/8/8 w - -",
+      "parent": "N3",
+      "via_san": "Kf8",
+      "via_uci": "f7f8",
+      "phase": "E2b",
+      "path": [
+        "Kd6",
+        "Kf8"
+      ],
+      "side_to_move": "w",
+      "citable": false,
+      "depth": 54,
+      "seldepth": 63,
+      "nodes": 15240774,
+      "time_s": 4.287,
+      "unstable_depth": false,
+      "root_moves": null,
+      "multipv": [
+        {
+          "rank": 1,
+          "san": "Kd7",
+          "uci": "d6d7",
+          "eval_white_cp": 9988,
+          "mate_white": 12,
+          "eval_user_cp": 9988,
+          "mate_user": 12,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "Kd7",
+            "Kf7",
+            "e5",
+            "Kg6",
+            "e6",
+            "Kf5",
+            "e7",
+            "Ke4",
+            "e8=Q+",
+            "Kf3",
+            "Kd6",
+            "Kf2",
+            "Qe4",
+            "Kg3",
+            "Ke5",
+            "Kf2",
+            "Kf4",
+            "Kg1",
+            "Qc2",
+            "Kh1",
+            "Kf3",
+            "Kg1",
+            "Qg2#"
+          ]
+        },
+        {
+          "rank": 2,
+          "san": "e5",
+          "uci": "e4e5",
+          "eval_white_cp": 9986,
+          "mate_white": 14,
+          "eval_user_cp": 9986,
+          "mate_user": 14,
+          "wdl_user": [
+            1000,
+            0,
+            0
+          ],
+          "pv": [
+            "e5",
+            "Ke8",
+            "Ke6",
+            "Kd8",
+            "Kf7",
+            "Kd7",
+            "e6+",
+            "Kc6",
+            "e7",
+            "Kd5",
+            "e8=Q",
+            "Kd4",
+            "Qe1",
+            "Kd3",
+            "Ke6",
+            "Kd4",
+            "Kd6",
+            "Kc4",
+            "Qd2",
+            "Kb5",
+            "Qc3",
+            "Ka6",
+            "Kc6",
+            "Ka7",
+            "Qb4",
+            "Ka8",
+            "Qb7#"
+          ]
+        }
+      ],
+      "maia": null
+    }
+  ],
+  "section_plan": [
+    {
+      "id": "S01",
+      "title": "In una frase",
+      "required": true,
+      "absorbed_into": null,
+      "omitted": null,
+      "word_budget": 80,
+      "max_pv_plies": 4,
+      "theory_allowed": false,
+      "tables": [],
+      "must_cover": [],
+      "focus_squares": [],
+      "maia_low_confidence": false
+    },
+    {
+      "id": "S02",
+      "title": null,
+      "required": false,
+      "absorbed_into": null,
+      "omitted": "matrix",
+      "word_budget": null,
+      "max_pv_plies": 4,
+      "theory_allowed": false,
+      "tables": [],
+      "must_cover": [],
+      "focus_squares": [],
+      "maia_low_confidence": false
+    },
+    {
+      "id": "S03",
+      "title": null,
+      "required": false,
+      "absorbed_into": null,
+      "omitted": "matrix",
+      "word_budget": null,
+      "max_pv_plies": 4,
+      "theory_allowed": true,
+      "tables": [],
+      "must_cover": [],
+      "focus_squares": [],
+      "maia_low_confidence": false
+    },
+    {
+      "id": "S04",
+      "title": null,
+      "required": false,
+      "absorbed_into": null,
+      "omitted": "matrix",
+      "word_budget": null,
+      "max_pv_plies": 4,
+      "theory_allowed": true,
+      "tables": [],
+      "must_cover": [],
+      "focus_squares": [],
+      "maia_low_confidence": false
+    },
+    {
+      "id": "S05",
+      "title": null,
+      "required": false,
+      "absorbed_into": null,
+      "omitted": "matrix",
+      "word_budget": null,
+      "max_pv_plies": 4,
+      "theory_allowed": true,
+      "tables": [],
+      "must_cover": [],
+      "focus_squares": [],
+      "maia_low_confidence": false
+    },
+    {
+      "id": "S06",
+      "title": "Cosa fa il Nero",
+      "required": true,
+      "absorbed_into": null,
+      "omitted": null,
+      "word_budget": 110,
+      "max_pv_plies": 4,
+      "theory_allowed": true,
+      "tables": [],
+      "must_cover": [],
+      "focus_squares": [],
+      "maia_low_confidence": false
+    },
+    {
+      "id": "S07",
+      "title": "Mosse candidate",
+      "required": true,
+      "absorbed_into": null,
+      "omitted": null,
+      "word_budget": 90,
+      "max_pv_plies": 4,
+      "theory_allowed": false,
+      "tables": [
+        "T1"
+      ],
+      "must_cover": [
+        "C1",
+        "C2"
+      ],
+      "focus_squares": [],
+      "maia_low_confidence": false
+    },
+    {
+      "id": "S08",
+      "title": null,
+      "required": false,
+      "absorbed_into": null,
+      "omitted": "matrix",
+      "word_budget": null,
+      "max_pv_plies": 4,
+      "theory_allowed": true,
+      "tables": [],
+      "must_cover": [],
+      "focus_squares": [],
+      "maia_low_confidence": false
+    },
+    {
+      "id": "S09",
+      "title": null,
+      "required": false,
+      "absorbed_into": null,
+      "omitted": "matrix",
+      "word_budget": null,
+      "max_pv_plies": 4,
+      "theory_allowed": false,
+      "tables": [],
+      "must_cover": [],
+      "focus_squares": [],
+      "maia_low_confidence": false
+    },
+    {
+      "id": "S10",
+      "title": "Prima di ogni mossa, controlla",
+      "required": true,
+      "absorbed_into": null,
+      "omitted": null,
+      "word_budget": 70,
+      "max_pv_plies": 4,
+      "theory_allowed": true,
+      "tables": [],
+      "must_cover": [],
+      "focus_squares": [],
+      "maia_low_confidence": false
+    },
+    {
+      "id": "S11",
+      "title": null,
+      "required": false,
+      "absorbed_into": null,
+      "omitted": "matrix",
+      "word_budget": null,
+      "max_pv_plies": 4,
+      "theory_allowed": true,
+      "tables": [],
+      "must_cover": [],
+      "focus_squares": [],
+      "maia_low_confidence": false
+    },
+    {
+      "id": "S12",
+      "title": "Finale: tecnica e tablebase",
+      "required": true,
+      "absorbed_into": null,
+      "omitted": null,
+      "word_budget": 230,
+      "max_pv_plies": 4,
+      "theory_allowed": true,
+      "tables": [],
+      "must_cover": [
+        "N1"
+      ],
+      "focus_squares": [],
+      "maia_low_confidence": false
+    },
+    {
+      "id": "S13",
+      "title": null,
+      "required": false,
+      "absorbed_into": null,
+      "omitted": "matrix",
+      "word_budget": null,
+      "max_pv_plies": 4,
+      "theory_allowed": false,
+      "tables": [],
+      "must_cover": [],
+      "focus_squares": [],
+      "maia_low_confidence": false
+    }
+  ],
+  "omitted_sections": [
+    {
+      "id": "S02",
+      "reason": "matrix"
+    },
+    {
+      "id": "S03",
+      "reason": "matrix"
+    },
+    {
+      "id": "S04",
+      "reason": "matrix"
+    },
+    {
+      "id": "S05",
+      "reason": "matrix"
+    },
+    {
+      "id": "S08",
+      "reason": "matrix"
+    },
+    {
+      "id": "S09",
+      "reason": "matrix"
+    },
+    {
+      "id": "S11",
+      "reason": "matrix"
+    },
+    {
+      "id": "S13",
+      "reason": "matrix"
+    }
+  ],
+  "omitted_phases": [],
+  "omitted_nodes": [],
+  "warnings": [
+    "unstable_nodes"
+  ],
+  "constraints": {
+    "max_pv_plies": 4,
+    "plan_max_moves": 6
+  }
+}

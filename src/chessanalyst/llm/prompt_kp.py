@@ -56,11 +56,14 @@ GUIDE = {
                "compensation: perché il materiale non basta; il conto del materiale lo scrive il programma prima "
                "del tuo testo, non ripeterlo: niente «in più», «in meno», «pari»; "
                "easy_for: per chi muove è facile trovare una buona mossa). Se la mossa migliore è raccontata in "
-               "un altro punto (told_in), nominala solo a parole («una mossa forte»), senza token.",
+               "un altro punto (told_in), nominala solo a parole («una mossa forte»), senza token. tablebase: il "
+               "risultato è esatto (win vinta, draw patta, loss persa): dillo così, mai «matto» e, se è patta, "
+               "mai «vantaggio» o «svantaggio».",
     "recommendation": "La mossa da giocare, perché (che cosa fa sulla scacchiera) e quanto è probabile che la "
                       "trovi; se only_move, dì che è l'unica che tiene e quanto perde la seconda; la trappola da "
                       "evitare se c'è (is_trap: la seconda è anche la trappola naturale); reply: la risposta quasi "
-                      "obbligata dell'avversario e come continui; also_played: le altre mosse che a questo livello "
+                      "obbligata dell'avversario e come continui; key_square: il re arriva su una casa chiave del pedone; "
+                      "opposition: dopo la mossa hai l'opposizione; also_played: le altre mosse che a questo livello "
                       "si giocano spesso, anche se perdono: nominale tutte, con quanto sono giocate e, se perdono, "
                       "quanto perdono.",
     "systems": "Non c'è una mossa unica: presenta le mosse equivalenti come scelte di stile, con la loro idea.",
@@ -69,7 +72,11 @@ GUIDE = {
             "pezzo inchiodato (by inchioda, behind è dietro); king_square: casa vicino al re difesa solo dal "
             "re e i pezzi che la possono colpire; pawn_break: la spinta di pedone che attacca i pedoni "
             "centrali (hits) e apre il gioco; secondary: un tuo punto forte che non cambia il giudizio, "
-            "dillo («non basta»).",
+            "dillo («non basta»). key_squares: le case chiave del pedone passato (squares): se il re di "
+            "quel colore ci arriva il pedone promuove, se il re avversario le occupa prima si patta "
+            "(king_on_it: il re c'è già); king_moves: le case dove il re tiene il risultato (hold) e quelle "
+            "dove lo butta via (lose); rook_in_front: la torre sta davanti al suo pedone passato: se il re che "
+            "difende lascia le case sicure, la torre si sposta con uno scacco o un'infilata e il pedone promuove.",
     "main_danger": "La mossa più pericolosa dell'avversario: che cosa fa, quanto danno fa e quanto è probabile "
                    "che la giochi; la risposta migliore se c'è. Se hypothetical, è ciò che l'avversario "
                    "farebbe se tu non reagissi: dillo così.",
@@ -80,7 +87,8 @@ GUIDE = {
     "opportunity": "Le mosse probabili dell'avversario che ti regalano qualcosa: che cosa sbaglia e come ne "
                    "approfitti (answer).",
     "reasoning": "Un elenco ol di {items} punti brevi, source theory, su come ragionare in questa posizione: "
-                 "le domande da farsi prima di muovere, legate ai punti precedenti ma senza token.",
+                 "le domande da farsi prima di muovere, legate ai punti precedenti ma senza token; se ci sono "
+                 "topics, ragiona su quei temi del finale e su nient'altro.",
 }
 
 LEVEL = {
@@ -217,11 +225,15 @@ def ready_assertions(pack: dict, kp: dict) -> list[dict]:
     return out
 
 
-def _legend(cfg: Config, facts: str) -> list[str]:
+def _legend(cfg: Config, facts: str, tb: dict | None = None) -> list[str]:
     ev = []
+    tbw = cfg.wording["tablebase"].get("verdict") if tb else None    # D-77: the tablebase result, no «matto»
     for key, b in cfg.wording["eval_bands"].items():
         pairs = [(key, b.get("text"))] if key == "equal" else [
             (f"{key}_plus", b["text_plus"]), (f"{key}_minus", b["text_minus"])]
+        if tbw:
+            pairs = [(k, tbw["win"] if k.endswith("_plus") else tbw["loss"] if k.endswith("_minus") else tbw["draw"])
+                     for k, _ in pairs]
         ev += [f"{k} = «{t}»" for k, t in pairs if f'"{k}"' in facts]
     maia = [f"{k} = «{b['text']}»" for k, b in cfg.wording["maia_bands"].items() if f'"{k}"' in facts]
     return ([("Bande: " + "; ".join(ev) + ".")] if ev else []) + (
@@ -258,7 +270,7 @@ def build_user_message_kp(cfg: Config, pack: dict) -> str:
         blocks.append(section_block(cfg, pack, kp, plan[kp["section"]], resolver))
         all_facts += json.dumps(kp["facts"], ensure_ascii=False)
     head = [f"Giochi con {me}, {mode}. Livello: {LEVEL[u['band']]}. «Tu» è sempre il giocatore.",
-            *_legend(cfg, all_facts), ""]
+            *_legend(cfg, all_facts, pack.get("tablebase")), ""]
     ids = [kp["section"] for kp in pack["key_points"]]
     tail = ["", f"Consegna con submit_analysis le sezioni {', '.join(ids)}, in quest'ordine."]
     return "\n".join(head + blocks + tail)

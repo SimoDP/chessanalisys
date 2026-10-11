@@ -102,8 +102,11 @@ class Resolver:
 
     def _loss_text(self, loss_cp: int, mate: bool, best: tuple[int, int | None], move: tuple[int, int | None]) -> str:
         if self.tb is not None:          # same outcome as the best move or not
-            same = tb_outcome(*best, CP_CLAMP) == tb_outcome(*move, CP_CLAMP)
-            return self.wording["tablebase"]["loss_none" if same else "loss_decisive"]
+            a, b = tb_outcome(*best, CP_CLAMP), tb_outcome(*move, CP_CLAMP)
+            if a == b:
+                return self.wording["tablebase"]["loss_none"]
+            outcome = self.wording["tablebase"].get("loss_outcome", {}).get(f"{a}_{b}")     # D-77
+            return outcome or self.wording["tablebase"]["loss_decisive"]
         return fmt_loss(loss_cp, mate)
 
     def _ruid(self, ref: str) -> tuple[dict, dict]:
