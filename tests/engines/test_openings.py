@@ -95,7 +95,7 @@ def test_sequences_written_next_to_the_index(tmp_path):
     assert loaded.lookup(_play("e4", "e5", "Nf3", "Nc6", "Bc4", "Nf6", "Ng5", "h6"))[1] == "sequence"
 
 
-# -- D-76: name from the pawn structure, for positions past the book --------------------
+# -- D-78: name from the pawn structure, for positions past the book --------------------
 
 NAJDORF_BE2 = "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP1BPPP/R1BQK2R b KQkq - 1 6"
 

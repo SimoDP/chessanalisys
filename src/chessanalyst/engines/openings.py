@@ -118,7 +118,7 @@ class OpeningIndex:
         return None
 
     def lookup_structure(self, board: chess.Board) -> dict | None:
-        """D-76: a position past the book takes the name of a book position with exactly the same pawns and at
+        """D-78: a position past the book takes the name of a book position with exactly the same pawns and at
         most ``structure_max_piece_diff`` piece squares different (a piece moved elsewhere counts twice); the
         closest wins, then the one with more plies, then file order. None when disabled or nothing is close."""
         if self.structure_max_piece_diff is None:
@@ -138,7 +138,7 @@ class OpeningIndex:
 
     def lookup(self, board: chess.Board) -> tuple[dict, str] | None:
         """(entry, matched_by): by sequence when the game has a history (M2), else by EPD, else by the pawn
-        structure (D-76)."""
+        structure (D-78)."""
         entry = self.lookup_sequence(board)
         if entry is not None:
             return entry, "sequence"
