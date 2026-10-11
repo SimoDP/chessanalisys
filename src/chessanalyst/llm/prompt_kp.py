@@ -75,7 +75,7 @@ GUIDE = {
             "dillo («non basta»). key_squares: le case chiave del pedone passato (squares): se il re di "
             "quel colore ci arriva il pedone promuove, se il re avversario le occupa prima si patta "
             "(king_on_it: il re c'è già); king_moves: le case dove il re tiene il risultato (hold) e quelle "
-            "dove lo butta via (lose); rook_in_front: la torre sta davanti al suo pedone passato: se il re che "
+            "dove lo butta via (lose); structure: la struttura dei pedoni (name), che il testo fisso prima del tuo spiega già con i suoi piani tipici: non ripeterli, collega a essa i fatti; rook_in_front: la torre sta davanti al suo pedone passato: se il re che "
             "difende lascia le case sicure, la torre si sposta con uno scacco o un'infilata e il pedone promuove.",
     "main_danger": "La mossa più pericolosa dell'avversario: che cosa fa, quanto danno fa e quanto è probabile "
                    "che la giochi; la risposta migliore se c'è. Se hypothetical, è ciò che l'avversario "

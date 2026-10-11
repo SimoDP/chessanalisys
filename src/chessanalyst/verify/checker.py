@@ -297,7 +297,8 @@ class Checker:
 
     def _material_claims(self, u: Unit) -> list[str]:
         """A section whose material sentence is written by the code (``lead_text``): the text says nothing on it."""
-        if not self.plan.get(u.section, {}).get("lead_text"):
+        entry = self.plan.get(u.section, {})
+        if not entry.get("lead_text") or entry.get("lead_kind") == "structure":
             return []
         low = u.text.lower()
         return [m.group(0) for p in self.cfg.verify["v12"]["material_claims"] for m in re.finditer(p, low)]

@@ -1,0 +1,317 @@
+# D-79: catalogo delle strutture di pedoni ricavato dai sei libri (piano dati, passo 4).
+# Ogni struttura è descritta dal punto di vista del lato che la «possiede» (owner) quando è il Bianco
+# (owner_pawns, other_pawns); il codice la cerca anche a colori invertiti (src/chessanalyst/features/structures.py). In ordine: vince la prima
+# che combacia. Campi dei pedoni (di owner e di other):
+#   pawns: case con un proprio pedone; any_of: per ogni gruppo almeno una casa con un proprio pedone;
+#   absent: case senza un proprio pedone; no_files: colonne senza propri pedoni.
+# I testi (name, summary, owner, other, mistakes, advanced) sono riscritti con parole nostre dai riassunti dei
+# libri in /mnt/project-files/libri/*/strutture.md (solo partite «taratura»); le case tra graffe sono dal punto
+# di vista del Bianco proprietario e il codice le rispecchia quando il proprietario è il Nero.
+display:
+  sentences: {"1": 1, "2": 1, "3": 1, "4": 2, "5": 2}   # frasi di piano per lato, per livello di dettaglio
+  advanced_elo_min: 1800      # da questo Elo dell'utente si aggiungono le frasi «advanced»
+catalogue:
+  riccio:
+    name: "riccio"
+    owner_pawns: {no_files: [d], pawns: [c4, e4]}
+    other_pawns: {no_files: [c], pawns: [a6, b6, d6, e6]}
+    summary: "Pedoni in {c4} ed {e4} contro {a6}, {b6}, {d6} ed {e6}: chi ha la struttura ha molto spazio, l'altro lato è compatto ma stretto."
+    owner:
+      - "tenere i pezzi sulla scacchiera ed evitare i cambi: l'avversario stretto fatica a coordinarsi."
+      - "fare profilassi contro le rotture in {d5} e in {b5}, che sono l'unico vero controgioco avversario."
+      - "spingere il pedone {a} fino in {a5} per fissare i pedoni avversari e prendere le case scure del lato di donna."
+    other:
+      - "preparare con pazienza la rottura in {d5}, la più importante, o quella in {b5}, e lanciarla quando i pezzi sono pronti."
+      - "cercare cambi di pezzi per avere più aria, senza però diventare passivi."
+      - "tenere i pezzi elastici dietro i pedoni, pronti a colpire se chi ha lo spazio si sbilancia."
+    mistakes:
+      - "Chi ha lo spazio avanza più pedoni di quanti riesca a difendere e lascia case deboli dietro di sé."
+      - "L'altro lato rimanda la rottura in {d5} troppo a lungo e resta senza gioco."
+    advanced:
+      - "Contro il riccio le mosse di profilassi che tolgono case ai pezzi avversari evitano i cambi che l'avversario desidera."
+    themes: [rottura_di_pedone, profilassi, cambio_giusto, casa_debole, attivita_dei_pezzi]
+    sources: [strutture_esercizi]
+  maroczy:
+    name: "struttura maroczy"
+    owner_pawns: {no_files: [d], pawns: [c4, e4]}
+    other_pawns: {any_of: [[d6, d7]], no_files: [c]}
+    summary: "Pedoni in {c4} ed {e4} senza pedone {d}, contro un pedone in {d6} o {d7}: più spazio e controllo della casa {d5}."
+    owner:
+      - "svilupparsi in modo armonioso senza spingere pedoni inutili, che creerebbero case deboli."
+      - "evitare i cambi, soprattutto quello dell'alfiere avversario delle case scure, perché lo spazio vale di più con molti pezzi."
+      - "tenere sotto controllo la casa {d5} e respingere i pezzi avversari che entrano sulle case scure."
+    other:
+      - "cercare i cambi dei pezzi minori per avere più aria, puntando a un finale con cavallo buono contro alfiere cattivo."
+      - "usare le case scure: cavalli in {c5} ed {e5}, alfiere sulla grande diagonale."
+      - "preparare le rotture in {b5} o in {f5}, oppure fissare il pedone {e4} con il pedone in {e5}."
+    mistakes:
+      - "Chi ha la struttura gioca mosse di pedone di profilassi in serie e perde coordinazione, creando case deboli."
+      - "L'altro lato apre troppo presto con la rottura in {b5} prima di aver completato lo sviluppo."
+    advanced:
+      - "Con lo spazio si può forzare un finale favorevole con il re attivo; cambiare l'alfiere delle case scure ha senso solo se apre un attacco al re."
+    themes: [casa_debole, cambio_giusto, rottura_di_pedone, pezzo_buono_cattivo, profilassi, re_attivo]
+    sources: [sakaev_landa, strutture_caruana, strutture_esercizi]
+  pedoni_sospesi:
+    name: "pedoni sospesi"
+    owner_pawns: {no_files: [b, e], pawns: [c4, d4]}
+    other_pawns: {no_files: [c, d]}
+    summary: "Due pedoni affiancati in {c4} e {d4} senza pedoni amici sulle colonne {b} ed {e}: controllano il centro ma diventano bersagli se vengono fissati."
+    owner:
+      - "tenere molti pezzi in gioco e coordinarli dietro i pedoni, con le torri sulle colonne {c} e {d}."
+      - "preparare la rottura con il pedone in {d5} al momento giusto, per aprire linee verso il re avversario."
+      - "tenere i pedoni elastici, uno accanto all'altro, senza spingerli se la spinta cede case senza compenso."
+    other:
+      - "provocare l'avanzata di uno dei due pedoni con la rottura in {b5} o in {e5}: un pedone avanzato lascia case deboli, uno catturato lascia l'altro isolato."
+      - "cambiare i pezzi, in particolare quelli che difendono i pedoni: con meno materiale i pedoni sono bersagli."
+      - "bloccare con i pezzi le case davanti ai pedoni e colpirli con le torri sulle colonne aperte."
+    mistakes:
+      - "Chi ha i pedoni sospesi accetta i cambi che l'avversario desidera, oppure spinge in {d5} nel momento sbagliato e cede le case davanti ai pedoni."
+      - "Chi li attacca prepara la rottura in modo meccanico mentre l'avversario ha già tutti i pezzi pronti per spingere al centro."
+    advanced:
+      - "Dopo la spinta in {d5} il pedone può diventare un pedone passato protetto; dopo la spinta in {c5} si indebolisce la casa {d5}."
+    themes: [casa_debole, rottura_di_pedone, cambio_giusto, attivita_dei_pezzi, attacco_al_re, pedone_passato]
+    sources: [strutture_esercizi, grooten, strutture_caruana]
+  coppia_c3_d4:
+    name: "pedone isolato sostenuto"
+    owner_pawns: {no_files: [e], pawns: [c3, d4]}
+    other_pawns: {no_files: [c, d]}
+    summary: "Pedoni in {c3} e {d4} senza pedone in {e}: il pedone {d4} è ben protetto, ma il pedone {c3} resta indietro sulla colonna {c} semiaperta."
+    owner:
+      - "spingere il pedone da {c3} a {c4} per liberarsi e trasformare la coppia in pedoni sospesi mobili."
+      - "tenere i pezzi attivi e cercare l'attacco al re, con il cavallo in {e5} e l'alfiere puntato verso {h7}."
+      - "preparare la spinta in {d5} per aprire il gioco quando i pezzi sono sviluppati."
+    other:
+      - "bloccare il pedone in {c3} con un pezzo in {c4} e premere con le torri sulla colonna {c}."
+      - "cambiare i pezzi che possono attaccare il re: ogni cambio rende più debole il pedone in {c3}."
+      - "colpire la coppia con una rottura laterale, in {c5} o in {e5}, quando i pezzi sono pronti."
+    mistakes:
+      - "Chi ha la coppia resta passivo e non spinge mai il pedone in {c4}, lasciando il pedone {c3} come bersaglio fisso."
+    advanced:
+      - "La coppia nasce spesso dal cambio sul cavallo in {c3} contro il pedone isolato: il difensore la sceglie per ridurre l'attacco e creare un pedone arretrato."
+    themes: [casa_debole, rottura_di_pedone, cambio_giusto, attacco_al_re, attivita_dei_pezzi]
+    sources: [strutture_caruana]
+  pedone_isolato:
+    name: "pedone isolato di donna"
+    owner_pawns: {no_files: [c, e], pawns: [d4]}
+    other_pawns: {no_files: [d]}
+    summary: "Un pedone in {d4} senza pedoni amici sulle colonne {c} ed {e}: dà spazio e case attive, ma la casa {d5} davanti a lui è una casa debole."
+    owner:
+      - "attaccare il re con i pezzi: il cavallo nell'avamposto {e5}, l'alfiere puntato verso {h7} e una torre portata sulla terza traversa."
+      - "tenere i pezzi sulla scacchiera, perché i cambi tolgono forza all'attacco e lasciano solo la debolezza."
+      - "preparare la rottura con il pedone in {d5} quando tutti i pezzi sono pronti: apre colonne e diagonali verso il re avversario."
+    other:
+      - "bloccare la casa {d5} con un pezzo, meglio un cavallo, che nessun pedone può più cacciare."
+      - "cambiare i pezzi minori attivi, soprattutto il cavallo in {e5} e l'alfiere che punta al re: i cambi giusti portano verso un finale favorevole."
+      - "raddoppiare le torri sulla colonna {d} contro il pedone e portare il re al centro quando le donne sono cambiate."
+    mistakes:
+      - "Chi ha l'isolato cambia pezzi senza ottenere nulla e resta passivo con un pedone debole da difendere."
+      - "Chi blocca spinge un pedone per cacciare il cavallo in {e5} e così crea nuove case deboli vicino al proprio re."
+    advanced:
+      - "Contro l'isolato conviene cambiare i pezzi minori ma tenere almeno una coppia di torri, che lega il difensore al pedone."
+      - "Un cambio in {c3} trasforma l'isolato nella coppia {c3} e {d4} oppure in pedoni sospesi: è una scelta di struttura, non solo un cambio."
+    themes: [casa_debole, avamposto, attacco_al_re, cambio_giusto, rottura_di_pedone, attivita_dei_pezzi, re_attivo]
+    sources: [strutture_caruana, strutture_esercizi, sakaev_landa, grooten, mcdonald]
+  carlsbad:
+    name: "struttura carlsbad"
+    owner_pawns: {no_files: [c], pawns: [d4]}
+    other_pawns: {no_files: [e], pawns: [c6, d5]}
+    summary: "Pedoni in {d4} ed {e3} senza pedone sulla colonna {c}, contro {d5} e {c6} senza pedone sulla colonna {e}: ognuno ha una colonna semiaperta."
+    owner:
+      - "giocare l'attacco di minoranza: spingere i pedoni {a} e {b} fino in {b5} per creare un pedone debole in {c6}."
+      - "in alternativa preparare la rottura al centro con il pedone in {e4}, sostenuto dal pedone {f3} e dal cavallo in {e2}."
+      - "cambiare l'alfiere avversario delle case chiare, che difende {c6}, e controllare la casa {c5} prima di spingere in {b5}."
+    other:
+      - "cercare l'attacco al re con i pezzi, puntando verso l'arrocco con il cavallo in {e4} e i pezzi pesanti."
+      - "difendere l'ala di donna con il pedone in {b5} e un cavallo nella casa {c4}, oppure rompere con il pedone in {c5}."
+      - "cambiare il proprio alfiere delle case chiare, che è il pezzo cattivo di questa struttura."
+    mistakes:
+      - "Chi ha la struttura spinge in {b5} in modo meccanico quando l'avversario risponde in {c5} o ottiene la casa {c4}."
+      - "L'altro lato gioca mosse lente e lascia due debolezze, in {a7} e in {c6}, oppure attacca con i pedoni senza l'aiuto dei pezzi."
+    advanced:
+      - "Il piano dipende da dove stanno i re: con arrocchi opposti si attacca con i pedoni sull'ala dove sta il re avversario."
+      - "Nel finale si gioca contro il pedone {c6} e poi si crea una seconda debolezza sull'altra ala."
+    themes: [minoranza, pezzo_buono_cattivo, cambio_giusto, rottura_di_pedone, attacco_al_re, casa_debole, profilassi]
+    sources: [strutture_caruana, sakaev_landa, strutture_esercizi]
+  catena_francese:
+    name: "catena francese"
+    owner_pawns: {pawns: [d4, e5]}
+    other_pawns: {pawns: [d5, e6]}
+    summary: "Pedoni in {d4} ed {e5} contro {d5} ed {e6}: il centro è chiuso e il pedone {e5} dà spazio sul lato di re."
+    owner:
+      - "attaccare sul lato di re, dove punta la catena: il pedone {e5} toglie la casa {f6} ai pezzi difensori."
+      - "difendere la base della catena in {d4} con i pezzi e con il pedone, prima di attaccare."
+      - "cambiare il proprio alfiere delle case chiare, l'alfiere cattivo, oppure l'alfiere buono avversario."
+    other:
+      - "attaccare la base della catena con la rottura in {c5} e cambiare in {d4}, aprendo la colonna {c}."
+      - "rompere con il pedone in {f6} per colpire {e5} quando i pezzi sono pronti."
+      - "dare un lavoro all'alfiere delle case chiare, chiuso dietro {e6}, o cambiarlo; usare la casa {c4} come avamposto."
+    mistakes:
+      - "Chi ha la catena difende {e5} in modo passivo invece di prendere l'iniziativa sul lato di re."
+      - "L'altro lato apre il centro troppo presto o lascia il suo alfiere cattivo chiuso per tutta la partita."
+    advanced:
+      - "Quando la catena è bloccata anche sul lato di donna, si ha tempo per lunghe manovre: chi le usa meglio si prepara alla rottura giusta."
+    themes: [pezzo_buono_cattivo, rottura_di_pedone, attacco_al_re, avamposto, cambio_giusto]
+    sources: [sakaev_landa, mcdonald, grooten]
+  catena_est_indiana:
+    name: "catena est-indiana"
+    owner_pawns: {pawns: [d5, e4]}
+    other_pawns: {pawns: [d6, e5]}
+    summary: "Pedoni in {d5} ed {e4} contro {d6} ed {e5}: il centro è bloccato e ognuno gioca sull'ala dove punta la propria catena."
+    owner:
+      - "giocare sul lato di donna: spingere i pedoni fino in {c5} e in {b5} per aprire la colonna {c}."
+      - "frenare la rottura avversaria in {f5} con profilassi, per esempio controllando la casa {f5} o tenendo il pedone in {e4}."
+      - "cambiare l'alfiere avversario delle case chiare, il pezzo che serve all'attacco al re; lasciare chiuso l'alfiere cattivo avversario dietro {e5}."
+    other:
+      - "attaccare il re con la rottura in {f5} e poi con i pedoni {f}, {g} e {h} che avanzano verso l'arrocco."
+      - "rallentare il lato di donna avversario solo con le mosse indispensabili, come il pedone in {a5}."
+      - "liberare l'alfiere cattivo chiuso dietro {e5} oppure cambiarlo con l'alfiere buono avversario."
+    mistakes:
+      - "Chi ha la struttura gioca piano sul lato di donna mentre l'attacco avversario sul re è già arrivato."
+      - "L'altro lato rinuncia alla rottura in {f5} e resta senza controgioco, oppure lascia cambiare il proprio alfiere delle case chiare."
+    advanced:
+      - "Dopo il cambio in {f5} conviene di solito riprendere con il pedone {g}, per non regalare la casa {e4}."
+      - "Chi è in ritardo può far saltare il centro con un sacrificio: è una corsa, e conta chi arriva prima."
+    themes: [rottura_di_pedone, attacco_al_re, pezzo_buono_cattivo, profilassi, cambio_giusto, casa_debole, sacrificio]
+    sources: [strutture_caruana, grooten, sakaev_landa, mcdonald, strutture_esercizi]
+  siciliana_buco_d5:
+    name: "siciliana con buco centrale"
+    owner_pawns: {no_files: [d], pawns: [e4]}
+    other_pawns: {no_files: [c], pawns: [d6, e5]}
+    summary: "Pedone in {e4} contro {d6} ed {e5} senza pedone {c}: la casa {d5} è una casa debole per sempre e il pedone {d6} è arretrato."
+    owner:
+      - "mettere un cavallo stabile nell'avamposto {d5}, dopo aver cambiato i pezzi che lo controllano."
+      - "cambiare l'alfiere sul cavallo che difende {d5}, e tenere l'alfiere delle case chiare che sostiene la casa."
+      - "aprire un secondo fronte: il cavallo in {d5} da solo non basta, serve gioco sul lato di re o di donna."
+    other:
+      - "cercare l'attività con la rottura in {f5} contro il pedone {e4} e con la colonna {c}."
+      - "liberarsi con la spinta in {d5} se i pezzi la permettono, anche dando un pedone."
+      - "tenere l'alfiere delle case chiare e cambiare il cavallo che arriva in {d5}; evitare l'alfiere cattivo chiuso dai propri pedoni."
+    mistakes:
+      - "L'altro lato lascia cambiare l'ultimo pezzo che copre {d5} e resta con alfiere cattivo contro cavallo dominante."
+      - "Chi ha la struttura riprende in {d5} con il pedone: la casa si chiude e la sua forza svanisce."
+    advanced:
+      - "Il cavallo imprendibile in {d5} si bilancia con la coppia degli alfieri avversaria: decide chi trasforma meglio il proprio vantaggio."
+      - "Un sacrificio di qualità per eliminare l'alfiere delle case chiare avversario può fissare per sempre il cavallo in {d5}."
+    themes: [casa_debole, avamposto, pezzo_buono_cattivo, cambio_giusto, rottura_di_pedone, coppia_alfieri, sacrificio]
+    sources: [strutture_caruana, grooten, sakaev_landa, mcdonald, strutture_esercizi]
+  scheveningen:
+    name: "struttura scheveningen"
+    owner_pawns: {absent: [c4], no_files: [d], pawns: [e4]}
+    other_pawns: {no_files: [c], pawns: [d6, e6]}
+    summary: "Pedone in {e4} contro {d6} ed {e6}, senza pedone {c} per l'altro lato: un piccolo centro difensivo che aspetta il momento di reagire."
+    owner:
+      - "attaccare il re con i pedoni sul lato di re, spingendo i pedoni {f} e {g} fino in {f5} e {g5}."
+      - "aprire il centro con la rottura in {e5} o con un sacrificio in {e6}, {d5} o {f5} quando il re avversario è ancora al centro."
+      - "tenere il pedone {e4} ben protetto contro la pressione della colonna {c} e della grande diagonale."
+    other:
+      - "contrattaccare sul lato di donna: spingere il pedone {b} fino in {b4} e usare la colonna {c}."
+      - "completare lo sviluppo e arroccare prima di aprire il gioco."
+      - "colpire il pedone {e4} con i pezzi e preparare la rottura in {d5} al momento giusto."
+    mistakes:
+      - "L'altro lato ritarda l'arrocco o sviluppa male i cavalli e subisce l'avanzata dei pedoni sul re."
+      - "Chi ha la struttura spinge i pedoni sul lato di re senza aver controllato il centro."
+    advanced:
+      - "Con arrocchi opposti conta chi arriva prima: ogni tempo perso da uno dei due lati decide la corsa."
+    themes: [attacco_al_re, rottura_di_pedone, sacrificio, attivita_dei_pezzi]
+    sources: [sakaev_landa, mcdonald]
+  dragone:
+    name: "struttura del dragone"
+    owner_pawns: {no_files: [d], pawns: [e4]}
+    other_pawns: {no_files: [c], pawns: [d6, e7, g6]}
+    summary: "Pedone in {e4} contro {d6} e {g6} di solito con l'alfiere in fianchetto e senza pedone {c} per l'altro lato: la grande diagonale è l'arma principale dell'altro lato."
+    owner:
+      - "attaccare il re sul lato di re: spingere il pedone {h} fino in {h5} e aprire la colonna {h}."
+      - "cambiare l'alfiere avversario in fianchetto, che difende il re e domina la grande diagonale."
+      - "eliminare il cavallo che difende il re, anche con un sacrificio, quando la colonna {h} è aperta."
+    other:
+      - "contrattaccare sul lato di donna con la colonna {c} e la spinta del pedone {b} fino in {b4}."
+      - "cambiare i pezzi che attaccano il re: il cambio delle donne spegne l'attacco."
+      - "tenere l'alfiere in fianchetto e usarlo sulla grande diagonale contro il re avversario."
+    mistakes:
+      - "Chi ha la struttura perde tempo con il re al centro e le torri non collegate."
+      - "L'altro lato ritarda il contrattacco o prende il materiale offerto invece di cambiare il pezzo che attacca."
+    advanced:
+      - "Il cambio dell'alfiere in fianchetto non è sempre un male per l'altro lato: conta quanti pezzi restano per attaccare."
+    themes: [attacco_al_re, coppia_alfieri, cambio_giusto, sacrificio, rottura_di_pedone]
+    sources: [strutture_caruana, mcdonald]
+  benoni:
+    name: "struttura benoni"
+    owner_pawns: {no_files: [c], pawns: [d5]}
+    other_pawns: {no_files: [e], pawns: [c5, d6]}
+    summary: "Pedone in {d5} senza pedone {c}, contro {c5} e {d6} senza pedone {e}: spazio al centro contro maggioranza sul lato di donna."
+    owner:
+      - "preparare la rottura in {e5}, sostenuta dai pezzi, per aprire il centro e colpire il pedone {d6}."
+      - "fare profilassi contro la rottura in {b5}, spingendo il pedone {a} in {a4}."
+      - "tenere i pezzi e usare lo spazio; mettere un cavallo sulla casa {c4} contro il pedone {d6}."
+    other:
+      - "spingere la maggioranza sul lato di donna con la rottura in {b5}, aiutata dalla colonna {b} e dalla grande diagonale."
+      - "cercare cambi di pezzi per avere più aria e usare la casa {e5} per un cavallo."
+      - "tenere attivo l'alfiere in fianchetto e cercare un pedone passato sul lato di donna."
+    mistakes:
+      - "L'altro lato sviluppa i pezzi in modo che si chiudano a vicenda e resta senza la rottura in {b5}."
+      - "Chi ha la struttura spinge in {e5} senza preparazione e perde il pedone o il centro."
+    advanced:
+      - "La spinta in {d6} o in {e5} al momento giusto respinge i pezzi avversari: il tempismo conta più della mossa."
+    themes: [rottura_di_pedone, profilassi, cambio_giusto, pedone_passato, attivita_dei_pezzi]
+    sources: [strutture_esercizi]
+  spagnola:
+    name: "centro spagnolo chiuso"
+    owner_pawns: {any_of: [[d3, d4]], pawns: [e4]}
+    other_pawns: {pawns: [d6, e5]}
+    summary: "Pedone in {e4} con il pedone {d} in {d3} o {d4}, contro {e5} e {d6}: un centro solido per entrambi, in cui si manovra a lungo."
+    owner:
+      - "impedire la spinta avversaria in {d5}, controllando la casa con i pezzi e con il pedone in {c4}."
+      - "portare il cavallo verso {g3} e poi verso {f5}, la casa debole vicino al re avversario."
+      - "lasciare l'alfiere avversario delle case scure chiuso dietro {e5} e {d6}, come pezzo cattivo."
+    other:
+      - "preparare la spinta in {d5}, con un cavallo che preme sul pedone {e4}."
+      - "guadagnare spazio sul lato di donna con i pedoni {b} e {c} e usare la colonna {c} se si apre."
+      - "guadagnare spazio sul lato di donna con i pedoni {a}, {b} e {c} e usare le colonne che si aprono."
+    mistakes:
+      - "Chi ha la struttura indebolisce il pedone {e4} spingendo il pedone che lo sostiene."
+      - "L'altro lato aspetta passivamente e lascia il proprio alfiere cattivo senza gioco."
+    advanced:
+      - "Se il centro si blocca con il pedone in {d5}, si gioca sulle ali come nelle strutture chiuse: ognuno dove punta la propria catena."
+    themes: [rottura_di_pedone, pezzo_buono_cattivo, casa_debole, profilassi, attivita_dei_pezzi]
+    sources: [sakaev_landa, tiviakov, strutture_esercizi]
+  centro_mobile:
+    name: "centro mobile"
+    owner_pawns: {pawns: [d4, e4]}
+    other_pawns: {absent: [e5, e6], no_files: [d]}
+    summary: "Pedoni in {d4} ed {e4} non bloccati dall'altro lato: un centro che può avanzare e togliere case ai pezzi avversari."
+    owner:
+      - "finire lo sviluppo, poi spingere in {d5} o in {e5} quando la spinta apre linee verso il re o guadagna spazio."
+      - "usare i pedoni centrali per l'attacco al re: dopo la spinta in {e5} è tipico il sacrificio in {h7}."
+      - "tenere il centro unito: spingere solo se i pedoni avanzati restano protetti."
+    other:
+      - "bloccare i pedoni con i pezzi sulle case davanti a loro e attaccare la base, il pedone {d4}, con i pezzi e con la rottura in {c5}."
+      - "cambiare pezzi per avere più aria: con meno pezzi il centro diventa un bersaglio più che un'arma."
+      - "tenere i pezzi vicino al re e cercare controgioco sulla maggioranza del lato di donna."
+    mistakes:
+      - "Chi ha il centro lo spinge troppo presto, senza sviluppo, e lascia case deboli dietro i pedoni."
+      - "L'altro lato gioca mosse lente o porta i cavalli sul bordo e lascia libera l'avanzata."
+    advanced:
+      - "Un pedone avanzato del centro può diventare un pedone passato; contro un centro troppo avanzato, l'attività dei pezzi vale più del materiale."
+    themes: [rottura_di_pedone, attacco_al_re, sacrificio, attivita_dei_pezzi, cambio_giusto, pedone_passato]
+    sources: [strutture_esercizi, grooten]
+  simmetrica:
+    name: "struttura simmetrica"
+    owner_pawns: {no_files: [c, e], pawns: [d4]}
+    other_pawns: {no_files: [c, e], pawns: [d5]}
+    summary: "Pedone in {d4} contro pedone in {d5}, senza pedoni sulle colonne {c} ed {e} per nessuno dei due: le colonne aperte e le case davanti ai pedoni decidono."
+    owner:
+      - "occupare per primi la colonna {c} o la colonna {e} con le torri e cercare una casa d'entrata in settima traversa."
+      - "mettere un pezzo nell'avamposto {e5} o {c5}, protetto dal pedone {d4}."
+      - "creare uno squilibrio: prendere la coppia degli alfieri o cambiare il proprio alfiere cattivo con quello buono avversario."
+    other:
+      - "contestare subito le colonne aperte con le torri e non lasciare case d'entrata."
+      - "mettere un pezzo nell'avamposto {e4} o {c4}, protetto dal pedone {d5}."
+      - "creare uno squilibrio con i cambi giusti: cambiare il proprio alfiere cattivo e tenere i pezzi più attivi."
+    mistakes:
+      - "Entrambi i lati: copiare le mosse dell'avversario e restare passivi, pensando che la patta sia automatica."
+      - "Entrambi i lati: lasciare il re al centro o cambiare pezzi che lasciano case deboli nel proprio campo."
+    advanced:
+      - "Con il centro fissato l'alfiere buono è quello che non sta sul colore del proprio pedone centrale: il cambio degli alfieri decide molto."
+      - "Nel finale vince chi porta prima il re attivo al centro e crea una seconda debolezza."
+    themes: [avamposto, pezzo_buono_cattivo, coppia_alfieri, cambio_giusto, attivita_dei_pezzi, re_attivo, casa_debole]
+    sources: [strutture_caruana, strutture_esercizi]

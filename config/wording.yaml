@@ -50,6 +50,10 @@ endgame_topics:                  # D-77: su che cosa ragionare nei finali («Com
 material_words: {even: "materiale pari", up: "{n} in più", down: "{n} in meno", one: "un", pawn: pedone, pawns: pedoni}
 # fase 2 della prova di utilità: la frase sul materiale del verdetto la scrive il codice, prima del testo del modello
 material_lead: {even: "Il materiale è pari.", up: "Hai {n} in più.", down: "Hai {n} in meno."}
+structure_lead:                  # D-79: la struttura dei pedoni dai libri, scritta dal codice in apertura del piano
+  intro: "Struttura dei pedoni: {name}. {summary}"
+  user: "Il tuo piano: {plans}"
+  opp: "Il piano dell'avversario: {plans}"
 keypoint_titles:                 # D-72: titoli delle sezioni del documento per punti chiave
   verdict: "Verdetto"
   recommendation: "La mossa da giocare"

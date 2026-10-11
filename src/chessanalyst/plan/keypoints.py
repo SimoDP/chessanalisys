@@ -34,6 +34,7 @@ from chessanalyst.config import Config
 from chessanalyst.engines.types import CP_CLAMP
 from chessanalyst.features.endgame import endgame_kind, has_opposition, is_passed, key_squares
 from chessanalyst.features.motifs import move_facts, piece_name, pin_matters
+from chessanalyst.features.structures import find_structure
 from chessanalyst.render.format_it import tb_outcome
 from chessanalyst.features.values import piece_value
 from chessanalyst.verify.assertions import eval_band_of, maia_band_of
@@ -583,6 +584,11 @@ def _plan(c: _Ctx) -> dict | None:
             i["file"] = c.cfg.wording["plan_words"]["file"].format(f=i["squares"][0][0])
     if cm_san:
         out.append({"key": "context_move", "of": "opp", "san": cm_san})
+    found = find_structure(board, c.cfg.structures["catalogue"]) if c.kind is None else None
+    if found:                         # D-79: the books' structure; its plans are the render's sentences
+        sid, owner = found
+        out.insert(0, {"key": "structure", "of": "user" if owner == (c.user == "w") else "opp", "id": sid,
+                       "name": c.cfg.structures["catalogue"][sid]["name"]})
     if not out:
         return None
     return {"type": "plan", "ids": [], "facts": {"items": out}}

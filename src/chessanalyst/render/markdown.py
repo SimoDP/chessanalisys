@@ -105,6 +105,9 @@ class Renderer:
         if entry["maia_low_confidence"]:
             out += [self.fixed["maia_low_confidence"], ""]
         lead = entry.get("lead_text")                      # written by the code (plan/outline.py)
+        if lead and entry.get("lead_kind") == "structure":  # D-79: the structure opens the plan, on its own
+            out += [lead, ""]
+            lead = None
         if sec is None or sec.get("_unavailable"):
             return out + ([lead, ""] if lead else []) + [self.fixed["section_unavailable"], ""]
         for k, blk in enumerate(sec["blocks"]):

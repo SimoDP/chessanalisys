@@ -16,7 +16,10 @@ from __future__ import annotations
 
 import copy
 
+import chess
+
 from chessanalyst.config import Config
+from chessanalyst.features.structures import place
 from chessanalyst.pack.section_plan import fill_opp
 from chessanalyst.plan.keypoints import key_points
 from chessanalyst.verify.tokens import clean_san
@@ -94,6 +97,34 @@ def material_lead(cfg: Config, kp: dict) -> str | None:
     return lead["up" if bal > 0 else "down"].format(n=count)
 
 
+def _sentence(text: str, upper: bool = True) -> str:
+    text = text.strip()
+    text = (text[:1].upper() if upper else text[:1].lower()) + text[1:]
+    return text if text.endswith((".", "!", "?")) else text + "."
+
+
+def structure_lead(cfg: Config, kp: dict, pack: dict) -> str | None:
+    """D-79: the books' pawn structure and its typical plans, written by the code before the model's plan."""
+    item = next((i for i in kp["facts"].get("items", []) if i["key"] == "structure"), None) \
+        if kp["type"] == "plan" else None
+    if item is None:
+        return None
+    st, w = cfg.structures, cfg.wording["structure_lead"]
+    entry = st["catalogue"][item["id"]]
+    user_owner = item["of"] == "user"
+    owner = chess.WHITE if (pack["user"]["color"] == "w") == user_owner else chess.BLACK
+    n = st["display"]["sentences"][str(pack["user"]["detail_level"])]
+    def say(texts: list[str], after_colon: bool = False) -> str:
+        return " ".join(_sentence(place(t, owner), upper=k > 0 or not after_colon) for k, t in enumerate(texts))
+
+    mine, theirs = (entry["owner"], entry["other"]) if user_owner else (entry["other"], entry["owner"])
+    parts = [w["intro"].format(name=entry["name"], summary=say([entry["summary"]])),
+             w["user"].format(plans=say(mine[:n], True)), w["opp"].format(plans=say(theirs[:n], True))]
+    if pack["user"]["elo_ref_fide"] >= st["display"]["advanced_elo_min"]:
+        parts += [say(entry.get("advanced") or [])]
+    return " ".join(p for p in parts if p)
+
+
 def outline_pack(cfg: Config, pack: dict) -> dict:
     if pack.get("document") == DOCUMENT:
         return pack
@@ -120,7 +151,8 @@ def outline_pack(cfg: Config, pack: dict) -> dict:
             "theory_allowed": kp["type"] in THEORY_TYPES, "tables": [], "must_cover": _must_cover(kp),
             "focus_squares": [], "maia_low_confidence": saturated and kp["type"] in MAIA_TYPES,
             "cites_allowed": _allowed(kp, pack), "auto_tables": auto, "key_point": kp["id"],
-            "lead_text": material_lead(cfg, kp),
+            "lead_text": material_lead(cfg, kp) or structure_lead(cfg, kp, pack),
+            "lead_kind": "structure" if kp["type"] == "plan" else "material",
         })
     for sid in SECTION_IDS:
         if sid not in used:
