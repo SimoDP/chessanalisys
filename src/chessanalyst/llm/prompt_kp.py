@@ -63,7 +63,7 @@ GUIDE = {
                       "trovi; se only_move, dì che è l'unica che tiene e quanto perde la seconda; la trappola da "
                       "evitare se c'è (is_trap: la seconda è anche la trappola naturale); reply: la risposta quasi "
                       "obbligata dell'avversario e come continui; key_square: il re arriva su una casa chiave del pedone; "
-                      "opposition: dopo la mossa hai l'opposizione; also_played: le altre mosse che a questo livello "
+                      "opposition: dopo la mossa hai l'opposizione; move.sacrifice: la mossa dà materiale se l'avversario prende: chiamala sacrificio, senza contare il materiale, e spiega che cosa ottieni in cambio; also_played: le altre mosse che a questo livello "
                       "si giocano spesso, anche se perdono: nominale tutte, con quanto sono giocate e, se perdono, "
                       "quanto perdono.",
     "systems": "Non c'è una mossa unica: presenta le mosse equivalenti come scelte di stile, con la loro idea.",
@@ -75,7 +75,7 @@ GUIDE = {
             "dillo («non basta»). key_squares: le case chiave del pedone passato (squares): se il re di "
             "quel colore ci arriva il pedone promuove, se il re avversario le occupa prima si patta "
             "(king_on_it: il re c'è già); king_moves: le case dove il re tiene il risultato (hold) e quelle "
-            "dove lo butta via (lose); structure: la struttura dei pedoni (name), che il testo fisso prima del tuo spiega già con i suoi piani tipici: non ripeterli, collega a essa i fatti; rook_in_front: la torre sta davanti al suo pedone passato: se il re che "
+            "dove lo butta via (lose); structure: la struttura dei pedoni (name), che il testo fisso prima del tuo spiega già con i suoi piani tipici: non ripeterli, collega a essa i fatti; weak_square: case deboli dell'avversario, che nessun suo pedone potrà più difendere: posti stabili per un tuo cavallo o alfiere; bad_bishop: alfiere cattivo, chiuso dai pedoni del suo colore; rook_in_front: la torre sta davanti al suo pedone passato: se il re che "
             "difende lascia le case sicure, la torre si sposta con uno scacco o un'infilata e il pedone promuove.",
     "main_danger": "La mossa più pericolosa dell'avversario: che cosa fa, quanto danno fa e quanto è probabile "
                    "che la giochi; la risposta migliore se c'è. Se hypothetical, è ciò che l'avversario "

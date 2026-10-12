@@ -10,6 +10,15 @@
 display:
   sentences: {"1": 1, "2": 1, "3": 1, "4": 2, "5": 2}   # frasi di piano per lato, per livello di dettaglio
   advanced_elo_min: 1800      # da questo Elo dell'utente si aggiungono le frasi «advanced»
+# Fatti strategici che i libri nominano spesso (sacrificio, alfiere cattivo, casa debole), soglie misurate sulle
+# schede «taratura» (src/chessanalyst/features/strategic.py)
+strategic:
+  sacrifice_min: 1            # la mossa consigliata dà almeno un pedone di materiale se l'avversario prende
+  bad_bishop_files: cdef      # alfiere cattivo: pedoni propri sul suo colore su queste colonne…
+  bad_bishop_pawns: 3         # … almeno tre …
+  bad_bishop_blocked: 2       # … e almeno due bloccati da un pezzo davanti
+  weak_files: de              # case deboli dell'avversario da usare: solo su queste colonne…
+  weak_max_rank: 4            # … nella sua metà della scacchiera (traversa relativa fino a 4)
 catalogue:
   riccio:
     name: "riccio"

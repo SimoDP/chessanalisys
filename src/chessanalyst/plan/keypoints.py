@@ -26,6 +26,7 @@ Every reply is in one point only: a reply that is an opportunity or the main dan
 
 from __future__ import annotations
 
+from types import SimpleNamespace
 from typing import Any
 
 import chess
@@ -34,6 +35,7 @@ from chessanalyst.config import Config
 from chessanalyst.engines.types import CP_CLAMP
 from chessanalyst.features.endgame import endgame_kind, has_opposition, is_passed, key_squares
 from chessanalyst.features.motifs import move_facts, piece_name, pin_matters
+from chessanalyst.features.strategic import bad_bishops, sacrifice, usable_weak_squares
 from chessanalyst.features.structures import find_structure
 from chessanalyst.render.format_it import tb_outcome
 from chessanalyst.features.values import piece_value
@@ -255,6 +257,7 @@ def _recommendation(c: _Ctx) -> dict | None:
              "maia_band": c.maia_band(x["p_user"]), "move": c.facts_of(c.root["fen"], x["san"]),
              "only_move": second is not None and second["loss_cp"] - x["loss_cp"] >= c.kp.only_move_gap_cp}
     ids = [rec]
+    _sacrifice(c, facts)
     if second is not None:
         facts["second"] = {"ref": second["id"], "san": second["san"], "loss_cp": second["loss_cp"]}
         ids.append(second["id"])
@@ -273,6 +276,32 @@ def _recommendation(c: _Ctx) -> dict | None:
     _human(c, facts, ids, others)
     _endgame_rec(c, facts)
     return {"type": "recommendation", "ids": ids, "facts": facts}
+
+
+def _sacrifice(c: _Ctx, facts: dict) -> None:
+    """The recommended move gives material if the opponent takes on its square (a sacrifice: the books name it)."""
+    board = chess.Board(c.root["fen"])
+    try:
+        n = sacrifice(board, board.parse_san(facts["san"]))
+    except ValueError:
+        return
+    if n >= c.cfg.structures["strategic"]["sacrifice_min"] and isinstance(facts.get("move"), dict):
+        facts["move"]["sacrifice"] = n
+
+
+def _strategic(c: _Ctx, board: chess.Board, out: list[dict]) -> list[dict]:
+    """Bad bishops of both sides and the opponent's weak squares that a minor piece of the user can use."""
+    st = SimpleNamespace(**c.cfg.structures["strategic"])
+    color = {"user": c.user == "w", "opp": c.user != "w"}
+    taken = {sq for i in out if i["key"] in ("outpost", "knight_outpost") and i["of"] == "user"
+             for sq in i.get("squares") or []}
+    weak = [chess.square_name(s) for s in usable_weak_squares(board, color["opp"], c.cfg.thresholds.features, st)
+            if chess.square_name(s) not in taken]
+    items = [{"key": "weak_square", "of": "opp", "squares": weak}] if weak else []
+    for who in ("opp", "user"):
+        items += [{"key": "bad_bishop", "of": who, "squares": [chess.square_name(b)]}
+                  for b in bad_bishops(board, color[who], st)]
+    return items
 
 
 def _human(c: _Ctx, facts: dict, ids: list[str], others: list[dict]) -> None:
@@ -589,6 +618,9 @@ def _plan(c: _Ctx) -> dict | None:
         sid, owner = found
         out.insert(0, {"key": "structure", "of": "user" if owner == (c.user == "w") else "opp", "id": sid,
                        "name": c.cfg.structures["catalogue"][sid]["name"]})
+    if c.kind is None:                # books: weak squares and bad bishops, after the structure
+        at = 1 if out and out[0]["key"] == "structure" else 0
+        out[at:at] = _strategic(c, board, out)
     if not out:
         return None
     return {"type": "plan", "ids": [], "facts": {"items": out}}
